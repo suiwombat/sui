@@ -1,0 +1,16 @@
+mysten_deps = [
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-vm/profiler:move-vm-profiler",
+]
+rust_library(
+    name="move-vm-types",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:bcs",
+        "//third-party:proptest",
+        "//third-party:serde",
+        "//third-party:smallvec",
+    ],
+    visibility=["PUBLIC"],
+)

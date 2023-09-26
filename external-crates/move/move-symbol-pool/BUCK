@@ -1,0 +1,11 @@
+mysten_deps = []
+rust_library(
+    name="move-symbol-pool",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:phf",
+        "//third-party:once_cell",
+        "//third-party:serde",
+    ],
+    visibility=["PUBLIC"],
+)

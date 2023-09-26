@@ -1,0 +1,14 @@
+# extra_mapped_srcs = { "bindgen.rs" = "rocksdb/bindgen.rs" }
+# extra_srcs = ["srcs/bindgen.rs", srcs/]
+extra_srcs = ["src/**/*.rs"]
+cargo_env = true
+[env]
+OUT_DIR = ""
+[[buildscript]]
+[buildscript.rustc_flags]
+
+[[buildscript]]
+[buildscript.gen_srcs]
+
+# [[buildscript]]
+# [buildscript.cxx_library]

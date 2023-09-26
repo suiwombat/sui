@@ -1,0 +1,3 @@
+# omit_features = ["default", "syn", "syn-error"]
+[[buildscript]]
+[buildscript.rustc_flags]

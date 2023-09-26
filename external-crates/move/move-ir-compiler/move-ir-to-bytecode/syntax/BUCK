@@ -1,0 +1,15 @@
+mysten_deps = [
+    "//external-crates/move/move-command-line-common:move-command-line-common",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-ir/types:move-ir-types",
+    "//external-crates/move/move-symbol-pool:move-symbol-pool",
+]
+rust_library(
+    name="move-ir-to-bytecode-syntax",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:hex",
+    ],
+    visibility=["PUBLIC"],
+)

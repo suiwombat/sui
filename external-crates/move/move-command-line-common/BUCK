@@ -1,0 +1,19 @@
+mysten_deps = [
+    "//external-crates/move/move-core/types:move-core-types",
+]
+rust_library(
+    name="move-command-line-common",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:difference",
+        "//third-party:walkdir",
+        "//third-party:sha2",
+        "//third-party:hex",
+        "//third-party:num-bigint",
+        "//third-party:once_cell",
+        "//third-party:serde",
+        "//third-party:dirs-next",
+    ],
+    visibility=["PUBLIC"],
+)

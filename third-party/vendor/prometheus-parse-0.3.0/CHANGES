@@ -1,0 +1,16 @@
+Revision history for prometheus-parse
+- v0.3.0
+    - forked from https://github.com/ccakes/prometheus-parse-rs
+    - add DerefMut to Labels
+    - add pub to struct tuple for Labels
+    - add setter to Labels to manipulate post processed data
+    - update dependency versions
+    - modify Cargo.toml with attributions
+
+- v0.2.0
+    - Bump dependency versions
+    - Release to crates.io
+
+- v0.1.1
+    - Expose some struct fields as public
+    - Initial adaption from prometheus-scrape
