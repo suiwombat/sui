@@ -1,0 +1,15 @@
+mysten_deps = [
+    "//external-crates/move/move-borrow-graph:move-borrow-graph",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-vm/config:move-vm-config",
+    "//external-crates/move/move-abstract-stack:move-abstract-stack",
+]
+rust_library(
+    name="move-bytecode-verifier",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:petgraph",
+    ],
+    visibility=["PUBLIC"],
+)

@@ -1,0 +1,28 @@
+mysten_deps = [
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-bytecode-verifier:move-bytecode-verifier",
+    "//external-crates/move/move-symbol-pool:move-symbol-pool",
+    "//external-crates/move/move-ir/types:move-ir-types",
+    "//external-crates/move/move-ir-compiler/move-ir-to-bytecode:move-ir-to-bytecode",
+    "//external-crates/move/move-borrow-graph:move-borrow-graph",
+    "//external-crates/move/move-ir-compiler/move-bytecode-source-map:move-bytecode-source-map",
+    "//external-crates/move/move-command-line-common:move-command-line-common",
+]
+rust_library(
+    name="move-compiler",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:codespan-reporting",
+        "//third-party:serde",
+        "//third-party:hex",
+        "//third-party:regex",
+        "//third-party:clap",
+        "//third-party:petgraph",
+        "//third-party:tempfile",
+        "//third-party:once_cell",
+        "//third-party:bcs",
+    ],
+    visibility=["PUBLIC"],
+)

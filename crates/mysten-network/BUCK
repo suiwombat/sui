@@ -1,0 +1,24 @@
+mysten_deps = []
+rust_library(
+    name="mysten-network",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anemo",
+        "//third-party:snap",
+        "//third-party:bcs",
+        "//third-party:bytes",
+        "//third-party:eyre",
+        "//third-party:futures",
+        "//third-party:http",
+        "//third-party:multiaddr",
+        "//third-party:serde",
+        "//third-party:tokio",
+        "//third-party:tokio-stream",
+        "//third-party:tonic",
+        "//third-party:tonic-health",
+        "//third-party:tower",
+        "//third-party:tower-http",
+        "//third-party:tracing",
+    ],
+    visibility=["PUBLIC"],
+)

@@ -1,0 +1,27 @@
+mysten_deps = [
+    "//external-crates/move/testing-infra/enum-compat-util:enum-compat-util",
+    "//external-crates/move/testing-infra/move-proc-macros:move-proc-macros",
+]
+rust_library(
+    name="move-core-types",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:hex",
+        "//third-party:once_cell",
+        "//third-party:proptest",
+        "//third-party:proptest-derive",
+        "//third-party:rand",
+        "//third-party:ref-cast",
+        "//third-party:serde",
+        "//third-party:serde_bytes",
+        "//third-party:primitive-types",
+        "//third-party:uint",
+        "//third-party:num",
+        "//third-party:ethnum",
+        "//third-party:arbitrary",
+        "//third-party:bcs",
+    ],
+    # proc_macro = True,
+    visibility=["PUBLIC"],
+)

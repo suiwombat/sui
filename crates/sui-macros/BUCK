@@ -1,0 +1,13 @@
+mysten_deps = [
+    "//crates/sui-proc-macros:sui-proc-macros",
+]
+rust_library(
+    name="sui-macros",
+    srcs = glob(["src/**/lib.rs"]),
+    deps = mysten_deps + [
+        "//third-party:once_cell",
+        "//third-party:futures",
+        "//third-party:tracing",
+    ],
+    visibility=["PUBLIC"],
+)

@@ -1,0 +1,14 @@
+mysten_deps = [
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-core/types:move-core-types",
+]
+rust_library(
+    name="move-bytecode-utils",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:petgraph",
+        "//third-party:serde-reflection",
+    ],
+    visibility=["PUBLIC"],
+)

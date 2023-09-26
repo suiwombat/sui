@@ -1,0 +1,13 @@
+mysten_deps = [
+    "//external-crates/move/move-vm/config:move-vm-config",
+]
+rust_library(
+    name="move-vm-profiler",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:serde_json",
+        "//third-party:once_cell",
+        "//third-party:serde",
+    ],
+    visibility=["PUBLIC"],
+)
