@@ -1,26 +1,26 @@
 mysten_deps = [
     "//external-crates/move/move-binary-format:move-binary-format",
     "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
-    "//external-crates/move/move-core/types:move-core-types",
     "//external-crates/move/move-command-line-common:move-command-line-common",
+    "//external-crates/move/move-core/types:move-core-types",
     "//external-crates/move/tools/move-disassembler:move-disassembler",
     "//external-crates/move/move-ir/types:move-ir-types",
     "//external-crates/move/move-vm/test-utils:move-vm-test-utils",
     "//external-crates/move/move-vm/types:move-vm-types",
     "//external-crates/move/move-vm/profiler:move-vm-profiler",
-    "//crates/mysten-metrics:mysten-metrics",
+    "//narwhal/config:narwhal-config",
+    "//narwhal/crypto:narwhal-crypto",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/shared-crypto:shared-crypto",
     "//crates/mysten-network:mysten-network",
-    #typed-store
+    "//crates/mysten-metrics:mysten-metrics",
+    "//crates/typed-store:typed-store",
+    "//crates/sui-macros:sui-macros",
     "//crates/sui-enum-compat-util:sui-enum-compat-util",
-    "//crates/sui-proc-macros:sui-proc-macros",
-    #shared-crypto
-    #sui-protocol-config
-    #narwhal-crypto
-    #narwhal-config
 ]
 rust_library(
     name="sui-types",
-    srcs = glob(["src/**/lib.rs"]),
+    srcs = glob(["src/**/*.rs"]),
     deps = mysten_deps + [
         "//third-party:anemo",
         "//third-party:anyhow",
@@ -34,11 +34,11 @@ rust_library(
         "//third-party:rand",
         "//third-party:serde",
         "//third-party:serde-name",
+        "//third-party:thiserror",
+        "//third-party:tracing",
         "//third-party:serde_json",
         "//third-party:serde_with",
         "//third-party:signature",
-        "//third-party:thiserror",
-        "//third-party:tracing",
         "//third-party:static_assertions",
         "//third-party:schemars",
         "//third-party:tap",
@@ -53,6 +53,8 @@ rust_library(
         "//third-party:proptest",
         "//third-party:proptest-derive",
         "//third-party:derive_more",
+        "//third-party:fastcrypto",
+        "//third-party:fastcrypto-zkp",
     ],
     visibility=["PUBLIC"],
 )

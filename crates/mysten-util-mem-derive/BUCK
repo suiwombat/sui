@@ -1,0 +1,12 @@
+mysten_deps = []
+rust_library(
+    name="mysten-util-mem-derive",
+    srcs = ["lib.rs"],
+    deps = mysten_deps + [
+        "//third-party:proc-macro2",
+        "//third-party:syn_v1",
+        "//third-party:synstructure",
+    ],
+    proc_macro = True,
+    visibility=["PUBLIC"],
+)

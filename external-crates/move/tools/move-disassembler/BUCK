@@ -15,6 +15,7 @@ rust_library(
         "//third-party:colored",
         "//third-party:hex",
         "//third-party:clap",
+        "//third-party:bcs",
     ],
     visibility=["PUBLIC"],
 )

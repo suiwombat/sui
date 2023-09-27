@@ -1,14 +1,44 @@
 # extra_mapped_srcs = { "bindgen.rs" = "rocksdb/bindgen.rs" }
 # extra_srcs = ["srcs/bindgen.rs", srcs/]
 extra_srcs = ["src/**/*.rs"]
+omit_features = ["default", "libz-sys", "lz4-sys", "static", "zstd-sys"]
+features = ["snappy", "lz4", "zstd", "zlib", "multi-threaded-cf"]
 cargo_env = true
-[env]
-OUT_DIR = ""
 [[buildscript]]
 [buildscript.rustc_flags]
 
 [[buildscript]]
 [buildscript.gen_srcs]
 
-# [[buildscript]]
-# [buildscript.cxx_library]
+# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript.cxx_library]
+# name = "librocksdb-sys-macos-x86_64"
+# srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-macosx.S"]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# # Exclude C AES because we've got the x86_64 one
+# exclude = ["crypto/fipsmodule/aes/aes.c"]
+# include_paths = ["include"]
+# compiler_flags = ["-Wno-error"]
+
+# [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
+# name = "ring-c-asm-macos-arm64"
+# srcs = [
+#     "crypto/**/*.c",
+#     "pregenerated/*armv8*-ios64.S",
+#     "pregenerated/*armx*-ios64.S",
+# ]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# exclude = ["crypto/cpu-intel.c"]
+# include_paths = ["include"]
+# compiler_flags = ["-Wno-error"]
