@@ -1,3 +1,6 @@
+# BUCK
+buck-out/
+
 # IDE
 **/.history/
 **/.vscode/

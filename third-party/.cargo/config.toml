@@ -1,0 +1,24 @@
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source."git+https://github.com/MystenLabs/fastcrypto?rev=3547ed059927007c7ff48e729ed59da3dbb6a2e3"]
+git = "https://github.com/MystenLabs/fastcrypto"
+rev = "3547ed059927007c7ff48e729ed59da3dbb6a2e3"
+replace-with = "vendored-sources"
+
+[source."git+https://github.com/arnaucube/poseidon-ark.git?rev=ff7f5e05d55667b4ffba129b837da780c4c5c849"]
+git = "https://github.com/arnaucube/poseidon-ark.git"
+rev = "ff7f5e05d55667b4ffba129b837da780c4c5c849"
+replace-with = "vendored-sources"
+
+[source."git+https://github.com/mystenlabs/anemo.git?rev=1169850e6af127397068cd86764c29b1d49dbe35"]
+git = "https://github.com/mystenlabs/anemo.git"
+rev = "1169850e6af127397068cd86764c29b1d49dbe35"
+replace-with = "vendored-sources"
+
+[source."git+https://github.com/suiwombat/prometheus-parse-rs.git"]
+git = "https://github.com/suiwombat/prometheus-parse-rs.git"
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "vendor"
