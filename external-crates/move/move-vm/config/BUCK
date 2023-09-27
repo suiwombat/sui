@@ -1,0 +1,9 @@
+mysten_deps = [
+    "//external-crates/move/move-binary-format:move-binary-format",
+]
+rust_library(
+    name="move-vm-config",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [],
+    visibility=["PUBLIC"],
+)

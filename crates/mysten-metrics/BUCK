@@ -1,0 +1,21 @@
+mysten_deps = [
+    "//crates/prometheus-closure-metric:prometheus-closure-metric",
+]
+rust_library(
+    name="mysten-metrics",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:tokio",
+        "//third-party:scopeguard",
+        "//third-party:tap",
+        "//third-party:uuid",
+        "//third-party:futures",
+        "//third-party:async-trait",
+        "//third-party:parking_lot",
+        "//third-party:dashmap",
+        "//third-party:prometheus",
+        "//third-party:tracing",
+        "//third-party:once_cell",
+    ],
+    visibility=["PUBLIC"],
+)

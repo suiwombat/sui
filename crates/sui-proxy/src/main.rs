@@ -1,17 +1,17 @@
 // Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
+mod admin;
+mod config;
+mod histogram_relay;
+mod metrics;
 
+use admin::{
+    app, create_server_cert_default_allow, create_server_cert_enforce_peer, make_reqwest_client,
+    server, Labels,
+};
 use anyhow::Result;
 use clap::Parser;
-use sui_proxy::config::ProxyConfig;
-use sui_proxy::{
-    admin::{
-        app, create_server_cert_default_allow, create_server_cert_enforce_peer,
-        make_reqwest_client, server, Labels,
-    },
-    config::load,
-    histogram_relay, metrics,
-};
+use config::{load, ProxyConfig};
 use sui_tls::TlsAcceptor;
 use telemetry_subscribers::TelemetryConfig;
 use tracing::info;

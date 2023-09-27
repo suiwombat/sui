@@ -1,0 +1,20 @@
+mysten_deps = [
+    "//external-crates/move/move-ir-compiler/move-bytecode-source-map:move-bytecode-source-map",
+    "//external-crates/move/move-command-line-common:move-command-line-common",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-ir/types:move-ir-types",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/tools/move-coverage:move-coverage",
+    "//external-crates/move/move-compiler:move-compiler",
+]
+rust_library(
+    name="move-disassembler",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:colored",
+        "//third-party:hex",
+        "//third-party:clap",
+    ],
+    visibility=["PUBLIC"],
+)

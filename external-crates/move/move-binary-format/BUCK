@@ -1,0 +1,20 @@
+mysten_deps = [
+    "//external-crates/move/testing-infra/enum-compat-util:enum-compat-util",
+    "//external-crates/move/testing-infra/move-proc-macros:move-proc-macros",
+    "//external-crates/move/move-core/types:move-core-types",
+]
+rust_library(
+    name="move-binary-format",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:proptest",
+        "//third-party:proptest-derive",
+        "//third-party:ref-cast",
+        "//third-party:variant_count",
+        "//third-party:serde",
+        "//third-party:arbitrary",
+        "//third-party:getrandom",
+    ],
+    visibility=["PUBLIC"],
+)

@@ -1,0 +1,11 @@
+mysten_deps = []
+rust_library(
+    name="prometheus-closure-metric",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:prometheus",
+        "//third-party:protobuf",
+    ],
+    visibility=["PUBLIC"],
+)
