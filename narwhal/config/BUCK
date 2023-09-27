@@ -1,0 +1,20 @@
+mysten_deps = [
+    "//crates/mysten-network:mysten-network",
+    "//narwhal/crypto:narwhal-crypto",
+    "//crates/mysten-util-mem:mysten-util-mem",
+]
+
+rust_library(
+    name="narwhal-config",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:match_opt",
+        "//third-party:serde",
+        "//third-party:serde_json",
+        "//third-party:thiserror",
+        "//third-party:tracing",
+        "//third-party:fastcrypto",
+        "//third-party:rand",
+    ],
+    visibility=["PUBLIC"],
+)

@@ -1,0 +1,13 @@
+mysten_deps = []
+rust_library(
+    name="shared-crypto",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:serde",
+        "//third-party:serde_repr",
+        "//third-party:fastcrypto",
+        "//third-party:eyre",
+        "//third-party:bcs",
+    ],
+    visibility=["PUBLIC"],
+)

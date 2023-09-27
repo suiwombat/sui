@@ -1,0 +1,15 @@
+mysten_deps = [
+    "//crates/sui-protocol-config-macros:sui-protocol-config-macros",
+]
+rust_library(
+    name="sui-protocol-config",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:serde",
+        "//third-party:serde_with",
+        "//third-party:tracing",
+        "//third-party:schemars",
+        "//third-party:insta",
+    ],
+    visibility=["PUBLIC"],
+)

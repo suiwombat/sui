@@ -15,25 +15,7 @@ rust_binary(
         # "CARGO_PKG_VERSION_MINOR": "3",
         # "CARGO_PKG_VERSION_PATCH": "28",
     },
-    deps=[
-        # "//third-party:mio",
-        "//third-party:axum",
-        "//third-party:axum-server",
-        "//third-party:anyhow",
-        "//third-party:bytes",
-        "//third-party:tokio",
-        "//third-party:clap",
-        "//third-party:reqwest",
-        "//third-party:serde_json",
-        "//third-party:prometheus-parse",
-        "//third-party:prometheus",
-        "//third-party:tracing",
-        "//third-party:tower-http",
-        "//third-party:tower",
-        "//third-party:git-version",
-        "//third-party:once_cell",
-        "//third-party:const-str",
-    ],
+    deps=[":foo",],
     visibility=["PUBLIC"],
 )
 
@@ -45,7 +27,7 @@ rust_binary(
 # telemetry-subscribers.workspace = true
 
 mysten_deps = [
-    # "//crates/sui-tls:sui-tls",
+    "//crates/sui-tls:sui-tls",
     "//crates/sui-types:sui-types",
     "//crates/mysten-metrics:mysten-metrics",
 ]

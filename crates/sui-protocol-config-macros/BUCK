@@ -1,0 +1,12 @@
+mysten_deps = []
+rust_library(
+    name="sui-protocol-config-macros",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:proc-macro2",
+        "//third-party:syn",
+        "//third-party:quote",
+    ],
+    proc_macro = True,
+    visibility=["PUBLIC"],
+)

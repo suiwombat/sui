@@ -1,0 +1,11 @@
+mysten_deps = ["//crates/shared-crypto:shared-crypto"]
+rust_library(
+    name="narwhal-crypto",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:fastcrypto",
+        "//third-party:serde",
+        "//third-party:bcs",
+    ],
+    visibility=["PUBLIC"],
+)
