@@ -12,7 +12,3 @@ buck = none
 
 [parser]
 target_platform_detector_spec = target:root//...->prelude//platforms:default
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/buck_sui_up
