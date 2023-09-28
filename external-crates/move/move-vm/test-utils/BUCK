@@ -12,5 +12,6 @@ rust_library(
         "//third-party:once_cell",
         "//third-party:serde",
     ],
+    features = ["default","tiered-gas"],
     visibility=["PUBLIC"],
 )

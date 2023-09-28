@@ -22,6 +22,6 @@ rust_library(
         "//third-party:arbitrary",
         "//third-party:bcs",
     ],
-    # proc_macro = True,
+    features = ["default", "address32"],
     visibility=["PUBLIC"],
 )

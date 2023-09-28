@@ -21,14 +21,26 @@ Pure Rust implementation of the Elliptic Curve Digital Signature Algorithm
 RFC6979 deterministic signatures as well as support for added entropy
 """
 readme = "README.md"
-keywords = ["crypto", "ecc", "nist", "secp256k1", "signature"]
-categories = ["cryptography", "no-std"]
+keywords = [
+    "crypto",
+    "ecc",
+    "nist",
+    "secp256k1",
+    "signature",
+]
+categories = [
+    "cryptography",
+    "no-std",
+]
 license = "Apache-2.0 OR MIT"
 repository = "https://github.com/RustCrypto/signatures/tree/master/ecdsa"
 
 [package.metadata.docs.rs]
 all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+rustdoc-args = [
+    "--cfg",
+    "docsrs",
+]
 
 [dependencies.der]
 version = "0.7"
@@ -42,7 +54,10 @@ default-features = false
 
 [dependencies.elliptic-curve]
 version = "0.13.5"
-features = ["digest", "sec1"]
+features = [
+    "digest",
+    "sec1",
+]
 default-features = false
 
 [dependencies.rfc6979]
@@ -63,7 +78,6 @@ default-features = false
 
 [dependencies.signature]
 version = "2.0, <2.2"
-# version = "2.0"
 features = ["rand_core"]
 default-features = false
 
@@ -85,15 +99,50 @@ version = "0.10"
 default-features = false
 
 [features]
-alloc = ["elliptic-curve/alloc", "signature/alloc", "spki/alloc"]
+alloc = [
+    "elliptic-curve/alloc",
+    "signature/alloc",
+    "spki/alloc",
+]
 arithmetic = ["elliptic-curve/arithmetic"]
 default = ["digest"]
-dev = ["arithmetic", "digest", "elliptic-curve/dev", "hazmat"]
-digest = ["dep:digest", "signature/digest"]
+dev = [
+    "arithmetic",
+    "digest",
+    "elliptic-curve/dev",
+    "hazmat",
+]
+digest = [
+    "dep:digest",
+    "signature/digest",
+]
 hazmat = []
-pem = ["elliptic-curve/pem", "pkcs8"]
-pkcs8 = ["digest", "elliptic-curve/pkcs8", "der"]
-serde = ["elliptic-curve/serde", "serdect"]
-signing = ["arithmetic", "digest", "hazmat", "rfc6979"]
-std = ["alloc", "elliptic-curve/std", "signature/std"]
-verifying = ["arithmetic", "digest", "hazmat"]
+pem = [
+    "elliptic-curve/pem",
+    "pkcs8",
+]
+pkcs8 = [
+    "digest",
+    "elliptic-curve/pkcs8",
+    "der",
+]
+serde = [
+    "elliptic-curve/serde",
+    "serdect",
+]
+signing = [
+    "arithmetic",
+    "digest",
+    "hazmat",
+    "rfc6979",
+]
+std = [
+    "alloc",
+    "elliptic-curve/std",
+    "signature/std",
+]
+verifying = [
+    "arithmetic",
+    "digest",
+    "hazmat",
+]

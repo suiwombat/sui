@@ -47,7 +47,7 @@ fn bindgen_rocksdb() {
 
 fn build_rocksdb() {
     let target = env::var("TARGET").unwrap();
-    println!("{}", target);
+
     let mut config = cc::Build::new();
     config.include("rocksdb/include/");
     config.include("rocksdb/");
@@ -259,7 +259,6 @@ fn build_rocksdb() {
 
     config.cpp(true);
     config.flag_if_supported("-std=c++17");
-    // panic!("compiling .a");
     // config.compile("librocksdb.a");
 }
 
@@ -364,7 +363,6 @@ fn main() {
             println!("cargo:rustc-link-lib=dylib=stdc++");
         }
     }
-    // panic!("sdf");
     if cfg!(feature = "snappy") && !try_to_find_and_link_lib("SNAPPY") {
         println!("cargo:rerun-if-changed=snappy/");
         fail_on_empty_directory("snappy");

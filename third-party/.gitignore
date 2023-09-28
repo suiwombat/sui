@@ -1,9 +1,9 @@
 # Ignore Cargo-related stuff
-.cargo/registry
-.cargo/git
-/registry
-/git
-.package-cache
+**/.cargo/registry
+**/.cargo/git
+**/registry
+**/git
+**/.package-cache
 
 # Various cruft in vendored packages
 vendor/*/target

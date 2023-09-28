@@ -1,11 +1,15 @@
+
+mysten_deps = [
+    "//crates/sui-tls:sui-tls",
+    "//crates/sui-types:sui-types",
+    "//crates/mysten-metrics:mysten-metrics",
+    "//crates/telemetry-subscribers:telemetry-subscribers",
+]
+
 rust_binary(
     name="sui-proxy",
-    # srcs=select({
-    #     "config//os:linux": glob(["src/**/*.rs"]),
-    #     "config//os:macos": glob(["src/**/*.rs"]),
-    # }),
     srcs = glob(["src/**/*.rs"]),
-    crate_root="src/main.rs",
+    # crate_root="src/main.rs",
     env={
         "CARGO_PKG_AUTHORS": "Mysten Labs <build@mystenlabs.com>",
         "CARGO_BIN_NAME": "hagent",
@@ -15,22 +19,41 @@ rust_binary(
         # "CARGO_PKG_VERSION_MINOR": "3",
         # "CARGO_PKG_VERSION_PATCH": "28",
     },
-    deps=[":foo",],
+    deps= mysten_deps + [
+        "//third-party:axum",
+        "//third-party:axum-server",
+        "//third-party:anyhow",
+        "//third-party:bytes",
+        "//third-party:clap",
+        "//third-party:protobuf",
+        "//third-party:tokio",
+        "//third-party:tracing",
+        "//third-party:const-str",
+        "//third-party:tower-http",
+        "//third-party:tower",
+        "//third-party:serde",
+        "//third-party:serde_with",
+        "//third-party:serde_json",
+        "//third-party:serde_yaml",
+        "//third-party:git-version",
+        "//third-party:itertools",
+        "//third-party:rand",
+        "//third-party:reqwest",
+        "//third-party:hyper",
+        "//third-party:tracing",
+        "//third-party:multiaddr",
+        "//third-party:prometheus",
+        "//third-party:snap",
+        "//third-party:rustls",
+        "//third-party:rustls-pemfile",
+        "//third-party:prost",
+        "//third-party:once_cell",
+        "//third-party:http-body",
+        "//third-party:fastcrypto",
+    ],
     visibility=["PUBLIC"],
 )
 
-
-
-# sui-tls.workspace = true
-# sui-types.workspace = true
-# mysten-metrics.workspace = true
-# telemetry-subscribers.workspace = true
-
-mysten_deps = [
-    "//crates/sui-tls:sui-tls",
-    "//crates/sui-types:sui-types",
-    "//crates/mysten-metrics:mysten-metrics",
-]
 
 rust_library(
     name="foo",

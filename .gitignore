@@ -1,6 +1,13 @@
 # BUCK
 buck-out/
 
+# Ignore Cargo-related stuff
+**/.cargo/registry
+**/.cargo/git
+**/registry
+**/git
+**/.package-cache
+
 # IDE
 **/.history/
 **/.vscode/
