@@ -1,6 +1,7 @@
 // Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
-use crate::{consumer::ProtobufDecoder, peers::SuiNodeProvider};
+use crate::consumer::ProtobufDecoder;
+use crate::peers::SuiNodeProvider;
 use axum::{
     async_trait,
     body::Bytes,

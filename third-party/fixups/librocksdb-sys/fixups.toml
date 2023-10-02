@@ -1,44 +1,67 @@
-# extra_mapped_srcs = { "bindgen.rs" = "rocksdb/bindgen.rs" }
-# extra_srcs = ["srcs/bindgen.rs", srcs/]
-extra_srcs = ["src/**/*.rs"]
-omit_features = ["default", "libz-sys", "lz4-sys", "static", "zstd-sys"]
-features = ["snappy", "lz4", "zstd", "zlib", "multi-threaded-cf"]
+# extra_mapped_srcs = { "lz4.h" = "../lz4-sys-1.9.4/liblz4/lib/lz4.h", "zstd.h" = "../zstd-sys-2.0.8+zstd.1.5.5/zstd/lib/zstd.h" }
+# extra_mapped_srcs = { "zstd.h" = "../zstd-sys-2.0.8+zstd.1.5.5/zstd/lib/zstd.h" }
+# extra_mapped_srcs = { "sqlite3/bindgen_bundled_version.rs" = "src/bindgen.rs" }
+extra_srcs = [
+    "src/**/*.rs",
+    "rocksdb/**/*.h",
+    "../*lz4-sys*/**/*.h",
+    "../*zstd-sys*/**/*.h",
+    # "build_version.cc",
+    "rocksdb/**/*.cc",
+    "rocksdb/**/*.cc.in",
+]
+# omit_features = ["default", "libz-sys", "lz4-sys", "static", "zstd-sys"]
+omit_features = ["io-uring"]
+features = [
+    "bzip2",
+    # "io-uring",
+    "jemalloc",
+    "lz4",
+    "rtti",
+    "snappy",
+    "static",
+    "zlib",
+    "zstd",
+]
+# extra_deps = [
+#     ":bzip2-sys-0.1.11+1.0.8",
+#     ":libc-0.2.148",
+#     ":libz-sys-1.1.12",
+#     ":lz4-sys-1.9.4",
+#     ":zstd-sys-2.0.8+zstd.1.5.5",
+# ]
 cargo_env = true
-[[buildscript]]
-[buildscript.rustc_flags]
+# buildscript = []
+# [[buildscript]]
+# [buildscript.rustc_flags]
 
 [[buildscript]]
 [buildscript.gen_srcs]
 
-# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript]]
-# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript.cxx_library]
-# name = "librocksdb-sys-macos-x86_64"
-# srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-macosx.S"]
-# headers = [
-#     "include/**/*.h",
-#     "crypto/**/*.h",
-#     "third_party/**/*.h",
-#     "crypto/**/*.inl",
-# ]
-# # Exclude C AES because we've got the x86_64 one
-# exclude = ["crypto/fipsmodule/aes/aes.c"]
-# include_paths = ["include"]
-# compiler_flags = ["-Wno-error"]
-
+# buildscript = []
 # [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
 # [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
-# name = "ring-c-asm-macos-arm64"
+# name = "librocksdb-sys-macos-arm64"
 # srcs = [
-#     "crypto/**/*.c",
-#     "pregenerated/*armv8*-ios64.S",
-#     "pregenerated/*armx*-ios64.S",
+#     "*.cc",
+#     "cache/**/*.cc",
+#     "db/**/*.cc",
+#     "env/**/*.cc",
+#     "file/**/*.cc",
+#     "logging/**/*.cc",
+#     "memory/**/*.cc",
+#     "memtable/**/*.cc",
+#     "monitoring/**/*.cc",
+#     "options/**/*.cc",
+#     "port/**/*.cc",
+#     "table/**/*.cc",
+#     "test_util/**/*.cc",
+#     "tools/**/*.cc",
+#     "trace_replay/**/*.cc",
+#     "util/**/*.cc",
+#     "utilities/**/*.cc",
 # ]
-# headers = [
-#     "include/**/*.h",
-#     "crypto/**/*.h",
-#     "third_party/**/*.h",
-#     "crypto/**/*.inl",
-# ]
-# exclude = ["crypto/cpu-intel.c"]
-# include_paths = ["include"]
+# headers = ["*.h", "rocksdb/**/*.h", "snappy**/*.h"]
+# exclude = ["build_version.cc"]
+# include_paths = ["rocksdb/include", "snappy/"]
 # compiler_flags = ["-Wno-error"]

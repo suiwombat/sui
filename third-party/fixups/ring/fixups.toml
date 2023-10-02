@@ -1,8 +1,34 @@
-# Copied from fbsource fixup.
-extra_srcs = ["src/**/*.der"]
+# cargo_env = true
+# features = ["std", "alloc"]
+omit_features = ["default", "dev_urandom_fallback", "once_cell"]
+# extra_deps = [":libc-0.2.148", ":once_cell-1.18.0", ":spin-0.5.2"]
+# [[buildscript]]
+# [buildscript.rustc_flags]
+
+# [[buildscript]]
+# [buildscript.gen_srcs]
+# env = { TARGET = "aarch64-apple-darwin" }
 buildscript = []
 
-# Generate a C/C++ build rule for all the C code
+# # Generate a C/C++ build rule for all the C code
+
+# [[platform_fixup.'cfg(all(any(target_arch = "aarch64", target_arch = "arm64"), any(target_os = "ios", target_os = "macos")))'.buildscript]]
+# [platform_fixup.'cfg(all(any(target_arch = "aarch64", target_arch = "arm64"), any(target_os = "ios", target_os = "macos")))'.buildscript.cxx_library]
+# name = "ring-c-asm-macos-arm64"
+# srcs = [
+#     "crypto/**/*.c",
+#     "pregenerated/*armv8*-ios64.S",
+#     "pregenerated/*armx*-ios64.S",
+# ]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# exclude = ["crypto/cpu-intel.c"]
+# include_paths = ["include"]
+# compiler_flags = ["-Wno-error"]
 
 [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript]]
 [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript.cxx_library]

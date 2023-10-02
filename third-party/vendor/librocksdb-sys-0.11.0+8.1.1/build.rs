@@ -49,8 +49,12 @@ fn build_rocksdb() {
     let target = env::var("TARGET").unwrap();
 
     let mut config = cc::Build::new();
-    config.include("rocksdb/include/");
+    config.include("../../__lz4-sys-1.9.4.crate__/lz4-sys-1.9.4.crate/liblz4/lib/");
+    config.include(
+        "../../__zstd-sys-2.0.8+zstd.1.5.5.crate__/zstd-sys-2.0.8+zstd.1.5.5.crate/zstd/lib/",
+    );
     config.include("rocksdb/");
+    config.include("rocksdb/include");
     config.include("rocksdb/third-party/gtest-1.8.1/fused-src/");
 
     if cfg!(feature = "snappy") {
@@ -259,7 +263,7 @@ fn build_rocksdb() {
 
     config.cpp(true);
     config.flag_if_supported("-std=c++17");
-    // config.compile("librocksdb.a");
+    config.compile("librocksdb.a");
 }
 
 fn build_snappy() {

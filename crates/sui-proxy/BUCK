@@ -9,16 +9,17 @@ mysten_deps = [
 rust_binary(
     name="sui-proxy",
     srcs = glob(["src/**/*.rs"]),
-    # crate_root="src/main.rs",
+    # crate_root="src/lib.rs",
     env={
         "CARGO_PKG_AUTHORS": "Mysten Labs <build@mystenlabs.com>",
-        "CARGO_BIN_NAME": "hagent",
+        "CARGO_BIN_NAME": "sui-proxy",
         "CARGO_PKG_VERSION": "0.0.2",
-        "CARGO_PKG_NAME": "ugh",
+        "CARGO_PKG_NAME": "sui-proxy",
         # "CARGO_PKG_VERSION_MAJOR": "0",
         # "CARGO_PKG_VERSION_MINOR": "3",
         # "CARGO_PKG_VERSION_PATCH": "28",
     },
+    # cargo_env = True,
     deps= mysten_deps + [
         "//third-party:axum",
         "//third-party:axum-server",
@@ -51,6 +52,7 @@ rust_binary(
         "//third-party:http-body",
         "//third-party:fastcrypto",
     ],
+    edition = "2021",
     visibility=["PUBLIC"],
 )
 

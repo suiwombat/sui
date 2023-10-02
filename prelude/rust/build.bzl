@@ -978,8 +978,8 @@ def _clippy_wrapper(
 # and add -Clinker=
 def _linker_args(ctx: AnalysisContext, linker_info: LinkerInfo) -> cmd_args:
     #print("linker:", linker_info.linker)
-    #print("linker_flags:", linker_info.linker_flags)
-    #print("ctx.attrs.linker_flags:", ctx.attrs.linker_flags)
+    # print("linker_flags:", linker_info.linker_flags)
+    # print("ctx.attrs.linker_flags:", ctx.attrs.linker_flags)
     linker = cmd_args(
         linker_info.linker,
         linker_info.linker_flags or [],
