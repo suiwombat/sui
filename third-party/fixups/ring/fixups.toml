@@ -1,16 +1,126 @@
-# cargo_env = true
-# features = ["std", "alloc"]
-omit_features = ["default", "dev_urandom_fallback", "once_cell"]
+cargo_env = true
+features = ["std", "alloc"]
+omit_features = ["once_cell", "std"]
 # extra_deps = [":libc-0.2.148", ":once_cell-1.18.0", ":spin-0.5.2"]
-# [[buildscript]]
-# [buildscript.rustc_flags]
+extra_srcs = ["crypto/**/*.pl"]
+[[buildscript]]
+[buildscript.rustc_flags]
 
-# [[buildscript]]
-# [buildscript.gen_srcs]
+[[buildscript]]
+[buildscript.gen_srcs]
 # env = { TARGET = "aarch64-apple-darwin" }
-buildscript = []
+# buildscript = []
+
+# Copied from fbsource fixup.
+# extra_srcs = ["pregenerated/libring-c3e7dd7c1a4718a3.rlib"]
+# buildscript = []
 
 # # Generate a C/C++ build rule for all the C code
+
+# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript.cxx_library]
+# name = "ring-c-asm-elf-x86_84"
+# srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-elf.S"]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# # Exclude C AES because we've got the x86_64 one
+# exclude = ["crypto/fipsmodule/aes/aes.c"]
+# include_paths = ["include"]
+# compiler_flags = ["-Wno-error"]
+
+# [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "linux"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "linux"))'.buildscript.cxx_library]
+# name = "ring-c-asm-elf-aarch64"
+# srcs = [
+#     "crypto/**/*.c",
+#     "pregenerated/*armv8*-linux64.S",
+#     "pregenerated/*armx*-linux64.S",
+# ]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# exclude = ["crypto/cpu-intel.c"]
+# include_paths = ["include"]
+# compiler_flags = ["-Wno-error"]
+
+# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript.cxx_library]
+# name = "ring-c-asm-macos-x86_64"
+# srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-macosx.S"]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# # Exclude C AES because we've got the x86_64 one
+# exclude = ["crypto/fipsmodule/aes/aes.c"]
+# include_paths = ["include"]
+# compiler_flags = ["-Wno-error"]
+
+# [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
+# name = "ring-c-asm-macos-arm64"
+# srcs = [
+#     "crypto/**/*.c",
+#     "pregenerated/*armv8*-ios64.S",
+#     "pregenerated/*armx*-ios64.S",
+# ]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# exclude = ["crypto/cpu-intel.c"]
+# include_paths = ["include"]
+# compiler_flags = ["-Wno-error"]
+
+# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "gnu"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "gnu"))'.buildscript.cxx_library]
+# name = "ring-c-win-x86_84"
+# srcs = ["crypto/**/*.c"]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# # Exclude C AES because we've got the x86_64 one
+# exclude = ["crypto/fipsmodule/aes/aes.c"]
+# include_paths = ["include"]
+# compiler_flags = ["-Wno-error"]
+
+# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "msvc"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "msvc"))'.buildscript.cxx_library]
+# name = "ring-c-win-msvc-x86_84"
+# srcs = ["crypto/**/*.c"]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# # Exclude C AES because we've got the x86_64 one
+# exclude = ["crypto/fipsmodule/aes/aes.c"]
+# include_paths = ["include"]
+
+# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows"))'.buildscript.prebuilt_cxx_library]
+# name = "ring-asm-windows-x86_84"
+# static_libs = ["pregenerated/*x86_64*-nasm.obj"]
+
+# sdfsdfdsfsdfs
+
+
+# # # Generate a C/C++ build rule for all the C code
 
 # [[platform_fixup.'cfg(all(any(target_arch = "aarch64", target_arch = "arm64"), any(target_os = "ios", target_os = "macos")))'.buildscript]]
 # [platform_fixup.'cfg(all(any(target_arch = "aarch64", target_arch = "arm64"), any(target_os = "ios", target_os = "macos")))'.buildscript.cxx_library]
@@ -30,102 +140,102 @@ buildscript = []
 # include_paths = ["include"]
 # compiler_flags = ["-Wno-error"]
 
-[[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript]]
-[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript.cxx_library]
-name = "ring-c-asm-elf-x86_84"
-srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-elf.S"]
-headers = [
-    "include/**/*.h",
-    "crypto/**/*.h",
-    "third_party/**/*.h",
-    "crypto/**/*.inl",
-]
-# Exclude C AES because we've got the x86_64 one
-exclude = ["crypto/fipsmodule/aes/aes.c"]
-include_paths = ["include"]
-compiler_flags = ["-Wno-error"]
+# # [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript]]
+# # [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript.cxx_library]
+# # name = "ring-c-asm-elf-x86_84"
+# # srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-elf.S"]
+# # headers = [
+# #     "include/**/*.h",
+# #     "crypto/**/*.h",
+# #     "third_party/**/*.h",
+# #     "crypto/**/*.inl",
+# # ]
+# # # Exclude C AES because we've got the x86_64 one
+# # exclude = ["crypto/fipsmodule/aes/aes.c"]
+# # include_paths = ["include"]
+# # compiler_flags = ["-Wno-error"]
 
-[[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "linux"))'.buildscript]]
-[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "linux"))'.buildscript.cxx_library]
-name = "ring-c-asm-elf-aarch64"
-srcs = [
-    "crypto/**/*.c",
-    "pregenerated/*armv8*-linux64.S",
-    "pregenerated/*armx*-linux64.S",
-]
-headers = [
-    "include/**/*.h",
-    "crypto/**/*.h",
-    "third_party/**/*.h",
-    "crypto/**/*.inl",
-]
-exclude = ["crypto/cpu-intel.c"]
-include_paths = ["include"]
-compiler_flags = ["-Wno-error"]
+# # [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "linux"))'.buildscript]]
+# # [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "linux"))'.buildscript.cxx_library]
+# # name = "ring-c-asm-elf-aarch64"
+# # srcs = [
+# #     "crypto/**/*.c",
+# #     "pregenerated/*armv8*-linux64.S",
+# #     "pregenerated/*armx*-linux64.S",
+# # ]
+# # headers = [
+# #     "include/**/*.h",
+# #     "crypto/**/*.h",
+# #     "third_party/**/*.h",
+# #     "crypto/**/*.inl",
+# # ]
+# # exclude = ["crypto/cpu-intel.c"]
+# # include_paths = ["include"]
+# # compiler_flags = ["-Wno-error"]
 
-[[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript]]
-[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript.cxx_library]
-name = "ring-c-asm-macos-x86_64"
-srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-macosx.S"]
-headers = [
-    "include/**/*.h",
-    "crypto/**/*.h",
-    "third_party/**/*.h",
-    "crypto/**/*.inl",
-]
-# Exclude C AES because we've got the x86_64 one
-exclude = ["crypto/fipsmodule/aes/aes.c"]
-include_paths = ["include"]
-compiler_flags = ["-Wno-error"]
+# # [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript]]
+# # [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "macos"))'.buildscript.cxx_library]
+# # name = "ring-c-asm-macos-x86_64"
+# # srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-macosx.S"]
+# # headers = [
+# #     "include/**/*.h",
+# #     "crypto/**/*.h",
+# #     "third_party/**/*.h",
+# #     "crypto/**/*.inl",
+# # ]
+# # # Exclude C AES because we've got the x86_64 one
+# # exclude = ["crypto/fipsmodule/aes/aes.c"]
+# # include_paths = ["include"]
+# # compiler_flags = ["-Wno-error"]
 
-[[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
-[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
-name = "ring-c-asm-macos-arm64"
-srcs = [
-    "crypto/**/*.c",
-    "pregenerated/*armv8*-ios64.S",
-    "pregenerated/*armx*-ios64.S",
-]
-headers = [
-    "include/**/*.h",
-    "crypto/**/*.h",
-    "third_party/**/*.h",
-    "crypto/**/*.inl",
-]
-exclude = ["crypto/cpu-intel.c"]
-include_paths = ["include"]
-compiler_flags = ["-Wno-error"]
+# # [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
+# # [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
+# # name = "ring-c-asm-macos-arm64"
+# # srcs = [
+# #     "crypto/**/*.c",
+# #     "pregenerated/*armv8*-ios64.S",
+# #     "pregenerated/*armx*-ios64.S",
+# # ]
+# # headers = [
+# #     "include/**/*.h",
+# #     "crypto/**/*.h",
+# #     "third_party/**/*.h",
+# #     "crypto/**/*.inl",
+# # ]
+# # exclude = ["crypto/cpu-intel.c"]
+# # include_paths = ["include"]
+# # compiler_flags = ["-Wno-error"]
 
-[[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "gnu"))'.buildscript]]
-[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "gnu"))'.buildscript.cxx_library]
-name = "ring-c-win-x86_84"
-srcs = ["crypto/**/*.c"]
-headers = [
-    "include/**/*.h",
-    "crypto/**/*.h",
-    "third_party/**/*.h",
-    "crypto/**/*.inl",
-]
-# Exclude C AES because we've got the x86_64 one
-exclude = ["crypto/fipsmodule/aes/aes.c"]
-include_paths = ["include"]
-compiler_flags = ["-Wno-error"]
+# # [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "gnu"))'.buildscript]]
+# # [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "gnu"))'.buildscript.cxx_library]
+# # name = "ring-c-win-x86_84"
+# # srcs = ["crypto/**/*.c"]
+# # headers = [
+# #     "include/**/*.h",
+# #     "crypto/**/*.h",
+# #     "third_party/**/*.h",
+# #     "crypto/**/*.inl",
+# # ]
+# # # Exclude C AES because we've got the x86_64 one
+# # exclude = ["crypto/fipsmodule/aes/aes.c"]
+# # include_paths = ["include"]
+# # compiler_flags = ["-Wno-error"]
 
-[[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "msvc"))'.buildscript]]
-[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "msvc"))'.buildscript.cxx_library]
-name = "ring-c-win-msvc-x86_84"
-srcs = ["crypto/**/*.c"]
-headers = [
-    "include/**/*.h",
-    "crypto/**/*.h",
-    "third_party/**/*.h",
-    "crypto/**/*.inl",
-]
-# Exclude C AES because we've got the x86_64 one
-exclude = ["crypto/fipsmodule/aes/aes.c"]
-include_paths = ["include"]
+# # [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "msvc"))'.buildscript]]
+# # [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows", target_env = "msvc"))'.buildscript.cxx_library]
+# # name = "ring-c-win-msvc-x86_84"
+# # srcs = ["crypto/**/*.c"]
+# # headers = [
+# #     "include/**/*.h",
+# #     "crypto/**/*.h",
+# #     "third_party/**/*.h",
+# #     "crypto/**/*.inl",
+# # ]
+# # # Exclude C AES because we've got the x86_64 one
+# # exclude = ["crypto/fipsmodule/aes/aes.c"]
+# # include_paths = ["include"]
 
-[[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows"))'.buildscript]]
-[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows"))'.buildscript.prebuilt_cxx_library]
-name = "ring-asm-windows-x86_84"
-static_libs = ["pregenerated/*x86_64*-nasm.obj"]
+# # [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows"))'.buildscript]]
+# # [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "windows"))'.buildscript.prebuilt_cxx_library]
+# # name = "ring-asm-windows-x86_84"
+# # static_libs = ["pregenerated/*x86_64*-nasm.obj"]

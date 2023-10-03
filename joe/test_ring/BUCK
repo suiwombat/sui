@@ -1,0 +1,19 @@
+rust_binary(
+    name="test_ring",
+    srcs = glob(["src/**/*.rs"]),
+    env={
+        "CARGO_PKG_AUTHORS": "Mysten Labs <build@mystenlabs.com>",
+        "CARGO_BIN_NAME": "sui-proxy",
+        "CARGO_PKG_VERSION": "0.0.2",
+        "CARGO_PKG_NAME": "sui-proxy",
+        # "CARGO_PKG_VERSION_MAJOR": "0",
+        # "CARGO_PKG_VERSION_MINOR": "3",
+        # "CARGO_PKG_VERSION_PATCH": "28",
+    },
+    deps = [
+        "//third-party:ring",
+    ],
+    # cargo_env = True,
+    edition = "2021",
+    visibility=["PUBLIC"],
+)

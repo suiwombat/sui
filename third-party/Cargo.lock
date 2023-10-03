@@ -3859,6 +3859,7 @@ dependencies = [
  "ref-cast",
  "regex",
  "reqwest",
+ "ring",
  "roaring",
  "rocksdb",
  "rustls 0.21.7",
