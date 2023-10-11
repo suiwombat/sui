@@ -214,15 +214,15 @@ const LD_FLAGS: &[&str] = &[];
 // None means "any OS" or "any target". The first match in sequence order is
 // taken.
 const ASM_TARGETS: &[(&str, Option<&str>, Option<&str>)] = &[
-    ("x86_64", Some("ios"), Some("macos")),
-    ("x86_64", Some("macos"), Some("macos")),
+    ("x86_64", Some("ios"), Some("macosx")),
+    ("x86_64", Some("macos"), Some("macosx")),
     ("x86_64", Some(WINDOWS), Some("nasm")),
     ("x86_64", None, Some("elf")),
     ("aarch64", Some("ios"), Some("ios64")),
     ("aarch64", Some("macos"), Some("ios64")),
     ("aarch64", None, Some("linux64")),
     ("x86", Some(WINDOWS), Some("win32n")),
-    ("x86", Some("ios"), Some("macos")),
+    ("x86", Some("ios"), Some("macosx")),
     ("x86", None, Some("elf")),
     ("arm", Some("ios"), Some("ios32")),
     ("arm", None, Some("linux32")),
@@ -254,7 +254,6 @@ fn ring_build_rs_main() {
     let arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
     let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let env = env::var("CARGO_CFG_TARGET_ENV").unwrap();
-
     let (obj_ext, obj_opt) = if env == MSVC {
         (MSVC_OBJ_EXT, MSVC_OBJ_OPT)
     } else {
@@ -276,6 +275,7 @@ fn ring_build_rs_main() {
         is_debug,
     };
     let pregenerated = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap()).join(PREGENERATED);
+
     build_c_code(&target, pregenerated, &out_dir);
     check_all_files_tracked()
 }
@@ -423,6 +423,7 @@ fn build_c_code(target: &Target, pregenerated: PathBuf, out_dir: &Path) {
             includes_modified,
         )
     });
+
     println!(
         "cargo:rustc-link-search=native={}",
         out_dir.to_str().expect("Invalid path")

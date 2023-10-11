@@ -477,7 +477,7 @@ def rust_compile(
         pdb_artifact = link_args_output.pdb_artifact
         dwp_inputs = [link_args_output.link_args]
         # print("skipping generation of @*_linker_args.txt")
-        # rustc_cmd.add(cmd_args(linker_argsfile, format="-Clink-arg=@{}"))
+        rustc_cmd.add(cmd_args(linker_argsfile, format="-Clink-arg=@{}"))
         rustc_cmd.hidden(link_args_output.hidden)
 
     (diag, build_status) = _rustc_invoke(

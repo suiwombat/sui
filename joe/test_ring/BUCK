@@ -1,3 +1,4 @@
+# load("//third-party/macros:rust_third_party.bzl", "third_party_rust_cxx_library")
 rust_binary(
     name="test_ring",
     srcs = glob(["src/**/*.rs"]),
@@ -6,14 +7,12 @@ rust_binary(
         "CARGO_BIN_NAME": "sui-proxy",
         "CARGO_PKG_VERSION": "0.0.2",
         "CARGO_PKG_NAME": "sui-proxy",
-        # "CARGO_PKG_VERSION_MAJOR": "0",
-        # "CARGO_PKG_VERSION_MINOR": "3",
-        # "CARGO_PKG_VERSION_PATCH": "28",
     },
     deps = [
         "//third-party:ring",
+        # ":untrusted",
+        # ":ring",
     ],
-    # cargo_env = True,
     edition = "2021",
     visibility=["PUBLIC"],
 )

@@ -30,7 +30,6 @@ def _cargo_buildscript_impl(ctx: AnalysisContext) -> list[Provider]:
     cwd = ctx.actions.declare_output("cwd", dir = True)
     out_dir = ctx.actions.declare_output("OUT_DIR", dir = True)
     rustc_flags = ctx.actions.declare_output("rustc_flags")
-
     cmd = cmd_args(
         ctx.attrs.runner[RunInfo],
         cmd_args("--buildscript=", ctx.attrs.buildscript[RunInfo], delimiter = ""),
@@ -50,7 +49,7 @@ def _cargo_buildscript_impl(ctx: AnalysisContext) -> list[Provider]:
     env["RUSTC"] = cmd_args(toolchain_info.compiler_standalone).relative_to(cwd)
     env["RUSTC_LINKER"] = "/bin/false"
     env["RUST_BACKTRACE"] = "1"
-    env["OPT_LEVEL"] = "2"
+    env["OPT_LEVEL"] = "0"
     env["TARGET"] = toolchain_info.rustc_target_triple
 
     host_triple = targets.exec_triple(ctx)
