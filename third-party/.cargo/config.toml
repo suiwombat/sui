@@ -16,10 +16,6 @@ git = "https://github.com/mystenlabs/anemo.git"
 rev = "1169850e6af127397068cd86764c29b1d49dbe35"
 replace-with = "vendored-sources"
 
-[source."git+https://github.com/rust-lang/compiler-builtins"]
-git = "https://github.com/rust-lang/compiler-builtins"
-replace-with = "vendored-sources"
-
 [source."git+https://github.com/suiwombat/prometheus-parse-rs.git"]
 git = "https://github.com/suiwombat/prometheus-parse-rs.git"
 replace-with = "vendored-sources"

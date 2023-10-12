@@ -222,5 +222,5 @@ ring = { package = "ring", version = "0.17.0", features = [
     "alloc",
     "dev_urandom_fallback",
 ] }
-rustc-std-workspace-core = "1.0.0"
-compiler_builtins = { git = "https://github.com/rust-lang/compiler-builtins" }
+# rustc-std-workspace-core = "1.0.0"
+# compiler_builtins = { git = "https://github.com/rust-lang/compiler-builtins" }
