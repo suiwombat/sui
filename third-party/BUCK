@@ -435,7 +435,7 @@ cargo.rust_library(
         ":quinn-proto-0.10.5",
         ":rand-0.8.5",
         ":rcgen-0.9.3",
-        ":ring-0.16.20",
+        ":ring-0.16.20-ring_16_20",
         ":rustls-0.21.7",
         ":rustls-webpki-0.101.6-webpki",
         ":serde-1.0.188",
@@ -3337,6 +3337,7 @@ cargo.rust_library(
         "vendor/cfg-if-1.0.0/LICENSE-APACHE",
         "vendor/cfg-if-1.0.0/LICENSE-MIT",
     ],
+    deps = [":compiler_builtins"],
     visibility = [],
 )
 
@@ -4005,6 +4006,92 @@ cargo.rust_library(
         ":is-terminal-0.4.9",
         ":lazy_static-1.4.0",
     ],
+)
+
+alias(
+    name = "compiler_builtins",
+    actual = ":compiler_builtins-0.1.101",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "compiler_builtins-0.1.101",
+    srcs = [
+        "vendor/compiler_builtins-0.1.101/src/aarch64.rs",
+        "vendor/compiler_builtins-0.1.101/src/aarch64_linux.rs",
+        "vendor/compiler_builtins-0.1.101/src/arm.rs",
+        "vendor/compiler_builtins-0.1.101/src/arm_linux.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/add.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/cmp.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/conv.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/div.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/extend.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/mod.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/mul.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/pow.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/sub.rs",
+        "vendor/compiler_builtins-0.1.101/src/float/trunc.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/addsub.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/leading_zeros.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/mod.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/mul.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/sdiv.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/shift.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/specialized_div_rem/asymmetric.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/specialized_div_rem/binary_long.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/specialized_div_rem/delegate.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/specialized_div_rem/mod.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/specialized_div_rem/norm_shift.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/specialized_div_rem/trifecta.rs",
+        "vendor/compiler_builtins-0.1.101/src/int/udiv.rs",
+        "vendor/compiler_builtins-0.1.101/src/lib.rs",
+        "vendor/compiler_builtins-0.1.101/src/macros.rs",
+        "vendor/compiler_builtins-0.1.101/src/math.rs",
+        "vendor/compiler_builtins-0.1.101/src/mem/impls.rs",
+        "vendor/compiler_builtins-0.1.101/src/mem/mod.rs",
+        "vendor/compiler_builtins-0.1.101/src/mem/x86_64.rs",
+        "vendor/compiler_builtins-0.1.101/src/probestack.rs",
+        "vendor/compiler_builtins-0.1.101/src/riscv.rs",
+        "vendor/compiler_builtins-0.1.101/src/x86.rs",
+        "vendor/compiler_builtins-0.1.101/src/x86_64.rs",
+    ],
+    crate = "compiler_builtins",
+    crate_root = "vendor/compiler_builtins-0.1.101/src/lib.rs",
+    edition = "2018",
+    env = {
+        "OUT_DIR": "$(location :compiler_builtins-0.1.101-build-script-run[out_dir])",
+    },
+    features = [
+        "compiler-builtins",
+        "default",
+    ],
+    licenses = ["vendor/compiler_builtins-0.1.101/LICENSE.txt"],
+    rustc_flags = ["@$(location :compiler_builtins-0.1.101-build-script-run[rustc_flags])"],
+    visibility = [],
+)
+
+cargo.rust_binary(
+    name = "compiler_builtins-0.1.101-build-script-build",
+    srcs = ["vendor/compiler_builtins-0.1.101/build.rs"],
+    crate = "build_script_build",
+    crate_root = "vendor/compiler_builtins-0.1.101/build.rs",
+    edition = "2018",
+    features = [
+        "compiler-builtins",
+        "default",
+    ],
+    visibility = [],
+)
+
+buildscript_run(
+    name = "compiler_builtins-0.1.101-build-script-run",
+    package_name = "compiler_builtins",
+    buildscript_rule = ":compiler_builtins-0.1.101-build-script-build",
+    features = [
+        "compiler-builtins",
+        "default",
+    ],
+    version = "0.1.101",
 )
 
 cargo.rust_library(
@@ -15680,7 +15767,7 @@ cargo.rust_library(
     deps = [
         ":bytes-1.5.0",
         ":rand-0.8.5",
-        ":ring-0.16.20",
+        ":ring-0.16.20-ring_16_20",
         ":rustc-hash-1.1.0",
         ":rustls-0.21.7",
         ":slab-0.4.9",
@@ -16101,7 +16188,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":pem-1.1.1",
-        ":ring-0.16.20",
+        ":ring-0.16.20-ring_16_20",
         ":time-0.3.29",
         ":yasna-0.5.2",
     ],
@@ -16675,8 +16762,92 @@ cargo.rust_library(
     ],
 )
 
+cargo.rust_binary(
+    name = "ring-0.16.20-build-script-build",
+    srcs = [
+        "vendor/ring-0.16.20/build.rs",
+        "vendor/ring-0.16.20/crypto/chacha/asm/chacha-armv4.pl",
+        "vendor/ring-0.16.20/crypto/chacha/asm/chacha-armv8.pl",
+        "vendor/ring-0.16.20/crypto/chacha/asm/chacha-x86.pl",
+        "vendor/ring-0.16.20/crypto/chacha/asm/chacha-x86_64.pl",
+        "vendor/ring-0.16.20/crypto/cipher_extra/asm/chacha20_poly1305_x86_64.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/aesni-x86.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/aesni-x86_64.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/aesv8-armx.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/bsaes-armv7.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/vpaes-x86.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/vpaes-x86_64.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/armv4-mont.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/armv8-mont.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/x86-mont.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/x86_64-mont.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/x86_64-mont5.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/asm/ecp_nistz256-armv4.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/asm/ecp_nistz256-armv8.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/asm/ecp_nistz256-x86.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/asm/p256-x86_64-asm.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/aesni-gcm-x86_64.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/ghash-armv4.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/ghash-x86.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/ghash-x86_64.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/ghashv8-armx.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/sha/asm/sha256-armv4.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/sha/asm/sha512-armv4.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/sha/asm/sha512-armv8.pl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/sha/asm/sha512-x86_64.pl",
+        "vendor/ring-0.16.20/crypto/perlasm/arm-xlate.pl",
+        "vendor/ring-0.16.20/crypto/perlasm/x86_64-xlate.pl",
+        "vendor/ring-0.16.20/crypto/perlasm/x86asm.pl",
+        "vendor/ring-0.16.20/crypto/perlasm/x86gas.pl",
+        "vendor/ring-0.16.20/crypto/perlasm/x86nasm.pl",
+    ],
+    crate = "build_script_build",
+    crate_root = "vendor/ring-0.16.20/build.rs",
+    edition = "2018",
+    env = {
+        "CARGO_MANIFEST_DIR": "vendor/ring-0.16.20",
+        "CARGO_MANIFEST_LINKS": "ring_core_0_16_20",
+        "CARGO_PKG_AUTHORS": "Brian Smith <brian@briansmith.org>",
+        "CARGO_PKG_DESCRIPTION": "Safe, fast, small crypto using Rust.",
+        "CARGO_PKG_NAME": "ring",
+        "CARGO_PKG_REPOSITORY": "https://github.com/briansmith/ring",
+        "CARGO_PKG_VERSION": "0.16.20",
+        "CARGO_PKG_VERSION_MAJOR": "0",
+        "CARGO_PKG_VERSION_MINOR": "16",
+        "CARGO_PKG_VERSION_PATCH": "20",
+        "RING_CORE_PREFIX": "ring_core_0_16_20_",
+    },
+    features = [
+        "alloc",
+        "default",
+        "dev_urandom_fallback",
+        "once_cell",
+    ],
+    visibility = [],
+    deps = [":cc-1.0.83"],
+)
+
+buildscript_run(
+    name = "ring-0.16.20-build-script-run",
+    package_name = "ring",
+    buildscript_rule = ":ring-0.16.20-build-script-build",
+    features = [
+        "alloc",
+        "default",
+        "dev_urandom_fallback",
+        "once_cell",
+    ],
+    version = "0.16.20",
+)
+
+alias(
+    name = "ring_16_20",
+    actual = ":ring-0.16.20-ring_16_20",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
-    name = "ring-0.16.20",
+    name = "ring-0.16.20-ring_16_20",
     srcs = [
         "vendor/ring-0.16.20/crypto/chacha/asm/chacha-armv4.pl",
         "vendor/ring-0.16.20/crypto/chacha/asm/chacha-armv8.pl",
@@ -16795,7 +16966,7 @@ cargo.rust_library(
     edition = "2018",
     env = {
         "CARGO_MANIFEST_DIR": "vendor/ring-0.16.20",
-        "CARGO_MANIFEST_LINKS": "ring_core_0_17_0",
+        "CARGO_MANIFEST_LINKS": "ring_core_0_16_20",
         "CARGO_PKG_AUTHORS": "Brian Smith <brian@briansmith.org>",
         "CARGO_PKG_DESCRIPTION": "Safe, fast, small crypto using Rust.",
         "CARGO_PKG_NAME": "ring",
@@ -16804,7 +16975,8 @@ cargo.rust_library(
         "CARGO_PKG_VERSION_MAJOR": "0",
         "CARGO_PKG_VERSION_MINOR": "16",
         "CARGO_PKG_VERSION_PATCH": "20",
-        "RING_CORE_PREFIX": "ring_core_0_17_0_",
+        "OUT_DIR": "$(location :ring-0.16.20-build-script-run[out_dir])",
+        "RING_CORE_PREFIX": "ring_core_0_16_20_",
     },
     features = [
         "alloc",
@@ -16832,84 +17004,6 @@ cargo.rust_library(
     rustc_flags = ["@$(location :ring-0.16.20-build-script-run[rustc_flags])"],
     visibility = [],
     deps = [":untrusted-0.7.1"],
-)
-
-cargo.rust_binary(
-    name = "ring-0.16.20-build-script-build",
-    srcs = [
-        "vendor/ring-0.16.20/build.rs",
-        "vendor/ring-0.16.20/crypto/chacha/asm/chacha-armv4.pl",
-        "vendor/ring-0.16.20/crypto/chacha/asm/chacha-armv8.pl",
-        "vendor/ring-0.16.20/crypto/chacha/asm/chacha-x86.pl",
-        "vendor/ring-0.16.20/crypto/chacha/asm/chacha-x86_64.pl",
-        "vendor/ring-0.16.20/crypto/cipher_extra/asm/chacha20_poly1305_x86_64.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/aesni-x86.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/aesni-x86_64.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/aesv8-armx.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/bsaes-armv7.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/vpaes-x86.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/aes/asm/vpaes-x86_64.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/armv4-mont.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/armv8-mont.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/x86-mont.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/x86_64-mont.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/bn/asm/x86_64-mont5.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/ec/asm/ecp_nistz256-armv4.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/ec/asm/ecp_nistz256-armv8.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/ec/asm/ecp_nistz256-x86.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/ec/asm/p256-x86_64-asm.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/aesni-gcm-x86_64.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/ghash-armv4.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/ghash-x86.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/ghash-x86_64.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/modes/asm/ghashv8-armx.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/sha/asm/sha256-armv4.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/sha/asm/sha512-armv4.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/sha/asm/sha512-armv8.pl",
-        "vendor/ring-0.16.20/crypto/fipsmodule/sha/asm/sha512-x86_64.pl",
-        "vendor/ring-0.16.20/crypto/perlasm/arm-xlate.pl",
-        "vendor/ring-0.16.20/crypto/perlasm/x86_64-xlate.pl",
-        "vendor/ring-0.16.20/crypto/perlasm/x86asm.pl",
-        "vendor/ring-0.16.20/crypto/perlasm/x86gas.pl",
-        "vendor/ring-0.16.20/crypto/perlasm/x86nasm.pl",
-    ],
-    crate = "build_script_build",
-    crate_root = "vendor/ring-0.16.20/build.rs",
-    edition = "2018",
-    env = {
-        "CARGO_MANIFEST_DIR": "vendor/ring-0.16.20",
-        "CARGO_MANIFEST_LINKS": "ring_core_0_17_0",
-        "CARGO_PKG_AUTHORS": "Brian Smith <brian@briansmith.org>",
-        "CARGO_PKG_DESCRIPTION": "Safe, fast, small crypto using Rust.",
-        "CARGO_PKG_NAME": "ring",
-        "CARGO_PKG_REPOSITORY": "https://github.com/briansmith/ring",
-        "CARGO_PKG_VERSION": "0.16.20",
-        "CARGO_PKG_VERSION_MAJOR": "0",
-        "CARGO_PKG_VERSION_MINOR": "16",
-        "CARGO_PKG_VERSION_PATCH": "20",
-        "RING_CORE_PREFIX": "ring_core_0_17_0_",
-    },
-    features = [
-        "alloc",
-        "default",
-        "dev_urandom_fallback",
-        "once_cell",
-    ],
-    visibility = [],
-    deps = [":cc-1.0.83"],
-)
-
-buildscript_run(
-    name = "ring-0.16.20-build-script-run",
-    package_name = "ring",
-    buildscript_rule = ":ring-0.16.20-build-script-build",
-    features = [
-        "alloc",
-        "default",
-        "dev_urandom_fallback",
-        "once_cell",
-    ],
-    version = "0.16.20",
 )
 
 cargo.rust_binary(
@@ -16955,7 +17049,7 @@ cargo.rust_binary(
     edition = "2021",
     env = {
         "CARGO_MANIFEST_DIR": "vendor/ring-0.17.0",
-        "CARGO_MANIFEST_LINKS": "ring_core_0_17_0",
+        "CARGO_MANIFEST_LINKS": "ring_core_0_16_20",
         "CARGO_PKG_AUTHORS": "Brian Smith <brian@briansmith.org>",
         "CARGO_PKG_DESCRIPTION": "Safe, fast, small crypto using Rust.",
         "CARGO_PKG_NAME": "ring",
@@ -16964,7 +17058,7 @@ cargo.rust_binary(
         "CARGO_PKG_VERSION_MAJOR": "0",
         "CARGO_PKG_VERSION_MINOR": "17",
         "CARGO_PKG_VERSION_PATCH": "0",
-        "RING_CORE_PREFIX": "ring_core_0_17_0_",
+        "RING_CORE_PREFIX": "ring_core_0_16_20_",
     },
     features = [
         "alloc",
@@ -17134,7 +17228,7 @@ cargo.rust_library(
     edition = "2021",
     env = {
         "CARGO_MANIFEST_DIR": "vendor/ring-0.17.0",
-        "CARGO_MANIFEST_LINKS": "ring_core_0_17_0",
+        "CARGO_MANIFEST_LINKS": "ring_core_0_16_20",
         "CARGO_PKG_AUTHORS": "Brian Smith <brian@briansmith.org>",
         "CARGO_PKG_DESCRIPTION": "Safe, fast, small crypto using Rust.",
         "CARGO_PKG_NAME": "ring",
@@ -17143,7 +17237,8 @@ cargo.rust_library(
         "CARGO_PKG_VERSION_MAJOR": "0",
         "CARGO_PKG_VERSION_MINOR": "17",
         "CARGO_PKG_VERSION_PATCH": "0",
-        "RING_CORE_PREFIX": "ring_core_0_17_0_",
+        "OUT_DIR": "$(location :ring-0.17.0-build-script-run[out_dir])",
+        "RING_CORE_PREFIX": "ring_core_0_16_20_",
     },
     features = [
         "alloc",
@@ -17339,6 +17434,7 @@ cargo.rust_binary(
     crate_root = "../../../../../../dev/null",
     edition = "2021",
     named_deps = {
+        "ring_16_20": ":ring-0.16.20-ring_16_20",
         "syn_v1": ":syn-1.0.109-syn_v1",
     },
     visibility = [],
@@ -17362,6 +17458,7 @@ cargo.rust_binary(
         ":codespan-reporting-0.11.1",
         ":collectable-0.0.2",
         ":colored-2.0.4",
+        ":compiler_builtins-0.1.101",
         ":console-subscriber-0.1.10",
         ":const-str-0.5.6",
         ":crossterm-0.25.0",
@@ -17424,6 +17521,7 @@ cargo.rust_binary(
         ":ring-0.17.0-ring",
         ":roaring-0.10.2",
         ":rocksdb-0.21.0",
+        ":rustc-std-workspace-core-1.0.0",
         ":rustls-0.21.7",
         ":rustls-pemfile-1.0.3",
         ":rustls-webpki-0.101.6-webpki",
@@ -17516,6 +17614,21 @@ cargo.rust_library(
         "vendor/rustc-hex-2.1.0/LICENSE-APACHE",
         "vendor/rustc-hex-2.1.0/LICENSE-MIT",
     ],
+    visibility = [],
+)
+
+alias(
+    name = "rustc-std-workspace-core",
+    actual = ":rustc-std-workspace-core-1.0.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "rustc-std-workspace-core-1.0.0",
+    srcs = ["vendor/rustc-std-workspace-core-1.0.0/src/lib.rs"],
+    crate = "rustc_std_workspace_core",
+    crate_root = "vendor/rustc-std-workspace-core-1.0.0/src/lib.rs",
+    edition = "2015",
     visibility = [],
 )
 
@@ -18047,7 +18160,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":log-0.4.20",
-        ":ring-0.16.20",
+        ":ring-0.16.20-ring_16_20",
         ":sct-0.7.0",
         ":webpki-0.22.1",
     ],
@@ -18195,7 +18308,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":log-0.4.20",
-        ":ring-0.16.20",
+        ":ring-0.16.20-ring_16_20",
         ":rustls-webpki-0.101.6-webpki",
         ":sct-0.7.0",
     ],
@@ -18277,7 +18390,7 @@ cargo.rust_library(
     licenses = ["vendor/rustls-webpki-0.101.6/LICENSE"],
     visibility = [],
     deps = [
-        ":ring-0.16.20",
+        ":ring-0.16.20-ring_16_20",
         ":untrusted-0.7.1",
     ],
 )
@@ -18579,7 +18692,7 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [
-        ":ring-0.16.20",
+        ":ring-0.16.20-ring_16_20",
         ":untrusted-0.7.1",
     ],
 )
@@ -23019,7 +23132,7 @@ cargo.rust_library(
     licenses = ["vendor/webpki-0.22.1/LICENSE"],
     visibility = [],
     deps = [
-        ":ring-0.16.20",
+        ":ring-0.16.20-ring_16_20",
         ":untrusted-0.7.1",
     ],
 )

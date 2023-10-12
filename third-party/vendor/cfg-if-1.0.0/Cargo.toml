@@ -9,7 +9,7 @@
 # issue against the rust-lang/cargo repository. If you're
 # editing this file be aware that the upstream Cargo.toml
 # will likely look very different (and much more reasonable)
-
+[workspace]
 [package]
 edition = "2018"
 name = "cfg-if"

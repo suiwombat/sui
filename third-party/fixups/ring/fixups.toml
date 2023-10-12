@@ -9,13 +9,15 @@ extra_srcs = ["crypto/**/*.pl"]
 #     "RING_CORE_PREFIX": "ring_core_0_17_0_",
 # },
 [env]
-CARGO_MANIFEST_LINKS = "ring_core_0_17_0"
-RING_CORE_PREFIX = "ring_core_0_17_0_"
+# CARGO_MANIFEST_LINKS = "ring_core_0_17_0"
+# RING_CORE_PREFIX = "ring_core_0_17_0_"
+CARGO_MANIFEST_LINKS = "ring_core_0_16_20"
+RING_CORE_PREFIX = "ring_core_0_16_20_"
 [[buildscript]]
 [buildscript.rustc_flags]
 # path_env = ["-O0"]
-# [[buildscript]]
-# [buildscript.gen_srcs]
+[[buildscript]]
+[buildscript.gen_srcs]
 
 # env = { TARGET = "aarch64-apple-darwin" }
 # buildscript = []

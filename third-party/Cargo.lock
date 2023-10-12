@@ -1098,6 +1098,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "compiler_builtins"
+version = "0.1.101"
+source = "git+https://github.com/rust-lang/compiler-builtins#d1d785a538d51d0082c3e6209a28c9fb1a90ec3c"
+
+[[package]]
 name = "console"
 version = "0.15.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3814,6 +3819,7 @@ dependencies = [
  "codespan-reporting",
  "collectable",
  "colored",
+ "compiler_builtins",
  "console-subscriber",
  "const-str",
  "crossterm",
@@ -3873,9 +3879,11 @@ dependencies = [
  "ref-cast",
  "regex",
  "reqwest",
+ "ring 0.16.20",
  "ring 0.17.0",
  "roaring",
  "rocksdb",
+ "rustc-std-workspace-core",
  "rustls 0.21.7",
  "rustls-pemfile",
  "rustls-webpki",
@@ -3940,6 +3948,12 @@ name = "rustc-hex"
 version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3e75f6a532d0fd9f7f13144f392b6ad56a32696bfcd9c78f797f16bbb6f072d6"
+
+[[package]]
+name = "rustc-std-workspace-core"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1956f5517128a2b6f23ab2dadf1a976f4f5b27962e7724c2bf3d45e539ec098c"
 
 [[package]]
 name = "rustc_version"

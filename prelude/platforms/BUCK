@@ -16,6 +16,12 @@ execution_platform(
     use_windows_path_separators=False,
 )
 
+execution_platform(
+    name="linux-arm64",
+    cpu_configuration="config//cpu:arm64",
+    os_configuration="config//os:linux",
+    use_windows_path_separators=False,
+)
 
 execution_platform(
     name="macos-arm64",
