@@ -9,9 +9,11 @@ rust_binary(
         "CARGO_PKG_NAME": "sui-proxy",
     },
     deps = [
-        "//third-party:ring",
-        # ":untrusted",
-        # ":ring",
+        "//third-party:ring_16_20",
+    ],
+    rustc_flags = [
+        "-Clink-arg=buck-out/v2/gen/root/213ed1b7ab869379/third-party/__ring-0.16.20-build-script-run__/OUT_DIR/libring-core.a",
+        "-Ldependency=buck-out/v2/gen/root/213ed1b7ab869379/third-party/__ring-0.16.20-build-script-run__/OUT_DIR",
     ],
     edition = "2021",
     visibility=["PUBLIC"],

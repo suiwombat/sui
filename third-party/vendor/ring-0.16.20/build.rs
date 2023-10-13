@@ -428,6 +428,11 @@ fn build_c_code(target: &Target, pregenerated: PathBuf, out_dir: &Path) {
         "cargo:rustc-link-search=native={}",
         out_dir.to_str().expect("Invalid path")
     );
+    // println!("cargo:rustc-link-lib=static=ring_core_0_16_20");
+    // println!(
+    //     "cargo:rustc-link-search=static={}",
+    //     out_dir.to_str().expect("Invalid path")
+    // );
 }
 
 fn build_library(
