@@ -23,7 +23,6 @@ load("@prelude//linking:lto.bzl", "LtoMode")
 load("@prelude//toolchains/msvc:tools.bzl", "VisualStudio")
 load("@prelude//utils:cmd_script.bzl", "ScriptOs", "cmd_script")
 
-
 def _system_cxx_toolchain_impl(ctx: AnalysisContext):
     """
     A very simple toolchain that is hardcoded to the current environment.
@@ -41,8 +40,9 @@ def _system_cxx_toolchain_impl(ctx: AnalysisContext):
     binary_extension = ""
     object_file_extension = "o"
     static_library_extension = "a"
-    shared_library_name_format = "lib{}.so"
-    shared_library_versioned_name_format = "lib{}.so.{}"
+    shared_library_name_default_prefix = "lib"
+    shared_library_name_format = "{}.so"
+    shared_library_versioned_name_format = "{}.so.{}"
     additional_linker_flags = []
     if host_info().os.is_macos:
         archiver_supports_argfiles = False
@@ -64,6 +64,7 @@ def _system_cxx_toolchain_impl(ctx: AnalysisContext):
         binary_extension = "exe"
         object_file_extension = "obj"
         static_library_extension = "lib"
+        shared_library_name_default_prefix = ""
         shared_library_name_format = "{}.dll"
         shared_library_versioned_name_format = "{}.dll"
         additional_linker_flags = ["msvcrt.lib"]
@@ -74,79 +75,79 @@ def _system_cxx_toolchain_impl(ctx: AnalysisContext):
         additional_linker_flags = ["-fuse-ld=lld"]
 
     if ctx.attrs.compiler_type == "clang":
-        llvm_link = RunInfo(args=["llvm-link"])
+        llvm_link = RunInfo(args = ["llvm-link"])
     else:
         llvm_link = None
 
     return [
         DefaultInfo(),
         CxxToolchainInfo(
-            mk_comp_db=ctx.attrs.make_comp_db,
-            linker_info=LinkerInfo(
-                linker=RunInfo(args=linker),
-                linker_flags=additional_linker_flags + ctx.attrs.link_flags,
-                archiver=RunInfo(args=archiver_args),
-                archiver_type=archiver_type,
-                archiver_supports_argfiles=archiver_supports_argfiles,
-                generate_linker_maps=False,
-                lto_mode=LtoMode("none"),
-                type=linker_type,
-                link_binaries_locally=True,
-                archive_objects_locally=True,
-                use_archiver_flags=False,
-                static_dep_runtime_ld_flags=[],
-                static_pic_dep_runtime_ld_flags=[],
-                shared_dep_runtime_ld_flags=[],
-                independent_shlib_interface_linker_flags=[],
-                shlib_interfaces=ShlibInterfacesMode("disabled"),
-                link_style=LinkStyle(ctx.attrs.link_style),
-                link_weight=1,
-                binary_extension=binary_extension,
-                object_file_extension=object_file_extension,
-                shared_library_name_format=shared_library_name_format,
-                shared_library_versioned_name_format=shared_library_versioned_name_format,
-                static_library_extension=static_library_extension,
-                force_full_hybrid_if_capable=False,
-                is_pdb_generated=is_pdb_generated(linker_type, ctx.attrs.link_flags),
-                produce_interface_from_stub_shared_library=True,
+            mk_comp_db = ctx.attrs.make_comp_db,
+            linker_info = LinkerInfo(
+                linker = RunInfo(args = linker),
+                linker_flags = additional_linker_flags + ctx.attrs.link_flags,
+                archiver = RunInfo(args = archiver_args),
+                archiver_type = archiver_type,
+                archiver_supports_argfiles = archiver_supports_argfiles,
+                generate_linker_maps = False,
+                lto_mode = LtoMode("none"),
+                type = linker_type,
+                link_binaries_locally = True,
+                archive_objects_locally = True,
+                use_archiver_flags = False,
+                static_dep_runtime_ld_flags = [],
+                static_pic_dep_runtime_ld_flags = [],
+                shared_dep_runtime_ld_flags = [],
+                independent_shlib_interface_linker_flags = [],
+                shlib_interfaces = ShlibInterfacesMode("disabled"),
+                link_style = LinkStyle(ctx.attrs.link_style),
+                link_weight = 1,
+                binary_extension = binary_extension,
+                object_file_extension = object_file_extension,
+                shared_library_name_default_prefix = shared_library_name_default_prefix,
+                shared_library_name_format = shared_library_name_format,
+                shared_library_versioned_name_format = shared_library_versioned_name_format,
+                static_library_extension = static_library_extension,
+                force_full_hybrid_if_capable = False,
+                is_pdb_generated = is_pdb_generated(linker_type, ctx.attrs.link_flags),
+                produce_interface_from_stub_shared_library = True,
             ),
-            bolt_enabled=False,
-            binary_utilities_info=BinaryUtilitiesInfo(
-                nm=RunInfo(args=["nm"]),
-                objcopy=RunInfo(args=["objcopy"]),
-                ranlib=RunInfo(args=["ranlib"]),
-                strip=RunInfo(args=["strip"]),
-                dwp=None,
-                bolt_msdk=None,
+            bolt_enabled = False,
+            binary_utilities_info = BinaryUtilitiesInfo(
+                nm = RunInfo(args = ["nm"]),
+                objcopy = RunInfo(args = ["objcopy"]),
+                ranlib = RunInfo(args = ["ranlib"]),
+                strip = RunInfo(args = ["strip"]),
+                dwp = None,
+                bolt_msdk = None,
             ),
-            cxx_compiler_info=CxxCompilerInfo(
-                compiler=RunInfo(args=[cxx_compiler]),
-                preprocessor_flags=[],
-                compiler_flags=ctx.attrs.cxx_flags,
-                compiler_type=ctx.attrs.compiler_type,
+            cxx_compiler_info = CxxCompilerInfo(
+                compiler = RunInfo(args = [cxx_compiler]),
+                preprocessor_flags = [],
+                compiler_flags = ctx.attrs.cxx_flags,
+                compiler_type = ctx.attrs.compiler_type,
             ),
-            c_compiler_info=CCompilerInfo(
-                compiler=RunInfo(args=[compiler]),
-                preprocessor_flags=[],
-                compiler_flags=ctx.attrs.c_flags,
-                compiler_type=ctx.attrs.compiler_type,
+            c_compiler_info = CCompilerInfo(
+                compiler = RunInfo(args = [compiler]),
+                preprocessor_flags = [],
+                compiler_flags = ctx.attrs.c_flags,
+                compiler_type = ctx.attrs.compiler_type,
             ),
-            as_compiler_info=CCompilerInfo(
-                compiler=RunInfo(args=[compiler]),
-                compiler_type=ctx.attrs.compiler_type,
+            as_compiler_info = CCompilerInfo(
+                compiler = RunInfo(args = [compiler]),
+                compiler_type = ctx.attrs.compiler_type,
             ),
-            asm_compiler_info=CCompilerInfo(
-                compiler=RunInfo(args=[asm_compiler]),
-                compiler_type=asm_compiler_type,
+            asm_compiler_info = CCompilerInfo(
+                compiler = RunInfo(args = [asm_compiler]),
+                compiler_type = asm_compiler_type,
             ),
-            header_mode=HeaderMode("symlink_tree_only"),
-            cpp_dep_tracking_mode=ctx.attrs.cpp_dep_tracking_mode,
-            pic_behavior=pic_behavior,
-            llvm_link=llvm_link,
+            header_mode = HeaderMode("symlink_tree_only"),
+            cpp_dep_tracking_mode = ctx.attrs.cpp_dep_tracking_mode,
+            pic_behavior = pic_behavior,
+            llvm_link = llvm_link,
         ),
-        CxxPlatformInfo(name="x86_64"),
+        CxxPlatformInfo(name = "x86_64"),
     ]
-
 
 def _windows_linker_wrapper(ctx: AnalysisContext, linker: cmd_args) -> cmd_args:
     # Linkers pretty much all support @file.txt argument syntax to insert
@@ -162,52 +163,30 @@ def _windows_linker_wrapper(ctx: AnalysisContext, linker: cmd_args) -> cmd_args:
     #
     # We wrap the linker to flatten @file arguments down to 1 level of nesting.
     return cmd_script(
-        ctx=ctx,
-        name="windows_linker",
-        cmd=cmd_args(
+        ctx = ctx,
+        name = "windows_linker",
+        cmd = cmd_args(
             ctx.attrs.linker_wrapper[RunInfo],
             linker,
         ),
-        os=ScriptOs("windows"),
+        os = ScriptOs("windows"),
     )
 
-
-# these are defaults that get used when root//toolchains/BUCK:system_cxx_toolchain doesn't have a linker attr6
 system_cxx_toolchain = rule(
-    impl=_system_cxx_toolchain_impl,
-    attrs={
-        "c_flags": attrs.list(attrs.string(), default=[]),
-        "compiler": attrs.string(
-            default="cl.exe" if host_info().os.is_windows else "clang"
-        ),
-        "compiler_type": attrs.string(
-            default="windows" if host_info().os.is_windows else "clang"
-        ),  # one of CxxToolProviderType
-        "cpp_dep_tracking_mode": attrs.string(default="makefile"),
-        "cxx_compiler": attrs.string(
-            default="cl.exe" if host_info().os.is_windows else "clang++"
-        ),
-        "cxx_flags": attrs.list(attrs.string(), default=[]),
-        "link_flags": attrs.list(attrs.string(), default=[]),
-        "link_style": attrs.string(default="shared"),
-        "linker": attrs.string(
-            default="link.exe" if host_info().os.is_windows else "clang++"
-        ),
-        "linker_wrapper": attrs.default_only(
-            attrs.exec_dep(
-                providers=[RunInfo], default="prelude//cxx/tools:linker_wrapper"
-            )
-        ),
-        "make_comp_db": attrs.default_only(
-            attrs.exec_dep(
-                providers=[RunInfo], default="prelude//cxx/tools:make_comp_db"
-            )
-        ),
-        "msvc_tools": attrs.default_only(
-            attrs.exec_dep(
-                providers=[VisualStudio], default="prelude//toolchains/msvc:msvc_tools"
-            )
-        ),
+    impl = _system_cxx_toolchain_impl,
+    attrs = {
+        "c_flags": attrs.list(attrs.string(), default = []),
+        "compiler": attrs.string(default = "cl.exe" if host_info().os.is_windows else "clang"),
+        "compiler_type": attrs.string(default = "windows" if host_info().os.is_windows else "clang"),  # one of CxxToolProviderType
+        "cpp_dep_tracking_mode": attrs.string(default = "makefile"),
+        "cxx_compiler": attrs.string(default = "cl.exe" if host_info().os.is_windows else "clang++"),
+        "cxx_flags": attrs.list(attrs.string(), default = []),
+        "link_flags": attrs.list(attrs.string(), default = []),
+        "link_style": attrs.string(default = "shared"),
+        "linker": attrs.string(default = "link.exe" if host_info().os.is_windows else "clang++"),
+        "linker_wrapper": attrs.default_only(attrs.exec_dep(providers = [RunInfo], default = "prelude//cxx/tools:linker_wrapper")),
+        "make_comp_db": attrs.default_only(attrs.exec_dep(providers = [RunInfo], default = "prelude//cxx/tools:make_comp_db")),
+        "msvc_tools": attrs.default_only(attrs.exec_dep(providers = [VisualStudio], default = "prelude//toolchains/msvc:msvc_tools")),
     },
-    is_toolchain_rule=True,
+    is_toolchain_rule = True,
 )

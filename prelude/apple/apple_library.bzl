@@ -166,12 +166,12 @@ def apple_library_rule_constructor_params_and_swift_providers(ctx: AnalysisConte
     else:
         exported_pre = None
 
-    # When linking, we expect each linked object to provide the transitively required swiftmodule AST entries for linking.
-    swiftmodule_linkable = get_swiftmodule_linkable(swift_compile) if swift_compile else None
-
     swift_dependency_info = swift_compile.dependency_info if swift_compile else get_swift_dependency_info(ctx, None, None, deps_providers)
-    swiftmodule = swift_compile.swiftmodule if swift_compile else None
-    swift_debug_info = get_swift_debug_infos(ctx, swiftmodule, swift_dependency_info)
+    swift_debug_info = get_swift_debug_infos(
+        ctx,
+        swift_dependency_info,
+        swift_compile,
+    )
 
     modular_pre = CPreprocessor(
         uses_modules = ctx.attrs.uses_modules,
@@ -216,7 +216,6 @@ def apple_library_rule_constructor_params_and_swift_providers(ctx: AnalysisConte
         headers_layout = get_apple_cxx_headers_layout(ctx),
         extra_exported_link_flags = params.extra_exported_link_flags,
         extra_link_flags = [_get_linker_flags(ctx)],
-        swiftmodule_linkable = swiftmodule_linkable,
         extra_link_input = swift_object_files,
         extra_link_input_has_external_debug_info = True,
         extra_preprocessors = get_min_deployment_version_target_preprocessor_flags(ctx) + [swift_pre, modular_pre],
@@ -231,6 +230,12 @@ def apple_library_rule_constructor_params_and_swift_providers(ctx: AnalysisConte
             static_external_debug_info = swift_debug_info.static,
             shared_external_debug_info = swift_debug_info.shared,
             subtargets = {
+                "swift-compilation-database": [
+                    DefaultInfo(
+                        default_output = swift_compile.compilation_database.db if swift_compile else None,
+                        other_outputs = [swift_compile.compilation_database.other_outputs] if swift_compile else [],
+                    ),
+                ],
                 "swift-compile": [DefaultInfo(default_output = swift_compile.object_file if swift_compile else None)],
             },
             additional_providers_factory = additional_providers_factory,
@@ -248,6 +253,7 @@ def apple_library_rule_constructor_params_and_swift_providers(ctx: AnalysisConte
         # Some apple rules rely on `static` libs *not* following dependents.
         link_groups_force_static_follows_dependents = False,
         extra_linker_outputs_factory = _get_extra_linker_flags_and_outputs,
+        swiftmodule_linkable = get_swiftmodule_linkable(swift_compile),
     )
 
 def _get_extra_linker_flags_and_outputs(
@@ -309,9 +315,14 @@ def _get_link_style_sub_targets_and_providers(
         debug_info = debug_info,
         action_identifier = dsym_executable.short_path,
     )
+    debug_info_artifacts_manifest = ctx.actions.write(
+        "debuginfo.artifacts",
+        debug_info,
+        with_inputs = True,
+    )
     subtargets = {
         DSYM_SUBTARGET: [DefaultInfo(default_output = dsym_artifact)],
-        DEBUGINFO_SUBTARGET: [DefaultInfo(other_outputs = debug_info)],
+        DEBUGINFO_SUBTARGET: [DefaultInfo(default_output = debug_info_artifacts_manifest)],
     }
     providers = [
         AppleDebuggableInfo(dsyms = [dsym_artifact], debug_info_tset = output.external_debug_info),

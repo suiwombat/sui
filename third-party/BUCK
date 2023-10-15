@@ -17344,7 +17344,7 @@ cargo.rust_library(
 cargo.rust_binary(
     name = "rust-third-party-0.0.0-fake",
     crate = "fake",
-    crate_root = "../../../../../../dev/null",
+    crate_root = "../../../../../dev/null",
     edition = "2021",
     named_deps = {
         "ring_16_20": ":ring-0.16.20-ring_16_20",

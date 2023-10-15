@@ -14,13 +14,13 @@ load("@prelude//utils:utils.bzl", "expect")
 # TODO(T110378136): It might make more sense to pass these in via the toolchain.
 Linker = record(
     # The extension to use for the shared library if not set in the toolchain.
-    default_shared_library_extension=str,
+    default_shared_library_extension = str,
     # The format to use for the versioned shared library extension if not set in the toolchain.
-    default_shared_library_versioned_extension_format=str,
+    default_shared_library_versioned_extension_format = str,
     # How to format arguments to the linker to set a shared lib name.
-    shared_library_name_linker_flags_format=list[str],
+    shared_library_name_linker_flags_format = list[str],
     # Flags to pass to the linker to make it generate a shared library.
-    shared_library_flags=list[str],
+    shared_library_flags = list[str],
 )
 
 # Allows overriding the default shared library flags.
@@ -28,55 +28,65 @@ Linker = record(
 # linking against the bundle loader.
 SharedLibraryFlagOverrides = record(
     # How to format arguments to the linker to set a shared lib name.
-    shared_library_name_linker_flags_format=list[str],
+    shared_library_name_linker_flags_format = list[str],
     # Flags to pass to the linker to make it generate a shared library.
-    shared_library_flags=list[str],
+    shared_library_flags = list[str],
 )
 
 LINKERS = {
     "darwin": Linker(
-        default_shared_library_extension="dylib",
-        default_shared_library_versioned_extension_format="{}.dylib",
-        shared_library_name_linker_flags_format=["-install_name", "@rpath/{}"],
-        shared_library_flags=["-shared"],
+        default_shared_library_extension = "dylib",
+        default_shared_library_versioned_extension_format = "{}.dylib",
+        shared_library_name_linker_flags_format = ["-install_name", "@rpath/{}"],
+        shared_library_flags = ["-shared"],
     ),
     "gnu": Linker(
-        default_shared_library_extension="so",
-        default_shared_library_versioned_extension_format="so.{}",
-        shared_library_name_linker_flags_format=["-Wl,-soname,{}"],
-        shared_library_flags=["-shared"],
+        default_shared_library_extension = "so",
+        default_shared_library_versioned_extension_format = "so.{}",
+        shared_library_name_linker_flags_format = ["-Wl,-soname,{}"],
+        shared_library_flags = ["-shared"],
+    ),
+    "wasm": Linker(
+        default_shared_library_extension = "wasm",
+        default_shared_library_versioned_extension_format = "{}.wasm",
+        shared_library_name_linker_flags_format = [],
+        # lld supports this, at least.
+        # See https://github.com/WebAssembly/tool-conventions/blob/main/DynamicLinking.md#llvm-implementation
+        shared_library_flags = ["-shared"],
     ),
     "windows": Linker(
-        default_shared_library_extension="dll",
-        default_shared_library_versioned_extension_format="dll",
+        default_shared_library_extension = "dll",
+        default_shared_library_versioned_extension_format = "dll",
         # NOTE(agallagher): I *think* windows doesn't support a flag to set the
         # library name, and relies on the basename.
-        shared_library_name_linker_flags_format=[],
-        shared_library_flags=["/DLL"],
+        shared_library_name_linker_flags_format = [],
+        shared_library_flags = ["/DLL"],
     ),
 }
 
 PDB_SUB_TARGET = "pdb"
 
-
 def _sanitize(s: str) -> str:
     return s.replace("/", "_")
 
-
 # NOTE(agallagher): Does this belong in the native/shared_libraries.bzl?
 def get_shared_library_name(
-    linker_info: LinkerInfo, short_name: str, version: [str, None] = None
-):
+        linker_info: LinkerInfo,
+        short_name: str,
+        apply_default_prefix: bool,
+        version: [str, None] = None):
     """
     Generate a platform-specific shared library name based for the given rule.
     """
     if version == None:
-        return linker_info.shared_library_name_format.format(short_name)
+        full_name = linker_info.shared_library_name_format.format(short_name)
     else:
-        return linker_info.shared_library_versioned_name_format.format(
-            short_name, version
-        )
+        full_name = linker_info.shared_library_versioned_name_format.format(short_name, version)
 
+    if apply_default_prefix:
+        full_name = linker_info.shared_library_name_default_prefix + full_name
+
+    return full_name
 
 def _parse_ext_macro(name: str) -> [(str, [str, None]), None]:
     """
@@ -102,7 +112,6 @@ def _parse_ext_macro(name: str) -> [(str, [str, None]), None]:
     expect(rest.startswith(" "))
     return (base, rest[1:-1])
 
-
 def get_shared_library_name_for_param(linker_info: LinkerInfo, name: str):
     """
     Format a user-provided shared library name, supporting v1's `$(ext)` suffix.
@@ -112,11 +121,11 @@ def get_shared_library_name_for_param(linker_info: LinkerInfo, name: str):
         base, version = parsed
         name = get_shared_library_name(
             linker_info,
-            base.removeprefix("lib"),
-            version=version,
+            base,
+            apply_default_prefix = False,
+            version = version,
         )
     return name
-
 
 # NOTE(agallagher): Does this belong in the native/shared_libraries.bzl?
 def get_default_shared_library_name(linker_info: LinkerInfo, label: Label):
@@ -127,32 +136,23 @@ def get_default_shared_library_name(linker_info: LinkerInfo, label: Label):
     # TODO(T110378119): v1 doesn't use the cell/repo name, so we don't here for
     # initial compatibility, but maybe we should?
     short_name = "{}_{}".format(_sanitize(label.package), _sanitize(label.name))
-    return get_shared_library_name(linker_info, short_name)
+    return get_shared_library_name(linker_info, short_name, apply_default_prefix = True)
 
-
-def get_shared_library_name_linker_flags(
-    linker_type: str,
-    soname: str,
-    flag_overrides: [SharedLibraryFlagOverrides, None] = None,
-) -> list[str]:
+def get_shared_library_name_linker_flags(linker_type: str, soname: str, flag_overrides: [SharedLibraryFlagOverrides, None] = None) -> list[str]:
     """
     Arguments to pass to the linker to set the given soname.
     """
     if flag_overrides:
-        shared_library_name_linker_flags_format = (
-            flag_overrides.shared_library_name_linker_flags_format
-        )
+        shared_library_name_linker_flags_format = flag_overrides.shared_library_name_linker_flags_format
     else:
-        shared_library_name_linker_flags_format = LINKERS[
-            linker_type
-        ].shared_library_name_linker_flags_format
+        shared_library_name_linker_flags_format = LINKERS[linker_type].shared_library_name_linker_flags_format
 
-    return [f.format(soname) for f in shared_library_name_linker_flags_format]
+    return [
+        f.format(soname)
+        for f in shared_library_name_linker_flags_format
+    ]
 
-
-def get_shared_library_flags(
-    linker_type: str, flag_overrides: [SharedLibraryFlagOverrides, None] = None
-) -> list[str]:
+def get_shared_library_flags(linker_type: str, flag_overrides: [SharedLibraryFlagOverrides, None] = None) -> list[str]:
     """
     Arguments to pass to the linker to link a shared library.
     """
@@ -160,7 +160,6 @@ def get_shared_library_flags(
         return flag_overrides.shared_library_flags
 
     return LINKERS[linker_type].shared_library_flags
-
 
 def get_link_whole_args(linker_type: str, inputs: list[Artifact]) -> list[typing.Any]:
     """
@@ -188,10 +187,7 @@ def get_link_whole_args(linker_type: str, inputs: list[Artifact]) -> list[typing
 
     return args
 
-
-def get_objects_as_library_args(
-    linker_type: str, objects: list[Artifact]
-) -> list[typing.Any]:
+def get_objects_as_library_args(linker_type: str, objects: list[Artifact]) -> list[typing.Any]:
     """
     Return linker args used to link the given objects as a library.
     """
@@ -208,7 +204,6 @@ def get_objects_as_library_args(
         fail("Linker type {} not supported".format(linker_type))
 
     return args
-
 
 def get_ignore_undefined_symbols_flags(linker_type: str) -> list[str]:
     """
@@ -227,7 +222,6 @@ def get_ignore_undefined_symbols_flags(linker_type: str) -> list[str]:
 
     return args
 
-
 def get_no_as_needed_shared_libs_flags(linker_type: str) -> list[str]:
     """
     Return linker args used to prevent linkers from dropping unused shared
@@ -245,27 +239,24 @@ def get_no_as_needed_shared_libs_flags(linker_type: str) -> list[str]:
 
     return args
 
-
 def get_output_flags(linker_type: str, output: Artifact) -> list[ArgLike]:
     if linker_type == "windows":
-        return ["/Brepro", cmd_args(output.as_output(), format="/OUT:{}")]
+        return ["/Brepro", cmd_args(output.as_output(), format = "/OUT:{}")]
     else:
         return ["-o", output.as_output()]
 
-
 def get_import_library(
-    ctx: AnalysisContext, linker_type: str, output_short_path: str
-) -> ([Artifact, None], list[ArgLike]):
+        ctx: AnalysisContext,
+        linker_type: str,
+        output_short_path: str) -> ([Artifact, None], list[ArgLike]):
     if linker_type == "windows":
         import_library = ctx.actions.declare_output(output_short_path + ".imp.lib")
-        return import_library, [
-            cmd_args(import_library.as_output(), format="/IMPLIB:{}")
-        ]
+        return import_library, [cmd_args(import_library.as_output(), format = "/IMPLIB:{}")]
     else:
         return None, []
 
-
-def get_rpath_origin(linker_type: str) -> str:
+def get_rpath_origin(
+        linker_type: str) -> str:
     """
     Return the macro that runtime loaders resolve to the main executable at
     runtime.
@@ -278,10 +269,9 @@ def get_rpath_origin(linker_type: str) -> str:
 
     fail("Linker type {} not supported".format(linker_type))
 
-
 def is_pdb_generated(
-    linker_type: str, linker_flags: list[[str, ResolvedStringWithMacros]]
-) -> bool:
+        linker_type: str,
+        linker_flags: list[[str, ResolvedStringWithMacros]]) -> bool:
     if linker_type != "windows":
         return False
     for flag in reversed(linker_flags):
@@ -291,40 +281,32 @@ def is_pdb_generated(
             return not flag.endswith('DEBUG:NONE"')
     return False
 
-
-def get_pdb_providers(pdb: Artifact):
-    return [DefaultInfo(default_output=pdb)]
-
+def get_pdb_providers(
+        pdb: Artifact,
+        binary: Artifact):
+    return [DefaultInfo(default_output = pdb, other_outputs = [binary])]
 
 DUMPBIN_SUB_TARGET = "dumpbin"
 
-
 def get_dumpbin_providers(
-    ctx: AnalysisContext, binary: Artifact, dumpbin_toolchain_path: Artifact
-) -> list[Provider]:
-    dumpbin_headers_out = ctx.actions.declare_output(
-        binary.short_path + ".dumpbin_headers"
-    )
+        ctx: AnalysisContext,
+        binary: Artifact,
+        dumpbin_toolchain_path: Artifact) -> list[Provider]:
+    dumpbin_headers_out = ctx.actions.declare_output(binary.short_path + ".dumpbin_headers")
     ctx.actions.run(
         cmd_args(
-            cmd_args(dumpbin_toolchain_path, format="{}/dumpbin.exe"),
+            cmd_args(dumpbin_toolchain_path, format = "{}/dumpbin.exe"),
             # We could use /ALL to display all information in one action, but that's too
             # expensive in practice
             "/HEADERS",
             binary,
-            cmd_args(dumpbin_headers_out.as_output(), format="/OUT:{}"),
+            cmd_args(dumpbin_headers_out.as_output(), format = "/OUT:{}"),
         ),
-        category="dumpbin_headers",
-        identifier=binary.short_path,
+        category = "dumpbin_headers",
+        identifier = binary.short_path,
     )
-    return [
-        DefaultInfo(
-            sub_targets={
-                "headers": [
-                    DefaultInfo(
-                        default_output=dumpbin_headers_out,
-                    )
-                ],
-            }
-        )
-    ]
+    return [DefaultInfo(sub_targets = {
+        "headers": [DefaultInfo(
+            default_output = dumpbin_headers_out,
+        )],
+    })]

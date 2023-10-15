@@ -32,8 +32,8 @@ features = [
 # ]
 cargo_env = true
 # buildscript = []
-# [[buildscript]]
-# [buildscript.rustc_flags]
+[[buildscript]]
+[buildscript.rustc_flags]
 
 [[buildscript]]
 [buildscript.gen_srcs]

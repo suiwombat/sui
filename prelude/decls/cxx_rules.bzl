@@ -90,6 +90,8 @@ cxx_binary = prelude_rule(
         cxx_common.platform_linker_flags_arg() |
         cxx_common.precompiled_header_arg() |
         native_common.link_style() |
+        native_common.link_group_deps() |
+        native_common.link_group_public_deps_label() |
         buck.deps_query_arg() |
         cxx_common.raw_headers_arg() |
         cxx_common.include_directories_arg() |
@@ -507,6 +509,7 @@ cxx_library = prelude_rule(
         cxx_common.lang_platform_compiler_flags_arg() |
         cxx_common.linker_extra_outputs_arg() |
         cxx_common.linker_flags_arg() |
+        cxx_common.local_linker_flags_arg() |
         cxx_common.platform_linker_flags_arg() |
         cxx_common.exported_linker_flags_arg() |
         cxx_common.exported_post_linker_flags_arg() |
@@ -804,6 +807,8 @@ cxx_test = prelude_rule(
         } |
         buck.run_test_separately_arg(run_test_separately_type = attrs.option(attrs.bool(), default = None)) |
         buck.test_rule_timeout_ms() |
+        native_common.link_group_deps() |
+        native_common.link_group_public_deps_label() |
         {
             "additional_coverage_targets": attrs.list(attrs.source(), default = []),
             "contacts": attrs.list(attrs.string(), default = []),
@@ -1057,6 +1062,7 @@ prebuilt_cxx_library = prelude_rule(
         cxx_common.exported_deps_arg() |
         cxx_common.exported_platform_deps_arg() |
         cxx_common.supports_merged_linking() |
+        cxx_common.local_linker_flags_arg() |
         {
             "can_be_asset": attrs.bool(default = False),
             "contacts": attrs.list(attrs.string(), default = []),

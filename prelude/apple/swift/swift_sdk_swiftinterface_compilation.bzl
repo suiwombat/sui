@@ -6,9 +6,14 @@
 # of this source tree.
 
 load("@prelude//apple:apple_toolchain_types.bzl", "AppleToolchainInfo")
-load("@prelude//apple:apple_utility.bzl", "expand_relative_prefixed_sdk_path", "get_explicit_modules_env_var")
+load("@prelude//apple:apple_utility.bzl", "expand_relative_prefixed_sdk_path")
 load("@prelude//apple/swift:swift_types.bzl", "SWIFTMODULE_EXTENSION")
 load(":apple_sdk_modules_utility.bzl", "get_compiled_sdk_clang_deps_tset", "get_compiled_sdk_swift_deps_tset")
+load(
+    ":swift_debug_info_utils.bzl",
+    "extract_and_merge_clang_debug_infos",
+    "extract_and_merge_swift_debug_infos",
+)
 load(":swift_module_map.bzl", "write_swift_module_map")
 load(":swift_sdk_pcm_compilation.bzl", "get_swift_sdk_pcm_anon_targets")
 load(":swift_toolchain_types.bzl", "SdkUncompiledModuleInfo", "SwiftCompiledModuleInfo", "SwiftCompiledModuleTset", "WrappedSdkCompiledModuleInfo")
@@ -69,7 +74,6 @@ def _swift_interface_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Pr
 
         ctx.actions.run(
             cmd,
-            env = get_explicit_modules_env_var(True),
             category = "sdk_swiftinterface_compile",
             identifier = uncompiled_module_info_name,
         )
@@ -80,10 +84,13 @@ def _swift_interface_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Pr
             module_name = uncompiled_module_info_name,
             output_artifact = swiftmodule_output,
         )
+
         return [
             DefaultInfo(),
             WrappedSdkCompiledModuleInfo(
                 swift_deps = ctx.actions.tset(SwiftCompiledModuleTset, value = compiled_sdk, children = [swift_deps_tset]),
+                swift_debug_info = extract_and_merge_swift_debug_infos(ctx, sdk_deps_providers, [swiftmodule_output]),
+                clang_debug_info = extract_and_merge_clang_debug_infos(ctx, sdk_deps_providers),
             ),
         ]
 
@@ -98,7 +105,7 @@ def _swift_interface_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Pr
     # Compile the transitive swiftmodule deps.
     swift_module_deps = get_swift_interface_anon_targets(ctx, module_info.deps)
 
-    return ctx.actions.anon_targets(clang_module_deps + swift_module_deps).map(k)
+    return ctx.actions.anon_targets(clang_module_deps + swift_module_deps).promise.map(k)
 
 _swift_interface_compilation = rule(
     impl = _swift_interface_compilation_impl,

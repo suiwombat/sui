@@ -7,10 +7,9 @@
 
 load(":with_workspace.bzl", "package_key")
 
-
 def rust_common_macro_wrapper(rust_rule):
     def rust_common_impl(**kwargs):
         workspaces = read_package_value(package_key) or []
-        rust_rule(_workspaces=workspaces, **kwargs)
+        rust_rule(_workspaces = workspaces, **kwargs)
 
     return rust_common_impl

@@ -8,6 +8,10 @@
 load("@prelude//apple:apple_toolchain_types.bzl", "AppleToolchainInfo")
 load("@prelude//apple:apple_utility.bzl", "expand_relative_prefixed_sdk_path", "get_disable_pch_validation_flags")
 load(":apple_sdk_modules_utility.bzl", "get_compiled_sdk_clang_deps_tset")
+load(
+    ":swift_debug_info_utils.bzl",
+    "extract_and_merge_clang_debug_infos",
+)
 load(":swift_toolchain_types.bzl", "SdkUncompiledModuleInfo", "SwiftCompiledModuleInfo", "SwiftCompiledModuleTset", "WrappedSdkCompiledModuleInfo")
 
 def get_shared_pcm_compilation_args(module_name: str) -> cmd_args:
@@ -29,16 +33,19 @@ def get_shared_pcm_compilation_args(module_name: str) -> cmd_args:
         "-Xclang",
         "-Xcc",
         "-fmodules-embed-all-files",
-        # Embed all files that were read during compilation into the generated PCM.
+        # Set the base directory of the pcm file to the working directory, which ensures
+        # all paths serialized in the PCM are relative.
         "-Xcc",
         "-Xclang",
         "-Xcc",
         "-fmodule-file-home-is-cwd",
-        # Unset the working directory to avoid serializing it as an absolute path.
+        # We cannot set an empty Swift working directory as that would end up serializing
+        # absolute header search paths in the PCM. Instead unset the clang working directory
+        # to avoid serializing it as an absolute path.
         "-Xcc",
         "-working-directory=",
-        # Once we have an empty working directory the compiler provided headers such as float.h
-        # cannot be found, so add . to the header search paths.
+        # Using a relative resource dir requires we add the working directory as a search
+        # path to be able to find the compiler generated includes.
         "-Xcc",
         "-I.",
     ])
@@ -110,6 +117,7 @@ def _swift_sdk_pcm_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Prov
                 DefaultInfo(),
                 WrappedSdkCompiledModuleInfo(
                     clang_deps = sdk_deps_tset,
+                    clang_debug_info = extract_and_merge_clang_debug_infos(ctx, sdk_pcm_deps_providers),
                 ),
             ]
 
@@ -203,6 +211,7 @@ def _swift_sdk_pcm_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Prov
             DefaultInfo(),
             WrappedSdkCompiledModuleInfo(
                 clang_deps = ctx.actions.tset(SwiftCompiledModuleTset, value = compiled_sdk, children = [sdk_deps_tset]),
+                clang_debug_info = extract_and_merge_clang_debug_infos(ctx, sdk_pcm_deps_providers, [pcm_output]),
             ),
         ]
 
@@ -212,7 +221,8 @@ def _swift_sdk_pcm_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Prov
         ctx.attrs.dep[SdkUncompiledModuleInfo].deps,
         ctx.attrs.swift_cxx_args,
     )
-    return ctx.actions.anon_targets(clang_module_deps).map(k)
+
+    return ctx.actions.anon_targets(clang_module_deps).promise.map(k)
 
 _swift_sdk_pcm_compilation = rule(
     impl = _swift_sdk_pcm_compilation_impl,

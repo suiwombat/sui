@@ -54,10 +54,19 @@ def stdlib_pkg_artifacts(toolchain: GoToolchainInfo, shared: bool = False) -> di
 
     prebuilt_stdlib = toolchain.prebuilt_stdlib_shared if shared else toolchain.prebuilt_stdlib
     stdlib_pkgs = prebuilt_stdlib[ArtifactGroupInfo].artifacts
+
+    if len(stdlib_pkgs) == 0:
+        fail("Stdlib for current platfrom is missing from toolchain.")
+
     pkgs = {}
     for pkg in stdlib_pkgs:
-        _, _, pkg_relpath = pkg.short_path.removeprefix("prebuilt_std/").partition("/")  # like net/http.a
-        name = pkg_relpath.removesuffix(".a")  # like net/http
+        # remove first directory like `pgk`
+        _, _, temp_path = pkg.short_path.partition("/")
+
+        # remove second directory like `darwin_amd64`
+        # now we have name like `net/http.a`
+        _, _, pkg_relpath = temp_path.partition("/")
+        name = pkg_relpath.removesuffix(".a")  # like `net/http`
         pkgs[name] = pkg
 
     return pkgs

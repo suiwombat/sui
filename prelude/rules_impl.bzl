@@ -15,6 +15,9 @@ load("@prelude//apple:apple_rules_impl.bzl", _apple_extra_attributes = "extra_at
 # Configuration
 load("@prelude//configurations:rules.bzl", _config_extra_attributes = "extra_attributes", _config_implemented_rules = "implemented_rules")
 
+# C#
+load("@prelude//csharp:csharp.bzl", "csharp_library_impl", "prebuilt_dotnet_library_impl")
+
 # C++ - LLVM
 load("@prelude//cxx:bitcode.bzl", "llvm_link_bitcode_impl")
 load("@prelude//cxx:cxx.bzl", "cxx_binary_impl", "cxx_library_impl", "cxx_precompiled_header_impl", "cxx_test_impl", "prebuilt_cxx_library_impl")
@@ -182,6 +185,10 @@ extra_implemented_rules = struct(
     versioned_alias = versioned_alias_impl,
     worker_tool = worker_tool,
 
+    #c#
+    csharp_library = csharp_library_impl,
+    prebuilt_dotnet_library = prebuilt_dotnet_library_impl,
+
     #c++
     cxx_binary = cxx_binary_impl,
     cxx_test = cxx_test_impl,
@@ -296,6 +303,8 @@ def _python_executable_attrs():
         "add_multiprocessing_wrapper": attrs.bool(default = False),
         "anonymous_link_groups": attrs.bool(default = False),
         "binary_linker_flags": attrs.list(attrs.arg(anon_target_compatible = True), default = []),
+        "bolt_flags": attrs.list(attrs.arg(), default = []),
+        "bolt_profile": attrs.option(attrs.source(), default = None),
         "compiler_flags": attrs.list(attrs.arg(), default = []),
         "constraint_overrides": attrs.list(attrs.string(), default = []),
         "cxx_main": attrs.source(default = "prelude//python/tools:embedded_main.cpp"),
@@ -331,6 +340,7 @@ def _python_executable_attrs():
         "package_split_dwarf_dwp": attrs.bool(default = False),
         "par_style": attrs.option(attrs.string(), default = None),
         "resources": attrs.named_set(attrs.one_of(attrs.dep(), attrs.source(allow_directory = True)), sorted = True, default = []),
+        "runtime_env": attrs.option(attrs.dict(key = attrs.string(), value = attrs.string()), default = None),
         "standalone_build_args": attrs.list(attrs.arg(), default = []),
         "static_extension_finder": attrs.source(default = "prelude//python/tools:static_extension_finder.py"),
         "static_extension_utils": attrs.source(default = "prelude//python/tools:static_extension_utils.cpp"),
@@ -360,7 +370,6 @@ def _cxx_binary_and_test_attrs():
         # top-level binary context.
         "binary_linker_flags": attrs.list(attrs.arg(anon_target_compatible = True), default = []),
         "bolt_flags": attrs.list(attrs.arg(), default = []),
-        "bolt_gdb_index": attrs.option(attrs.source(), default = None),
         "bolt_profile": attrs.option(attrs.source(), default = None),
         "enable_distributed_thinlto": attrs.bool(default = False),
         "link_execution_preference": link_execution_preference_attr(),
@@ -402,6 +411,10 @@ inlined_extra_attributes = {
         "embedcfg": attrs.option(attrs.source(allow_directory = False), default = None),
         "_cxx_toolchain": toolchains_common.cxx(),
         "_go_toolchain": toolchains_common.go(),
+    },
+    # csharp
+    "csharp_library": {
+        "_csharp_toolchain": toolchains_common.csharp(),
     },
     "cxx_binary": _cxx_binary_and_test_attrs(),
 
@@ -470,6 +483,8 @@ inlined_extra_attributes = {
         "resources_root": attrs.option(attrs.string(), default = None),
     },
     "haskell_binary": {
+        "auto_link_groups": attrs.bool(default = False),
+        "link_group_map": link_group_map_attr(),
         "template_deps": attrs.list(attrs.exec_dep(providers = [HaskellLibraryProvider]), default = []),
         "_cxx_toolchain": toolchains_common.cxx(),
         "_haskell_toolchain": toolchains_common.haskell(),

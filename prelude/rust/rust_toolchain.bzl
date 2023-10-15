@@ -70,8 +70,7 @@ _rust_toolchain_attrs = {
     "transitive_dependency_symlinks_tool": None,
 }
 
-RustToolchainInfo = provider(fields=_rust_toolchain_attrs.keys())
-
+RustToolchainInfo = provider(fields = _rust_toolchain_attrs.keys())
 
 def ctx_toolchain_info(ctx: AnalysisContext) -> RustToolchainInfo:
     toolchain_info = ctx.attrs._rust_toolchain[RustToolchainInfo]

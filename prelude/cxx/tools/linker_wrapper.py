@@ -86,7 +86,6 @@ def main():
     # Based on rustc's @linker-arguments file construction.
     # https://github.com/rust-lang/rust/blob/1.69.0/compiler/rustc_codegen_ssa/src/back/link.rs#L1383-L1407
     quoted_new_args = ('"{}"\n'.format(arg) for arg in new_args)
-    print(quoted_new_args)
     new_args_content = "".join(quoted_new_args).encode("utf-16")
 
     debug = "[\n" + "".join('    "{}"\n'.format(arg) for arg in new_args) + "]"

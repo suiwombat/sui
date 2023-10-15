@@ -467,8 +467,8 @@ def cxx_library_parameterized(ctx: AnalysisContext, impl_params: CxxRuleConstruc
         non_exported_deps,
         impl_params.force_link_group_linking,
         frameworks_linkable,
+        swiftmodule_linkable,
         force_static_follows_dependents = impl_params.link_groups_force_static_follows_dependents,
-        swiftmodule_linkable = swiftmodule_linkable,
         swift_runtime_linkable = swift_runtime_linkable,
     )
     if impl_params.generate_sub_targets.link_group_map and link_group_map:
@@ -516,6 +516,10 @@ def cxx_library_parameterized(ctx: AnalysisContext, impl_params: CxxRuleConstruc
                 ctx,
                 output,
             )
+            if output != None and output.unstripped != None:
+                output_style_providers.append(
+                    UnstrippedLinkOutputInfo(artifact = output.unstripped),
+                )
 
             if output:
                 # Add any subtargets for this output style.
@@ -591,6 +595,7 @@ def cxx_library_parameterized(ctx: AnalysisContext, impl_params: CxxRuleConstruc
             # Export link info from out (exported) deps.
             exported_deps = [inherited_exported_link],
             frameworks_linkable = frameworks_linkable,
+            swiftmodule_linkable = swiftmodule_linkable,
             swift_runtime_linkable = swift_runtime_linkable,
         )
         if impl_params.generate_providers.merged_native_link_info:
@@ -627,6 +632,7 @@ def cxx_library_parameterized(ctx: AnalysisContext, impl_params: CxxRuleConstruc
             pic_behavior = pic_behavior,
             preferred_linkage = Linkage("static"),
             frameworks_linkable = frameworks_linkable,
+            swiftmodule_linkable = swiftmodule_linkable,
         ), LinkGroupLibInfo(libs = {}), SharedLibraryInfo(set = None)] + additional_providers
 
     if getattr(ctx.attrs, "supports_header_symlink_subtarget", False):
@@ -709,7 +715,7 @@ def cxx_library_parameterized(ctx: AnalysisContext, impl_params: CxxRuleConstruc
                     exported_deps = exported_deps,
                     # If we don't have link input for this link style, we pass in `None` so
                     # that omnibus knows to avoid it.
-                    include_in_android_mergemap = getattr(ctx.attrs, "include_in_android_merge_map_output", True),
+                    include_in_android_mergemap = getattr(ctx.attrs, "include_in_android_merge_map_output", True) and default_output != None,
                     link_infos = library_outputs.link_infos,
                     shared_libs = solib_as_dict,
                     linker_flags = linker_flags,
@@ -800,13 +806,6 @@ def cxx_library_parameterized(ctx: AnalysisContext, impl_params: CxxRuleConstruc
                 pass
 
             default_output = unknown()
-        if default_output != None and default_output.unstripped != None:
-            sub_targets["unstripped"] = [DefaultInfo(
-                default_outputs = [default_output.unstripped],
-            )]
-            providers.append(
-                UnstrippedLinkOutputInfo(artifact = default_output.unstripped),
-            )
         default_info = DefaultInfo(
             default_output = default_output.default if default_output != None else None,
             other_outputs = default_output.other if default_output != None else [],
@@ -1025,10 +1024,11 @@ def _form_library_outputs(
                     link_cmd_debug_output_file = make_link_command_debug_output_json_info(ctx, [link_cmd_debug_output])
                     providers.append(LinkCommandDebugOutputInfo(debug_outputs = [link_cmd_debug_output]))
 
+                unstripped = shlib.unstripped_output
                 output = CxxLibraryOutput(
                     output_style = LibOutputStyle("shared_lib"),
                     default = shlib.output,
-                    unstripped = shlib.unstripped_output,
+                    unstripped = unstripped,
                     object_files = compiled_srcs.pic.objects,
                     external_debug_info = shlib.external_debug_info,
                     dwp = shlib.dwp,
@@ -1042,6 +1042,9 @@ def _form_library_outputs(
                         )],
                         "linker.filelist": [DefaultInfo(
                             default_outputs = filter(None, [shlib.linker_filelist]),
+                        )],
+                        "unstripped": [DefaultInfo(
+                            default_output = unstripped,
                         )],
                     },
                     pdb = shlib.pdb,
@@ -1097,8 +1100,8 @@ def _get_shared_library_links(
         non_exported_deps: list[Dependency],
         force_link_group_linking,
         frameworks_linkable: [FrameworksLinkable, None],
+        swiftmodule_linkable: [SwiftmoduleLinkable, None],
         force_static_follows_dependents: bool = True,
-        swiftmodule_linkable: [SwiftmoduleLinkable, None] = None,
         swift_runtime_linkable: [SwiftRuntimeLinkable, None] = None) -> (LinkArgs, [DefaultInfo, None], LinkExecutionPreference):
     """
     Returns LinkArgs with the content to link, and a link group map json output if applicable.
@@ -1145,7 +1148,7 @@ def _get_shared_library_links(
             #
             # For more info, check the PicBehavior docs.
             process_link_strategy_for_pic_behavior(LinkStrategy(link_strategy_value), pic_behavior),
-            swiftmodule_linkable = swiftmodule_linkable,
+            swiftmodule_linkable,
             swift_runtime_linkable = swift_runtime_linkable,
         ), None, link_execution_preference
 
@@ -1348,7 +1351,9 @@ def _shared_library(
     linker_flags = cxx_attr_linker_flags_all(ctx)
     link_info = LinkInfo(
         pre_flags = (
-            linker_flags.flags + linker_flags.exported_flags
+            linker_flags.flags +
+            linker_flags.exported_flags +
+            getattr(ctx.attrs, "local_linker_flags", [])
         ),
         linkables = [ObjectsLinkable(
             objects = objects,
@@ -1406,6 +1411,7 @@ def _shared_library(
                 output = get_shared_library_name(
                     linker_info,
                     ctx.label.name + "-for-interface",
+                    apply_default_prefix = True,
                 ),
                 opts = link_options(
                     category_suffix = "interface",

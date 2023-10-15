@@ -6,12 +6,16 @@
 # of this source tree.
 
 load("@prelude//apple:apple_toolchain_types.bzl", "AppleToolchainInfo")
-load("@prelude//apple:apple_utility.bzl", "get_explicit_modules_env_var", "get_module_name")
+load("@prelude//apple:apple_utility.bzl", "get_module_name")
 load("@prelude//cxx:preprocessor.bzl", "cxx_inherited_preprocessor_infos", "cxx_merge_cpreprocessors")
 load(
     ":apple_sdk_modules_utility.bzl",
     "get_compiled_sdk_clang_deps_tset",
     "get_uncompiled_sdk_deps",
+)
+load(
+    ":swift_debug_info_utils.bzl",
+    "extract_and_merge_clang_debug_infos",
 )
 load(":swift_pcm_compilation_types.bzl", "SwiftPCMUncompiledInfo", "WrappedSwiftPCMCompiledInfo")
 load(":swift_sdk_pcm_compilation.bzl", "get_shared_pcm_compilation_args", "get_swift_sdk_pcm_anon_targets")
@@ -63,7 +67,6 @@ def _compile_with_argsfile(
 
     ctx.actions.run(
         cmd,
-        env = get_explicit_modules_env_var(True),
         category = category,
         identifier = module_name,
         # Swift compiler requires unique inodes for all input files.
@@ -132,6 +135,7 @@ def _swift_pcm_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Provider
                 ),
                 WrappedSdkCompiledModuleInfo(
                     clang_deps = sdk_deps_tset,
+                    clang_debug_info = extract_and_merge_clang_debug_infos(ctx, compiled_pcm_deps_providers),
                 ),
             ]
 
@@ -173,6 +177,7 @@ def _swift_pcm_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Provider
             ),
             WrappedSdkCompiledModuleInfo(
                 clang_deps = sdk_deps_tset,
+                clang_debug_info = extract_and_merge_clang_debug_infos(ctx, compiled_pcm_deps_providers, [pcm_info.output_artifact]),
             ),
         ]
 
@@ -195,7 +200,7 @@ def _swift_pcm_compilation_impl(ctx: AnalysisContext) -> [Promise, list[Provider
         ctx.attrs.dep[SwiftPCMUncompiledInfo].exported_deps,
         ctx.attrs.swift_cxx_args,
     )
-    return ctx.actions.anon_targets(sdk_pcm_deps_anon_targets + swift_pcm_anon_targets).map(k)
+    return ctx.actions.anon_targets(sdk_pcm_deps_anon_targets + swift_pcm_anon_targets).promise.map(k)
 
 _swift_pcm_compilation = rule(
     impl = _swift_pcm_compilation_impl,

@@ -5,10 +5,6 @@
 # License, Version 2.0 found in the LICENSE-APACHE file in the root directory
 # of this source tree.
 
-load(
-    "@prelude//:artifact_tset.bzl",
-    "project_artifacts",
-)
 load("@prelude//:paths.bzl", "paths")
 load("@prelude//apple:apple_stripping.bzl", "apple_strip_args")
 # @oss-disable: load("@prelude//apple/meta_only:linker_outputs.bzl", "add_extra_linker_outputs") 
@@ -69,7 +65,7 @@ load(":apple_sdk_metadata.bzl", "IPhoneSimulatorSdkMetadata", "MacOSXCatalystSdk
 load(":apple_target_sdk_version.bzl", "get_min_deployment_version_for_node", "get_min_deployment_version_target_linker_flags", "get_min_deployment_version_target_preprocessor_flags")
 load(":apple_toolchain_types.bzl", "AppleToolchainInfo")
 load(":apple_utility.bzl", "get_apple_cxx_headers_layout", "get_apple_stripped_attr_value_with_default_fallback")
-load(":debug.bzl", "AppleDebuggableInfo", "DEBUGINFO_SUBTARGET")
+load(":debug.bzl", "AppleDebuggableInfo")
 load(":resource_groups.bzl", "create_resource_graph")
 load(":xcode.bzl", "apple_populate_xcode_attributes")
 
@@ -106,10 +102,11 @@ def apple_binary_impl(ctx: AnalysisContext) -> [list[Provider], Promise]:
         )
 
         swift_dependency_info = swift_compile.dependency_info if swift_compile else get_swift_dependency_info(ctx, None, None, deps_providers)
-        swiftmodule = swift_compile.swiftmodule if swift_compile else None
-        swift_debug_info = get_swift_debug_infos(ctx, swiftmodule, swift_dependency_info)
-
-        swiftmodule_linkable = get_swiftmodule_linkable(swift_compile)
+        swift_debug_info = get_swift_debug_infos(
+            ctx,
+            swift_dependency_info,
+            swift_compile,
+        )
 
         stripped = get_apple_stripped_attr_value_with_default_fallback(ctx)
         constructor_params = CxxRuleConstructorParams(
@@ -125,8 +122,15 @@ def apple_binary_impl(ctx: AnalysisContext) -> [list[Provider], Promise]:
                 # follow.
                 static_external_debug_info = swift_debug_info.static,
                 shared_external_debug_info = swift_debug_info.shared,
+                subtargets = {
+                    "swift-compilation-database": [
+                        DefaultInfo(
+                            default_output = swift_compile.compilation_database.db if swift_compile else None,
+                            other_outputs = [swift_compile.compilation_database.other_outputs] if swift_compile else [],
+                        ),
+                    ],
+                },
             ),
-            swiftmodule_linkable = swiftmodule_linkable,
             extra_link_input = swift_object_files,
             extra_link_input_has_external_debug_info = True,
             extra_preprocessors = get_min_deployment_version_target_preprocessor_flags(ctx) + [framework_search_path_pre] + swift_preprocessor,
@@ -137,13 +141,10 @@ def apple_binary_impl(ctx: AnalysisContext) -> [list[Provider], Promise]:
             prefer_stripped_objects = ctx.attrs.prefer_stripped_objects,
             # Some apple rules rely on `static` libs *not* following dependents.
             link_groups_force_static_follows_dependents = False,
+            swiftmodule_linkable = get_swiftmodule_linkable(swift_compile),
         )
         cxx_output = cxx_executable(ctx, constructor_params)
 
-        debug_info = project_artifacts(
-            actions = ctx.actions,
-            tsets = [cxx_output.external_debug_info],
-        )
         if stripped:
             unstripped_binary = cxx_output.unstripped_binary
             if False:
@@ -151,17 +152,17 @@ def apple_binary_impl(ctx: AnalysisContext) -> [list[Provider], Promise]:
                 unstripped_binary = None
             expect(unstripped_binary != None, "Expect to save unstripped_binary when stripped is enabled")
             unstripped_binary = cxx_output.unstripped_binary
-            cxx_output.sub_targets["unstripped"] = [DefaultInfo(default_output = unstripped_binary)]
         else:
             unstripped_binary = cxx_output.binary
+        cxx_output.sub_targets["unstripped"] = [DefaultInfo(default_output = unstripped_binary)]
+
         dsym_artifact = get_apple_dsym(
             ctx = ctx,
             executable = unstripped_binary,
-            debug_info = debug_info,
+            debug_info = cxx_output.external_debug_info_artifacts,
             action_identifier = unstripped_binary.short_path,
         )
         cxx_output.sub_targets[DSYM_SUBTARGET] = [DefaultInfo(default_output = dsym_artifact)]
-        cxx_output.sub_targets[DEBUGINFO_SUBTARGET] = [DefaultInfo(other_outputs = debug_info)]
         cxx_output.sub_targets.update(extra_linker_output_providers)
 
         min_version = get_min_deployment_version_for_node(ctx)

@@ -47,6 +47,7 @@ PythonToolchainInfo = provider(
     fields = {
         "build_standalone_binaries_locally": provider_field(typing.Any, default = None),
         "compile": provider_field(typing.Any, default = None),
+        "default_sitecustomize": provider_field(typing.Any, default = None),
         # The interpreter to use to compile bytecode.
         "host_interpreter": provider_field(typing.Any, default = None),
         "interpreter": provider_field(typing.Any, default = None),
@@ -71,6 +72,11 @@ PythonToolchainInfo = provider(
         "fail_with_message": provider_field(typing.Any, default = None),
         "emit_dependency_metadata": provider_field(typing.Any, default = None),
         "installer": provider_field(typing.Any, default = None),
+        # A filegroup that gets added to all python executables
+        "runtime_library": provider_field(Dependency | None, default = None),
+        # The fully qualified name of a function that handles invoking the
+        # executable's entry point
+        "main_runner": provider_field(str, default = "__par__.bootstrap.run_as_main"),
     },
 )
 

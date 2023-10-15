@@ -5,6 +5,7 @@
 # License, Version 2.0 found in the LICENSE-APACHE file in the root directory
 # of this source tree.
 
+load("@prelude//:artifacts.bzl", "ArtifactGroupInfo")
 load("@prelude//cxx:compile.bzl", "CxxSrcWithFlags")
 load("@prelude//cxx:cxx.bzl", "create_shared_lib_link_group_specs")
 load("@prelude//cxx:cxx_context.bzl", "get_cxx_toolchain_info")
@@ -206,7 +207,7 @@ def _split_debuginfo(ctx, data: dict[str, (typing.Any, Label | bool)]) -> (dict[
     transformed = {}
     for name, (artifact, extra) in data.items():
         stripped_binary, debuginfo = strip_debug_with_gnu_debuglink(ctx, name, artifact.unstripped_output)
-        transformed[name] = LinkedObject(output = stripped_binary, unstripped_output = artifact.unstripped_output), extra
+        transformed[name] = LinkedObject(output = stripped_binary, unstripped_output = artifact.unstripped_output, dwp = artifact.dwp), extra
         debuginfo_artifacts[name + ".debuginfo"] = debuginfo
     return transformed, debuginfo_artifacts
 
@@ -302,6 +303,15 @@ def _get_link_group_info(
 
     return (link_group_info, link_group_specs)
 
+def _qualify_entry_point(main: EntryPoint, base_module: str) -> EntryPoint:
+    qualname = main[1]
+    fqname = qualname
+    if qualname.startswith("."):
+        fqname = base_module + qualname
+        if fqname.startswith("."):
+            fqname = fqname[1:]
+    return (main[0], fqname)
+
 def python_executable(
         ctx: AnalysisContext,
         main: EntryPoint,
@@ -331,12 +341,17 @@ def python_executable(
 
     src_manifest = None
     bytecode_manifest = None
+
+    python_toolchain = ctx.attrs._python_toolchain[PythonToolchainInfo]
+    if python_toolchain.runtime_library and ArtifactGroupInfo in python_toolchain.runtime_library:
+        for artifact in python_toolchain.runtime_library[ArtifactGroupInfo].artifacts:
+            srcs[artifact.short_path] = artifact
+
     if srcs:
         src_manifest = create_manifest_for_source_map(ctx, "srcs", srcs)
         bytecode_manifest = compile_manifests(ctx, [src_manifest])
 
     dep_manifest = None
-    python_toolchain = ctx.attrs._python_toolchain[PythonToolchainInfo]
     if python_toolchain.emit_dependency_metadata and srcs:
         dep_manifest = create_dep_manifest_for_source_map(ctx, python_toolchain, srcs)
 
@@ -364,7 +379,10 @@ def python_executable(
 
     exe = _convert_python_library_to_executable(
         ctx,
-        main,
+        _qualify_entry_point(
+            main,
+            ctx.attrs.base_module if ctx.attrs.base_module != None else ctx.label.package.replace("/", "."),
+        ),
         info_to_interface(library_info),
         raw_deps,
         compile,
@@ -377,6 +395,7 @@ def python_executable(
         exe.sub_targets["dep-manifest"] = [DefaultInfo(default_output = dep_manifest.manifest, other_outputs = dep_manifest.artifacts)]
     exe.sub_targets.update({
         "dbg-source-db": [dbg_source_db],
+        "library-info": [library_info],
         "source-db": [source_db],
         "source-db-no-deps": [source_db_no_deps, create_python_source_db_info(library_info.manifests)],
     })
@@ -449,6 +468,7 @@ def _convert_python_library_to_executable(
             omnibus_graph,
             python_toolchain.linker_flags + ctx.attrs.linker_flags,
             prefer_stripped_objects = ctx.attrs.prefer_stripped_native_objects,
+            allow_cache_upload = allow_cache_upload,
         )
 
         # Extract re-linked extensions.
@@ -581,7 +601,8 @@ def _convert_python_library_to_executable(
             extra_link_roots = (
                 extension_info.unembeddable_extensions.values() +
                 extension_info.dlopen_deps.values() +
-                extension_info.shared_only_libs.values()
+                extension_info.shared_only_libs.values() +
+                linkables(ctx.attrs.link_group_deps)
             ),
             exe_allow_cache_upload = allow_cache_upload,
         )
@@ -627,10 +648,14 @@ def _convert_python_library_to_executable(
 
     if dbg_source_db:
         extra_artifacts["dbg-db.json"] = dbg_source_db.default_outputs[0]
+
+    if python_toolchain.default_sitecustomize != None:
+        extra_artifacts["sitecustomize.py"] = python_toolchain.default_sitecustomize
+
     extra_manifests = create_manifest_for_source_map(ctx, "extra_manifests", extra_artifacts)
 
     shared_libraries = {}
-    debuginfo_artifacts = None
+    debuginfo_artifacts = {}
 
     # Create the map of native libraries to their artifacts and whether they
     # need to be preloaded.  Note that we merge preload deps into regular deps
@@ -689,12 +714,7 @@ def python_binary_impl(ctx: AnalysisContext) -> list[Provider]:
     elif main_function != None and ctx.attrs.main != None:
         fail("Only one of main_function or main may be set. Prefer main_function.")
     elif ctx.attrs.main != None:
-        base_module = ctx.attrs.base_module
-        if base_module == None:
-            base_module = ctx.label.package.replace("/", ".")
-        if base_module != "":
-            base_module += "."
-        main_module = base_module + ctx.attrs.main.short_path.replace("/", ".")
+        main_module = "." + ctx.attrs.main.short_path.replace("/", ".")
         if main_module.endswith(".py"):
             main_module = main_module[:-3]
 

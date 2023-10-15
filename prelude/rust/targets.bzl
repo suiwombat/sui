@@ -21,7 +21,6 @@ _OS_TRIPLES = {
     (_platform("windows"), _cpu("x86_64")): "x86_64-pc-windows-msvc",
 }
 
-
 def _exec_triple(ctx: AnalysisContext) -> [str, None]:
     exec_os = ctx.attrs._exec_os_type[OsLookup]
     if exec_os.platform and exec_os.cpu:
@@ -29,7 +28,6 @@ def _exec_triple(ctx: AnalysisContext) -> [str, None]:
     else:
         return None
 
-
 targets = struct(
-    exec_triple=_exec_triple,
+    exec_triple = _exec_triple,
 )

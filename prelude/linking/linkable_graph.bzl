@@ -6,7 +6,12 @@
 # of this source tree.
 
 load("@prelude//cxx:cxx_toolchain_types.bzl", "PicBehavior")
+load("@prelude//cxx:headers.bzl", "CPrecompiledHeaderInfo")
 load("@prelude//python:python.bzl", "PythonLibraryInfo")
+load(
+    "@prelude//utils:graph_utils.bzl",
+    "breadth_first_traversal_by",
+)
 load("@prelude//utils:utils.bzl", "expect")
 load(
     ":link_info.bzl",
@@ -64,7 +69,7 @@ LinkableNode = record(
     # Note: The values in link_infos will already be adding in the exported_linker_flags
     # TODO(cjhopman): We should probably make all use of linker_flags explicit, but that may need to wait
     # for all link strategies to operate on the LinkableGraph.
-    linker_flags = field([LinkerFlags, None]),
+    linker_flags = field(LinkerFlags),
 
     # Shared libraries provided by this target.  Used if this target is
     # excluded.
@@ -143,6 +148,8 @@ def create_linkable_node(
             output_style in link_infos,
             "must have {} link info".format(output_style),
         )
+    if not linker_flags:
+        linker_flags = LinkerFlags()
     return LinkableNode(
         labels = ctx.attrs.labels,
         preferred_linkage = preferred_linkage,
@@ -234,6 +241,10 @@ def linkable_graph(dep: Dependency) -> [LinkableGraph, None]:
     if PythonLibraryInfo in dep or MergedLinkInfo not in dep or dep.label.sub_target == ["headers"]:
         return None
 
+    if CPrecompiledHeaderInfo in dep:
+        # `cxx_precompiled_header()` does not contribute to the link, only to compile
+        return None
+
     expect(
         LinkableGraph in dep,
         "{} provides `MergedLinkInfo`".format(dep.label) +
@@ -271,3 +282,17 @@ def get_deps_for_link(
         deps = deps + node.deps
 
     return deps
+
+def get_transitive_deps(
+        link_infos: dict[Label, LinkableNode],
+        roots: list[Label]) -> list[Label]:
+    """
+    Return all transitive deps from following the given nodes.
+    """
+
+    def find_transitive_deps(node: Label):
+        return link_infos[node].deps + link_infos[node].exported_deps
+
+    all_deps = breadth_first_traversal_by(link_infos, roots, find_transitive_deps)
+
+    return all_deps

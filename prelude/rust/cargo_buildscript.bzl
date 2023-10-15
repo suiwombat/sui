@@ -30,6 +30,7 @@ def _cargo_buildscript_impl(ctx: AnalysisContext) -> list[Provider]:
     cwd = ctx.actions.declare_output("cwd", dir = True)
     out_dir = ctx.actions.declare_output("OUT_DIR", dir = True)
     rustc_flags = ctx.actions.declare_output("rustc_flags")
+
     cmd = cmd_args(
         ctx.attrs.runner[RunInfo],
         cmd_args("--buildscript=", ctx.attrs.buildscript[RunInfo], delimiter = ""),

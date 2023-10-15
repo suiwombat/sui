@@ -3,29 +3,8 @@
 load(":defs.bzl", "execution_platform", "host_configuration")
 
 execution_platform(
-    name="default",
-    cpu_configuration=host_configuration.cpu,
-    os_configuration=host_configuration.os,
-    use_windows_path_separators=host_info().os.is_windows,
-)
-
-execution_platform(
-    name="linux-x86_64",
-    cpu_configuration="config//cpu:x86_64",
-    os_configuration="config//os:linux",
-    use_windows_path_separators=False,
-)
-
-execution_platform(
-    name="linux-arm64",
-    cpu_configuration="config//cpu:arm64",
-    os_configuration="config//os:linux",
-    use_windows_path_separators=False,
-)
-
-execution_platform(
-    name="macos-arm64",
-    cpu_configuration="config//cpu:arm64",
-    os_configuration="config//os:macos",
-    use_windows_path_separators=False,
+    name = "default",
+    cpu_configuration = host_configuration.cpu,
+    os_configuration = host_configuration.os,
+    use_windows_path_separators = host_info().os.is_windows,
 )

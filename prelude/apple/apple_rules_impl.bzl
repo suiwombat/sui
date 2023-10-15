@@ -27,6 +27,7 @@ load(
     "APPLE_ARCHIVE_OBJECTS_LOCALLY_OVERRIDE_ATTR_NAME",
     "apple_bundle_extra_attrs",
     "apple_test_extra_attrs",
+    "get_apple_bundle_toolchain_attr",
     "get_apple_toolchain_attr",
     "get_apple_xctoolchain_attr",
     "get_apple_xctoolchain_bundle_id_attr",
@@ -59,6 +60,13 @@ implemented_rules = {
 }
 
 _APPLE_TOOLCHAIN_ATTR = get_apple_toolchain_attr()
+
+ApplePackageExtension = enum(
+    "ipa",
+    "pkg",
+    "dmg",
+    "zip",
+)
 
 extra_attributes = {
     "apple_asset_catalog": {
@@ -105,8 +113,11 @@ extra_attributes = {
     },
     "apple_package": {
         "bundle": attrs.dep(providers = [AppleBundleInfo]),
+        "ext": attrs.enum(ApplePackageExtension.values(), default = "ipa"),
+        "packager": attrs.option(attrs.exec_dep(providers = [RunInfo]), default = None),
+        "packager_args": attrs.list(attrs.arg(), default = []),
         "validator": attrs.option(attrs.exec_dep(providers = [RunInfo]), default = None),
-        "_apple_toolchain": _APPLE_TOOLCHAIN_ATTR,
+        "_apple_toolchain": get_apple_bundle_toolchain_attr(),
         # FIXME: prelude// should be standalone (not refer to fbsource//)
         "_apple_tools": attrs.exec_dep(default = "fbsource//xplat/buck2/platform/apple:apple-tools", providers = [AppleToolsInfo]),
         "_ipa_compression_level": attrs.enum(IpaCompressionLevel.values()),
@@ -186,6 +197,7 @@ extra_attributes = {
     },
     "swift_toolchain": {
         "architecture": attrs.option(attrs.string(), default = None),  # TODO(T115173356): Make field non-optional
+        "make_swift_comp_db": attrs.default_only(attrs.dep(providers = [RunInfo], default = "prelude//apple/tools:make_swift_comp_db")),
         "object_format": attrs.enum(SwiftObjectFormat.values(), default = "object"),
         # A placeholder tool that can be used to set up toolchain constraints.
         # Useful when fat and thin toolchahins share the same underlying tools via `command_alias()`,

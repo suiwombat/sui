@@ -49,6 +49,10 @@ load(
     "create_linkable_graph_node",
     "create_linkable_node",
 )
+load(
+    "@prelude//linking:linkables.bzl",
+    "linkables",
+)
 load("@prelude//linking:shared_libraries.bzl", "SharedLibraryInfo", "create_shared_libraries", "merge_shared_libraries")
 load("@prelude//linking:strip.bzl", "strip_debug_info")
 load("@prelude//os_lookup:defs.bzl", "OsLookup")
@@ -154,7 +158,7 @@ def _get_shared_link_style_sub_targets_and_providers(
     if output.dwp != None:
         sub_targets["dwp"] = [DefaultInfo(default_output = output.dwp)]
     if output.pdb != None:
-        sub_targets[PDB_SUB_TARGET] = get_pdb_providers(output.pdb)
+        sub_targets[PDB_SUB_TARGET] = get_pdb_providers(pdb = output.pdb, binary = output.default)
     cxx_toolchain = get_cxx_toolchain_info(ctx)
     if cxx_toolchain.dumpbin_toolchain_path != None:
         sub_targets[DUMPBIN_SUB_TARGET] = get_dumpbin_providers(ctx, output.default, cxx_toolchain.dumpbin_toolchain_path)
@@ -208,7 +212,7 @@ def create_shared_lib_link_group_specs(ctx: AnalysisContext, link_group_info: Li
             continue
         specs.append(
             LinkGroupLibSpec(
-                name = get_shared_library_name(linker_info, group.name),
+                name = get_shared_library_name(linker_info, group.name, apply_default_prefix = True),
                 is_shared_lib = True,
                 group = group,
             ),
@@ -230,6 +234,7 @@ def cxx_binary_impl(ctx: AnalysisContext) -> list[Provider]:
         auto_link_group_specs = get_auto_link_group_specs(ctx, link_group_info),
         prefer_stripped_objects = ctx.attrs.prefer_stripped_objects,
         exe_allow_cache_upload = ctx.attrs.allow_cache_upload,
+        extra_link_roots = linkables(ctx.attrs.link_group_deps),
     )
     output = cxx_executable(ctx, params)
 
@@ -343,7 +348,7 @@ def prebuilt_cxx_library_impl(ctx: AnalysisContext) -> list[Provider]:
     if ctx.attrs.soname != None:
         soname = get_shared_library_name_for_param(linker_info, ctx.attrs.soname)
     else:
-        soname = get_shared_library_name(linker_info, ctx.label.name)
+        soname = get_shared_library_name(linker_info, ctx.label.name, apply_default_prefix = True)
 
     # Use ctx.attrs.deps instead of cxx_attr_deps, since prebuilt rules don't have platform_deps.
     first_order_deps = ctx.attrs.deps
@@ -472,7 +477,7 @@ def prebuilt_cxx_library_impl(ctx: AnalysisContext) -> list[Provider]:
                     sub_targets["soname-lib"] = [DefaultInfo(default_output = soname_lib)]
 
                     if shared_lib.pdb:
-                        sub_targets[PDB_SUB_TARGET] = get_pdb_providers(shared_lib.pdb)
+                        sub_targets[PDB_SUB_TARGET] = get_pdb_providers(pdb = shared_lib.pdb, binary = shared_lib.output)
                     dumpbin_toolchain_path = get_cxx_toolchain_info(ctx).dumpbin_toolchain_path
                     if dumpbin_toolchain_path != None:
                         sub_targets[DUMPBIN_SUB_TARGET] = get_dumpbin_providers(ctx, shared_lib.output, dumpbin_toolchain_path)
@@ -625,6 +630,7 @@ def cxx_test_impl(ctx: AnalysisContext) -> list[Provider]:
         link_group_info = link_group_info,
         auto_link_group_specs = get_auto_link_group_specs(ctx, link_group_info),
         prefer_stripped_objects = ctx.attrs.prefer_stripped_objects,
+        extra_link_roots = linkables(ctx.attrs.link_group_deps),
     )
     output = cxx_executable(ctx, params, is_cxx_test = True)
 

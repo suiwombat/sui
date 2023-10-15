@@ -20,6 +20,7 @@ load(
     "get_link_args_for_strategy",
     "merge_framework_linkables",
     "merge_swift_runtime_linkables",
+    "merge_swiftmodule_linkables",
 )
 load("@prelude//utils:utils.bzl", "expect")
 load(":apple_framework_versions.bzl", "get_framework_linker_args")
@@ -126,16 +127,17 @@ def apple_build_link_args_with_deduped_flags(
         deps_merged_link_infos: list[MergedLinkInfo],
         frameworks_linkable: [FrameworksLinkable, None],
         link_strategy: LinkStrategy,
-        prefer_stripped: bool = False,
         swiftmodule_linkable: [SwiftmoduleLinkable, None] = None,
+        prefer_stripped: bool = False,
         swift_runtime_linkable: [SwiftRuntimeLinkable, None] = None) -> LinkArgs:
     frameworks_linkables = [x.frameworks[link_strategy] for x in deps_merged_link_infos] + [frameworks_linkable]
     swift_runtime_linkables = [x.swift_runtime[link_strategy] for x in deps_merged_link_infos] + [swift_runtime_linkable]
+    swiftmodule_linkables = [x.swiftmodules[link_strategy] for x in deps_merged_link_infos] + [swiftmodule_linkable]
 
     link_info = _apple_link_info_from_linkables(
         ctx,
         frameworks_linkables,
-        [swiftmodule_linkable],
+        swiftmodule_linkables,
         swift_runtime_linkables,
     )
 
@@ -162,11 +164,11 @@ def apple_get_link_info_by_deduping_link_infos(
     if framework_linkable:
         framework_linkables.append(framework_linkable)
 
-    swiftmodule_linkables = extract_swiftmodule_linkables(infos)
-    swiftmodule_linkables.append(swiftmodule_linkable)
-
     swift_runtime_linkables = extract_swift_runtime_linkables(infos)
     swift_runtime_linkables.append(swift_runtime_linkable)
+
+    swiftmodule_linkables = extract_swiftmodule_linkables(infos)
+    swiftmodule_linkables.append(swiftmodule_linkable)
 
     return _apple_link_info_from_linkables(ctx, framework_linkables, swiftmodule_linkables, swift_runtime_linkables)
 
@@ -188,8 +190,9 @@ def _apple_link_info_from_linkables(
     Returns a LinkInfo for the frameworks, swiftmodules, and swiftruntimes or None if there's none of those.
     """
     framework_link_args = _get_apple_frameworks_linker_flags(ctx, merge_framework_linkables(framework_linkables))
-    swift_module_link_args = get_swiftmodule_linker_flags(swiftmodule_linkables)
     swift_runtime_link_args = get_swift_runtime_linker_flags(ctx, merge_swift_runtime_linkables(swift_runtime_linkables))
+    sdk_swift_module_link_args = get_swiftmodule_linker_flags(ctx, merge_swiftmodule_linkables(ctx, swiftmodule_linkables))
+
     return LinkInfo(
-        pre_flags = [framework_link_args, swift_module_link_args, swift_runtime_link_args],
-    ) if (framework_link_args or swift_module_link_args or swift_runtime_link_args) else None
+        pre_flags = [framework_link_args, swift_runtime_link_args, sdk_swift_module_link_args],
+    ) if (framework_link_args or swift_runtime_link_args or sdk_swift_module_link_args) else None

@@ -34,6 +34,7 @@ SwiftToolchainInfo = provider(
         "runtime_run_paths": provider_field(typing.Any, default = None),  # [str]
         "supports_swift_cxx_interoperability_mode": provider_field(typing.Any, default = None),  # bool
         "supports_cxx_interop_requirement_at_import": provider_field(typing.Any, default = None),  # bool
+        "mk_swift_comp_db": provider_field(typing.Any, default = None),
     },
 )
 
@@ -50,7 +51,9 @@ SdkUncompiledModuleInfo = provider(fields = {
 })
 
 WrappedSdkCompiledModuleInfo = provider(fields = {
+    "clang_debug_info": provider_field(typing.Any, default = None),  # A tset of PCM artifacts
     "clang_deps": provider_field(typing.Any, default = None),  # A SwiftCompiledModuleTset of SwiftCompiledModuleInfo of transitive clang deps
+    "swift_debug_info": provider_field(typing.Any, default = None),  # A tset of swiftmodule artifacts
     "swift_deps": provider_field(typing.Any, default = None),  # A SwiftCompiledModuleTset of SwiftCompiledModuleInfo of transitive swift deps
 })
 

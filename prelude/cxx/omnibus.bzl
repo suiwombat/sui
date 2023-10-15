@@ -34,6 +34,7 @@ load(
     "LinkableRootInfo",
     "get_deps_for_link",
     "get_link_info",
+    "get_transitive_deps",
     "linkable_deps",
     "linkable_graph",
 )
@@ -161,13 +162,13 @@ def create_linkable_root(
 
 def _omnibus_soname(ctx):
     linker_info = get_cxx_toolchain_info(ctx).linker_info
-    return get_shared_library_name(linker_info, "omnibus")
+    return get_shared_library_name(linker_info, "omnibus", apply_default_prefix = True)
 
 def create_dummy_omnibus(ctx: AnalysisContext, extra_ldflags: list[typing.Any] = []) -> Artifact:
     linker_info = get_cxx_toolchain_info(ctx).linker_info
     link_result = cxx_link_shared_library(
         ctx = ctx,
-        output = get_shared_library_name(linker_info, "omnibus-dummy"),
+        output = get_shared_library_name(linker_info, "omnibus-dummy", apply_default_prefix = True),
         name = _omnibus_soname(ctx),
         opts = link_options(
             links = [LinkArgs(flags = extra_ldflags)],
@@ -192,20 +193,6 @@ def _link_deps(
 
     return breadth_first_traversal_by(link_infos, deps, find_deps)
 
-def all_deps(
-        link_infos: dict[Label, LinkableNode],
-        roots: list[Label]) -> list[Label]:
-    """
-    Return all transitive deps from following the given nodes.
-    """
-
-    def find_transitive_deps(node: Label):
-        return link_infos[node].deps + link_infos[node].exported_deps
-
-    all_deps = breadth_first_traversal_by(link_infos, roots, find_transitive_deps)
-
-    return all_deps
-
 def _create_root(
         ctx: AnalysisContext,
         spec: OmnibusSpec,
@@ -216,7 +203,8 @@ def _create_root(
         omnibus: Artifact,
         pic_behavior: PicBehavior,
         extra_ldflags: list[typing.Any] = [],
-        prefer_stripped_objects: bool = False) -> OmnibusRootProduct:
+        prefer_stripped_objects: bool = False,
+        allow_cache_upload: bool = False) -> OmnibusRootProduct:
     """
     Link a root omnibus node.
     """
@@ -303,6 +291,7 @@ def _create_root(
             # running simultaneously, so while their overall load is reasonable,
             # their peak execution load is very high.
             link_execution_preference = LinkExecutionPreference("local"),
+            allow_cache_upload = allow_cache_upload,
         ),
     )
     shared_library = link_result.linked_object
@@ -316,6 +305,7 @@ def _create_root(
             category_prefix = "omnibus",
             # Same as above.
             prefer_local = True,
+            allow_cache_upload = allow_cache_upload,
         ),
         undefined_syms = extract_undefined_syms(
             ctx,
@@ -324,6 +314,7 @@ def _create_root(
             category_prefix = "omnibus",
             # Same as above.
             prefer_local = True,
+            allow_cache_upload = allow_cache_upload,
         ),
     )
 
@@ -437,7 +428,8 @@ def _create_omnibus(
         root_products: dict[Label, OmnibusRootProduct],
         pic_behavior: PicBehavior,
         extra_ldflags: list[typing.Any] = [],
-        prefer_stripped_objects: bool = False) -> CxxLinkResult:
+        prefer_stripped_objects: bool = False,
+        allow_cache_upload: bool = False) -> CxxLinkResult:
     inputs = []
 
     # Undefined symbols roots...
@@ -555,6 +547,7 @@ def _create_omnibus(
             link_weight = linker_info.link_weight,
             enable_distributed_thinlto = ctx.attrs.enable_distributed_thinlto,
             identifier = soname,
+            allow_cache_upload = allow_cache_upload,
         ),
     )
 
@@ -580,7 +573,7 @@ def _build_omnibus_spec(
     # (any node that is excluded will exclude all it's transitive deps).
     excluded = {
         label: None
-        for label in all_deps(
+        for label in get_transitive_deps(
             graph.nodes,
             exclusion_roots,
         )
@@ -611,7 +604,7 @@ def _build_omnibus_spec(
     # need to be put on the link line).
     body = {
         label: None
-        for label in all_deps(graph.nodes, first_order_root_deps)
+        for label in get_transitive_deps(graph.nodes, first_order_root_deps)
         if label not in excluded
     }
 
@@ -678,9 +671,18 @@ def create_omnibus_libraries(
         ctx: AnalysisContext,
         graph: OmnibusGraph,
         extra_ldflags: list[typing.Any] = [],
-        prefer_stripped_objects: bool = False) -> OmnibusSharedLibraries:
+        prefer_stripped_objects: bool = False,
+        allow_cache_upload: bool = False) -> OmnibusSharedLibraries:
     spec = _build_omnibus_spec(ctx, graph)
     pic_behavior = get_cxx_toolchain_info(ctx).pic_behavior
+
+    if not allow_cache_upload:
+        # Gradually enable allow_cache_upload everywhere
+        h = hash(str(ctx.label))
+        if h < 0:
+            h = -h
+        if h % 100 < 20:
+            allow_cache_upload = True
 
     # Create dummy omnibus
     dummy_omnibus = create_dummy_omnibus(ctx, extra_ldflags)
@@ -701,6 +703,7 @@ def create_omnibus_libraries(
             pic_behavior,
             extra_ldflags,
             prefer_stripped_objects,
+            allow_cache_upload = allow_cache_upload,
         )
         if root.name != None:
             libraries[root.name] = product.shared_library
@@ -716,6 +719,7 @@ def create_omnibus_libraries(
             pic_behavior,
             extra_ldflags,
             prefer_stripped_objects,
+            allow_cache_upload = allow_cache_upload,
         )
         libraries[_omnibus_soname(ctx)] = omnibus.linked_object
 
