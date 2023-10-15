@@ -1,5 +1,6 @@
 # BUCK
 buck-out/
+prelude/**/*.swp
 
 # Ignore Cargo-related stuff
 **/.cargo/registry
