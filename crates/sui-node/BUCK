@@ -7,7 +7,7 @@ mysten_deps = [
 ]
 
 rust_binary(
-    name="sui-proxy",
+    name="sui-node",
     srcs = glob(["src/**/*.rs"]),
     env={
         "CARGO_PKG_AUTHORS": "Mysten Labs <build@mystenlabs.com>",

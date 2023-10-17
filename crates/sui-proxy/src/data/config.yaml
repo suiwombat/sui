@@ -1,6 +1,6 @@
 network: joenet
 inventory-hostname: joenet-local
-listen-address: 192.168.0.2:8080
+listen-address: 0.0.0.0:8080
 remote-write:
   url: http://unittest.abcd.io/api/v1/push
   username: foo
@@ -8,7 +8,7 @@ remote-write:
 json-rpc:
   url: http://127.0.0.1:9000
   interval: 30
-  certificate-file: /opt/joeman/fullchain.pem
-  private-key: /opt/joeman/privkey.pem
+  certificate-file: fullchain.pem
+  private-key: privkey.pem
 metrics-address: localhost:9184
 histogram-address: localhost:9185
