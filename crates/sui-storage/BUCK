@@ -1,0 +1,80 @@
+mysten_deps = [
+    "//crates/sui-types:sui-types",
+    "//crates/mysten-metrics:mysten-metrics",
+    "//crates/sui-json-rpc-types:sui-json-rpc-types",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/typed-store:typed-store",
+    "//crates/typed-store-derive:typed-store-derive",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
+    "//crates/telemetry-subscribers:telemetry-subscribers",
+]
+
+rust_library(
+    name="sui-storage",
+    srcs = glob(["src/**/*.rs"]),
+    env={
+        "CARGO_PKG_AUTHORS": "Mysten Labs <build@mystenlabs.com>",
+        "CARGO_BIN_NAME": "sui-storage",
+        "CARGO_PKG_VERSION": "0.0.2",
+        "CARGO_PKG_NAME": "sui-storage",
+    },
+    deps= mysten_deps + [
+        "//third-party:integer-encoding",
+        "//third-party:async-trait",
+        "//third-party:futures",
+        "//third-party:num_enum",
+        "//third-party:serde",
+        "//third-party:tokio",
+        "//third-party:rocksdb",
+        "//third-party:tracing",
+        "//third-party:byteorder",
+        "//third-party:anyhow",
+        "//third-party:tempfile",
+        "//third-party:tap",
+        "//third-party:object_store",
+        "//third-party:backoff",
+        "//third-party:bytes",
+        "//third-party:parking_lot",
+        "//third-party:bcs",
+        "//third-party:prometheus",
+        "//third-party:itertools",
+        "//third-party:zstd",
+        "//third-party:url",
+        "//third-party:fastcrypto",
+        "//third-party:clap",
+        "//third-party:hyper",
+        "//third-party:hyper-rustls",
+        "//third-party:base64-url",
+        # "//third-party:anemo",
+        
+        # "//third-party:bcs",
+        # "//third-party:csv",
+        # "//third-party:dirs",
+        
+        # "//third-party:once_cell",
+        # "//third-party:rand",
+        
+        # "//third-party:serde_with",
+        # "//third-party:serde_yaml",
+        
+        # "//third-party:prometheus",
+    ],
+    # hack due to mysterious linker bug of this not getting sent to rustc
+    rustc_flags = select(
+        {
+            "config//os:macos": [
+                "-Clink-arg=buck-out/v2/gen/root/213ed1b7ab869379/third-party/__ring-0.16.20-build-script-run__/OUT_DIR/libring-core.a",
+                "-Ldependency=buck-out/v2/gen/root/213ed1b7ab869379/third-party/__ring-0.16.20-build-script-run__/OUT_DIR",
+            ],
+            "config//os:linux": [
+                "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__ring-0.16.20-build-script-run__/OUT_DIR/libring-core.a",
+                "-Ldependency=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__ring-0.16.20-build-script-run__/OUT_DIR",
+                "-C", "target-feature=+crt-static",
+            ],
+        }
+    ),
+    edition = "2021",
+    visibility=["PUBLIC"],
+)

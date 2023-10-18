@@ -1,0 +1,57 @@
+mysten_deps = [
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/tools/move-package:move-package",
+    "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
+    sui-core
+    sui-storage
+    "//crates/sui-types:sui-types",
+    sui-json
+    sui-open-rpc
+    sui-open-rpc-macros
+    sui-protocol-config
+    "//crates/sui-json-rpc-types:sui-json-rpc-types",
+    sui-transaction-builder
+    "//crates/mysten-metrics:mysten-metrics",
+    "//crates/typed-store:typed-store",    
+    shared-crypto
+]
+
+rust_library(
+    name="sui-json-rpc",
+    srcs = glob(["src/**/*.rs"]),
+    env={
+        "CARGO_PKG_AUTHORS": "Mysten Labs <build@mystenlabs.com>",
+        "CARGO_BIN_NAME": "sui-json-rpc",
+        "CARGO_PKG_VERSION": "0.0.2",
+        "CARGO_PKG_NAME": "sui-json-rpc",
+    },
+    deps= mysten_deps + [
+        "//third-party:arc-swap",
+        "//third-party:fastcrypto",
+        "//third-party:jsonrpsee",
+        "//third-party:hyper",
+        "//third-party:itertools",
+        "//third-party:linked-hash-map",
+        "//third-party:tower",
+        "//third-party:axum",
+        "//third-party:tower-http",
+        "//third-party:prometheus",
+        "//third-party:anyhow",
+        "//third-party:tracing",
+        "//third-party:async-trait",
+        "//third-party:serde",
+        "//third-party:futures",
+        "//third-party:tokio",
+        "//third-party:signature",
+        "//third-party:thiserror",
+        "//third-party:bcs",
+        "//third-party:eyre",
+        "//third-party:once_cell",
+        "//third-party:serde_json",
+        "//third-party:tap",
+        "//third-party:cached",
+    ],
+    edition = "2021",
+    visibility=["PUBLIC"],
+)

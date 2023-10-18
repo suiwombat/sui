@@ -1,0 +1,27 @@
+mysten_deps = [
+    "//external-crates/move/move-model:move-model",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-bytecode-verifier:move-bytecode-verifier",
+    "//external-crates/move/move-command-line-common:move-command-line-common",
+]
+
+rust_library(
+    name="move-abigen",
+    srcs = glob(["src/**/*.rs"]),
+    env={
+        "CARGO_PKG_AUTHORS": "Diem Association <opensource@diem.com>",
+        "CARGO_BIN_NAME": "move-abigen",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "move-abigen",
+    },
+    deps= mysten_deps + [
+        "//third-party:log",
+        "//third-party:anyhow",
+        "//third-party:heck",
+        "//third-party:serde",
+        "//third-party:bcs",
+    ],
+    edition = "2021",
+    visibility=["PUBLIC"],
+)

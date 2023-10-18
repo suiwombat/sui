@@ -1,0 +1,43 @@
+mysten_deps = [
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-compiler:move-compiler",
+    "//external-crates/move/move-ir-compiler/move-bytecode-source-map:move-bytecode-source-map",
+    "//external-crates/move/move-prover/move-abigen:move-abigen",
+    "//external-crates/move/move-prover/move-docgen:move-docgen",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-symbol-pool:move-symbol-pool",
+    "//external-crates/move/move-command-line-common:move-command-line-common",
+    "//external-crates/move/move-model:move-model",
+    "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
+]
+
+rust_library(
+    name="move-package",
+    srcs = glob(["src/**/*.rs"]),
+    env={
+        "CARGO_PKG_AUTHORS": "Diem Association <opensource@diem.com>",
+        "CARGO_BIN_NAME": "move-package",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "move-package",
+        "CARGO_PKG_DESCRIPTION": "Package and build system for Move code",
+    },
+    deps= mysten_deps + [
+        "//third-party:toml",
+        "//third-party:serde",
+        "//third-party:petgraph",
+        "//third-party:anyhow",
+        "//third-party:walkdir",
+        "//third-party:clap",
+        "//third-party:colored",
+        "//third-party:serde_yaml",
+        "//third-party:tempfile",
+        "//third-party:sha2",
+        "//third-party:regex",
+        "//third-party:treeline",
+        "//third-party:once_cell",
+        "//third-party:named-lock",
+        "//third-party:whoami",
+    ],
+    edition = "2021",
+    visibility=["PUBLIC"],
+)

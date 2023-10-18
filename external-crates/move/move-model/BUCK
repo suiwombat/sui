@@ -1,0 +1,27 @@
+mysten_deps = [
+    "//external-crates/move/move-compiler:move-compiler",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-ir-compiler/move-bytecode-source-map:move-bytecode-source-map",
+    "//external-crates/move/move-ir/types:move-ir-types",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/tools/move-disassembler:move-disassembler",
+    "//external-crates/move/move-command-line-common:move-command-line-common",
+    "//external-crates/move/move-symbol-pool:move-symbol-pool",
+]
+rust_library(
+    name="move-model",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:codespan",
+        "//third-party:codespan-reporting",
+        "//third-party:internment",
+        "//third-party:itertools",
+        "//third-party:log",
+        "//third-party:num",
+        "//third-party:once_cell",
+        "//third-party:regex",
+        "//third-party:anyhow",
+        "//third-party:serde",
+    ],
+    visibility=["PUBLIC"],
+)
