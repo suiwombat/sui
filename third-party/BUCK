@@ -1772,6 +1772,19 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "async_once-0.2.6",
+    srcs = ["vendor/async_once-0.2.6/src/lib.rs"],
+    crate = "async_once",
+    crate_root = "vendor/async_once-0.2.6/src/lib.rs",
+    edition = "2018",
+    licenses = [
+        "vendor/async_once-0.2.6/LICENSE-APACHE",
+        "vendor/async_once-0.2.6/LICENSE-MIT",
+    ],
+    visibility = [],
+)
+
+cargo.rust_library(
     name = "auto_ops-0.3.0",
     srcs = [
         "vendor/auto_ops-0.3.0/src/assignment.rs",
@@ -3374,6 +3387,91 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [":libc-0.2.148"],
+)
+
+alias(
+    name = "cached",
+    actual = ":cached-0.43.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "cached-0.43.0",
+    srcs = [
+        "vendor/cached-0.43.0/src/lib.rs",
+        "vendor/cached-0.43.0/src/lru_list.rs",
+        "vendor/cached-0.43.0/src/macros.rs",
+        "vendor/cached-0.43.0/src/proc_macro.rs",
+        "vendor/cached-0.43.0/src/stores/expiring_value_cache.rs",
+        "vendor/cached-0.43.0/src/stores/mod.rs",
+        "vendor/cached-0.43.0/src/stores/redis.rs",
+        "vendor/cached-0.43.0/src/stores/sized.rs",
+        "vendor/cached-0.43.0/src/stores/timed.rs",
+        "vendor/cached-0.43.0/src/stores/timed_sized.rs",
+        "vendor/cached-0.43.0/src/stores/unbound.rs",
+    ],
+    crate = "cached",
+    crate_root = "vendor/cached-0.43.0/src/lib.rs",
+    edition = "2018",
+    features = [
+        "async",
+        "async-trait",
+        "async_once",
+        "cached_proc_macro",
+        "cached_proc_macro_types",
+        "default",
+        "futures",
+        "lazy_static",
+        "proc_macro",
+        "tokio",
+    ],
+    licenses = ["vendor/cached-0.43.0/LICENSE"],
+    visibility = [],
+    deps = [
+        ":async-trait-0.1.73",
+        ":async_once-0.2.6",
+        ":cached_proc_macro-0.16.0",
+        ":cached_proc_macro_types-0.1.0",
+        ":futures-0.3.28",
+        ":hashbrown-0.13.2",
+        ":instant-0.1.12",
+        ":lazy_static-1.4.0",
+        ":once_cell-1.18.0",
+        ":thiserror-1.0.49",
+        ":tokio-1.32.0",
+    ],
+)
+
+cargo.rust_library(
+    name = "cached_proc_macro-0.16.0",
+    srcs = [
+        "vendor/cached_proc_macro-0.16.0/src/cached.rs",
+        "vendor/cached_proc_macro-0.16.0/src/helpers.rs",
+        "vendor/cached_proc_macro-0.16.0/src/io_cached.rs",
+        "vendor/cached_proc_macro-0.16.0/src/lib.rs",
+        "vendor/cached_proc_macro-0.16.0/src/once.rs",
+    ],
+    crate = "cached_proc_macro",
+    crate_root = "vendor/cached_proc_macro-0.16.0/src/lib.rs",
+    edition = "2018",
+    proc_macro = True,
+    visibility = [],
+    deps = [
+        ":cached_proc_macro_types-0.1.0",
+        ":darling-0.14.4",
+        ":proc-macro2-1.0.67",
+        ":quote-1.0.33",
+        ":syn-1.0.109-syn_v1",
+    ],
+)
+
+cargo.rust_library(
+    name = "cached_proc_macro_types-0.1.0",
+    srcs = ["vendor/cached_proc_macro_types-0.1.0/src/lib.rs"],
+    crate = "cached_proc_macro_types",
+    crate_root = "vendor/cached_proc_macro_types-0.1.0/src/lib.rs",
+    edition = "2018",
+    visibility = [],
 )
 
 cargo.rust_library(
@@ -5103,6 +5201,27 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "darling-0.14.4",
+    srcs = [
+        "vendor/darling-0.14.4/src/lib.rs",
+        "vendor/darling-0.14.4/src/macros_public.rs",
+    ],
+    crate = "darling",
+    crate_root = "vendor/darling-0.14.4/src/lib.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "suggestions",
+    ],
+    licenses = ["vendor/darling-0.14.4/LICENSE"],
+    visibility = [],
+    deps = [
+        ":darling_core-0.14.4",
+        ":darling_macro-0.14.4",
+    ],
+)
+
+cargo.rust_library(
     name = "darling-0.20.3",
     srcs = [
         "vendor/darling-0.20.3/src/lib.rs",
@@ -5120,6 +5239,93 @@ cargo.rust_library(
     deps = [
         ":darling_core-0.20.3",
         ":darling_macro-0.20.3",
+    ],
+)
+
+cargo.rust_library(
+    name = "darling_core-0.14.4",
+    srcs = [
+        "vendor/darling_core-0.14.4/src/ast/data.rs",
+        "vendor/darling_core-0.14.4/src/ast/generics.rs",
+        "vendor/darling_core-0.14.4/src/ast/mod.rs",
+        "vendor/darling_core-0.14.4/src/codegen/attr_extractor.rs",
+        "vendor/darling_core-0.14.4/src/codegen/default_expr.rs",
+        "vendor/darling_core-0.14.4/src/codegen/error.rs",
+        "vendor/darling_core-0.14.4/src/codegen/field.rs",
+        "vendor/darling_core-0.14.4/src/codegen/from_attributes_impl.rs",
+        "vendor/darling_core-0.14.4/src/codegen/from_derive_impl.rs",
+        "vendor/darling_core-0.14.4/src/codegen/from_field.rs",
+        "vendor/darling_core-0.14.4/src/codegen/from_meta_impl.rs",
+        "vendor/darling_core-0.14.4/src/codegen/from_type_param.rs",
+        "vendor/darling_core-0.14.4/src/codegen/from_variant_impl.rs",
+        "vendor/darling_core-0.14.4/src/codegen/mod.rs",
+        "vendor/darling_core-0.14.4/src/codegen/outer_from_impl.rs",
+        "vendor/darling_core-0.14.4/src/codegen/postfix_transform.rs",
+        "vendor/darling_core-0.14.4/src/codegen/trait_impl.rs",
+        "vendor/darling_core-0.14.4/src/codegen/variant.rs",
+        "vendor/darling_core-0.14.4/src/codegen/variant_data.rs",
+        "vendor/darling_core-0.14.4/src/derive.rs",
+        "vendor/darling_core-0.14.4/src/error/child.rs",
+        "vendor/darling_core-0.14.4/src/error/kind.rs",
+        "vendor/darling_core-0.14.4/src/error/mod.rs",
+        "vendor/darling_core-0.14.4/src/from_attributes.rs",
+        "vendor/darling_core-0.14.4/src/from_derive_input.rs",
+        "vendor/darling_core-0.14.4/src/from_field.rs",
+        "vendor/darling_core-0.14.4/src/from_generic_param.rs",
+        "vendor/darling_core-0.14.4/src/from_generics.rs",
+        "vendor/darling_core-0.14.4/src/from_meta.rs",
+        "vendor/darling_core-0.14.4/src/from_type_param.rs",
+        "vendor/darling_core-0.14.4/src/from_variant.rs",
+        "vendor/darling_core-0.14.4/src/lib.rs",
+        "vendor/darling_core-0.14.4/src/macros_private.rs",
+        "vendor/darling_core-0.14.4/src/macros_public.rs",
+        "vendor/darling_core-0.14.4/src/options/core.rs",
+        "vendor/darling_core-0.14.4/src/options/forward_attrs.rs",
+        "vendor/darling_core-0.14.4/src/options/from_attributes.rs",
+        "vendor/darling_core-0.14.4/src/options/from_derive.rs",
+        "vendor/darling_core-0.14.4/src/options/from_field.rs",
+        "vendor/darling_core-0.14.4/src/options/from_meta.rs",
+        "vendor/darling_core-0.14.4/src/options/from_type_param.rs",
+        "vendor/darling_core-0.14.4/src/options/from_variant.rs",
+        "vendor/darling_core-0.14.4/src/options/input_field.rs",
+        "vendor/darling_core-0.14.4/src/options/input_variant.rs",
+        "vendor/darling_core-0.14.4/src/options/mod.rs",
+        "vendor/darling_core-0.14.4/src/options/outer_from.rs",
+        "vendor/darling_core-0.14.4/src/options/shape.rs",
+        "vendor/darling_core-0.14.4/src/usage/generics_ext.rs",
+        "vendor/darling_core-0.14.4/src/usage/ident_set.rs",
+        "vendor/darling_core-0.14.4/src/usage/lifetimes.rs",
+        "vendor/darling_core-0.14.4/src/usage/mod.rs",
+        "vendor/darling_core-0.14.4/src/usage/options.rs",
+        "vendor/darling_core-0.14.4/src/usage/type_params.rs",
+        "vendor/darling_core-0.14.4/src/util/flag.rs",
+        "vendor/darling_core-0.14.4/src/util/ident_string.rs",
+        "vendor/darling_core-0.14.4/src/util/ignored.rs",
+        "vendor/darling_core-0.14.4/src/util/mod.rs",
+        "vendor/darling_core-0.14.4/src/util/over_ride.rs",
+        "vendor/darling_core-0.14.4/src/util/parse_attribute.rs",
+        "vendor/darling_core-0.14.4/src/util/path_list.rs",
+        "vendor/darling_core-0.14.4/src/util/path_to_string.rs",
+        "vendor/darling_core-0.14.4/src/util/shape.rs",
+        "vendor/darling_core-0.14.4/src/util/spanned_value.rs",
+        "vendor/darling_core-0.14.4/src/util/with_original.rs",
+    ],
+    crate = "darling_core",
+    crate_root = "vendor/darling_core-0.14.4/src/lib.rs",
+    edition = "2018",
+    features = [
+        "strsim",
+        "suggestions",
+    ],
+    licenses = ["vendor/darling_core-0.14.4/LICENSE"],
+    visibility = [],
+    deps = [
+        ":fnv-1.0.7",
+        ":ident_case-1.0.1",
+        ":proc-macro2-1.0.67",
+        ":quote-1.0.33",
+        ":strsim-0.10.0",
+        ":syn-1.0.109-syn_v1",
     ],
 )
 
@@ -5208,6 +5414,22 @@ cargo.rust_library(
         ":quote-1.0.33",
         ":strsim-0.10.0",
         ":syn-2.0.37",
+    ],
+)
+
+cargo.rust_library(
+    name = "darling_macro-0.14.4",
+    srcs = ["vendor/darling_macro-0.14.4/src/lib.rs"],
+    crate = "darling_macro",
+    crate_root = "vendor/darling_macro-0.14.4/src/lib.rs",
+    edition = "2018",
+    licenses = ["vendor/darling_macro-0.14.4/LICENSE"],
+    proc_macro = True,
+    visibility = [],
+    deps = [
+        ":darling_core-0.14.4",
+        ":quote-1.0.33",
+        ":syn-1.0.109-syn_v1",
     ],
 )
 
@@ -7762,6 +7984,7 @@ cargo.rust_library(
         "ahash",
         "default",
         "inline-more",
+        "raw",
     ],
     licenses = [
         "vendor/hashbrown-0.13.2/LICENSE-APACHE",
@@ -18402,6 +18625,7 @@ cargo.rust_binary(
         ":bumpalo-3.14.0",
         ":byteorder-1.4.3",
         ":bytes-1.5.0",
+        ":cached-0.43.0",
         ":cfg-if-1.0.0",
         ":clap-4.4.5",
         ":codespan-0.11.1",
@@ -18508,6 +18732,7 @@ cargo.rust_binary(
         ":tempfile-3.8.0",
         ":thiserror-1.0.49",
         ":tokio-1.32.0",
+        ":tokio-retry-0.3.0",
         ":tokio-rustls-0.24.1",
         ":tokio-stream-0.1.14",
         ":toml-0.5.11",
@@ -22366,6 +22591,37 @@ cargo.rust_library(
         ":proc-macro2-1.0.67",
         ":quote-1.0.33",
         ":syn-2.0.37",
+    ],
+)
+
+alias(
+    name = "tokio-retry",
+    actual = ":tokio-retry-0.3.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "tokio-retry-0.3.0",
+    srcs = [
+        "vendor/tokio-retry-0.3.0/src/action.rs",
+        "vendor/tokio-retry-0.3.0/src/condition.rs",
+        "vendor/tokio-retry-0.3.0/src/future.rs",
+        "vendor/tokio-retry-0.3.0/src/lib.rs",
+        "vendor/tokio-retry-0.3.0/src/strategy/exponential_backoff.rs",
+        "vendor/tokio-retry-0.3.0/src/strategy/fibonacci_backoff.rs",
+        "vendor/tokio-retry-0.3.0/src/strategy/fixed_interval.rs",
+        "vendor/tokio-retry-0.3.0/src/strategy/jitter.rs",
+        "vendor/tokio-retry-0.3.0/src/strategy/mod.rs",
+    ],
+    crate = "tokio_retry",
+    crate_root = "vendor/tokio-retry-0.3.0/src/lib.rs",
+    edition = "2018",
+    licenses = ["vendor/tokio-retry-0.3.0/LICENSE"],
+    visibility = [],
+    deps = [
+        ":pin-project-1.1.3",
+        ":rand-0.8.5",
+        ":tokio-1.32.0",
     ],
 )
 
