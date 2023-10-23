@@ -1,0 +1,29 @@
+
+rust_library(
+    name = "sui-verifier",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-verifier",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "sui-verifier",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//external-crates/move/move-abstract-stack:move-abstract-stack",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
+        "//external-crates/move/move-bytecode-verifier:move-bytecode-verifier",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//external-crates/move/move-vm/config:move-vm-config",
+        "//crates/sui-types:sui-types",
+    ]
+)
+
+alias(
+    name="sui-verifier-latest",
+    actual=":sui-verifier",
+    visibility = ["PUBLIC"],
+)

@@ -26,3 +26,9 @@ rust_library(
     ],
     visibility=["PUBLIC"],
 )
+
+alias(
+    name="store",
+    actual=":typed-store",
+    visibility = ["PUBLIC"],
+)

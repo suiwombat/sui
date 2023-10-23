@@ -1,0 +1,33 @@
+
+rust_library(
+    name = "move-prover",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+        "CARGO_BIN_NAME": "move-prover",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "move-prover",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:clap",
+        "//third-party:codespan-reporting",
+        "//third-party:itertools",
+        "//third-party:log",
+        "//external-crates/move/move-prover/move-abigen:move-abigen",
+        "//external-crates/move/move-command-line-common:move-command-line-common",
+        "//external-crates/move/move-compiler:move-compiler",
+        "//external-crates/move/move-prover/move-docgen:move-docgen",
+        "//external-crates/move/move-prover/move-errmapgen:move-errmapgen",
+        "//external-crates/move/move-model:move-model",
+        "//external-crates/move/move-prover/boogie-backend:move-prover-boogie-backend",
+        "//external-crates/move/move-prover/bytecode:move-stackless-bytecode",
+        "//third-party:once_cell",
+        "//third-party:serde",
+        "//third-party:simplelog",
+        "//third-party:toml",
+    ]
+)

@@ -1,0 +1,36 @@
+
+rust_library(
+    name = "sui-json-rpc-types",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-json-rpc-types",
+        "CARGO_PKG_VERSION": "0.0.0",
+        "CARGO_PKG_NAME": "sui-json-rpc-types",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:bcs",
+        "//third-party:colored",
+        "//third-party:enum_dispatch",
+        "//third-party:fastcrypto",
+        "//third-party:itertools",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//crates/mysten-metrics:mysten-metrics",
+        "//third-party:schemars",
+        "//third-party:serde",
+        "//third-party:serde_json",
+        "//third-party:serde_with",
+        "//crates/sui-enum-compat-util:sui-enum-compat-util",
+        "//crates/sui-json:sui-json",
+        "//crates/sui-macros:sui-macros",
+        "//crates/sui-protocol-config:sui-protocol-config",
+        "//crates/sui-types:sui-types",
+        "//third-party:tracing",
+    ]
+)

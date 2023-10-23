@@ -1,0 +1,58 @@
+load("@prelude//rust:cargo_buildscript.bzl", "buildscript_run")
+rust_library(
+    name = "sui-framework",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-framework",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "sui-framework",
+        "OUT_DIR": "$(location :sui-framework-build-script-run[out_dir])",
+        "CARGO_MANIFEST_DIR": "",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:bcs",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//third-party:once_cell",
+        "//third-party:serde",
+        "//crates/sui-types:sui-types",
+        "//third-party:tracing",
+    ]
+)
+
+rust_binary(
+    name = "sui-framework-build-script-build",
+    srcs = glob(["build.rs","src/**/*","docs/**/*","packages/**/*"]),
+    crate = "build_script_build",
+    crate_root = "build.rs",
+    edition = "2021",
+    env = {
+        "CARGO_MANIFEST_DIR": "",
+        "OUT_DIR":"",
+    },
+    features = ["runtime"],
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:bcs",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/tools/move-package:move-package",
+        "//crates/sui-move-build:sui-move-build",
+    ],
+    rustc_flags = [
+        "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__blst-0.3.11-build-script-run__/OUT_DIR/libblst.a"
+    ]
+)
+
+
+buildscript_run(
+    name = "sui-framework-build-script-run",
+    package_name = "sui-framework",
+    buildscript_rule = ":sui-framework-build-script-build",
+    features = ["runtime"],
+    version = "0.1.0",
+)

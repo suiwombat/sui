@@ -1,0 +1,35 @@
+
+rust_library(
+    name = "move-vm-runtime-v0",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+        "CARGO_BIN_NAME": "move-vm-runtime-v0",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "move-vm-runtime-v0",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:better_any",
+        "//third-party:fail",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move-execution/v0/move-bytecode-verifier:move-bytecode-verifier",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//external-crates/move/move-vm/config:move-vm-config",
+        "//external-crates/move/move-vm/profiler:move-vm-profiler",
+        "//external-crates/move/move-vm/types:move-vm-types",
+        "//third-party:once_cell",
+        "//third-party:parking_lot",
+        "//third-party:sha3",
+        "//third-party:smallvec",
+        "//third-party:tracing",
+    ]
+)
+
+alias(
+    name="move-vm-runtime",
+    actual=":move-vm-runtime-v0",
+    visibility = ["PUBLIC"],
+)

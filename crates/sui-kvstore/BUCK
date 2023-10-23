@@ -1,0 +1,32 @@
+
+rust_library(
+    name = "sui-kvstore",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-kvstore",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "sui-kvstore",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:async-trait",
+        "//third-party:aws-config",
+        "//third-party:aws-sdk-dynamodb",
+        "//third-party:aws-sdk-s3",
+        "//third-party:base64-url",
+        "//third-party:bcs",
+        "//crates/mysten-metrics:mysten-metrics",
+        "//third-party:prometheus",
+        "//third-party:serde",
+        "//crates/sui-config:sui-config",
+        "//crates/sui-core:sui-core",
+        "//crates/sui-storage:sui-storage",
+        "//crates/sui-types:sui-types",
+        "//third-party:tokio",
+        "//third-party:tracing",
+    ]
+)

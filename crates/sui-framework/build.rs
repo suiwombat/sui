@@ -19,7 +19,6 @@ fn main() {
     move_package::package_hooks::register_package_hooks(Box::new(SuiPackageHooks));
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
     let packages_path = Path::new(env!("CARGO_MANIFEST_DIR")).join("packages");
-
     let deepbook_path = packages_path.join("deepbook");
     let sui_system_path = packages_path.join("sui-system");
     let sui_framework_path = packages_path.join("sui-framework");
@@ -130,6 +129,7 @@ fn build_packages_with_move_config(
     stdlib_dir: &str,
     config: MoveBuildConfig,
 ) {
+    // panic!("{:?}", sui_framework_path);
     let framework_pkg = BuildConfig {
         config: config.clone(),
         run_bytecode_verifier: true,

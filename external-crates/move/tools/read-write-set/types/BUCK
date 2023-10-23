@@ -1,0 +1,19 @@
+
+rust_library(
+    name = "move-read-write-set-types",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+        "CARGO_BIN_NAME": "move-read-write-set-types",
+        "CARGO_PKG_VERSION": "0.0.3",
+        "CARGO_PKG_NAME": "move-read-write-set-types",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//third-party:serde",
+    ]
+)

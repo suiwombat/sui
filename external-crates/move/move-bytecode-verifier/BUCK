@@ -13,3 +13,9 @@ rust_library(
     ],
     visibility=["PUBLIC"],
 )
+
+alias(
+    name="move-bytecode-verifier-latest",
+    actual=":move-bytecode-verifier",
+    visibility = ["PUBLIC"],
+)

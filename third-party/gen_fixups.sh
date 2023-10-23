@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 
 # Check if exactly one argument is provided
 if [ "$#" -ne 1 ]; then

@@ -18,3 +18,8 @@ rust_library(
     ],
     visibility=["PUBLIC"],
 )
+alias(
+    name="config",
+    actual=":narwhal-config",
+    visibility = ["PUBLIC"],
+)

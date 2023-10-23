@@ -1,0 +1,24 @@
+
+rust_library(
+    name = "sui-framework-snapshot",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-framework-snapshot",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "sui-framework-snapshot",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:bcs",
+        "//third-party:git-version",
+        "//third-party:serde",
+        "//third-party:serde_json",
+        "//crates/sui-framework:sui-framework",
+        "//crates/sui-protocol-config:sui-protocol-config",
+        "//crates/sui-types:sui-types",
+    ]
+)

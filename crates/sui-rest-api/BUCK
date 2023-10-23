@@ -1,0 +1,23 @@
+
+rust_library(
+    name = "sui-rest-api",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[]",
+        "CARGO_BIN_NAME": "sui-rest-api",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "sui-rest-api",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:axum",
+        "//third-party:bcs",
+        "//third-party:reqwest",
+        "//third-party:serde",
+        "//crates/sui-core:sui-core",
+        "//crates/sui-types:sui-types",
+    ]
+)

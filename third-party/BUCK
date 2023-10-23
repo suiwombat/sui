@@ -1408,6 +1408,30 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "arrayvec-0.5.2",
+    srcs = [
+        "vendor/arrayvec-0.5.2/src/array.rs",
+        "vendor/arrayvec-0.5.2/src/array_string.rs",
+        "vendor/arrayvec-0.5.2/src/char.rs",
+        "vendor/arrayvec-0.5.2/src/errors.rs",
+        "vendor/arrayvec-0.5.2/src/lib.rs",
+        "vendor/arrayvec-0.5.2/src/maybe_uninit.rs",
+    ],
+    crate = "arrayvec",
+    crate_root = "vendor/arrayvec-0.5.2/src/lib.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "std",
+    ],
+    licenses = [
+        "vendor/arrayvec-0.5.2/LICENSE-APACHE",
+        "vendor/arrayvec-0.5.2/LICENSE-MIT",
+    ],
+    visibility = [],
+)
+
+cargo.rust_library(
     name = "arrayvec-0.7.4",
     srcs = [
         "vendor/arrayvec-0.7.4/src/array_string.rs",
@@ -2234,6 +2258,12 @@ cargo.rust_library(
     visibility = [],
 )
 
+alias(
+    name = "base64",
+    actual = ":base64-0.21.4",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
     name = "base64-0.21.4",
     srcs = [
@@ -2353,6 +2383,37 @@ cargo.rust_library(
     deps = [
         ":serde-1.0.188",
         ":thiserror-1.0.49",
+    ],
+)
+
+alias(
+    name = "better_any",
+    actual = ":better_any-0.1.1",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "better_any-0.1.1",
+    srcs = ["vendor/better_any-0.1.1/src/lib.rs"],
+    crate = "better_any",
+    crate_root = "vendor/better_any-0.1.1/src/lib.rs",
+    edition = "2018",
+    visibility = [],
+    deps = [":better_typeid_derive-0.1.1"],
+)
+
+cargo.rust_library(
+    name = "better_typeid_derive-0.1.1",
+    srcs = ["vendor/better_typeid_derive-0.1.1/src/lib.rs"],
+    crate = "better_typeid_derive",
+    crate_root = "vendor/better_typeid_derive-0.1.1/src/lib.rs",
+    edition = "2018",
+    proc_macro = True,
+    visibility = [],
+    deps = [
+        ":proc-macro2-1.0.67",
+        ":quote-1.0.33",
+        ":syn-1.0.109-syn_v1",
     ],
 )
 
@@ -3176,6 +3237,75 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "bstr-1.7.0",
+    srcs = [
+        "vendor/bstr-1.7.0/src/ascii.rs",
+        "vendor/bstr-1.7.0/src/bstr.rs",
+        "vendor/bstr-1.7.0/src/bstring.rs",
+        "vendor/bstr-1.7.0/src/byteset/mod.rs",
+        "vendor/bstr-1.7.0/src/byteset/scalar.rs",
+        "vendor/bstr-1.7.0/src/escape_bytes.rs",
+        "vendor/bstr-1.7.0/src/ext_slice.rs",
+        "vendor/bstr-1.7.0/src/ext_vec.rs",
+        "vendor/bstr-1.7.0/src/impls.rs",
+        "vendor/bstr-1.7.0/src/io.rs",
+        "vendor/bstr-1.7.0/src/lib.rs",
+        "vendor/bstr-1.7.0/src/tests.rs",
+        "vendor/bstr-1.7.0/src/unicode/data/GraphemeBreakTest.txt",
+        "vendor/bstr-1.7.0/src/unicode/data/SentenceBreakTest.txt",
+        "vendor/bstr-1.7.0/src/unicode/data/WordBreakTest.txt",
+        "vendor/bstr-1.7.0/src/unicode/fsm/grapheme_break_fwd.bigendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/grapheme_break_fwd.littleendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/grapheme_break_fwd.rs",
+        "vendor/bstr-1.7.0/src/unicode/fsm/grapheme_break_rev.bigendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/grapheme_break_rev.littleendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/grapheme_break_rev.rs",
+        "vendor/bstr-1.7.0/src/unicode/fsm/mod.rs",
+        "vendor/bstr-1.7.0/src/unicode/fsm/regional_indicator_rev.bigendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/regional_indicator_rev.littleendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/regional_indicator_rev.rs",
+        "vendor/bstr-1.7.0/src/unicode/fsm/sentence_break_fwd.bigendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/sentence_break_fwd.littleendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/sentence_break_fwd.rs",
+        "vendor/bstr-1.7.0/src/unicode/fsm/simple_word_fwd.bigendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/simple_word_fwd.littleendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/simple_word_fwd.rs",
+        "vendor/bstr-1.7.0/src/unicode/fsm/whitespace_anchored_fwd.bigendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/whitespace_anchored_fwd.littleendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/whitespace_anchored_fwd.rs",
+        "vendor/bstr-1.7.0/src/unicode/fsm/whitespace_anchored_rev.bigendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/whitespace_anchored_rev.littleendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/whitespace_anchored_rev.rs",
+        "vendor/bstr-1.7.0/src/unicode/fsm/word_break_fwd.bigendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/word_break_fwd.littleendian.dfa",
+        "vendor/bstr-1.7.0/src/unicode/fsm/word_break_fwd.rs",
+        "vendor/bstr-1.7.0/src/unicode/grapheme.rs",
+        "vendor/bstr-1.7.0/src/unicode/mod.rs",
+        "vendor/bstr-1.7.0/src/unicode/sentence.rs",
+        "vendor/bstr-1.7.0/src/unicode/whitespace.rs",
+        "vendor/bstr-1.7.0/src/unicode/word.rs",
+        "vendor/bstr-1.7.0/src/utf8.rs",
+    ],
+    crate = "bstr",
+    crate_root = "vendor/bstr-1.7.0/src/lib.rs",
+    edition = "2021",
+    features = [
+        "alloc",
+        "std",
+    ],
+    licenses = [
+        "vendor/bstr-1.7.0/COPYING",
+        "vendor/bstr-1.7.0/LICENSE-APACHE",
+        "vendor/bstr-1.7.0/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":memchr-2.6.3",
+        ":serde-1.0.188",
+    ],
+)
+
+cargo.rust_library(
     name = "bulletproofs-4.0.0",
     srcs = [
         "vendor/bulletproofs-4.0.0/README.md",
@@ -3474,6 +3604,47 @@ cargo.rust_library(
     visibility = [],
 )
 
+alias(
+    name = "camino",
+    actual = ":camino-1.1.6",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "camino-1.1.6",
+    srcs = [
+        "vendor/camino-1.1.6/src/lib.rs",
+        "vendor/camino-1.1.6/src/proptest_impls.rs",
+        "vendor/camino-1.1.6/src/serde_impls.rs",
+        "vendor/camino-1.1.6/src/tests.rs",
+    ],
+    crate = "camino",
+    crate_root = "vendor/camino-1.1.6/src/lib.rs",
+    edition = "2018",
+    licenses = [
+        "vendor/camino-1.1.6/LICENSE-APACHE",
+        "vendor/camino-1.1.6/LICENSE-MIT",
+    ],
+    rustc_flags = ["@$(location :camino-1.1.6-build-script-run[rustc_flags])"],
+    visibility = [],
+)
+
+cargo.rust_binary(
+    name = "camino-1.1.6-build-script-build",
+    srcs = ["vendor/camino-1.1.6/build.rs"],
+    crate = "build_script_build",
+    crate_root = "vendor/camino-1.1.6/build.rs",
+    edition = "2018",
+    visibility = [],
+)
+
+buildscript_run(
+    name = "camino-1.1.6-build-script-run",
+    package_name = "camino",
+    buildscript_rule = ":camino-1.1.6-build-script-build",
+    version = "1.1.6",
+)
+
 cargo.rust_library(
     name = "cbc-0.1.2",
     srcs = [
@@ -3629,9 +3800,14 @@ cargo.rust_library(
         "alloc",
         "android-tzdata",
         "clock",
+        "default",
         "iana-time-zone",
+        "js-sys",
+        "oldtime",
         "serde",
         "std",
+        "wasm-bindgen",
+        "wasmbind",
         "winapi",
         "windows-targets",
     ],
@@ -3651,6 +3827,74 @@ cargo.rust_library(
     deps = [
         ":num-traits-0.2.16",
         ":serde-1.0.188",
+    ],
+)
+
+cargo.rust_library(
+    name = "chrono-tz-0.8.3",
+    srcs = [
+        "vendor/chrono-tz-0.8.3/src/binary_search.rs",
+        "vendor/chrono-tz-0.8.3/src/directory.rs",
+        "vendor/chrono-tz-0.8.3/src/lib.rs",
+        "vendor/chrono-tz-0.8.3/src/serde.rs",
+        "vendor/chrono-tz-0.8.3/src/timezone_impl.rs",
+        "vendor/chrono-tz-0.8.3/src/timezones.rs",
+    ],
+    crate = "chrono_tz",
+    crate_root = "vendor/chrono-tz-0.8.3/src/lib.rs",
+    edition = "2021",
+    env = {
+        "OUT_DIR": "$(location :chrono-tz-0.8.3-build-script-run[out_dir])",
+    },
+    features = [
+        "default",
+        "std",
+    ],
+    licenses = ["vendor/chrono-tz-0.8.3/LICENSE"],
+    visibility = [],
+    deps = [
+        ":chrono-0.4.31",
+        ":phf-0.11.2",
+    ],
+)
+
+cargo.rust_binary(
+    name = "chrono-tz-0.8.3-build-script-build",
+    srcs = ["vendor/chrono-tz-0.8.3/build.rs"],
+    crate = "build_script_build",
+    crate_root = "vendor/chrono-tz-0.8.3/build.rs",
+    edition = "2021",
+    features = [
+        "default",
+        "std",
+    ],
+    visibility = [],
+    deps = [":chrono-tz-build-0.2.0"],
+)
+
+buildscript_run(
+    name = "chrono-tz-0.8.3-build-script-run",
+    package_name = "chrono-tz",
+    buildscript_rule = ":chrono-tz-0.8.3-build-script-build",
+    features = [
+        "default",
+        "std",
+    ],
+    version = "0.8.3",
+)
+
+cargo.rust_library(
+    name = "chrono-tz-build-0.2.0",
+    srcs = ["vendor/chrono-tz-build-0.2.0/src/lib.rs"],
+    crate = "chrono_tz_build",
+    crate_root = "vendor/chrono-tz-build-0.2.0/src/lib.rs",
+    edition = "2021",
+    licenses = ["vendor/chrono-tz-build-0.2.0/LICENSE"],
+    visibility = [],
+    deps = [
+        ":parse-zoneinfo-0.3.0",
+        ":phf-0.11.2",
+        ":phf_codegen-0.11.2",
     ],
 )
 
@@ -4181,7 +4425,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":serde-1.0.188",
-        ":termcolor-1.3.0",
+        ":termcolor-1.1.3",
         ":unicode-width-0.1.11",
     ],
 )
@@ -5806,6 +6050,86 @@ cargo.rust_library(
 )
 
 alias(
+    name = "derive_builder",
+    actual = ":derive_builder-0.12.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "derive_builder-0.12.0",
+    srcs = [
+        "vendor/derive_builder-0.12.0/src/error.rs",
+        "vendor/derive_builder-0.12.0/src/lib.rs",
+    ],
+    crate = "derive_builder",
+    crate_root = "vendor/derive_builder-0.12.0/src/lib.rs",
+    edition = "2015",
+    features = [
+        "default",
+        "std",
+    ],
+    licenses = [
+        "vendor/derive_builder-0.12.0/LICENSE-APACHE",
+        "vendor/derive_builder-0.12.0/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [":derive_builder_macro-0.12.0"],
+)
+
+cargo.rust_library(
+    name = "derive_builder_core-0.12.0",
+    srcs = [
+        "vendor/derive_builder_core-0.12.0/src/block.rs",
+        "vendor/derive_builder_core-0.12.0/src/build_method.rs",
+        "vendor/derive_builder_core-0.12.0/src/builder.rs",
+        "vendor/derive_builder_core-0.12.0/src/builder_field.rs",
+        "vendor/derive_builder_core-0.12.0/src/change_span.rs",
+        "vendor/derive_builder_core-0.12.0/src/default_expression.rs",
+        "vendor/derive_builder_core-0.12.0/src/deprecation_notes.rs",
+        "vendor/derive_builder_core-0.12.0/src/doc_comment.rs",
+        "vendor/derive_builder_core-0.12.0/src/doc_tpl/mod.rs",
+        "vendor/derive_builder_core-0.12.0/src/initializer.rs",
+        "vendor/derive_builder_core-0.12.0/src/lib.rs",
+        "vendor/derive_builder_core-0.12.0/src/macro_options/darling_opts.rs",
+        "vendor/derive_builder_core-0.12.0/src/macro_options/mod.rs",
+        "vendor/derive_builder_core-0.12.0/src/options.rs",
+        "vendor/derive_builder_core-0.12.0/src/setter.rs",
+    ],
+    crate = "derive_builder_core",
+    crate_root = "vendor/derive_builder_core-0.12.0/src/lib.rs",
+    edition = "2015",
+    licenses = [
+        "vendor/derive_builder_core-0.12.0/LICENSE-APACHE",
+        "vendor/derive_builder_core-0.12.0/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":darling-0.14.4",
+        ":proc-macro2-1.0.67",
+        ":quote-1.0.33",
+        ":syn-1.0.109-syn_v1",
+    ],
+)
+
+cargo.rust_library(
+    name = "derive_builder_macro-0.12.0",
+    srcs = ["vendor/derive_builder_macro-0.12.0/src/lib.rs"],
+    crate = "derive_builder_macro",
+    crate_root = "vendor/derive_builder_macro-0.12.0/src/lib.rs",
+    edition = "2015",
+    licenses = [
+        "vendor/derive_builder_macro-0.12.0/LICENSE-APACHE",
+        "vendor/derive_builder_macro-0.12.0/LICENSE-MIT",
+    ],
+    proc_macro = True,
+    visibility = [],
+    deps = [
+        ":derive_builder_core-0.12.0",
+        ":syn-1.0.109-syn_v1",
+    ],
+)
+
+alias(
     name = "derive_more",
     actual = ":derive_more-0.99.17",
     visibility = ["PUBLIC"],
@@ -5884,6 +6208,43 @@ cargo.rust_library(
     ],
 )
 
+cargo.rust_library(
+    name = "deunicode-0.4.5",
+    srcs = [
+        "vendor/deunicode-0.4.5/src/lib.rs",
+        "vendor/deunicode-0.4.5/src/mapping.txt",
+        "vendor/deunicode-0.4.5/src/old.rs",
+        "vendor/deunicode-0.4.5/src/pointers.bin",
+    ],
+    crate = "deunicode",
+    crate_root = "vendor/deunicode-0.4.5/src/lib.rs",
+    edition = "2021",
+    features = [
+        "alloc",
+        "default",
+    ],
+    licenses = ["vendor/deunicode-0.4.5/LICENSE"],
+    named_deps = {
+        "deunicode1": ":deunicode-1.4.1",
+    },
+    visibility = [],
+)
+
+cargo.rust_library(
+    name = "deunicode-1.4.1",
+    srcs = [
+        "vendor/deunicode-1.4.1/src/lib.rs",
+        "vendor/deunicode-1.4.1/src/mapping.txt",
+        "vendor/deunicode-1.4.1/src/pointers.bin",
+    ],
+    crate = "deunicode",
+    crate_root = "vendor/deunicode-1.4.1/src/lib.rs",
+    edition = "2021",
+    features = ["alloc"],
+    licenses = ["vendor/deunicode-1.4.1/LICENSE"],
+    visibility = [],
+)
+
 alias(
     name = "difference",
     actual = ":difference-2.0.0",
@@ -5904,6 +6265,20 @@ cargo.rust_library(
     edition = "2015",
     features = ["default"],
     licenses = ["vendor/difference-2.0.0/LICENSE"],
+    visibility = [],
+)
+
+cargo.rust_library(
+    name = "difflib-0.4.0",
+    srcs = [
+        "vendor/difflib-0.4.0/src/differ.rs",
+        "vendor/difflib-0.4.0/src/lib.rs",
+        "vendor/difflib-0.4.0/src/sequencematcher.rs",
+        "vendor/difflib-0.4.0/src/utils.rs",
+    ],
+    crate = "difflib",
+    crate_root = "vendor/difflib-0.4.0/src/lib.rs",
+    edition = "2015",
     visibility = [],
 )
 
@@ -6144,6 +6519,20 @@ buildscript_run(
     package_name = "doc-comment",
     buildscript_rule = ":doc-comment-0.3.3-build-script-build",
     version = "0.3.3",
+)
+
+cargo.rust_library(
+    name = "downcast-0.11.0",
+    srcs = ["vendor/downcast-0.11.0/src/lib.rs"],
+    crate = "downcast",
+    crate_root = "vendor/downcast-0.11.0/src/lib.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "std",
+    ],
+    licenses = ["vendor/downcast-0.11.0/LICENSE-MIT"],
+    visibility = [],
 )
 
 cargo.rust_library(
@@ -6620,6 +7009,27 @@ cargo.rust_library(
 )
 
 alias(
+    name = "fail",
+    actual = ":fail-0.4.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "fail-0.4.0",
+    srcs = ["vendor/fail-0.4.0/src/lib.rs"],
+    crate = "fail",
+    crate_root = "vendor/fail-0.4.0/src/lib.rs",
+    edition = "2018",
+    licenses = ["vendor/fail-0.4.0/LICENSE"],
+    visibility = [],
+    deps = [
+        ":lazy_static-1.4.0",
+        ":log-0.4.20",
+        ":rand-0.7.3",
+    ],
+)
+
+alias(
     name = "fastcrypto",
     actual = ":fastcrypto-0.1.6",
     visibility = ["PUBLIC"],
@@ -6990,6 +7400,29 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "float-cmp-0.9.0",
+    srcs = [
+        "vendor/float-cmp-0.9.0/src/eq.rs",
+        "vendor/float-cmp-0.9.0/src/lib.rs",
+        "vendor/float-cmp-0.9.0/src/macros.rs",
+        "vendor/float-cmp-0.9.0/src/ratio.rs",
+        "vendor/float-cmp-0.9.0/src/ulps.rs",
+        "vendor/float-cmp-0.9.0/src/ulps_eq.rs",
+    ],
+    crate = "float_cmp",
+    crate_root = "vendor/float-cmp-0.9.0/src/lib.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "num-traits",
+        "ratio",
+    ],
+    licenses = ["vendor/float-cmp-0.9.0/LICENSE"],
+    visibility = [],
+    deps = [":num-traits-0.2.16"],
+)
+
+cargo.rust_library(
     name = "fnv-1.0.7",
     srcs = ["vendor/fnv-1.0.7/lib.rs"],
     crate = "fnv",
@@ -7023,6 +7456,24 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [":percent-encoding-2.3.0"],
+)
+
+cargo.rust_library(
+    name = "fragile-2.0.0",
+    srcs = [
+        "vendor/fragile-2.0.0/src/errors.rs",
+        "vendor/fragile-2.0.0/src/fragile.rs",
+        "vendor/fragile-2.0.0/src/lib.rs",
+        "vendor/fragile-2.0.0/src/registry.rs",
+        "vendor/fragile-2.0.0/src/semisticky.rs",
+        "vendor/fragile-2.0.0/src/sticky.rs",
+        "vendor/fragile-2.0.0/src/thread_id.rs",
+    ],
+    crate = "fragile",
+    crate_root = "vendor/fragile-2.0.0/src/lib.rs",
+    edition = "2018",
+    licenses = ["vendor/fragile-2.0.0/LICENSE"],
+    visibility = [],
 )
 
 cargo.rust_library(
@@ -7560,6 +8011,55 @@ cargo.rust_library(
     ],
 )
 
+cargo.rust_library(
+    name = "getrandom-0.1.16",
+    srcs = [
+        "vendor/getrandom-0.1.16/src/bsd_arandom.rs",
+        "vendor/getrandom-0.1.16/src/cloudabi.rs",
+        "vendor/getrandom-0.1.16/src/dummy.rs",
+        "vendor/getrandom-0.1.16/src/error.rs",
+        "vendor/getrandom-0.1.16/src/error_impls.rs",
+        "vendor/getrandom-0.1.16/src/fuchsia.rs",
+        "vendor/getrandom-0.1.16/src/ios.rs",
+        "vendor/getrandom-0.1.16/src/lib.rs",
+        "vendor/getrandom-0.1.16/src/linux_android.rs",
+        "vendor/getrandom-0.1.16/src/macos.rs",
+        "vendor/getrandom-0.1.16/src/openbsd.rs",
+        "vendor/getrandom-0.1.16/src/rdrand.rs",
+        "vendor/getrandom-0.1.16/src/solaris_illumos.rs",
+        "vendor/getrandom-0.1.16/src/use_file.rs",
+        "vendor/getrandom-0.1.16/src/util.rs",
+        "vendor/getrandom-0.1.16/src/util_libc.rs",
+        "vendor/getrandom-0.1.16/src/vxworks.rs",
+        "vendor/getrandom-0.1.16/src/wasi.rs",
+        "vendor/getrandom-0.1.16/src/wasm32_bindgen.rs",
+        "vendor/getrandom-0.1.16/src/wasm32_stdweb.rs",
+        "vendor/getrandom-0.1.16/src/windows.rs",
+        "vendor/getrandom-0.1.16/src/windows_uwp.rs",
+    ],
+    crate = "getrandom",
+    crate_root = "vendor/getrandom-0.1.16/src/lib.rs",
+    edition = "2018",
+    features = ["std"],
+    licenses = [
+        "vendor/getrandom-0.1.16/LICENSE-APACHE",
+        "vendor/getrandom-0.1.16/LICENSE-MIT",
+    ],
+    platform = {
+        "linux-arm64": dict(
+            deps = [":libc-0.2.148"],
+        ),
+        "linux-x86_64": dict(
+            deps = [":libc-0.2.148"],
+        ),
+        "macos-arm64": dict(
+            deps = [":libc-0.2.148"],
+        ),
+    },
+    visibility = [],
+    deps = [":cfg-if-1.0.0"],
+)
+
 alias(
     name = "getrandom",
     actual = ":getrandom-0.2.10",
@@ -7753,6 +8253,54 @@ cargo.rust_library(
         "vendor/glob-0.3.1/LICENSE-MIT",
     ],
     visibility = [],
+)
+
+cargo.rust_library(
+    name = "globset-0.4.13",
+    srcs = [
+        "vendor/globset-0.4.13/src/glob.rs",
+        "vendor/globset-0.4.13/src/lib.rs",
+        "vendor/globset-0.4.13/src/pathutil.rs",
+        "vendor/globset-0.4.13/src/serde_impl.rs",
+    ],
+    crate = "globset",
+    crate_root = "vendor/globset-0.4.13/src/lib.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "log",
+    ],
+    licenses = [
+        "vendor/globset-0.4.13/COPYING",
+        "vendor/globset-0.4.13/LICENSE-MIT",
+        "vendor/globset-0.4.13/UNLICENSE",
+    ],
+    visibility = [],
+    deps = [
+        ":aho-corasick-1.1.1",
+        ":bstr-1.7.0",
+        ":fnv-1.0.7",
+        ":log-0.4.20",
+        ":regex-1.9.5",
+    ],
+)
+
+cargo.rust_library(
+    name = "globwalk-0.8.1",
+    srcs = [
+        "vendor/globwalk-0.8.1/src/doctests.rs",
+        "vendor/globwalk-0.8.1/src/lib.rs",
+    ],
+    crate = "globwalk",
+    crate_root = "vendor/globwalk-0.8.1/src/lib.rs",
+    edition = "2015",
+    licenses = ["vendor/globwalk-0.8.1/LICENSE"],
+    visibility = [],
+    deps = [
+        ":bitflags-1.3.2",
+        ":ignore-0.4.20",
+        ":walkdir-2.4.0",
+    ],
 )
 
 cargo.rust_library(
@@ -8475,6 +9023,30 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "humansize-2.1.3",
+    srcs = [
+        "vendor/humansize-2.1.3/src/allocating.rs",
+        "vendor/humansize-2.1.3/src/formatters.rs",
+        "vendor/humansize-2.1.3/src/impl_style.rs",
+        "vendor/humansize-2.1.3/src/lib.rs",
+        "vendor/humansize-2.1.3/src/numeric_traits.rs",
+        "vendor/humansize-2.1.3/src/options/defaults.rs",
+        "vendor/humansize-2.1.3/src/options/mod.rs",
+        "vendor/humansize-2.1.3/src/scales.rs",
+        "vendor/humansize-2.1.3/src/utils.rs",
+    ],
+    crate = "humansize",
+    crate_root = "vendor/humansize-2.1.3/src/lib.rs",
+    edition = "2021",
+    licenses = [
+        "vendor/humansize-2.1.3/LICENSE-APACHE",
+        "vendor/humansize-2.1.3/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [":libm-0.2.7"],
+)
+
+cargo.rust_library(
     name = "humantime-2.1.0",
     srcs = [
         "vendor/humantime-2.1.0/src/date.rs",
@@ -8751,6 +9323,39 @@ cargo.rust_library(
     deps = [
         ":unicode-bidi-0.3.13",
         ":unicode-normalization-0.1.22",
+    ],
+)
+
+cargo.rust_library(
+    name = "ignore-0.4.20",
+    srcs = [
+        "vendor/ignore-0.4.20/src/default_types.rs",
+        "vendor/ignore-0.4.20/src/dir.rs",
+        "vendor/ignore-0.4.20/src/gitignore.rs",
+        "vendor/ignore-0.4.20/src/lib.rs",
+        "vendor/ignore-0.4.20/src/overrides.rs",
+        "vendor/ignore-0.4.20/src/pathutil.rs",
+        "vendor/ignore-0.4.20/src/types.rs",
+        "vendor/ignore-0.4.20/src/walk.rs",
+    ],
+    crate = "ignore",
+    crate_root = "vendor/ignore-0.4.20/src/lib.rs",
+    edition = "2018",
+    licenses = [
+        "vendor/ignore-0.4.20/COPYING",
+        "vendor/ignore-0.4.20/LICENSE-MIT",
+        "vendor/ignore-0.4.20/UNLICENSE",
+    ],
+    visibility = [],
+    deps = [
+        ":globset-0.4.13",
+        ":lazy_static-1.4.0",
+        ":log-0.4.20",
+        ":memchr-2.6.3",
+        ":regex-1.9.5",
+        ":same-file-1.0.6",
+        ":thread_local-1.1.7",
+        ":walkdir-2.4.0",
     ],
 )
 
@@ -9483,6 +10088,25 @@ cargo.rust_library(
     licenses = [
         "vendor/lazycell-1.3.0/LICENSE-APACHE",
         "vendor/lazycell-1.3.0/LICENSE-MIT",
+    ],
+    visibility = [],
+)
+
+alias(
+    name = "leb128",
+    actual = ":leb128-0.2.5",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "leb128-0.2.5",
+    srcs = ["vendor/leb128-0.2.5/src/lib.rs"],
+    crate = "leb128",
+    crate_root = "vendor/leb128-0.2.5/src/lib.rs",
+    edition = "2018",
+    licenses = [
+        "vendor/leb128-0.2.5/LICENSE-APACHE",
+        "vendor/leb128-0.2.5/LICENSE-MIT",
     ],
     visibility = [],
 )
@@ -13208,6 +13832,7 @@ cargo.rust_library(
     crate = "log",
     crate_root = "vendor/log-0.4.20/src/lib.rs",
     edition = "2015",
+    features = ["std"],
     licenses = [
         "vendor/log-0.4.20/LICENSE-APACHE",
         "vendor/log-0.4.20/LICENSE-MIT",
@@ -13737,6 +14362,66 @@ cargo.rust_library(
 )
 
 alias(
+    name = "mockall",
+    actual = ":mockall-0.11.4",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "mockall-0.11.4",
+    srcs = [
+        "vendor/mockall-0.11.4/src/examples.rs",
+        "vendor/mockall-0.11.4/src/lib.rs",
+    ],
+    crate = "mockall",
+    crate_root = "vendor/mockall-0.11.4/src/lib.rs",
+    edition = "2018",
+    licenses = [
+        "vendor/mockall-0.11.4/LICENSE-APACHE",
+        "vendor/mockall-0.11.4/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":cfg-if-1.0.0",
+        ":downcast-0.11.0",
+        ":fragile-2.0.0",
+        ":lazy_static-1.4.0",
+        ":mockall_derive-0.11.4",
+        ":predicates-2.1.5",
+        ":predicates-tree-1.0.9",
+    ],
+)
+
+cargo.rust_library(
+    name = "mockall_derive-0.11.4",
+    srcs = [
+        "vendor/mockall_derive-0.11.4/src/automock.rs",
+        "vendor/mockall_derive-0.11.4/src/lib.rs",
+        "vendor/mockall_derive-0.11.4/src/mock_function.rs",
+        "vendor/mockall_derive-0.11.4/src/mock_item.rs",
+        "vendor/mockall_derive-0.11.4/src/mock_item_struct.rs",
+        "vendor/mockall_derive-0.11.4/src/mock_trait.rs",
+        "vendor/mockall_derive-0.11.4/src/mockable_item.rs",
+        "vendor/mockall_derive-0.11.4/src/mockable_struct.rs",
+    ],
+    crate = "mockall_derive",
+    crate_root = "vendor/mockall_derive-0.11.4/src/lib.rs",
+    edition = "2018",
+    licenses = [
+        "vendor/mockall_derive-0.11.4/LICENSE-APACHE",
+        "vendor/mockall_derive-0.11.4/LICENSE-MIT",
+    ],
+    proc_macro = True,
+    visibility = [],
+    deps = [
+        ":cfg-if-1.0.0",
+        ":proc-macro2-1.0.67",
+        ":quote-1.0.33",
+        ":syn-1.0.109-syn_v1",
+    ],
+)
+
+alias(
     name = "multiaddr",
     actual = ":multiaddr-0.17.1",
     visibility = ["PUBLIC"],
@@ -13998,6 +14683,16 @@ cargo.rust_library(
         "std",
     ],
     licenses = ["vendor/nonzero_ext-0.3.0/LICENSE.txt"],
+    visibility = [],
+)
+
+cargo.rust_library(
+    name = "normalize-line-endings-0.3.0",
+    srcs = ["vendor/normalize-line-endings-0.3.0/src/lib.rs"],
+    crate = "normalize_line_endings",
+    crate_root = "vendor/normalize-line-endings-0.3.0/src/lib.rs",
+    edition = "2015",
+    licenses = ["vendor/normalize-line-endings-0.3.0/LICENSE"],
     visibility = [],
 )
 
@@ -14643,6 +15338,17 @@ cargo.rust_library(
     crate = "object_store",
     crate_root = "vendor/object_store-0.7.1/src/lib.rs",
     edition = "2021",
+    env = {
+        "CARGO_MANIFEST_DIR": "vendor/object_store-0.7.1",
+        "CARGO_PKG_AUTHORS": "",
+        "CARGO_PKG_DESCRIPTION": "A generic object store interface for uniformly interacting with AWS S3, Google Cloud Storage, Azure Blob Storage and local files.",
+        "CARGO_PKG_NAME": "object_store",
+        "CARGO_PKG_REPOSITORY": "https://github.com/apache/arrow-rs/tree/master/object_store",
+        "CARGO_PKG_VERSION": "0.7.1",
+        "CARGO_PKG_VERSION_MAJOR": "0",
+        "CARGO_PKG_VERSION_MINOR": "7",
+        "CARGO_PKG_VERSION_PATCH": "1",
+    },
     features = [
         "aws",
         "azure",
@@ -15153,6 +15859,29 @@ buildscript_run(
 )
 
 cargo.rust_library(
+    name = "parse-zoneinfo-0.3.0",
+    srcs = [
+        "vendor/parse-zoneinfo-0.3.0/src/lib.rs",
+        "vendor/parse-zoneinfo-0.3.0/src/line.rs",
+        "vendor/parse-zoneinfo-0.3.0/src/structure.rs",
+        "vendor/parse-zoneinfo-0.3.0/src/table.rs",
+        "vendor/parse-zoneinfo-0.3.0/src/transitions.rs",
+    ],
+    crate = "parse_zoneinfo",
+    crate_root = "vendor/parse-zoneinfo-0.3.0/src/lib.rs",
+    edition = "2015",
+    licenses = ["vendor/parse-zoneinfo-0.3.0/LICENSE"],
+    visibility = [],
+    deps = [":regex-1.9.5"],
+)
+
+alias(
+    name = "paste",
+    actual = ":paste-1.0.14",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
     name = "paste-1.0.14",
     srcs = [
         "vendor/paste-1.0.14/src/attr.rs",
@@ -15547,6 +16276,20 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "phf_codegen-0.11.2",
+    srcs = ["vendor/phf_codegen-0.11.2/src/lib.rs"],
+    crate = "phf_codegen",
+    crate_root = "vendor/phf_codegen-0.11.2/src/lib.rs",
+    edition = "2021",
+    licenses = ["vendor/phf_codegen-0.11.2/LICENSE"],
+    visibility = [],
+    deps = [
+        ":phf_generator-0.11.2",
+        ":phf_shared-0.11.2",
+    ],
+)
+
+cargo.rust_library(
     name = "phf_generator-0.11.2",
     srcs = ["vendor/phf_generator-0.11.2/src/lib.rs"],
     crate = "phf_generator",
@@ -15583,7 +16326,10 @@ cargo.rust_library(
     crate = "phf_shared",
     crate_root = "vendor/phf_shared-0.11.2/src/lib.rs",
     edition = "2021",
-    features = ["std"],
+    features = [
+        "default",
+        "std",
+    ],
     licenses = ["vendor/phf_shared-0.11.2/LICENSE"],
     visibility = [],
     deps = [":siphasher-0.3.11"],
@@ -15853,6 +16599,116 @@ cargo.rust_library(
         "vendor/ppv-lite86-0.2.17/LICENSE-MIT",
     ],
     visibility = [],
+)
+
+cargo.rust_library(
+    name = "predicates-2.1.5",
+    srcs = [
+        "vendor/predicates-2.1.5/src/boolean.rs",
+        "vendor/predicates-2.1.5/src/boxed.rs",
+        "vendor/predicates-2.1.5/src/color.rs",
+        "vendor/predicates-2.1.5/src/constant.rs",
+        "vendor/predicates-2.1.5/src/float/close.rs",
+        "vendor/predicates-2.1.5/src/float/mod.rs",
+        "vendor/predicates-2.1.5/src/function.rs",
+        "vendor/predicates-2.1.5/src/iter.rs",
+        "vendor/predicates-2.1.5/src/lib.rs",
+        "vendor/predicates-2.1.5/src/name.rs",
+        "vendor/predicates-2.1.5/src/ord.rs",
+        "vendor/predicates-2.1.5/src/path/existence.rs",
+        "vendor/predicates-2.1.5/src/path/fc.rs",
+        "vendor/predicates-2.1.5/src/path/fs.rs",
+        "vendor/predicates-2.1.5/src/path/ft.rs",
+        "vendor/predicates-2.1.5/src/path/mod.rs",
+        "vendor/predicates-2.1.5/src/prelude.rs",
+        "vendor/predicates-2.1.5/src/str/adapters.rs",
+        "vendor/predicates-2.1.5/src/str/basics.rs",
+        "vendor/predicates-2.1.5/src/str/difference.rs",
+        "vendor/predicates-2.1.5/src/str/mod.rs",
+        "vendor/predicates-2.1.5/src/str/normalize.rs",
+        "vendor/predicates-2.1.5/src/str/regex.rs",
+        "vendor/predicates-2.1.5/src/utils.rs",
+    ],
+    crate = "predicates",
+    crate_root = "vendor/predicates-2.1.5/src/lib.rs",
+    edition = "2021",
+    features = [
+        "default",
+        "diff",
+        "float-cmp",
+        "normalize-line-endings",
+        "regex",
+    ],
+    licenses = [
+        "vendor/predicates-2.1.5/LICENSE-APACHE",
+        "vendor/predicates-2.1.5/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":difflib-0.4.0",
+        ":float-cmp-0.9.0",
+        ":itertools-0.10.5",
+        ":normalize-line-endings-0.3.0",
+        ":predicates-core-1.0.6",
+        ":regex-1.9.5",
+    ],
+)
+
+cargo.rust_library(
+    name = "predicates-core-1.0.6",
+    srcs = [
+        "vendor/predicates-core-1.0.6/src/core.rs",
+        "vendor/predicates-core-1.0.6/src/lib.rs",
+        "vendor/predicates-core-1.0.6/src/reflection.rs",
+    ],
+    crate = "predicates_core",
+    crate_root = "vendor/predicates-core-1.0.6/src/lib.rs",
+    edition = "2021",
+    licenses = [
+        "vendor/predicates-core-1.0.6/LICENSE-APACHE",
+        "vendor/predicates-core-1.0.6/LICENSE-MIT",
+    ],
+    visibility = [],
+)
+
+cargo.rust_library(
+    name = "predicates-tree-1.0.9",
+    srcs = ["vendor/predicates-tree-1.0.9/src/lib.rs"],
+    crate = "predicates_tree",
+    crate_root = "vendor/predicates-tree-1.0.9/src/lib.rs",
+    edition = "2021",
+    licenses = [
+        "vendor/predicates-tree-1.0.9/LICENSE-APACHE",
+        "vendor/predicates-tree-1.0.9/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":predicates-core-1.0.6",
+        ":termtree-0.4.1",
+    ],
+)
+
+alias(
+    name = "pretty",
+    actual = ":pretty-0.10.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "pretty-0.10.0",
+    srcs = [
+        "vendor/pretty-0.10.0/src/lib.rs",
+        "vendor/pretty-0.10.0/src/render.rs",
+    ],
+    crate = "pretty",
+    crate_root = "vendor/pretty-0.10.0/src/lib.rs",
+    edition = "2018",
+    licenses = ["vendor/pretty-0.10.0/LICENSE"],
+    visibility = [],
+    deps = [
+        ":arrayvec-0.5.2",
+        ":typed-arena-2.0.2",
+    ],
 )
 
 cargo.rust_library(
@@ -16844,6 +17700,12 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "quinn-proto",
+    actual = ":quinn-proto-0.10.5",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
     name = "quinn-proto-0.10.5",
     srcs = [
@@ -16984,6 +17846,87 @@ cargo.rust_library(
     visibility = [],
 )
 
+cargo.rust_library(
+    name = "rand-0.7.3",
+    srcs = [
+        "vendor/rand-0.7.3/src/distributions/bernoulli.rs",
+        "vendor/rand-0.7.3/src/distributions/binomial.rs",
+        "vendor/rand-0.7.3/src/distributions/cauchy.rs",
+        "vendor/rand-0.7.3/src/distributions/dirichlet.rs",
+        "vendor/rand-0.7.3/src/distributions/exponential.rs",
+        "vendor/rand-0.7.3/src/distributions/float.rs",
+        "vendor/rand-0.7.3/src/distributions/gamma.rs",
+        "vendor/rand-0.7.3/src/distributions/integer.rs",
+        "vendor/rand-0.7.3/src/distributions/mod.rs",
+        "vendor/rand-0.7.3/src/distributions/normal.rs",
+        "vendor/rand-0.7.3/src/distributions/other.rs",
+        "vendor/rand-0.7.3/src/distributions/pareto.rs",
+        "vendor/rand-0.7.3/src/distributions/poisson.rs",
+        "vendor/rand-0.7.3/src/distributions/triangular.rs",
+        "vendor/rand-0.7.3/src/distributions/uniform.rs",
+        "vendor/rand-0.7.3/src/distributions/unit_circle.rs",
+        "vendor/rand-0.7.3/src/distributions/unit_sphere.rs",
+        "vendor/rand-0.7.3/src/distributions/utils.rs",
+        "vendor/rand-0.7.3/src/distributions/weibull.rs",
+        "vendor/rand-0.7.3/src/distributions/weighted/alias_method.rs",
+        "vendor/rand-0.7.3/src/distributions/weighted/mod.rs",
+        "vendor/rand-0.7.3/src/distributions/ziggurat_tables.rs",
+        "vendor/rand-0.7.3/src/lib.rs",
+        "vendor/rand-0.7.3/src/prelude.rs",
+        "vendor/rand-0.7.3/src/rngs/adapter/mod.rs",
+        "vendor/rand-0.7.3/src/rngs/adapter/read.rs",
+        "vendor/rand-0.7.3/src/rngs/adapter/reseeding.rs",
+        "vendor/rand-0.7.3/src/rngs/entropy.rs",
+        "vendor/rand-0.7.3/src/rngs/mock.rs",
+        "vendor/rand-0.7.3/src/rngs/mod.rs",
+        "vendor/rand-0.7.3/src/rngs/small.rs",
+        "vendor/rand-0.7.3/src/rngs/std.rs",
+        "vendor/rand-0.7.3/src/rngs/thread.rs",
+        "vendor/rand-0.7.3/src/seq/index.rs",
+        "vendor/rand-0.7.3/src/seq/mod.rs",
+    ],
+    crate = "rand",
+    crate_root = "vendor/rand-0.7.3/src/lib.rs",
+    edition = "2018",
+    features = [
+        "alloc",
+        "default",
+        "getrandom",
+        "getrandom_package",
+        "libc",
+        "std",
+    ],
+    licenses = [
+        "vendor/rand-0.7.3/LICENSE-APACHE",
+        "vendor/rand-0.7.3/LICENSE-MIT",
+    ],
+    named_deps = {
+        "getrandom_package": ":getrandom-0.1.16",
+    },
+    platform = {
+        "linux-arm64": dict(
+            deps = [
+                ":libc-0.2.148",
+                ":rand_chacha-0.2.2",
+            ],
+        ),
+        "linux-x86_64": dict(
+            deps = [
+                ":libc-0.2.148",
+                ":rand_chacha-0.2.2",
+            ],
+        ),
+        "macos-arm64": dict(
+            deps = [
+                ":libc-0.2.148",
+                ":rand_chacha-0.2.2",
+            ],
+        ),
+    },
+    visibility = [],
+    deps = [":rand_core-0.5.1"],
+)
+
 alias(
     name = "rand",
     actual = ":rand-0.8.5",
@@ -17056,6 +17999,28 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "rand_chacha-0.2.2",
+    srcs = [
+        "vendor/rand_chacha-0.2.2/src/chacha.rs",
+        "vendor/rand_chacha-0.2.2/src/guts.rs",
+        "vendor/rand_chacha-0.2.2/src/lib.rs",
+    ],
+    crate = "rand_chacha",
+    crate_root = "vendor/rand_chacha-0.2.2/src/lib.rs",
+    edition = "2018",
+    features = ["std"],
+    licenses = [
+        "vendor/rand_chacha-0.2.2/LICENSE-APACHE",
+        "vendor/rand_chacha-0.2.2/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":ppv-lite86-0.2.17",
+        ":rand_core-0.5.1",
+    ],
+)
+
+cargo.rust_library(
     name = "rand_chacha-0.3.1",
     srcs = [
         "vendor/rand_chacha-0.3.1/src/chacha.rs",
@@ -17075,6 +18040,32 @@ cargo.rust_library(
         ":ppv-lite86-0.2.17",
         ":rand_core-0.6.4",
     ],
+)
+
+cargo.rust_library(
+    name = "rand_core-0.5.1",
+    srcs = [
+        "vendor/rand_core-0.5.1/src/block.rs",
+        "vendor/rand_core-0.5.1/src/error.rs",
+        "vendor/rand_core-0.5.1/src/impls.rs",
+        "vendor/rand_core-0.5.1/src/le.rs",
+        "vendor/rand_core-0.5.1/src/lib.rs",
+        "vendor/rand_core-0.5.1/src/os.rs",
+    ],
+    crate = "rand_core",
+    crate_root = "vendor/rand_core-0.5.1/src/lib.rs",
+    edition = "2018",
+    features = [
+        "alloc",
+        "getrandom",
+        "std",
+    ],
+    licenses = [
+        "vendor/rand_core-0.5.1/LICENSE-APACHE",
+        "vendor/rand_core-0.5.1/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [":getrandom-0.1.16"],
 )
 
 cargo.rust_library(
@@ -18619,13 +19610,16 @@ cargo.rust_binary(
         ":axum-0.6.20",
         ":axum-server-0.5.1",
         ":backoff-0.4.0",
+        ":base64-0.21.4",
         ":base64-url-2.0.0",
         ":bcs-0.1.5",
+        ":better_any-0.1.1",
         ":bincode-1.3.3",
         ":bumpalo-3.14.0",
         ":byteorder-1.4.3",
         ":bytes-1.5.0",
         ":cached-0.43.0",
+        ":camino-1.1.6",
         ":cfg-if-1.0.0",
         ":clap-4.4.5",
         ":codespan-0.11.1",
@@ -18638,6 +19632,7 @@ cargo.rust_binary(
         ":csv-1.3.0",
         ":dashmap-5.5.3",
         ":derivative-2.2.0",
+        ":derive_builder-0.12.0",
         ":derive_more-0.99.17",
         ":difference-2.0.0",
         ":dirs-4.0.0",
@@ -18647,6 +19642,7 @@ cargo.rust_binary(
         ":enum_dispatch-0.3.12",
         ":ethnum-1.4.0",
         ":eyre-0.6.8",
+        ":fail-0.4.0",
         ":fastcrypto-0.1.6",
         ":fastcrypto-zkp-0.1.1-fastcrypto-zkp",
         ":fdlimit-0.2.1",
@@ -18669,12 +19665,14 @@ cargo.rust_binary(
         ":integer-encoding-3.0.4",
         ":internment-0.5.6",
         ":itertools-0.10.5",
+        ":leb128-0.2.5",
         ":libc-0.2.148",
         ":linked-hash-map-0.5.6",
         ":log-0.4.20",
         ":lru-0.10.1",
         ":match_opt-0.1.2",
         ":mio-0.8.8",
+        ":mockall-0.11.4",
         ":multiaddr-0.17.1",
         ":named-lock-0.2.0",
         ":num-0.4.1",
@@ -18684,9 +19682,11 @@ cargo.rust_binary(
         ":once_cell-1.18.0",
         ":ouroboros-0.17.2",
         ":parking_lot-0.12.1",
+        ":paste-1.0.14",
         ":petgraph-0.5.1",
         ":phf-0.11.2",
         ":pkcs8-0.9.0",
+        ":pretty-0.10.0",
         ":primitive-types-0.10.1",
         ":proc-macro2-1.0.67",
         ":prometheus-0.13.3",
@@ -18696,6 +19696,7 @@ cargo.rust_binary(
         ":prost-0.11.9",
         ":prost-build-0.11.9",
         ":protobuf-2.28.0",
+        ":quinn-proto-0.10.5",
         ":quote-1.0.33",
         ":rand-0.8.5",
         ":rcgen-0.9.3",
@@ -18719,7 +19720,9 @@ cargo.rust_binary(
         ":serde_with-2.3.3",
         ":serde_yaml-0.8.26",
         ":sha2-0.9.9",
+        ":sha3-0.10.8",
         ":signature-1.6.4",
+        ":simplelog-0.9.0",
         ":smallvec-1.11.1",
         ":snap-1.1.0",
         ":socket2-0.5.4",
@@ -18730,6 +19733,7 @@ cargo.rust_binary(
         ":synstructure-0.12.6",
         ":tap-1.0.1",
         ":tempfile-3.8.0",
+        ":tera-1.19.1",
         ":thiserror-1.0.49",
         ":tokio-1.32.0",
         ":tokio-retry-0.3.0",
@@ -20729,6 +21733,12 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "sha3",
+    actual = ":sha3-0.10.8",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
     name = "sha3-0.10.8",
     srcs = [
@@ -21004,6 +22014,44 @@ cargo.rust_library(
     visibility = [],
 )
 
+alias(
+    name = "simplelog",
+    actual = ":simplelog-0.9.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "simplelog-0.9.0",
+    srcs = [
+        "vendor/simplelog-0.9.0/src/config.rs",
+        "vendor/simplelog-0.9.0/src/lib.rs",
+        "vendor/simplelog-0.9.0/src/loggers/comblog.rs",
+        "vendor/simplelog-0.9.0/src/loggers/logging.rs",
+        "vendor/simplelog-0.9.0/src/loggers/mod.rs",
+        "vendor/simplelog-0.9.0/src/loggers/simplelog.rs",
+        "vendor/simplelog-0.9.0/src/loggers/termlog.rs",
+        "vendor/simplelog-0.9.0/src/loggers/testlog.rs",
+        "vendor/simplelog-0.9.0/src/loggers/writelog.rs",
+    ],
+    crate = "simplelog",
+    crate_root = "vendor/simplelog-0.9.0/src/lib.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "termcolor",
+    ],
+    licenses = [
+        "vendor/simplelog-0.9.0/LICENSE.APACHE2",
+        "vendor/simplelog-0.9.0/LICENSE.MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":chrono-0.4.31",
+        ":log-0.4.20",
+        ":termcolor-1.1.3",
+    ],
+)
+
 cargo.rust_library(
     name = "siphasher-0.3.11",
     srcs = [
@@ -21077,6 +22125,20 @@ cargo.rust_library(
     visibility = [],
 )
 
+cargo.rust_library(
+    name = "slug-0.1.4",
+    srcs = ["vendor/slug-0.1.4/src/lib.rs"],
+    crate = "slug",
+    crate_root = "vendor/slug-0.1.4/src/lib.rs",
+    edition = "2015",
+    licenses = [
+        "vendor/slug-0.1.4/LICENSE-APACHE",
+        "vendor/slug-0.1.4/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [":deunicode-0.4.5"],
+)
+
 alias(
     name = "smallvec",
     actual = ":smallvec-1.11.1",
@@ -21104,15 +22166,31 @@ cargo.rust_library(
 cargo.rust_library(
     name = "snafu-0.7.5",
     srcs = [
+        "vendor/snafu-0.7.5/README.md",
+        "vendor/snafu-0.7.5/src/Snafu.md",
         "vendor/snafu-0.7.5/src/backtrace_inert.rs",
         "vendor/snafu-0.7.5/src/backtrace_shim.rs",
         "vendor/snafu-0.7.5/src/error_chain.rs",
         "vendor/snafu-0.7.5/src/futures/mod.rs",
         "vendor/snafu-0.7.5/src/futures/try_future.rs",
         "vendor/snafu-0.7.5/src/futures/try_stream.rs",
+        "vendor/snafu-0.7.5/src/guide.md",
+        "vendor/snafu-0.7.5/src/guide/comparison.md",
+        "vendor/snafu-0.7.5/src/guide/comparison/failure.md",
+        "vendor/snafu-0.7.5/src/guide/compatibility.md",
+        "vendor/snafu-0.7.5/src/guide/feature_flags.md",
+        "vendor/snafu-0.7.5/src/guide/generics.md",
+        "vendor/snafu-0.7.5/src/guide/opaque.md",
+        "vendor/snafu-0.7.5/src/guide/philosophy.md",
+        "vendor/snafu-0.7.5/src/guide/structs.md",
+        "vendor/snafu-0.7.5/src/guide/troubleshooting.md",
+        "vendor/snafu-0.7.5/src/guide/troubleshooting/missing_field_source.md",
+        "vendor/snafu-0.7.5/src/guide/upgrading.md",
+        "vendor/snafu-0.7.5/src/guide/what_code_is_generated.md",
         "vendor/snafu-0.7.5/src/lib.rs",
         "vendor/snafu-0.7.5/src/no_std_error.rs",
         "vendor/snafu-0.7.5/src/once_bool.rs",
+        "vendor/snafu-0.7.5/src/report.md",
         "vendor/snafu-0.7.5/src/report.rs",
     ],
     crate = "snafu",
@@ -21804,16 +22882,100 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "tera",
+    actual = ":tera-1.19.1",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
-    name = "termcolor-1.3.0",
-    srcs = ["vendor/termcolor-1.3.0/src/lib.rs"],
+    name = "tera-1.19.1",
+    srcs = [
+        "vendor/tera-1.19.1/src/builtins/filters/array.rs",
+        "vendor/tera-1.19.1/src/builtins/filters/common.rs",
+        "vendor/tera-1.19.1/src/builtins/filters/mod.rs",
+        "vendor/tera-1.19.1/src/builtins/filters/number.rs",
+        "vendor/tera-1.19.1/src/builtins/filters/object.rs",
+        "vendor/tera-1.19.1/src/builtins/filters/string.rs",
+        "vendor/tera-1.19.1/src/builtins/functions.rs",
+        "vendor/tera-1.19.1/src/builtins/mod.rs",
+        "vendor/tera-1.19.1/src/builtins/testers.rs",
+        "vendor/tera-1.19.1/src/context.rs",
+        "vendor/tera-1.19.1/src/errors.rs",
+        "vendor/tera-1.19.1/src/filter_utils.rs",
+        "vendor/tera-1.19.1/src/lib.rs",
+        "vendor/tera-1.19.1/src/macros.rs",
+        "vendor/tera-1.19.1/src/parser/ast.rs",
+        "vendor/tera-1.19.1/src/parser/mod.rs",
+        "vendor/tera-1.19.1/src/parser/tera.pest",
+        "vendor/tera-1.19.1/src/parser/tests/errors.rs",
+        "vendor/tera-1.19.1/src/parser/tests/lexer.rs",
+        "vendor/tera-1.19.1/src/parser/tests/mod.rs",
+        "vendor/tera-1.19.1/src/parser/tests/parser.rs",
+        "vendor/tera-1.19.1/src/parser/tests/whitespace.rs",
+        "vendor/tera-1.19.1/src/parser/whitespace.rs",
+        "vendor/tera-1.19.1/src/renderer/call_stack.rs",
+        "vendor/tera-1.19.1/src/renderer/for_loop.rs",
+        "vendor/tera-1.19.1/src/renderer/macros.rs",
+        "vendor/tera-1.19.1/src/renderer/mod.rs",
+        "vendor/tera-1.19.1/src/renderer/processor.rs",
+        "vendor/tera-1.19.1/src/renderer/square_brackets.rs",
+        "vendor/tera-1.19.1/src/renderer/stack_frame.rs",
+        "vendor/tera-1.19.1/src/renderer/tests/basic.rs",
+        "vendor/tera-1.19.1/src/renderer/tests/errors.rs",
+        "vendor/tera-1.19.1/src/renderer/tests/inheritance.rs",
+        "vendor/tera-1.19.1/src/renderer/tests/macros.rs",
+        "vendor/tera-1.19.1/src/renderer/tests/mod.rs",
+        "vendor/tera-1.19.1/src/renderer/tests/square_brackets.rs",
+        "vendor/tera-1.19.1/src/renderer/tests/whitespace.rs",
+        "vendor/tera-1.19.1/src/template.rs",
+        "vendor/tera-1.19.1/src/tera.rs",
+        "vendor/tera-1.19.1/src/utils.rs",
+    ],
+    crate = "tera",
+    crate_root = "vendor/tera-1.19.1/src/lib.rs",
+    edition = "2018",
+    features = [
+        "builtins",
+        "chrono",
+        "chrono-tz",
+        "default",
+        "humansize",
+        "percent-encoding",
+        "rand",
+        "slug",
+        "urlencode",
+    ],
+    licenses = ["vendor/tera-1.19.1/LICENSE"],
+    visibility = [],
+    deps = [
+        ":chrono-0.4.31",
+        ":chrono-tz-0.8.3",
+        ":globwalk-0.8.1",
+        ":humansize-2.1.3",
+        ":lazy_static-1.4.0",
+        ":percent-encoding-2.3.0",
+        ":pest-2.7.4",
+        ":pest_derive-2.7.4",
+        ":rand-0.8.5",
+        ":regex-1.9.5",
+        ":serde-1.0.188",
+        ":serde_json-1.0.107",
+        ":slug-0.1.4",
+        ":unic-segment-0.9.0",
+    ],
+)
+
+cargo.rust_library(
+    name = "termcolor-1.1.3",
+    srcs = ["vendor/termcolor-1.1.3/src/lib.rs"],
     crate = "termcolor",
-    crate_root = "vendor/termcolor-1.3.0/src/lib.rs",
+    crate_root = "vendor/termcolor-1.1.3/src/lib.rs",
     edition = "2018",
     licenses = [
-        "vendor/termcolor-1.3.0/COPYING",
-        "vendor/termcolor-1.3.0/LICENSE-MIT",
-        "vendor/termcolor-1.3.0/UNLICENSE",
+        "vendor/termcolor-1.1.3/COPYING",
+        "vendor/termcolor-1.1.3/LICENSE-MIT",
+        "vendor/termcolor-1.1.3/UNLICENSE",
     ],
     visibility = [],
 )
@@ -21843,6 +23005,19 @@ cargo.rust_library(
             deps = [":rustix-0.38.14"],
         ),
     },
+    visibility = [],
+)
+
+cargo.rust_library(
+    name = "termtree-0.4.1",
+    srcs = [
+        "vendor/termtree-0.4.1/src/lib.rs",
+        "vendor/termtree-0.4.1/src/tests.rs",
+    ],
+    crate = "termtree",
+    crate_root = "vendor/termtree-0.4.1/src/lib.rs",
+    edition = "2018",
+    licenses = ["vendor/termtree-0.4.1/LICENSE"],
     visibility = [],
 )
 
@@ -23917,6 +25092,23 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "typed-arena-2.0.2",
+    srcs = [
+        "vendor/typed-arena-2.0.2/src/lib.rs",
+        "vendor/typed-arena-2.0.2/src/test.rs",
+    ],
+    crate = "typed_arena",
+    crate_root = "vendor/typed-arena-2.0.2/src/lib.rs",
+    edition = "2015",
+    features = [
+        "default",
+        "std",
+    ],
+    licenses = ["vendor/typed-arena-2.0.2/LICENSE"],
+    visibility = [],
+)
+
+cargo.rust_library(
     name = "typenum-1.17.0",
     srcs = [
         "vendor/typenum-1.17.0/src/array.rs",
@@ -24030,6 +25222,111 @@ cargo.rust_library(
         "vendor/unarray-0.1.4/LICENSE-MIT",
     ],
     visibility = [],
+)
+
+cargo.rust_library(
+    name = "unic-char-property-0.9.0",
+    srcs = [
+        "vendor/unic-char-property-0.9.0/src/lib.rs",
+        "vendor/unic-char-property-0.9.0/src/macros.rs",
+        "vendor/unic-char-property-0.9.0/src/pkg_info.rs",
+        "vendor/unic-char-property-0.9.0/src/property.rs",
+        "vendor/unic-char-property-0.9.0/src/range_types.rs",
+        "vendor/unic-char-property-0.9.0/src/tables.rs",
+    ],
+    crate = "unic_char_property",
+    crate_root = "vendor/unic-char-property-0.9.0/src/lib.rs",
+    edition = "2018",
+    visibility = [],
+    deps = [":unic-char-range-0.9.0"],
+)
+
+cargo.rust_library(
+    name = "unic-char-range-0.9.0",
+    srcs = [
+        "vendor/unic-char-range-0.9.0/src/iter.rs",
+        "vendor/unic-char-range-0.9.0/src/iter_fused.rs",
+        "vendor/unic-char-range-0.9.0/src/iter_trusted_len.rs",
+        "vendor/unic-char-range-0.9.0/src/lib.rs",
+        "vendor/unic-char-range-0.9.0/src/macros.rs",
+        "vendor/unic-char-range-0.9.0/src/par_iter.rs",
+        "vendor/unic-char-range-0.9.0/src/pkg_info.rs",
+        "vendor/unic-char-range-0.9.0/src/range.rs",
+        "vendor/unic-char-range-0.9.0/src/step.rs",
+    ],
+    crate = "unic_char_range",
+    crate_root = "vendor/unic-char-range-0.9.0/src/lib.rs",
+    edition = "2018",
+    features = ["default"],
+    visibility = [],
+)
+
+cargo.rust_library(
+    name = "unic-common-0.9.0",
+    srcs = [
+        "vendor/unic-common-0.9.0/src/lib.rs",
+        "vendor/unic-common-0.9.0/src/pkg_info.rs",
+        "vendor/unic-common-0.9.0/src/version.rs",
+    ],
+    crate = "unic_common",
+    crate_root = "vendor/unic-common-0.9.0/src/lib.rs",
+    edition = "2018",
+    features = ["default"],
+    visibility = [],
+)
+
+cargo.rust_library(
+    name = "unic-segment-0.9.0",
+    srcs = [
+        "vendor/unic-segment-0.9.0/src/grapheme.rs",
+        "vendor/unic-segment-0.9.0/src/lib.rs",
+        "vendor/unic-segment-0.9.0/src/pkg_info.rs",
+        "vendor/unic-segment-0.9.0/src/word.rs",
+    ],
+    crate = "unic_segment",
+    crate_root = "vendor/unic-segment-0.9.0/src/lib.rs",
+    edition = "2018",
+    visibility = [],
+    deps = [":unic-ucd-segment-0.9.0"],
+)
+
+cargo.rust_library(
+    name = "unic-ucd-segment-0.9.0",
+    srcs = [
+        "vendor/unic-ucd-segment-0.9.0/src/grapheme_cluster_break.rs",
+        "vendor/unic-ucd-segment-0.9.0/src/lib.rs",
+        "vendor/unic-ucd-segment-0.9.0/src/pkg_info.rs",
+        "vendor/unic-ucd-segment-0.9.0/src/sentence_break.rs",
+        "vendor/unic-ucd-segment-0.9.0/src/word_break.rs",
+        "vendor/unic-ucd-segment-0.9.0/tables/grapheme_cluster_break.rsv",
+        "vendor/unic-ucd-segment-0.9.0/tables/sentence_break.rsv",
+        "vendor/unic-ucd-segment-0.9.0/tables/unicode_version.rsv",
+        "vendor/unic-ucd-segment-0.9.0/tables/word_break.rsv",
+    ],
+    crate = "unic_ucd_segment",
+    crate_root = "vendor/unic-ucd-segment-0.9.0/src/lib.rs",
+    edition = "2018",
+    visibility = [],
+    deps = [
+        ":unic-char-property-0.9.0",
+        ":unic-char-range-0.9.0",
+        ":unic-ucd-version-0.9.0",
+    ],
+)
+
+cargo.rust_library(
+    name = "unic-ucd-version-0.9.0",
+    srcs = [
+        "vendor/unic-ucd-version-0.9.0/src/lib.rs",
+        "vendor/unic-ucd-version-0.9.0/src/pkg_info.rs",
+        "vendor/unic-ucd-version-0.9.0/src/unicode_version.rs",
+        "vendor/unic-ucd-version-0.9.0/tables/unicode_version.rsv",
+    ],
+    crate = "unic_ucd_version",
+    crate_root = "vendor/unic-ucd-version-0.9.0/src/lib.rs",
+    edition = "2018",
+    visibility = [],
+    deps = [":unic-common-0.9.0"],
 )
 
 alias(

@@ -9,3 +9,9 @@ rust_library(
     ],
     visibility=["PUBLIC"],
 )
+
+alias(
+    name="crypto",
+    actual=":narwhal-crypto",
+    visibility = ["PUBLIC"],
+)

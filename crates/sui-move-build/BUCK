@@ -1,0 +1,31 @@
+
+rust_library(
+    name = "sui-move-build",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-move-build",
+        "CARGO_PKG_VERSION": "0.0.0",
+        "CARGO_PKG_NAME": "sui-move-build",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:fastcrypto",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
+        "//external-crates/move/move-bytecode-verifier:move-bytecode-verifier",
+        "//external-crates/move/move-command-line-common:move-command-line-common",
+        "//external-crates/move/move-compiler:move-compiler",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//external-crates/move/move-ir/types:move-ir-types",
+        "//external-crates/move/tools/move-package:move-package",
+        "//external-crates/move/move-symbol-pool:move-symbol-pool",
+        "//third-party:serde-reflection",
+        "//crates/sui-types:sui-types",
+        "//sui-execution/latest/sui-verifier:sui-verifier",
+        "//third-party:tempfile",
+    ]
+)

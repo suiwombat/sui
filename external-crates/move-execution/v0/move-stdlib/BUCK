@@ -1,0 +1,38 @@
+
+rust_library(
+    name = "move-stdlib-v0",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+        "CARGO_BIN_NAME": "move-stdlib-v0",
+        "CARGO_PKG_VERSION": "0.1.1",
+        "CARGO_PKG_NAME": "move-stdlib-v0",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:hex",
+        "//third-party:log",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/move-command-line-common:move-command-line-common",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//external-crates/move/move-prover/move-docgen:move-docgen",
+        "//external-crates/move/move-prover/move-errmapgen:move-errmapgen",
+        "//external-crates/move/move-prover:move-prover",
+        "//external-crates/move-execution/v0/move-vm/runtime:move-vm-runtime",
+        "//external-crates/move/move-vm/types:move-vm-types",
+        "//third-party:sha2",
+        "//third-party:sha3",
+        "//third-party:smallvec",
+        "//third-party:walkdir",
+    ]
+)
+
+
+alias(
+    name="move-stdlib",
+    actual=":move-stdlib-v0",
+    visibility = ["PUBLIC"],
+)
