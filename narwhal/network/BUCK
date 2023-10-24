@@ -36,3 +36,8 @@ rust_library(
         "//narwhal/types:types",
     ]
 )
+alias(
+    name="network",
+    actual=":narwhal-network",
+    visibility = ["PUBLIC"],
+)

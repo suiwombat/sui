@@ -28,3 +28,8 @@ rust_library(
         "//narwhal/types:types",
     ]
 )
+alias(
+    name="storage",
+    actual=":narwhal-storage",
+    visibility = ["PUBLIC"],
+)

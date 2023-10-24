@@ -43,3 +43,9 @@ rust_library(
         "//narwhal/types:types",
     ]
 )
+
+alias(
+    name="worker",
+    actual=":narwhal-worker",
+    visibility = ["PUBLIC"],
+)

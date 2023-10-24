@@ -2205,6 +2205,26 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "base16ct-0.1.1",
+    srcs = [
+        "vendor/base16ct-0.1.1/src/display.rs",
+        "vendor/base16ct-0.1.1/src/error.rs",
+        "vendor/base16ct-0.1.1/src/lib.rs",
+        "vendor/base16ct-0.1.1/src/lower.rs",
+        "vendor/base16ct-0.1.1/src/mixed.rs",
+        "vendor/base16ct-0.1.1/src/upper.rs",
+    ],
+    crate = "base16ct",
+    crate_root = "vendor/base16ct-0.1.1/src/lib.rs",
+    edition = "2021",
+    licenses = [
+        "vendor/base16ct-0.1.1/LICENSE-APACHE",
+        "vendor/base16ct-0.1.1/LICENSE-MIT",
+    ],
+    visibility = [],
+)
+
+cargo.rust_library(
     name = "base16ct-0.2.0",
     srcs = [
         "vendor/base16ct-0.2.0/src/display.rs",
@@ -2570,6 +2590,67 @@ buildscript_run(
     buildscript_rule = ":bindgen-0.65.1-build-script-build",
     features = ["runtime"],
     version = "0.65.1",
+)
+
+alias(
+    name = "bip32",
+    actual = ":bip32-0.4.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "bip32-0.4.0",
+    srcs = [
+        "vendor/bip32-0.4.0/README.md",
+        "vendor/bip32-0.4.0/src/child_number.rs",
+        "vendor/bip32-0.4.0/src/derivation_path.rs",
+        "vendor/bip32-0.4.0/src/error.rs",
+        "vendor/bip32-0.4.0/src/extended_key.rs",
+        "vendor/bip32-0.4.0/src/extended_key/attrs.rs",
+        "vendor/bip32-0.4.0/src/extended_key/private_key.rs",
+        "vendor/bip32-0.4.0/src/extended_key/public_key.rs",
+        "vendor/bip32-0.4.0/src/lib.rs",
+        "vendor/bip32-0.4.0/src/mnemonic.rs",
+        "vendor/bip32-0.4.0/src/mnemonic/bits.rs",
+        "vendor/bip32-0.4.0/src/mnemonic/langs/english.txt",
+        "vendor/bip32-0.4.0/src/mnemonic/language.rs",
+        "vendor/bip32-0.4.0/src/mnemonic/phrase.rs",
+        "vendor/bip32-0.4.0/src/mnemonic/seed.rs",
+        "vendor/bip32-0.4.0/src/prefix.rs",
+        "vendor/bip32-0.4.0/src/private_key.rs",
+        "vendor/bip32-0.4.0/src/public_key.rs",
+    ],
+    crate = "bip32",
+    crate_root = "vendor/bip32-0.4.0/src/lib.rs",
+    edition = "2021",
+    features = [
+        "alloc",
+        "bip39",
+        "default",
+        "k256",
+        "mnemonic",
+        "once_cell",
+        "pbkdf2",
+        "secp256k1",
+        "std",
+    ],
+    licenses = [
+        "vendor/bip32-0.4.0/LICENSE-APACHE",
+        "vendor/bip32-0.4.0/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":bs58-0.4.0",
+        ":hmac-0.12.1",
+        ":k256-0.11.6",
+        ":once_cell-1.18.0",
+        ":pbkdf2-0.11.0",
+        ":rand_core-0.6.4",
+        ":ripemd-0.1.3",
+        ":sha2-0.10.8",
+        ":subtle-2.5.0",
+        ":zeroize-1.6.0",
+    ],
 )
 
 cargo.rust_library(
@@ -3226,7 +3307,9 @@ cargo.rust_library(
     edition = "2018",
     features = [
         "alloc",
+        "check",
         "default",
+        "sha2",
         "std",
     ],
     licenses = [
@@ -3234,6 +3317,7 @@ cargo.rust_library(
         "vendor/bs58-0.4.0/LICENSE-MIT",
     ],
     visibility = [],
+    deps = [":sha2-0.9.9"],
 )
 
 cargo.rust_library(
@@ -4505,11 +4589,16 @@ cargo.rust_library(
     crate = "console",
     crate_root = "vendor/console-0.15.7/src/lib.rs",
     edition = "2018",
+    features = [
+        "ansi-parsing",
+        "unicode-width",
+    ],
     licenses = ["vendor/console-0.15.7/LICENSE"],
     visibility = [],
     deps = [
         ":lazy_static-1.4.0",
         ":libc-0.2.148",
+        ":unicode-width-0.1.11",
     ],
 )
 
@@ -5158,6 +5247,82 @@ buildscript_run(
     buildscript_rule = ":crunchy-0.2.2-build-script-build",
     features = ["std"],
     version = "0.2.2",
+)
+
+cargo.rust_library(
+    name = "crypto-bigint-0.4.9",
+    srcs = [
+        "vendor/crypto-bigint-0.4.9/README.md",
+        "vendor/crypto-bigint-0.4.9/src/array.rs",
+        "vendor/crypto-bigint-0.4.9/src/checked.rs",
+        "vendor/crypto-bigint-0.4.9/src/lib.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/add.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/bit_and.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/bit_not.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/bit_or.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/bit_xor.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/bits.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/cmp.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/encoding.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/from.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/mul.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/rand.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/shl.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/shr.rs",
+        "vendor/crypto-bigint-0.4.9/src/limb/sub.rs",
+        "vendor/crypto-bigint-0.4.9/src/nlimbs.rs",
+        "vendor/crypto-bigint-0.4.9/src/non_zero.rs",
+        "vendor/crypto-bigint-0.4.9/src/traits.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/add.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/add_mod.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/array.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/bit_and.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/bit_not.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/bit_or.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/bit_xor.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/bits.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/cmp.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/concat.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/div.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/encoding.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/encoding/der.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/encoding/rlp.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/from.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/inv_mod.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/mul.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/mul_mod.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/neg_mod.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/rand.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/resize.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/shl.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/shr.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/split.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/sqrt.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/sub.rs",
+        "vendor/crypto-bigint-0.4.9/src/uint/sub_mod.rs",
+        "vendor/crypto-bigint-0.4.9/src/wrapping.rs",
+    ],
+    crate = "crypto_bigint",
+    crate_root = "vendor/crypto-bigint-0.4.9/src/lib.rs",
+    edition = "2021",
+    features = [
+        "generic-array",
+        "rand_core",
+        "zeroize",
+    ],
+    licenses = [
+        "vendor/crypto-bigint-0.4.9/LICENSE-APACHE",
+        "vendor/crypto-bigint-0.4.9/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":generic-array-0.14.7",
+        ":rand_core-0.6.4",
+        ":subtle-2.5.0",
+        ":zeroize-1.6.0",
+    ],
 )
 
 cargo.rust_library(
@@ -6552,6 +6717,43 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "ecdsa-0.14.8",
+    srcs = [
+        "vendor/ecdsa-0.14.8/README.md",
+        "vendor/ecdsa-0.14.8/src/der.rs",
+        "vendor/ecdsa-0.14.8/src/dev.rs",
+        "vendor/ecdsa-0.14.8/src/hazmat.rs",
+        "vendor/ecdsa-0.14.8/src/lib.rs",
+        "vendor/ecdsa-0.14.8/src/recovery.rs",
+        "vendor/ecdsa-0.14.8/src/sign.rs",
+        "vendor/ecdsa-0.14.8/src/verify.rs",
+    ],
+    crate = "ecdsa",
+    crate_root = "vendor/ecdsa-0.14.8/src/lib.rs",
+    edition = "2021",
+    features = [
+        "arithmetic",
+        "der",
+        "digest",
+        "hazmat",
+        "rfc6979",
+        "sign",
+        "verify",
+    ],
+    licenses = [
+        "vendor/ecdsa-0.14.8/LICENSE-APACHE",
+        "vendor/ecdsa-0.14.8/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":der-0.6.1",
+        ":elliptic-curve-0.12.3",
+        ":rfc6979-0.3.1",
+        ":signature-1.6.4",
+    ],
+)
+
+cargo.rust_library(
     name = "ecdsa-0.16.8",
     srcs = [
         "vendor/ecdsa-0.16.8/README.md",
@@ -6691,6 +6893,68 @@ cargo.rust_library(
         "vendor/either-1.9.0/LICENSE-MIT",
     ],
     visibility = [],
+)
+
+cargo.rust_library(
+    name = "elliptic-curve-0.12.3",
+    srcs = [
+        "vendor/elliptic-curve-0.12.3/README.md",
+        "vendor/elliptic-curve-0.12.3/src/arithmetic.rs",
+        "vendor/elliptic-curve-0.12.3/src/dev.rs",
+        "vendor/elliptic-curve-0.12.3/src/ecdh.rs",
+        "vendor/elliptic-curve-0.12.3/src/error.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve/group_digest.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve/hash2field.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve/hash2field/expand_msg.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve/hash2field/expand_msg/xmd.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve/hash2field/expand_msg/xof.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve/isogeny.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve/map2curve.rs",
+        "vendor/elliptic-curve-0.12.3/src/hash2curve/osswu.rs",
+        "vendor/elliptic-curve-0.12.3/src/jwk.rs",
+        "vendor/elliptic-curve-0.12.3/src/lib.rs",
+        "vendor/elliptic-curve-0.12.3/src/macros.rs",
+        "vendor/elliptic-curve-0.12.3/src/ops.rs",
+        "vendor/elliptic-curve-0.12.3/src/point.rs",
+        "vendor/elliptic-curve-0.12.3/src/public_key.rs",
+        "vendor/elliptic-curve-0.12.3/src/scalar.rs",
+        "vendor/elliptic-curve-0.12.3/src/scalar/core.rs",
+        "vendor/elliptic-curve-0.12.3/src/scalar/nonzero.rs",
+        "vendor/elliptic-curve-0.12.3/src/sec1.rs",
+        "vendor/elliptic-curve-0.12.3/src/secret_key.rs",
+        "vendor/elliptic-curve-0.12.3/src/secret_key/pkcs8.rs",
+        "vendor/elliptic-curve-0.12.3/src/weierstrass.rs",
+    ],
+    crate = "elliptic_curve",
+    crate_root = "vendor/elliptic-curve-0.12.3/src/lib.rs",
+    edition = "2021",
+    features = [
+        "arithmetic",
+        "digest",
+        "ff",
+        "group",
+        "hazmat",
+        "sec1",
+    ],
+    licenses = [
+        "vendor/elliptic-curve-0.12.3/LICENSE-APACHE",
+        "vendor/elliptic-curve-0.12.3/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":base16ct-0.1.1",
+        ":crypto-bigint-0.4.9",
+        ":der-0.6.1",
+        ":digest-0.10.7",
+        ":ff-0.12.1",
+        ":generic-array-0.14.7",
+        ":group-0.12.1",
+        ":rand_core-0.6.4",
+        ":sec1-0.3.0",
+        ":subtle-2.5.0",
+        ":zeroize-1.6.0",
+    ],
 )
 
 cargo.rust_library(
@@ -7274,6 +7538,26 @@ cargo.rust_library(
     licenses = ["vendor/fdlimit-0.2.1/LICENSE"],
     visibility = [],
     deps = [":libc-0.2.148"],
+)
+
+cargo.rust_library(
+    name = "ff-0.12.1",
+    srcs = [
+        "vendor/ff-0.12.1/src/batch.rs",
+        "vendor/ff-0.12.1/src/lib.rs",
+    ],
+    crate = "ff",
+    crate_root = "vendor/ff-0.12.1/src/lib.rs",
+    edition = "2021",
+    licenses = [
+        "vendor/ff-0.12.1/LICENSE-APACHE",
+        "vendor/ff-0.12.1/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":rand_core-0.6.4",
+        ":subtle-2.5.0",
+    ],
 )
 
 cargo.rust_library(
@@ -8303,6 +8587,12 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "governor",
+    actual = ":governor-0.6.0",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
     name = "governor-0.6.0",
     srcs = [
@@ -8354,6 +8644,30 @@ cargo.rust_library(
         ":quanta-0.11.1",
         ":rand-0.8.5",
         ":smallvec-1.11.1",
+    ],
+)
+
+cargo.rust_library(
+    name = "group-0.12.1",
+    srcs = [
+        "vendor/group-0.12.1/src/cofactor.rs",
+        "vendor/group-0.12.1/src/lib.rs",
+        "vendor/group-0.12.1/src/prime.rs",
+        "vendor/group-0.12.1/src/tests/mod.rs",
+        "vendor/group-0.12.1/src/wnaf.rs",
+    ],
+    crate = "group",
+    crate_root = "vendor/group-0.12.1/src/lib.rs",
+    edition = "2021",
+    licenses = [
+        "vendor/group-0.12.1/LICENSE-APACHE",
+        "vendor/group-0.12.1/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":ff-0.12.1",
+        ":rand_core-0.6.4",
+        ":subtle-2.5.0",
     ],
 )
 
@@ -8871,6 +9185,19 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [":digest-0.10.7"],
+)
+
+cargo.rust_library(
+    name = "hmac-sha512-0.1.9",
+    srcs = ["vendor/hmac-sha512-0.1.9/src/lib.rs"],
+    crate = "hmac_sha512",
+    crate_root = "vendor/hmac-sha512-0.1.9/src/lib.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "sha384",
+    ],
+    visibility = [],
 )
 
 cargo.rust_library(
@@ -9584,6 +9911,44 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "indicatif",
+    actual = ":indicatif-0.17.7",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "indicatif-0.17.7",
+    srcs = [
+        "vendor/indicatif-0.17.7/src/draw_target.rs",
+        "vendor/indicatif-0.17.7/src/format.rs",
+        "vendor/indicatif-0.17.7/src/in_memory.rs",
+        "vendor/indicatif-0.17.7/src/iter.rs",
+        "vendor/indicatif-0.17.7/src/lib.rs",
+        "vendor/indicatif-0.17.7/src/multi.rs",
+        "vendor/indicatif-0.17.7/src/progress_bar.rs",
+        "vendor/indicatif-0.17.7/src/rayon.rs",
+        "vendor/indicatif-0.17.7/src/state.rs",
+        "vendor/indicatif-0.17.7/src/style.rs",
+        "vendor/indicatif-0.17.7/src/term_like.rs",
+    ],
+    crate = "indicatif",
+    crate_root = "vendor/indicatif-0.17.7/src/lib.rs",
+    edition = "2021",
+    features = [
+        "default",
+        "unicode-width",
+    ],
+    licenses = ["vendor/indicatif-0.17.7/LICENSE"],
+    visibility = [],
+    deps = [
+        ":console-0.15.7",
+        ":number_prefix-0.4.0",
+        ":portable-atomic-1.5.0",
+        ":unicode-width-0.1.11",
+    ],
+)
+
 cargo.rust_library(
     name = "inout-0.1.3",
     srcs = [
@@ -10027,6 +10392,66 @@ cargo.rust_library(
         ),
     },
     visibility = [],
+)
+
+cargo.rust_library(
+    name = "k256-0.11.6",
+    srcs = [
+        "vendor/k256-0.11.6/src/arithmetic.rs",
+        "vendor/k256-0.11.6/src/arithmetic/affine.rs",
+        "vendor/k256-0.11.6/src/arithmetic/dev.rs",
+        "vendor/k256-0.11.6/src/arithmetic/field.rs",
+        "vendor/k256-0.11.6/src/arithmetic/field/field_10x26.rs",
+        "vendor/k256-0.11.6/src/arithmetic/field/field_5x52.rs",
+        "vendor/k256-0.11.6/src/arithmetic/field/field_impl.rs",
+        "vendor/k256-0.11.6/src/arithmetic/hash2curve.rs",
+        "vendor/k256-0.11.6/src/arithmetic/mul.rs",
+        "vendor/k256-0.11.6/src/arithmetic/projective.rs",
+        "vendor/k256-0.11.6/src/arithmetic/scalar.rs",
+        "vendor/k256-0.11.6/src/arithmetic/scalar/wide32.rs",
+        "vendor/k256-0.11.6/src/arithmetic/scalar/wide64.rs",
+        "vendor/k256-0.11.6/src/ecdh.rs",
+        "vendor/k256-0.11.6/src/ecdsa.rs",
+        "vendor/k256-0.11.6/src/ecdsa/normalize.rs",
+        "vendor/k256-0.11.6/src/ecdsa/recoverable.rs",
+        "vendor/k256-0.11.6/src/ecdsa/sign.rs",
+        "vendor/k256-0.11.6/src/ecdsa/verify.rs",
+        "vendor/k256-0.11.6/src/lib.rs",
+        "vendor/k256-0.11.6/src/schnorr.rs",
+        "vendor/k256-0.11.6/src/schnorr/sign.rs",
+        "vendor/k256-0.11.6/src/schnorr/verify.rs",
+        "vendor/k256-0.11.6/src/test_vectors.rs",
+        "vendor/k256-0.11.6/src/test_vectors/ecdsa.rs",
+        "vendor/k256-0.11.6/src/test_vectors/field.rs",
+        "vendor/k256-0.11.6/src/test_vectors/group.rs",
+    ],
+    crate = "k256",
+    crate_root = "vendor/k256-0.11.6/src/lib.rs",
+    edition = "2021",
+    features = [
+        "arithmetic",
+        "digest",
+        "ecdsa",
+        "ecdsa-core",
+        "keccak256",
+        "sha2",
+        "sha256",
+        "sha3",
+    ],
+    licenses = [
+        "vendor/k256-0.11.6/LICENSE-APACHE",
+        "vendor/k256-0.11.6/LICENSE-MIT",
+    ],
+    named_deps = {
+        "ecdsa_core": ":ecdsa-0.14.8",
+    },
+    visibility = [],
+    deps = [
+        ":cfg-if-1.0.0",
+        ":elliptic-curve-0.12.3",
+        ":sha2-0.10.8",
+        ":sha3-0.10.8",
+    ],
 )
 
 cargo.rust_library(
@@ -15115,6 +15540,12 @@ buildscript_run(
     version = "0.2.16",
 )
 
+alias(
+    name = "num_cpus",
+    actual = ":num_cpus-1.16.0",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
     name = "num_cpus-1.16.0",
     srcs = [
@@ -15190,6 +15621,22 @@ cargo.rust_library(
         ":quote-1.0.33",
         ":syn-2.0.37",
     ],
+)
+
+cargo.rust_library(
+    name = "number_prefix-0.4.0",
+    srcs = [
+        "vendor/number_prefix-0.4.0/src/lib.rs",
+        "vendor/number_prefix-0.4.0/src/parse.rs",
+    ],
+    crate = "number_prefix",
+    crate_root = "vendor/number_prefix-0.4.0/src/lib.rs",
+    edition = "2015",
+    features = [
+        "default",
+        "std",
+    ],
+    visibility = [],
 )
 
 cargo.rust_library(
@@ -15901,6 +16348,23 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "pbkdf2-0.11.0",
+    srcs = [
+        "vendor/pbkdf2-0.11.0/src/lib.rs",
+        "vendor/pbkdf2-0.11.0/src/simple.rs",
+    ],
+    crate = "pbkdf2",
+    crate_root = "vendor/pbkdf2-0.11.0/src/lib.rs",
+    edition = "2021",
+    licenses = [
+        "vendor/pbkdf2-0.11.0/LICENSE-APACHE",
+        "vendor/pbkdf2-0.11.0/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [":digest-0.10.7"],
+)
+
+cargo.rust_library(
     name = "peeking_take_while-0.1.2",
     srcs = ["vendor/peeking_take_while-0.1.2/src/lib.rs"],
     crate = "peeking_take_while",
@@ -16557,6 +17021,90 @@ cargo.rust_library(
         ":opaque-debug-0.3.0",
         ":universal-hash-0.5.1",
     ],
+)
+
+cargo.rust_library(
+    name = "portable-atomic-1.5.0",
+    srcs = [
+        "vendor/portable-atomic-1.5.0/src/gen/utils.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/arm_linux.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/aarch64.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/detect/aarch64_aa64reg.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/detect/aarch64_fuchsia.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/detect/aarch64_macos.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/detect/aarch64_windows.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/detect/auxv.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/detect/common.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/detect/x86_64.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/intrinsics.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/macros.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/powerpc64.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/s390x.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/atomic128/x86_64.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/core_atomic.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/fallback/mod.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/fallback/outline_atomics.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/fallback/seq_lock.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/fallback/seq_lock_wide.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/fallback/utils.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/float.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/interrupt/armv4t.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/interrupt/armv6m.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/interrupt/avr.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/interrupt/mod.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/interrupt/msp430.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/interrupt/riscv.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/interrupt/xtensa.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/mod.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/msp430.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/riscv.rs",
+        "vendor/portable-atomic-1.5.0/src/imp/x86.rs",
+        "vendor/portable-atomic-1.5.0/src/lib.rs",
+        "vendor/portable-atomic-1.5.0/src/tests/helper.rs",
+        "vendor/portable-atomic-1.5.0/src/tests/mod.rs",
+        "vendor/portable-atomic-1.5.0/src/utils.rs",
+    ],
+    crate = "portable_atomic",
+    crate_root = "vendor/portable-atomic-1.5.0/src/lib.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "fallback",
+    ],
+    licenses = [
+        "vendor/portable-atomic-1.5.0/LICENSE-APACHE",
+        "vendor/portable-atomic-1.5.0/LICENSE-MIT",
+    ],
+    rustc_flags = ["@$(location :portable-atomic-1.5.0-build-script-run[rustc_flags])"],
+    visibility = [],
+)
+
+cargo.rust_binary(
+    name = "portable-atomic-1.5.0-build-script-build",
+    srcs = [
+        "vendor/portable-atomic-1.5.0/build.rs",
+        "vendor/portable-atomic-1.5.0/no_atomic.rs",
+        "vendor/portable-atomic-1.5.0/version.rs",
+    ],
+    crate = "build_script_build",
+    crate_root = "vendor/portable-atomic-1.5.0/build.rs",
+    edition = "2018",
+    features = [
+        "default",
+        "fallback",
+    ],
+    visibility = [],
+)
+
+buildscript_run(
+    name = "portable-atomic-1.5.0-build-script-run",
+    package_name = "portable-atomic",
+    buildscript_rule = ":portable-atomic-1.5.0-build-script-build",
+    features = [
+        "default",
+        "fallback",
+    ],
+    version = "1.5.0",
 )
 
 cargo.rust_library(
@@ -18899,6 +19447,27 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "rfc6979-0.3.1",
+    srcs = [
+        "vendor/rfc6979-0.3.1/README.md",
+        "vendor/rfc6979-0.3.1/src/lib.rs",
+    ],
+    crate = "rfc6979",
+    crate_root = "vendor/rfc6979-0.3.1/src/lib.rs",
+    edition = "2021",
+    licenses = [
+        "vendor/rfc6979-0.3.1/LICENSE-APACHE",
+        "vendor/rfc6979-0.3.1/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":crypto-bigint-0.4.9",
+        ":hmac-0.12.1",
+        ":zeroize-1.6.0",
+    ],
+)
+
+cargo.rust_library(
     name = "rfc6979-0.4.0",
     srcs = [
         "vendor/rfc6979-0.4.0/README.md",
@@ -19428,6 +19997,26 @@ cargo.rust_library(
     ],
 )
 
+cargo.rust_library(
+    name = "ripemd-0.1.3",
+    srcs = [
+        "vendor/ripemd-0.1.3/src/c128.rs",
+        "vendor/ripemd-0.1.3/src/c160.rs",
+        "vendor/ripemd-0.1.3/src/c256.rs",
+        "vendor/ripemd-0.1.3/src/c320.rs",
+        "vendor/ripemd-0.1.3/src/lib.rs",
+    ],
+    crate = "ripemd",
+    crate_root = "vendor/ripemd-0.1.3/src/lib.rs",
+    edition = "2018",
+    licenses = [
+        "vendor/ripemd-0.1.3/LICENSE-APACHE",
+        "vendor/ripemd-0.1.3/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [":digest-0.10.7"],
+)
+
 alias(
     name = "roaring",
     actual = ":roaring-0.10.2",
@@ -19615,6 +20204,7 @@ cargo.rust_binary(
         ":bcs-0.1.5",
         ":better_any-0.1.1",
         ":bincode-1.3.3",
+        ":bip32-0.4.0",
         ":bumpalo-3.14.0",
         ":byteorder-1.4.3",
         ":bytes-1.5.0",
@@ -19650,6 +20240,7 @@ cargo.rust_binary(
         ":futures-core-0.3.28",
         ":getrandom-0.2.10",
         ":git-version-0.3.5",
+        ":governor-0.6.0",
         ":hashbrown-0.12.3",
         ":hdrhistogram-7.5.2",
         ":heck-0.3.3",
@@ -19661,6 +20252,7 @@ cargo.rust_binary(
         ":im-15.1.0",
         ":impl-trait-for-tuples-0.2.2",
         ":indexmap-1.9.3",
+        ":indicatif-0.17.7",
         ":insta-1.33.0",
         ":integer-encoding-3.0.4",
         ":internment-0.5.6",
@@ -19677,6 +20269,7 @@ cargo.rust_binary(
         ":named-lock-0.2.0",
         ":num-0.4.1",
         ":num-bigint-0.4.4",
+        ":num_cpus-1.16.0",
         ":num_enum-0.6.1",
         ":object_store-0.7.1",
         ":once_cell-1.18.0",
@@ -19723,6 +20316,7 @@ cargo.rust_binary(
         ":sha3-0.10.8",
         ":signature-1.6.4",
         ":simplelog-0.9.0",
+        ":slip10_ed25519-0.1.3",
         ":smallvec-1.11.1",
         ":snap-1.1.0",
         ":socket2-0.5.4",
@@ -19735,6 +20329,7 @@ cargo.rust_binary(
         ":tempfile-3.8.0",
         ":tera-1.19.1",
         ":thiserror-1.0.49",
+        ":tiny-bip39-1.0.0",
         ":tokio-1.32.0",
         ":tokio-retry-0.3.0",
         ":tokio-rustls-0.24.1",
@@ -20908,6 +21503,43 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "sec1-0.3.0",
+    srcs = [
+        "vendor/sec1-0.3.0/README.md",
+        "vendor/sec1-0.3.0/src/error.rs",
+        "vendor/sec1-0.3.0/src/lib.rs",
+        "vendor/sec1-0.3.0/src/parameters.rs",
+        "vendor/sec1-0.3.0/src/point.rs",
+        "vendor/sec1-0.3.0/src/private_key.rs",
+        "vendor/sec1-0.3.0/src/traits.rs",
+    ],
+    crate = "sec1",
+    crate_root = "vendor/sec1-0.3.0/src/lib.rs",
+    edition = "2021",
+    features = [
+        "base16ct",
+        "default",
+        "der",
+        "generic-array",
+        "point",
+        "subtle",
+        "zeroize",
+    ],
+    licenses = [
+        "vendor/sec1-0.3.0/LICENSE-APACHE",
+        "vendor/sec1-0.3.0/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":base16ct-0.1.1",
+        ":der-0.6.1",
+        ":generic-array-0.14.7",
+        ":subtle-2.5.0",
+        ":zeroize-1.6.0",
+    ],
+)
+
+cargo.rust_library(
     name = "sec1-0.7.3",
     srcs = [
         "vendor/sec1-0.7.3/README.md",
@@ -21937,6 +22569,11 @@ cargo.rust_library(
     edition = "2021",
     features = [
         "default",
+        "digest",
+        "digest-preview",
+        "hazmat-preview",
+        "rand-preview",
+        "rand_core",
         "std",
     ],
     licenses = [
@@ -21944,6 +22581,10 @@ cargo.rust_library(
         "vendor/signature-1.6.4/LICENSE-MIT",
     ],
     visibility = [],
+    deps = [
+        ":digest-0.10.7",
+        ":rand_core-0.6.4",
+    ],
 )
 
 cargo.rust_library(
@@ -22123,6 +22764,22 @@ cargo.rust_library(
     ],
     licenses = ["vendor/slab-0.4.9/LICENSE"],
     visibility = [],
+)
+
+alias(
+    name = "slip10_ed25519",
+    actual = ":slip10_ed25519-0.1.3",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "slip10_ed25519-0.1.3",
+    srcs = ["vendor/slip10_ed25519-0.1.3/src/lib.rs"],
+    crate = "slip10_ed25519",
+    crate_root = "vendor/slip10_ed25519-0.1.3/src/lib.rs",
+    edition = "2018",
+    visibility = [],
+    deps = [":hmac-sha512-0.1.9"],
 )
 
 cargo.rust_library(
@@ -23260,6 +23917,64 @@ cargo.rust_library(
     proc_macro = True,
     visibility = [],
     deps = [":time-core-0.1.2"],
+)
+
+alias(
+    name = "tiny-bip39",
+    actual = ":tiny-bip39-1.0.0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "tiny-bip39-1.0.0",
+    srcs = [
+        "vendor/tiny-bip39-1.0.0/src/crypto.rs",
+        "vendor/tiny-bip39-1.0.0/src/error.rs",
+        "vendor/tiny-bip39-1.0.0/src/langs/chinese_simplified.txt",
+        "vendor/tiny-bip39-1.0.0/src/langs/chinese_traditional.txt",
+        "vendor/tiny-bip39-1.0.0/src/langs/english.txt",
+        "vendor/tiny-bip39-1.0.0/src/langs/french.txt",
+        "vendor/tiny-bip39-1.0.0/src/langs/italian.txt",
+        "vendor/tiny-bip39-1.0.0/src/langs/japanese.txt",
+        "vendor/tiny-bip39-1.0.0/src/langs/korean.txt",
+        "vendor/tiny-bip39-1.0.0/src/langs/spanish.txt",
+        "vendor/tiny-bip39-1.0.0/src/language.rs",
+        "vendor/tiny-bip39-1.0.0/src/lib.rs",
+        "vendor/tiny-bip39-1.0.0/src/mnemonic.rs",
+        "vendor/tiny-bip39-1.0.0/src/mnemonic_type.rs",
+        "vendor/tiny-bip39-1.0.0/src/seed.rs",
+        "vendor/tiny-bip39-1.0.0/src/util.rs",
+    ],
+    crate = "bip39",
+    crate_root = "vendor/tiny-bip39-1.0.0/src/lib.rs",
+    edition = "2018",
+    features = [
+        "chinese-simplified",
+        "chinese-traditional",
+        "default",
+        "french",
+        "italian",
+        "japanese",
+        "korean",
+        "spanish",
+    ],
+    licenses = [
+        "vendor/tiny-bip39-1.0.0/LICENSE-APACHE",
+        "vendor/tiny-bip39-1.0.0/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":anyhow-1.0.75",
+        ":hmac-0.12.1",
+        ":once_cell-1.18.0",
+        ":pbkdf2-0.11.0",
+        ":rand-0.8.5",
+        ":rustc-hash-1.1.0",
+        ":sha2-0.10.8",
+        ":thiserror-1.0.49",
+        ":unicode-normalization-0.1.22",
+        ":zeroize-1.6.0",
+    ],
 )
 
 cargo.rust_library(
@@ -25442,7 +26157,10 @@ cargo.rust_library(
     crate = "unicode_normalization",
     crate_root = "vendor/unicode-normalization-0.1.22/src/lib.rs",
     edition = "2018",
-    features = ["std"],
+    features = [
+        "default",
+        "std",
+    ],
     licenses = [
         "vendor/unicode-normalization-0.1.22/LICENSE-APACHE",
         "vendor/unicode-normalization-0.1.22/LICENSE-MIT",

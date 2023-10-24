@@ -31,3 +31,8 @@ rust_library(
         "//narwhal/types:types",
     ]
 )
+alias(
+    name="consensus",
+    actual=":narwhal-consensus",
+    visibility = ["PUBLIC"],
+)
