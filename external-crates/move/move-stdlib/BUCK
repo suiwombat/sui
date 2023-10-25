@@ -1,12 +1,13 @@
 
 rust_library(
     name = "move-stdlib",
-    srcs = glob(["src/**/*.rs"]),
+    srcs = glob(["src/**/*.rs","*.errmap"]),
     env = {
         "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
         "CARGO_BIN_NAME": "move-stdlib",
         "CARGO_PKG_VERSION": "0.1.1",
         "CARGO_PKG_NAME": "move-stdlib",
+        "CARGO_MANIFEST_DIR": ".",
     },
     # license = "Apache-2.0",
     edition = "2021",
@@ -24,7 +25,7 @@ rust_library(
         "//external-crates/move/move-vm/runtime:move-vm-runtime",
         "//external-crates/move/move-vm/types:move-vm-types",
         "//third-party:sha2",
-        "//third-party:sha3",
+        "//third-party:sha3_0_9_1",
         "//third-party:smallvec",
         "//third-party:walkdir",
     ]

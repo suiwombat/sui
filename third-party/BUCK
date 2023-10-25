@@ -3472,7 +3472,7 @@ cargo.rust_library(
         ":rand_core-0.6.4",
         ":serde-1.0.188",
         ":serde_derive-1.0.188",
-        ":sha3-0.9.1",
+        ":sha3-0.9.1-sha3_0_9_1",
         ":thiserror-1.0.49",
     ],
 )
@@ -14309,12 +14309,16 @@ cargo.rust_library(
     crate = "log",
     crate_root = "vendor/log-0.4.20/src/lib.rs",
     edition = "2015",
-    features = ["std"],
+    features = [
+        "serde",
+        "std",
+    ],
     licenses = [
         "vendor/log-0.4.20/LICENSE-APACHE",
         "vendor/log-0.4.20/LICENSE-MIT",
     ],
     visibility = [],
+    deps = [":serde-1.0.188"],
 )
 
 alias(
@@ -20297,6 +20301,7 @@ cargo.rust_binary(
     edition = "2021",
     named_deps = {
         "ring_16_20": ":ring-0.16.20-ring_16_20",
+        "sha3_0_9_1": ":sha3-0.9.1-sha3_0_9_1",
         "syn_v1": ":syn-1.0.109-syn_v1",
     },
     visibility = [],
@@ -22521,8 +22526,14 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "sha3_0_9_1",
+    actual = ":sha3-0.9.1-sha3_0_9_1",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
-    name = "sha3-0.9.1",
+    name = "sha3-0.9.1-sha3_0_9_1",
     srcs = [
         "vendor/sha3-0.9.1/src/lib.rs",
         "vendor/sha3-0.9.1/src/macros.rs",
@@ -22533,6 +22544,10 @@ cargo.rust_library(
     crate = "sha3",
     crate_root = "vendor/sha3-0.9.1/src/lib.rs",
     edition = "2018",
+    features = [
+        "default",
+        "std",
+    ],
     licenses = [
         "vendor/sha3-0.9.1/LICENSE-APACHE",
         "vendor/sha3-0.9.1/LICENSE-MIT",

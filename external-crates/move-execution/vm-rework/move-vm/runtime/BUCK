@@ -1,11 +1,11 @@
 rust_library(
-    name = "move-vm-runtime-vm-rework",
+    name = "move-vm-runtime",
     srcs = glob(["src/**/*.rs"]),
     env = {
         "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
-        "CARGO_BIN_NAME": "move-vm-runtime-vm-rework",
+        "CARGO_BIN_NAME": "move-vm-runtime",
         "CARGO_PKG_VERSION": "0.1.0",
-        "CARGO_PKG_NAME": "move-vm-runtime-vm-rework",
+        "CARGO_PKG_NAME": "move-vm-runtime",
     },
     # license = "Apache-2.0",
     edition = "2021",
@@ -28,7 +28,7 @@ rust_library(
 )
 
 alias(
-    name="move-vm-runtime",
-    actual=":move-vm-runtime-vm-rework",
+    name="move-vm-runtime-vm-rework",
+    actual=":move-vm-runtime",
     visibility = ["PUBLIC"],
 )
