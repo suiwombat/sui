@@ -19,6 +19,7 @@ rust_library(
         "CARGO_BIN_NAME": "sui-storage",
         "CARGO_PKG_VERSION": "0.0.2",
         "CARGO_PKG_NAME": "sui-storage",
+        "CARGO_MANIFEST_DIR": ".",
     },
     deps= mysten_deps + [
         "//third-party:integer-encoding",

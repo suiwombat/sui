@@ -31,8 +31,41 @@ rust_library(
         "//narwhal/types:types",
     ]
 )
-alias(
-    name="consensus",
-    actual=":narwhal-consensus",
+# alias(
+#     name="consensus",
+#     actual=":narwhal-consensus",
+#     visibility = ["PUBLIC"],
+# )
+rust_library(
+    name = "consensus",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "consensus",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "consensus",
+    },
+    crate_root = "src/lib.rs",
+    # license = "Apache-2.0",
+    edition = "2021",
     visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:bcs",
+        "//third-party:cfg-if",
+        "//narwhal/config:config",
+        "//narwhal/crypto:crypto",
+        "//third-party:fastcrypto",
+        "//crates/mysten-metrics:mysten-metrics",
+        "//third-party:parking_lot",
+        "//third-party:prometheus",
+        "//third-party:rand",
+        "//narwhal/storage:storage",
+        "//crates/typed-store:store",
+        "//crates/sui-protocol-config:sui-protocol-config",
+        "//crates/telemetry-subscribers:telemetry-subscribers",
+        "//third-party:thiserror",
+        "//third-party:tokio",
+        "//third-party:tracing",
+        "//narwhal/types:types",
+    ]
 )

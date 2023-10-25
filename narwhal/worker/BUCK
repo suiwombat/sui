@@ -44,8 +44,54 @@ rust_library(
     ]
 )
 
-alias(
-    name="worker",
-    actual=":narwhal-worker",
+# alias(
+#     name="worker",
+#     actual=":narwhal-worker",
+#     visibility = ["PUBLIC"],
+# )
+
+rust_library(
+    name = "worker",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "narwhal-worker",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "narwhal-worker",
+    },
+    crate_root = "src/lib.rs",
+    # license = "Apache-2.0",
+    edition = "2021",
     visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anemo",
+        "//third-party:anemo-tower",
+        "//third-party:anyhow",
+        "//third-party:arc-swap",
+        "//third-party:async-trait",
+        "//third-party:byteorder",
+        "//third-party:bytes",
+        "//narwhal/config:config",
+        "//narwhal/consensus:consensus",
+        "//narwhal/crypto:crypto",
+        "//third-party:eyre",
+        "//third-party:fastcrypto",
+        "//third-party:futures",
+        "//third-party:governor",
+        "//third-party:itertools",
+        "//crates/mysten-metrics:mysten-metrics",
+        "//crates/mysten-network:mysten-network",
+        "//narwhal/network:network",
+        "//third-party:prometheus",
+        "//third-party:rand",
+        "//crates/typed-store:store",
+        "//crates/sui-protocol-config:sui-protocol-config",
+        "//third-party:tap",
+        "//third-party:thiserror",
+        "//third-party:tokio",
+        "//third-party:tonic",
+        "//third-party:tower",
+        "//third-party:tracing",
+        "//narwhal/types:types",
+    ]
 )

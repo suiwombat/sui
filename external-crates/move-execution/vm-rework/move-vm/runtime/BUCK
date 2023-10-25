@@ -1,4 +1,3 @@
-
 rust_library(
     name = "move-vm-runtime-vm-rework",
     srcs = glob(["src/**/*.rs"]),

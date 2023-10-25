@@ -1,7 +1,7 @@
 
 rust_library(
     name = "move-prover-boogie-backend",
-    srcs = glob(["src/**/*.rs"]),
+    srcs = glob(["src/**/*.rs","src/**/*.bpl"]),
     env = {
         "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
         "CARGO_BIN_NAME": "move-prover-boogie-backend",

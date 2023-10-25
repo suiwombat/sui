@@ -37,3 +37,49 @@ rust_library(
         "//narwhal/types:types",
     ]
 )
+
+# alias(
+#     name="executor",
+#     actual=":narwhal-executor",
+#     visibility = ["PUBLIC"],
+# )
+
+
+rust_library(
+    name = "executor",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "narwhal-executor",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "narwhal-executor",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:async-trait",
+        "//third-party:bcs",
+        "//third-party:bincode",
+        "//third-party:bytes",
+        "//narwhal/config:config",
+        "//narwhal/consensus:consensus",
+        "//narwhal/crypto:crypto",
+        "//third-party:fastcrypto",
+        "//third-party:futures",
+        "//third-party:mockall",
+        "//crates/mysten-metrics:mysten-metrics",
+        "//narwhal/network:network",
+        "//narwhal/primary:primary",
+        "//third-party:prometheus",
+        "//third-party:serde",
+        "//narwhal/storage:storage",
+        "//crates/typed-store:store",
+        "//crates/sui-protocol-config:sui-protocol-config",
+        "//third-party:thiserror",
+        "//third-party:tokio",
+        "//third-party:tonic",
+        "//third-party:tracing",
+        "//narwhal/types:types",
+    ]
+)

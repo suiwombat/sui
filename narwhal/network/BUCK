@@ -36,8 +36,46 @@ rust_library(
         "//narwhal/types:types",
     ]
 )
-alias(
-    name="network",
-    actual=":narwhal-network",
+
+rust_library(
+    name = "network",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "narwhal-network",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "narwhal-network",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
     visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anemo",
+        "//third-party:anemo-tower",
+        "//third-party:anyhow",
+        "//third-party:async-trait",
+        "//third-party:axum",
+        "//third-party:axum-server",
+        "//third-party:backoff",
+        "//third-party:bytes",
+        "//narwhal/crypto:crypto",
+        "//third-party:dashmap",
+        "//third-party:futures",
+        "//crates/mysten-common:mysten-common",
+        "//crates/mysten-metrics:mysten-metrics",
+        "//third-party:parking_lot",
+        "//third-party:prometheus",
+        "//third-party:quinn-proto",
+        "//third-party:rand",
+        "//crates/sui-macros:sui-macros",
+        "//third-party:tokio",
+        "//third-party:tower",
+        "//third-party:tracing",
+        "//narwhal/types:types",
+    ]
 )
+# alias(
+#     name="network",
+#     actual=":narwhal-network",
+#     visibility = ["PUBLIC"],
+# )

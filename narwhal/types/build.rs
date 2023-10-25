@@ -10,16 +10,23 @@ type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>
 
 fn main() -> Result<()> {
     #[cfg(not(target_env = "msvc"))]
-    std::env::set_var("PROTOC", protobuf_src::protoc());
+    // std::env::set_var("PROTOC", protobuf_src::protoc());
 
+    // let protoc = std::env::var("PROTOC").unwrap();
+    let install_dir = std::env::var("INSTALL_DIR").unwrap();
+    // std::env::set_var("PROTOC", )
+    // panic!("{:?} {:?}", protoc, install_dir);
+    // panic!("{:?}", install_dir);
     let out_dir = if env::var("DUMP_GENERATED_GRPC").is_ok() {
         PathBuf::from("")
     } else {
         PathBuf::from(env::var("OUT_DIR")?)
     };
 
-    let proto_files = &["proto/narwhal.proto"];
-    let dirs = &["proto"];
+    let proto_files = &[PathBuf::from(install_dir.clone()).join("proto/narwhal.proto")];
+    // let proto_files = &["proto/narwhal.proto"];
+    // let dirs = &["proto"];
+    let dirs = &[PathBuf::from(install_dir).join("proto")];
 
     // Use `Bytes` instead of `Vec<u8>` for bytes fields
     let mut config = prost_build::Config::new();

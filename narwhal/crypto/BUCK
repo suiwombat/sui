@@ -10,8 +10,18 @@ rust_library(
     visibility=["PUBLIC"],
 )
 
-alias(
+rust_library(
     name="crypto",
-    actual=":narwhal-crypto",
-    visibility = ["PUBLIC"],
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:fastcrypto",
+        "//third-party:serde",
+        "//third-party:bcs",
+    ],
+    visibility=["PUBLIC"],
 )
+# alias(
+#     name="crypto",
+#     actual=":narwhal-crypto",
+#     visibility = ["PUBLIC"],
+# )

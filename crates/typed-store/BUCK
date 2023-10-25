@@ -27,8 +27,34 @@ rust_library(
     visibility=["PUBLIC"],
 )
 
-alias(
+rust_library(
     name="store",
-    actual=":typed-store",
-    visibility = ["PUBLIC"],
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:bcs",
+        "//third-party:bincode",
+        "//third-party:collectable",
+        "//third-party:eyre",
+        "//third-party:fdlimit",
+        "//third-party:once_cell",
+        "//third-party:tap",
+        "//third-party:prometheus",
+        "//third-party:hdrhistogram",
+        "//third-party:rocksdb",
+        "//third-party:serde",
+        "//third-party:thiserror",
+        "//third-party:tokio",
+        "//third-party:tracing",
+        "//third-party:ouroboros",
+        "//third-party:rand",
+        "//third-party:async-trait",
+        "//third-party:itertools",
+    ],
+    visibility=["PUBLIC"],
 )
+
+# alias(
+#     name="store",
+#     actual=":typed-store",
+#     visibility = ["PUBLIC"],
+# )

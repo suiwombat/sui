@@ -18,8 +18,23 @@ rust_library(
     ],
     visibility=["PUBLIC"],
 )
-alias(
+
+rust_library(
     name="config",
-    actual=":narwhal-config",
-    visibility = ["PUBLIC"],
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:match_opt",
+        "//third-party:serde",
+        "//third-party:serde_json",
+        "//third-party:thiserror",
+        "//third-party:tracing",
+        "//third-party:fastcrypto",
+        "//third-party:rand",
+    ],
+    visibility=["PUBLIC"],
 )
+# alias(
+#     name="config",
+#     actual=":narwhal-config",
+#     visibility = ["PUBLIC"],
+# )

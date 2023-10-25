@@ -1,0 +1,10 @@
+
+
+[env]
+# this is terrible, it prefixes /usr/bin/protoc
+# INSTALL_DIR = "/usr"
+INSTALL_DIR = "."
+[[buildscript]]
+[buildscript.rustc_flags]
+# [[buildscript]]
+# [buildscript.gen_srcs]

@@ -1,12 +1,65 @@
-
 rust_library(
-    name = "narwhal-types",
-    srcs = glob(["src/**/*.rs"]),
+    name = "types",
+    srcs = glob(["src/**/*.rs","proto/**/*.proto","$(location :narwhal-types-build-script-run[out_dir])/**/*.rs"]),
     env = {
         "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
         "CARGO_BIN_NAME": "narwhal-types",
         "CARGO_PKG_VERSION": "0.1.0",
         "CARGO_PKG_NAME": "narwhal-types",
+        "OUT_DIR": "$(location :narwhal-types-build-script-run[out_dir])",
+        # "INSTALL_DIR": "@$(location //third-party:protobuf-src-1.1.0+21.5-build-script-run[rustc_flags])",
+        # "PROTOC": "/usr/bin/protoc",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anemo",
+        "//third-party:anyhow",
+        "//third-party:base64",
+        "//third-party:bcs",
+        "//third-party:bytes",
+        "//narwhal/config:config",
+        "//narwhal/crypto:crypto",
+        "//third-party:derive_builder",
+        "//third-party:enum_dispatch",
+        "//third-party:fastcrypto",
+        "//third-party:futures",
+        "//third-party:indexmap",
+        "//third-party:mockall",
+        "//crates/mysten-common:mysten-common",
+        "//crates/mysten-metrics:mysten-metrics",
+        "//crates/mysten-network:mysten-network",
+        "//crates/mysten-util-mem:mysten-util-mem",
+        "//third-party:once_cell",
+        "//third-party:prometheus",
+        "//third-party:proptest",
+        "//third-party:proptest-derive",
+        "//third-party:prost",
+        "//third-party:rand",
+        "//third-party:roaring",
+        "//third-party:serde",
+        "//third-party:serde_with",
+        "//crates/typed-store:store",
+        "//crates/sui-protocol-config:sui-protocol-config",
+        "//third-party:thiserror",
+        "//third-party:tokio",
+        "//third-party:tonic",
+        "//third-party:tracing",
+    ]
+)
+
+rust_library(
+    name = "narwhal-types",
+    srcs = glob(["src/**/*.rs","proto/**/*.proto","$(location :narwhal-types-build-script-run[out_dir])/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "narwhal-types",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "narwhal-types",
+        "OUT_DIR": "$(location :narwhal-types-build-script-run[out_dir])",
+        # "INSTALL_DIR": "@$(location //third-party:protobuf-src-1.1.0+21.5-build-script-run[rustc_flags])",
+        # "PROTOC": "/usr/bin/protoc",
     },
     # license = "Apache-2.0",
     edition = "2021",
@@ -49,24 +102,24 @@ rust_library(
 
 rust_binary(
     name = "narwhal-types-build-script-build",
-    srcs = ["build.rs"],
+    srcs = ["build.rs"] + glob(["proto/**/*.proto"]),
     crate = "build_script_build",
     crate_root = "build.rs",
     edition = "2021",
     env = {
-        "CARGO_MANIFEST_DIR": "vendor/bindgen-0.65.1",
-        "CARGO_PKG_AUTHORS": "Jyun-Yan You <jyyou.tw@gmail.com>:Emilio Cobos Álvarez <emilio@crisal.io>:Nick Fitzgerald <fitzgen@gmail.com>:The Servo project developers",
-        "CARGO_PKG_DESCRIPTION": "Automatically generates Rust FFI bindings to C and C++ libraries.",
-        "CARGO_PKG_NAME": "narwhal-types",
-        "CARGO_PKG_REPOSITORY": "https://github.com/rust-lang/rust-bindgen",
+        # "CARGO_MANIFEST_DIR": "vendor/bindgen-0.65.1",
+        # "CARGO_PKG_AUTHORS": "Jyun-Yan You <jyyou.tw@gmail.com>:Emilio Cobos Álvarez <emilio@crisal.io>:Nick Fitzgerald <fitzgen@gmail.com>:The Servo project developers",
+        # "CARGO_PKG_DESCRIPTION": "Automatically generates Rust FFI bindings to C and C++ libraries.",
+        "CARGO_PKG_NAME": "narwhal-types-build-script-build",
+        # "CARGO_PKG_REPOSITORY": "https://github.com/rust-lang/rust-bindgen",
         "CARGO_PKG_VERSION": "0.1.0",
-        "CARGO_PKG_VERSION_MAJOR": "0",
-        "CARGO_PKG_VERSION_MINOR": "65",
-        "CARGO_PKG_VERSION_PATCH": "1",
+        # "PROTOC": "/usr/bin/protoc",
+        # "PROTOC_INCLUDE": "/usr/include",
     },
     features = ["runtime"],
     visibility = ["PUBLIC"],
     deps = [
+        "//third-party:protobuf-src",
         "//third-party:anemo-build",
         "//third-party:prost-build",
         "//third-party:rustversion",
@@ -81,11 +134,14 @@ buildscript_run(
     buildscript_rule = ":narwhal-types-build-script-build",
     features = ["runtime"],
     version = "0.1.0",
+    env = {
+        # "INSTALL_DIR": "/home/suiwombat/gh/joe_sui_fork/sui/buck-out/v2/gen/root/524f8da68ea2a374/third-party/__protobuf-src-1.1.0+21.5-build-script-run__/OUT_DIR/install", #"$(location //third-party:protobuf-src-1.1.0+21.5-build-script-run[out_dir])",
+        "INSTALL_DIR": "/home/suiwombat/gh/joe_sui_fork/sui/buck-out/v2/gen/root/524f8da68ea2a374/narwhal/types/__narwhal-types-build-script-build__/__srcs/",
+    }
 )
 
-
-alias(
-    name="types",
-    actual=":narwhal-types",
-    visibility = ["PUBLIC"],
-)
+# alias(
+#     name="types",
+#     actual=":narwhal-types",
+#     visibility = ["PUBLIC"],
+# )
