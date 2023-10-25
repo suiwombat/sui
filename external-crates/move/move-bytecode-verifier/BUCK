@@ -14,8 +14,11 @@ rust_library(
     visibility=["PUBLIC"],
 )
 
-alias(
+rust_library(
     name="move-bytecode-verifier-latest",
-    actual=":move-bytecode-verifier",
-    visibility = ["PUBLIC"],
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:petgraph",
+    ],
+    visibility=["PUBLIC"],
 )

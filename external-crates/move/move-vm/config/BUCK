@@ -1,9 +1,17 @@
-mysten_deps = [
-    "//external-crates/move/move-binary-format:move-binary-format",
-]
+
 rust_library(
-    name="move-vm-config",
+    name = "move-vm-config",
     srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [],
-    visibility=["PUBLIC"],
+    env = {
+        "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+        "CARGO_BIN_NAME": "move-vm-config",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "move-vm-config",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//external-crates/move/move-binary-format:move-binary-format",
+    ]
 )

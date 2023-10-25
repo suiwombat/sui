@@ -21,8 +21,25 @@ rust_library(
     ]
 )
 
-alias(
-    name="move-bytecode-verifier-vm-rework",
-    actual=":move-bytecode-verifier",
+
+rust_library(
+    name = "move-bytecode-verifier-vm-rework",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+        "CARGO_BIN_NAME": "move-bytecode-verifier",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "move-bytecode-verifier",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
     visibility = ["PUBLIC"],
+    deps = [
+        "//external-crates/move/move-abstract-stack:move-abstract-stack",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/move-borrow-graph:move-borrow-graph",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//external-crates/move/move-vm/config:move-vm-config",
+        "//third-party:petgraph",
+    ]
 )
