@@ -1,0 +1,20 @@
+cargo_env = true
+
+# omit_targets = []
+# extra_srcs = []
+# omit_srcs = []
+# rustc_flags = []
+# cfgs = []
+# features = []
+# omit_features = []
+# extra_deps = []
+# omit_deps = []
+# [env]
+
+[[buildscript]]
+[buildscript.gen_srcs]
+# unresolved = "Unresolved build script at vendor/aws-types-0.56.1/build.rs."
+
+# [extra_mapped_srcs]
+
+# [platform_fixup]

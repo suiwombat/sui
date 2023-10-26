@@ -1,0 +1,31 @@
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:async-trait",
+    "//third-party:bcs",
+    "//third-party:futures",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//crates/sui-json:sui-json",
+    "//crates/sui-json-rpc-types:sui-json-rpc-types",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/sui-types:sui-types",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "sui-transaction-builder",
+    "CARGO_PKG_VERSION": "0.0.0",
+}
+
+rust_library(
+    name = "sui-transaction-builder",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

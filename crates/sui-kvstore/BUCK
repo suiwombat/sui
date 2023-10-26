@@ -1,32 +1,37 @@
 
+deps = [
+    "//crates/mysten-metrics:mysten-metrics",
+    "//crates/sui-config:sui-config",
+    "//crates/sui-core:sui-core",
+    "//crates/sui-storage:sui-storage",
+    "//crates/sui-types:sui-types",
+    "//third-party:anyhow",
+    "//third-party:async-trait",
+    "//third-party:aws-config",
+    "//third-party:aws-sdk-dynamodb",
+    "//third-party:aws-sdk-s3",
+    "//third-party:base64-url",
+    "//third-party:bcs",
+    "//third-party:prometheus",
+    "//third-party:serde",
+    "//third-party:tokio",
+    "//third-party:tracing",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "sui-kvstore",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
 rust_library(
     name = "sui-kvstore",
-    srcs = glob(["src/**/*.rs"]),
-    env = {
-        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-        "CARGO_BIN_NAME": "sui-kvstore",
-        "CARGO_PKG_VERSION": "0.1.0",
-        "CARGO_PKG_NAME": "sui-kvstore",
-    },
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
     # license = "Apache-2.0",
     edition = "2021",
     visibility = ["PUBLIC"],
-    deps = [
-        "//third-party:anyhow",
-        "//third-party:async-trait",
-        "//third-party:aws-config",
-        "//third-party:aws-sdk-dynamodb",
-        "//third-party:aws-sdk-s3",
-        "//third-party:base64-url",
-        "//third-party:bcs",
-        "//crates/mysten-metrics:mysten-metrics",
-        "//third-party:prometheus",
-        "//third-party:serde",
-        "//crates/sui-config:sui-config",
-        "//crates/sui-core:sui-core",
-        "//crates/sui-storage:sui-storage",
-        "//crates/sui-types:sui-types",
-        "//third-party:tokio",
-        "//third-party:tracing",
-    ]
+    deps = deps
 )

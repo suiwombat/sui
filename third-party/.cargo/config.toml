@@ -20,5 +20,10 @@ replace-with = "vendored-sources"
 git = "https://github.com/suiwombat/prometheus-parse-rs.git"
 replace-with = "vendored-sources"
 
+[source."git+https://github.com/wlmyng/jsonrpsee.git?rev=b1b300784795f6a64d0fcdf8f03081a9bc38bde8"]
+git = "https://github.com/wlmyng/jsonrpsee.git"
+rev = "b1b300784795f6a64d0fcdf8f03081a9bc38bde8"
+replace-with = "vendored-sources"
+
 [source.vendored-sources]
 directory = "vendor"

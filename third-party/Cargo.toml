@@ -279,3 +279,16 @@ either = "1.8.0"
 chrono = { version = "0.4.26", features = ["clock", "serde"] }
 rustversion = "1.0.9"
 protobuf-src = "1.1.0"
+aws-config = "0.56"
+aws-sdk-dynamodb = "0.29.0"
+aws-sdk-s3 = "0.29.0"
+unescape = "0.1.0"
+derive-syn-parse = "0.1.5"
+versions = "4.1.0"
+jsonrpsee = { git = "https://github.com/wlmyng/jsonrpsee.git", rev = "b1b300784795f6a64d0fcdf8f03081a9bc38bde8", features = [
+    "server",
+    "macros",
+    "ws-client",
+    "http-client",
+    "jsonrpsee-core",
+] }
