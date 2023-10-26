@@ -1,21 +1,33 @@
-mysten_deps = [
+
+deps = [
+    "//third-party:cfg-if",
+    "//third-party:ed25519-consensus",
+    "//third-party:fastcrypto",
+    "//third-party:hashbrown",
+    "//third-party:impl-trait-for-tuples",
+    "//third-party:indexmap",
     "//crates/mysten-util-mem-derive:mysten-util-mem-derive",
+    "//third-party:once_cell",
+    "//third-party:parking_lot",
+    "//third-party:roaring",
+    "//third-party:smallvec",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Parity Technologies <admin@parity.io> Andrew Schran <aschran@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Collection of memory related utilities",
+    "CARGO_PKG_NAME": "mysten-util-mem",
+    "CARGO_PKG_VERSION": "0.11.0",
+}
+
 rust_library(
-    name="mysten-util-mem",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:cfg-if",
-        "//third-party:hashbrown",
-        "//third-party:impl-trait-for-tuples",
-        "//third-party:fastcrypto",
-        "//third-party:indexmap",
-        "//third-party:roaring",
-        "//third-party:ed25519-consensus",
-        "//third-party:smallvec",
-        "//third-party:parking_lot",
-        "//third-party:once_cell",
-    ],
+    name = "mysten-util-mem",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "MIT OR Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
     features = ["parking_lot", "std", "hashbrown", "smallvec", "estimate-heapsize"],
-    visibility=["PUBLIC"],
+    deps = deps
 )

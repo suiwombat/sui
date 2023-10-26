@@ -1,57 +1,45 @@
-rust_library(
-    name = "move-vm-runtime",
-    srcs = glob(["src/**/*.rs"]),
-    env = {
-        "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
-        "CARGO_BIN_NAME": "move-vm-runtime",
-        "CARGO_PKG_VERSION": "0.1.0",
-        "CARGO_PKG_NAME": "move-vm-runtime",
-    },
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = [
-        "//third-party:better_any",
-        "//third-party:fail",
-        "//external-crates/move/move-binary-format:move-binary-format",
-        "//external-crates/move-execution/vm-rework/move-bytecode-verifier:move-bytecode-verifier",
-        "//external-crates/move/move-core/types:move-core-types",
-        "//external-crates/move/move-vm/config:move-vm-config",
-        "//external-crates/move/move-vm/profiler:move-vm-profiler",
-        "//external-crates/move/move-vm/types:move-vm-types",
-        "//third-party:once_cell",
-        "//third-party:parking_lot",
-        "//third-party:sha3",
-        "//third-party:smallvec",
-        "//third-party:tracing",
-    ]
-)
+
+deps = [
+    "//third-party:better_any",
+    "//third-party:fail",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move-execution/vm-rework/move-bytecode-verifier:move-bytecode-verifier",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-vm/config:move-vm-config",
+    "//external-crates/move/move-vm/profiler:move-vm-profiler",
+    "//external-crates/move/move-vm/types:move-vm-types",
+    "//third-party:once_cell",
+    "//third-party:parking_lot",
+    "//third-party:sha3",
+    "//third-party:smallvec",
+    "//third-party:tracing",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Core Move execution logic",
+    "CARGO_PKG_NAME": "move-vm-runtime-vm-rework",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
 
 rust_library(
     name = "move-vm-runtime-vm-rework",
-    srcs = glob(["src/**/*.rs"]),
-    env = {
-        "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
-        "CARGO_BIN_NAME": "move-vm-runtime",
-        "CARGO_PKG_VERSION": "0.1.0",
-        "CARGO_PKG_NAME": "move-vm-runtime",
-    },
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
     # license = "Apache-2.0",
     edition = "2021",
     visibility = ["PUBLIC"],
-    deps = [
-        "//third-party:better_any",
-        "//third-party:fail",
-        "//external-crates/move/move-binary-format:move-binary-format",
-        "//external-crates/move-execution/vm-rework/move-bytecode-verifier:move-bytecode-verifier",
-        "//external-crates/move/move-core/types:move-core-types",
-        "//external-crates/move/move-vm/config:move-vm-config",
-        "//external-crates/move/move-vm/profiler:move-vm-profiler",
-        "//external-crates/move/move-vm/types:move-vm-types",
-        "//third-party:once_cell",
-        "//third-party:parking_lot",
-        "//third-party:sha3",
-        "//third-party:smallvec",
-        "//third-party:tracing",
-    ]
+    deps = deps
+)
+
+rust_library(
+    name = "move-vm-runtime",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )

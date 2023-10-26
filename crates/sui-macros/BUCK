@@ -1,13 +1,25 @@
-mysten_deps = [
+
+deps = [
+    "//third-party:futures",
+    "//third-party:once_cell",
     "//crates/sui-proc-macros:sui-proc-macros",
+    "//third-party:tracing",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "sui-macros",
+    "CARGO_PKG_VERSION": "0.7.0",
+}
+
 rust_library(
-    name="sui-macros",
-    srcs = glob(["src/**/lib.rs"]),
-    deps = mysten_deps + [
-        "//third-party:once_cell",
-        "//third-party:futures",
-        "//third-party:tracing",
-    ],
-    visibility=["PUBLIC"],
+    name = "sui-macros",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )

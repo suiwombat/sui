@@ -1,20 +1,32 @@
-mysten_deps = [
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:arbitrary",
     "//external-crates/move/testing-infra/enum-compat-util:enum-compat-util",
-    "//external-crates/move/testing-infra/move-proc-macros:move-proc-macros",
+    "//third-party:getrandom",
     "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/testing-infra/move-proc-macros:move-proc-macros",
+    "//third-party:proptest",
+    "//third-party:proptest-derive",
+    "//third-party:ref-cast",
+    "//third-party:serde",
+    "//third-party:variant_count",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Move Binary Format",
+    "CARGO_PKG_NAME": "move-binary-format",
+    "CARGO_PKG_VERSION": "0.0.3",
+}
+
 rust_library(
-    name="move-binary-format",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:anyhow",
-        "//third-party:proptest",
-        "//third-party:proptest-derive",
-        "//third-party:ref-cast",
-        "//third-party:variant_count",
-        "//third-party:serde",
-        "//third-party:arbitrary",
-        "//third-party:getrandom",
-    ],
-    visibility=["PUBLIC"],
+    name = "move-binary-format",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )

@@ -1,17 +1,29 @@
-mysten_deps = [
-    "//external-crates/move/move-core/types:move-core-types",
+
+deps = [
+    "//third-party:anyhow",
     "//external-crates/move/move-binary-format:move-binary-format",
-    "//external-crates/move/move-vm/types:move-vm-types",
+    "//external-crates/move/move-core/types:move-core-types",
     "//external-crates/move/move-vm/profiler:move-vm-profiler",
+    "//external-crates/move/move-vm/types:move-vm-types",
+    "//third-party:once_cell",
+    "//third-party:serde",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Move VM Test Utils",
+    "CARGO_PKG_NAME": "move-vm-test-utils",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
 rust_library(
-    name="move-vm-test-utils",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:anyhow",
-        "//third-party:once_cell",
-        "//third-party:serde",
-    ],
+    name = "move-vm-test-utils",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
     features = ["default","tiered-gas"],
-    visibility=["PUBLIC"],
+    deps = deps
 )

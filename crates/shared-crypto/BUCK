@@ -1,13 +1,26 @@
-mysten_deps = []
+
+deps = [
+    "//third-party:bcs",
+    "//third-party:eyre",
+    "//third-party:fastcrypto",
+    "//third-party:serde",
+    "//third-party:serde_repr",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "shared-crypto",
+    "CARGO_PKG_VERSION": "0.0.0",
+}
+
 rust_library(
-    name="shared-crypto",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:serde",
-        "//third-party:serde_repr",
-        "//third-party:fastcrypto",
-        "//third-party:eyre",
-        "//third-party:bcs",
-    ],
-    visibility=["PUBLIC"],
+    name = "shared-crypto",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )

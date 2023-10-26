@@ -1,40 +1,31 @@
-mysten_deps = [
-    "//crates/mysten-network:mysten-network",
+
+deps = [
     "//narwhal/crypto:narwhal-crypto",
+    "//third-party:fastcrypto",
+    "//third-party:match_opt",
+    "//crates/mysten-network:mysten-network",
     "//crates/mysten-util-mem:mysten-util-mem",
+    "//third-party:rand",
+    "//third-party:serde",
+    "//third-party:serde_json",
+    "//third-party:thiserror",
+    "//third-party:tracing",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "narwhal-config",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
 
 rust_library(
-    name="narwhal-config",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:match_opt",
-        "//third-party:serde",
-        "//third-party:serde_json",
-        "//third-party:thiserror",
-        "//third-party:tracing",
-        "//third-party:fastcrypto",
-        "//third-party:rand",
-    ],
-    visibility=["PUBLIC"],
+    name = "narwhal-config",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )
-
-rust_library(
-    name="config",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:match_opt",
-        "//third-party:serde",
-        "//third-party:serde_json",
-        "//third-party:thiserror",
-        "//third-party:tracing",
-        "//third-party:fastcrypto",
-        "//third-party:rand",
-    ],
-    visibility=["PUBLIC"],
-)
-# alias(
-#     name="config",
-#     actual=":narwhal-config",
-#     visibility = ["PUBLIC"],
-# )

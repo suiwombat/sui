@@ -1,28 +1,40 @@
-mysten_deps = [
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:bcs",
+    "//third-party:clap",
+    "//third-party:codespan-reporting",
+    "//third-party:hex",
     "//external-crates/move/move-binary-format:move-binary-format",
-    "//external-crates/move/move-core/types:move-core-types",
-    "//external-crates/move/move-bytecode-verifier:move-bytecode-verifier",
-    "//external-crates/move/move-symbol-pool:move-symbol-pool",
-    "//external-crates/move/move-ir/types:move-ir-types",
-    "//external-crates/move/move-ir-compiler/move-ir-to-bytecode:move-ir-to-bytecode",
     "//external-crates/move/move-borrow-graph:move-borrow-graph",
     "//external-crates/move/move-ir-compiler/move-bytecode-source-map:move-bytecode-source-map",
+    "//external-crates/move/move-bytecode-verifier:move-bytecode-verifier",
     "//external-crates/move/move-command-line-common:move-command-line-common",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-ir-compiler/move-ir-to-bytecode:move-ir-to-bytecode",
+    "//external-crates/move/move-ir/types:move-ir-types",
+    "//external-crates/move/move-symbol-pool:move-symbol-pool",
+    "//third-party:once_cell",
+    "//third-party:petgraph",
+    "//third-party:regex",
+    "//third-party:serde",
+    "//third-party:tempfile",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "The definition of the Move source language, and its compiler",
+    "CARGO_PKG_NAME": "move-compiler",
+    "CARGO_PKG_VERSION": "0.0.1",
+}
+
 rust_library(
-    name="move-compiler",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:anyhow",
-        "//third-party:codespan-reporting",
-        "//third-party:serde",
-        "//third-party:hex",
-        "//third-party:regex",
-        "//third-party:clap",
-        "//third-party:petgraph",
-        "//third-party:tempfile",
-        "//third-party:once_cell",
-        "//third-party:bcs",
-    ],
-    visibility=["PUBLIC"],
+    name = "move-compiler",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )

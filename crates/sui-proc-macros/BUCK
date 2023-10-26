@@ -1,14 +1,26 @@
-mysten_deps = [
+
+deps = [
+    "//third-party:proc-macro2",
+    "//third-party:quote",
     "//crates/sui-enum-compat-util:sui-enum-compat-util",
+    "//third-party:syn",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "sui-proc-macros",
+    "CARGO_PKG_VERSION": "0.7.0",
+}
+
 rust_library(
-    name="sui-proc-macros",
-    srcs = glob(["src/**/lib.rs"]),
-    deps = mysten_deps + [
-        "//third-party:quote",
-        "//third-party:syn",
-        "//third-party:proc-macro2",
-    ],
+    name = "sui-proc-macros",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
     proc_macro = True,
-    visibility=["PUBLIC"],
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )

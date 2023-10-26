@@ -1,37 +1,32 @@
-mysten_deps = [
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:codespan",
+    "//third-party:codespan-reporting",
+    "//third-party:itertools",
+    "//third-party:log",
     "//external-crates/move/move-compiler:move-compiler",
     "//external-crates/move/move-model:move-model",
-
+    "//third-party:num",
+    "//third-party:once_cell",
+    "//third-party:regex",
+    "//third-party:serde",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "move-docgen",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
 
 rust_library(
-    name="move-docgen",
-    srcs = glob(["src/**/*.rs"]),
-    deps= mysten_deps + [
-        "//third-party:codespan",
-        "//third-party:codespan-reporting",
-        "//third-party:itertools",
-        "//third-party:log",
-        "//third-party:num",
-        "//third-party:regex",
-        "//third-party:anyhow",
-        "//third-party:serde",
-        "//third-party:once_cell",
-    ],
-    # hack due to mysterious linker bug of this not getting sent to rustc
-    rustc_flags = select(
-        {
-            "config//os:macos": [
-                "-Clink-arg=buck-out/v2/gen/root/213ed1b7ab869379/third-party/__ring-0.16.20-build-script-run__/OUT_DIR/libring-core.a",
-                "-Ldependency=buck-out/v2/gen/root/213ed1b7ab869379/third-party/__ring-0.16.20-build-script-run__/OUT_DIR",
-            ],
-            "config//os:linux": [
-                "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__ring-0.16.20-build-script-run__/OUT_DIR/libring-core.a",
-                "-Ldependency=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__ring-0.16.20-build-script-run__/OUT_DIR",
-                "-C", "target-feature=+crt-static",
-            ],
-        }
-    ),
+    name = "move-docgen",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
     edition = "2021",
-    visibility=["PUBLIC"],
+    visibility = ["PUBLIC"],
+    deps = deps
 )

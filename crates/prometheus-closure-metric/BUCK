@@ -1,11 +1,24 @@
-mysten_deps = []
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:prometheus",
+    "//third-party:protobuf",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Andrew Schran <aschran@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Library for a Prometheus metric that computes its value by given closure at collection time",
+    "CARGO_PKG_NAME": "prometheus-closure-metric",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
 rust_library(
-    name="prometheus-closure-metric",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:anyhow",
-        "//third-party:prometheus",
-        "//third-party:protobuf",
-    ],
-    visibility=["PUBLIC"],
+    name = "prometheus-closure-metric",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )

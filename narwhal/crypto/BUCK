@@ -1,27 +1,36 @@
-mysten_deps = ["//crates/shared-crypto:shared-crypto"]
+
+deps = [
+    "//third-party:bcs",
+    "//third-party:fastcrypto",
+    "//third-party:serde",
+    "//crates/shared-crypto:shared-crypto",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "narwhal-crypto",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
 rust_library(
-    name="narwhal-crypto",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:fastcrypto",
-        "//third-party:serde",
-        "//third-party:bcs",
-    ],
-    visibility=["PUBLIC"],
+    name = "narwhal-crypto",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )
 
 rust_library(
-    name="crypto",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:fastcrypto",
-        "//third-party:serde",
-        "//third-party:bcs",
-    ],
-    visibility=["PUBLIC"],
+    name = "crypto",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )
-# alias(
-#     name="crypto",
-#     actual=":narwhal-crypto",
-#     visibility = ["PUBLIC"],
-# )

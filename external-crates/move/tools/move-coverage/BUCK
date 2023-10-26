@@ -1,21 +1,33 @@
-mysten_deps = [
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:bcs",
+    "//third-party:clap",
+    "//third-party:codespan",
+    "//third-party:colored",
+    "//external-crates/move/move-binary-format:move-binary-format",
     "//external-crates/move/move-ir-compiler/move-bytecode-source-map:move-bytecode-source-map",
     "//external-crates/move/move-command-line-common:move-command-line-common",
     "//external-crates/move/move-core/types:move-core-types",
     "//external-crates/move/move-ir/types:move-ir-types",
-    "//external-crates/move/move-binary-format:move-binary-format",
+    "//third-party:petgraph",
+    "//third-party:serde",
 ]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Diem Move VM code coverage",
+    "CARGO_PKG_NAME": "move-coverage",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
 rust_library(
-    name="move-coverage",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:petgraph",
-        "//third-party:clap",
-        "//third-party:serde",
-        "//third-party:anyhow",
-        "//third-party:colored",
-        "//third-party:codespan",
-        "//third-party:bcs",
-    ],
-    visibility=["PUBLIC"],
+    name = "move-coverage",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
 )
