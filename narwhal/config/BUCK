@@ -11,6 +11,9 @@ deps = [
     "//third-party:thiserror",
     "//third-party:tracing",
 ]
+named_deps = {
+    # "crypto": "//narwhal/crypto:narwhal-crypto",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
@@ -27,5 +30,19 @@ rust_library(
     # license = "Apache-2.0",
     edition = "2021",
     visibility = ["PUBLIC"],
-    deps = deps
+    deps = deps,
+    named_deps = named_deps
 )
+
+
+# rust_library(
+#     name = "config",
+#     srcs = glob(["*","**/*"]),
+#     crate_root = "src/lib.rs",
+#     env = env,
+#     # license = "Apache-2.0",
+#     edition = "2021",
+#     visibility = ["PUBLIC"],
+#     deps = deps,
+#     named_deps = named_deps
+# )

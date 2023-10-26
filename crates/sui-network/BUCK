@@ -7,6 +7,8 @@ rust_library(
         "CARGO_BIN_NAME": "sui-network",
         "CARGO_PKG_VERSION": "0.0.0",
         "CARGO_PKG_NAME": "sui-network",
+        "OUT_DIR": "$(location :sui-network-build-script-run[out_dir])",
+        # "CARGO_MANIFEST_DIR": "",
     },
     # license = "Apache-2.0",
     edition = "2021",
