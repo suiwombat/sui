@@ -5504,6 +5504,8 @@ dependencies = [
  "rustversion",
  "schemars",
  "scopeguard",
+ "secp256k1",
+ "secp256k1-sys",
  "serde",
  "serde-name",
  "serde-reflection",
@@ -5559,6 +5561,7 @@ dependencies = [
  "whoami",
  "x509-parser",
  "zstd",
+ "zstd-safe",
 ]
 
 [[package]]
