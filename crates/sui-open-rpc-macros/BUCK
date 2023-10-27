@@ -4,7 +4,7 @@ deps = [
     "//third-party:itertools",
     "//third-party:proc-macro2",
     "//third-party:quote",
-    "//third-party:syn",
+    "//third-party:syn_v1",
     "//third-party:unescape",
 ]
 env = {
