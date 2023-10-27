@@ -1,19 +1,3 @@
-features = [
-    "arrayvec",
-    "futures-channel/sink",
-    "futures-channel/std",
-    "futures-util",
-    "futures-util/alloc",
-    "futures-util/sink",
-    "globset",
-    "hyper",
-    "macros",
-    "parking_lot",
-    "rand",
-    "rt",
-    "rustc-hash/std",
-    "tokio/rt",
-    "tokio/sync",
-]
-omit_features = ["client", "server"]
+# capture the extra rust sources
+extra_srcs = ["src/**/*.rs"]
 buildscript = []
