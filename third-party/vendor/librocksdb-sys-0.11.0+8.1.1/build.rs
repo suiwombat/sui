@@ -50,6 +50,7 @@ fn build_rocksdb() {
 
     let mut config = cc::Build::new();
     config.include("../../__lz4-sys-1.9.4.crate__/lz4-sys-1.9.4.crate/liblz4/lib/");
+    // is this causing a problem? nearly certain it is. and the line above
     config.include(
         "../../__zstd-sys-2.0.8+zstd.1.5.5.crate__/zstd-sys-2.0.8+zstd.1.5.5.crate/zstd/lib/",
     );

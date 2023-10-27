@@ -84,10 +84,12 @@ rust_binary(
     rustc_flags = [
         "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__zstd-sys-2.0.8+zstd.1.5.5-build-script-run__/OUT_DIR/libzstd.a",
         "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__blst-0.3.11-build-script-run__/OUT_DIR/libblst.a",
+        "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__secp256k1-sys-0.8.1-build-script-run__/OUT_DIR/libsecp256k1.a",
+        "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__ring-0.16.20-build-script-run__/OUT_DIR/libring-core.a",
+
         "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__librocksdb-sys-0.11.0+8.1.1-build-script-run__/OUT_DIR/librocksdb.a",
         # "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__librocksdb-sys-0.11.0+8.1.1-build-script-run__/OUT_DIR/libsnappy.a",
-        # "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__ring-0.16.20-build-script-run__/OUT_DIR/libring-core.a",
-        "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__secp256k1-sys-0.8.1-build-script-run__/OUT_DIR/libsecp256k1.a",
-        "-C", "target-feature=+crt-static",
+        "-Clink-arg=-std=c++17",
+        # "-C", "target-feature=+crt-static",
     ]
 )

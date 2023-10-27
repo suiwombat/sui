@@ -11,18 +11,33 @@ extra_srcs = [
     "rocksdb/**/*.cc.in",
 ]
 # omit_features = ["default", "libz-sys", "lz4-sys", "static", "zstd-sys"]
-omit_features = ["io-uring"]
+
+# omit_features = ["io-uring"]
+# features = [
+#     "bzip2",
+#     # "io-uring",
+#     "jemalloc",
+#     "lz4",
+#     "rtti",
+#     "snappy",
+#     "static",
+#     "zlib",
+#     "zstd",
+# ]
+
+# omit_features = ["io-uring"]
 features = [
-    "bzip2",
+    # "bzip2",
     # "io-uring",
-    "jemalloc",
-    "lz4",
-    "rtti",
+    # "jemalloc",
     "snappy",
-    "static",
-    "zlib",
-    "zstd",
+    "lz4-sys",
+    "libz-sys",
+    "zstd-sys",
 ]
+
+# ["lz4", "snappy", "zlib", "zstd"] 
+
 # extra_deps = [
 #     ":bzip2-sys-0.1.11+1.0.8",
 #     ":libc-0.2.148",

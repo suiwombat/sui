@@ -28,7 +28,7 @@ system_cxx_toolchain(
     linker=select(
         {
             "config//os:macos": "clang++",
-            "config//os:linux": "gcc",
+            "config//os:linux": "clang++",
         }
     ),
     visibility=["PUBLIC"],
