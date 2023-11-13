@@ -1,0 +1,39 @@
+buildscript = []
+[[platform_fixup.'cfg(target_os = "linux")'.buildscript]]
+[platform_fixup.'cfg(target_os = "linux")'.buildscript.cxx_library]
+name = "libsecp256k1-sys-linux"
+srcs = [
+    "depend/secp256k1/**/*.c",
+]
+headers = ["depend/secp256k1/**/*.h"]
+exclude = [
+    "depend/**/*.patch",
+    # avoid the autotools dooom of building this sucker
+    # we use precomputed ones
+    "depend/**/precompute_*",
+    # don't include the benchmark files
+    "depend/**/bench*",
+]
+include_paths = [
+    "depend/secp256k1",
+    "depend/secp256k1/include",
+    "depend/secp256k1/src",
+]
+# preprocessor_flags = [
+#     "-DSECP256K1_API",
+#     "-DECMULT_GEN_PREC_BITS=4",
+#     "-DENABLE_MODULE_ECDH=15",
+#     "-DENABLE_MODULE_SCHNORRSIG=1",
+#     "-DENABLE_MODULE_EXTRAKEYS=1",
+#     "-DUSE_EXTERNAL_DEFAULT_CALLBACKS=1",
+#     "-DENABLE_MODULE_RECOVERY=1",
+# ]
+compiler_flags = ["-Wno-unused-function","-Wno-error"]
+[env]
+SECP256K1_API = ""
+ECMULT_GEN_PREC_BITS = "4"
+ENABLE_MODULE_ECDH = "15"
+ENABLE_MODULE_SCHNORRSIG = "1"
+ENABLE_MODULE_EXTRAKEYS = "1"
+USE_EXTERNAL_DEFAULT_CALLBACKS = "1"
+ENABLE_MODULE_RECOVERY = "1"

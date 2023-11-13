@@ -1,4 +1,5 @@
 buildscript = []
+# TODO aarch64 and mac
 [[platform_fixup.'cfg(target_os = "linux")'.buildscript]]
 [platform_fixup.'cfg(target_os = "linux")'.buildscript.cxx_library]
 name = "libz-sys-linux"
@@ -22,7 +23,6 @@ srcs = [
 headers = ["src/zlib/*.h"]
 compiler_flags = [
     "-O0",
-    # "-DZ_SOLO",
     "-DSTDC",
     "-DZLIB_CONST",
     "-D_LARGEFILE64_SOURCE",
