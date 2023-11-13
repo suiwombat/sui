@@ -1,0 +1,20 @@
+buildscript = []
+[[platform_fixup.'cfg(target_os = "linux")'.buildscript]]
+[platform_fixup.'cfg(target_os = "linux")'.buildscript.cxx_library]
+name = "lz4-sys-linux"
+srcs = [
+    "liblz4/lib/*.c",
+]
+include_paths = [
+    "lib",
+]
+compiler_flags = [
+    "-O0",
+    "-Wall",
+    "-Wextra",
+    "-Wundef",
+    "-Wshadow",
+    "-Wcast-align",
+    "-Werror",
+    "-pedantic"
+]
