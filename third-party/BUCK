@@ -102,6 +102,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":cpufeatures-0.2.11"],
         ),
+        "macos-arm64": dict(
+            deps = [":cpufeatures-0.2.11"],
+        ),
     },
     visibility = [],
     deps = [
@@ -179,6 +182,12 @@ cargo.rust_library(
                 ":once_cell-1.18.0",
             ],
         ),
+        "macos-arm64": dict(
+            deps = [
+                ":getrandom-0.2.11",
+                ":once_cell-1.18.0",
+            ],
+        ),
     },
     visibility = [],
 )
@@ -209,6 +218,9 @@ cargo.rust_library(
             deps = [":once_cell-1.18.0"],
         ),
         "linux-x86_64": dict(
+            deps = [":once_cell-1.18.0"],
+        ),
+        "macos-arm64": dict(
             deps = [":once_cell-1.18.0"],
         ),
     },
@@ -4958,6 +4970,14 @@ cargo.rust_library(
                 ":object-0.32.1",
             ],
         ),
+        "macos-arm64": dict(
+            deps = [
+                ":addr2line-0.21.0",
+                ":libc-0.2.149",
+                ":miniz_oxide-0.7.1",
+                ":object-0.32.1",
+            ],
+        ),
     },
     visibility = [],
     deps = [
@@ -5774,6 +5794,10 @@ cargo.rust_library(
             ],
             deps = [":blake3-1.5.0-simd_x86_unix"],
         ),
+        "macos-arm64": dict(
+            rustc_flags = ["--cfg=blake3_neon"],
+            deps = [":blake3-1.5.0-simd_neon-aarch64"],
+        ),
     },
     visibility = [],
     deps = [
@@ -5925,6 +5949,9 @@ cargo.rust_library(
                 ":blst-0.3.11-libblst-sys-x64_64-linux",
                 ":threadpool-1.8.1",
             ],
+        ),
+        "macos-arm64": dict(
+            deps = [":threadpool-1.8.1"],
         ),
     },
     visibility = [],
@@ -6663,6 +6690,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":libc-0.2.149"],
         ),
+        "macos-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
     },
     visibility = [],
     deps = [":jobserver-0.1.27"],
@@ -6781,6 +6811,9 @@ cargo.rust_library(
             deps = [":iana-time-zone-0.1.58"],
         ),
         "linux-x86_64": dict(
+            deps = [":iana-time-zone-0.1.58"],
+        ),
+        "macos-arm64": dict(
             deps = [":iana-time-zone-0.1.58"],
         ),
     },
@@ -7679,6 +7712,80 @@ cargo.rust_library(
 )
 
 cargo.rust_library(
+    name = "core-foundation-0.9.3",
+    srcs = [
+        "vendor/core-foundation-0.9.3/src/array.rs",
+        "vendor/core-foundation-0.9.3/src/attributed_string.rs",
+        "vendor/core-foundation-0.9.3/src/base.rs",
+        "vendor/core-foundation-0.9.3/src/boolean.rs",
+        "vendor/core-foundation-0.9.3/src/bundle.rs",
+        "vendor/core-foundation-0.9.3/src/characterset.rs",
+        "vendor/core-foundation-0.9.3/src/data.rs",
+        "vendor/core-foundation-0.9.3/src/date.rs",
+        "vendor/core-foundation-0.9.3/src/dictionary.rs",
+        "vendor/core-foundation-0.9.3/src/error.rs",
+        "vendor/core-foundation-0.9.3/src/filedescriptor.rs",
+        "vendor/core-foundation-0.9.3/src/lib.rs",
+        "vendor/core-foundation-0.9.3/src/mach_port.rs",
+        "vendor/core-foundation-0.9.3/src/number.rs",
+        "vendor/core-foundation-0.9.3/src/propertylist.rs",
+        "vendor/core-foundation-0.9.3/src/runloop.rs",
+        "vendor/core-foundation-0.9.3/src/set.rs",
+        "vendor/core-foundation-0.9.3/src/string.rs",
+        "vendor/core-foundation-0.9.3/src/timezone.rs",
+        "vendor/core-foundation-0.9.3/src/url.rs",
+        "vendor/core-foundation-0.9.3/src/uuid.rs",
+    ],
+    crate = "core_foundation",
+    crate_root = "vendor/core-foundation-0.9.3/src/lib.rs",
+    edition = "2015",
+    licenses = [
+        "vendor/core-foundation-0.9.3/LICENSE-APACHE",
+        "vendor/core-foundation-0.9.3/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":core-foundation-sys-0.8.4",
+        ":libc-0.2.149",
+    ],
+)
+
+cargo.rust_library(
+    name = "core-foundation-sys-0.8.4",
+    srcs = [
+        "vendor/core-foundation-sys-0.8.4/src/array.rs",
+        "vendor/core-foundation-sys-0.8.4/src/attributed_string.rs",
+        "vendor/core-foundation-sys-0.8.4/src/base.rs",
+        "vendor/core-foundation-sys-0.8.4/src/bundle.rs",
+        "vendor/core-foundation-sys-0.8.4/src/characterset.rs",
+        "vendor/core-foundation-sys-0.8.4/src/data.rs",
+        "vendor/core-foundation-sys-0.8.4/src/date.rs",
+        "vendor/core-foundation-sys-0.8.4/src/dictionary.rs",
+        "vendor/core-foundation-sys-0.8.4/src/error.rs",
+        "vendor/core-foundation-sys-0.8.4/src/filedescriptor.rs",
+        "vendor/core-foundation-sys-0.8.4/src/lib.rs",
+        "vendor/core-foundation-sys-0.8.4/src/mach_port.rs",
+        "vendor/core-foundation-sys-0.8.4/src/messageport.rs",
+        "vendor/core-foundation-sys-0.8.4/src/number.rs",
+        "vendor/core-foundation-sys-0.8.4/src/propertylist.rs",
+        "vendor/core-foundation-sys-0.8.4/src/runloop.rs",
+        "vendor/core-foundation-sys-0.8.4/src/set.rs",
+        "vendor/core-foundation-sys-0.8.4/src/string.rs",
+        "vendor/core-foundation-sys-0.8.4/src/timezone.rs",
+        "vendor/core-foundation-sys-0.8.4/src/url.rs",
+        "vendor/core-foundation-sys-0.8.4/src/uuid.rs",
+    ],
+    crate = "core_foundation_sys",
+    crate_root = "vendor/core-foundation-sys-0.8.4/src/lib.rs",
+    edition = "2015",
+    licenses = [
+        "vendor/core-foundation-sys-0.8.4/LICENSE-APACHE",
+        "vendor/core-foundation-sys-0.8.4/LICENSE-MIT",
+    ],
+    visibility = [],
+)
+
+cargo.rust_library(
     name = "core2-0.4.0",
     srcs = [
         "vendor/core2-0.4.0/src/error.rs",
@@ -7721,6 +7828,9 @@ cargo.rust_library(
     ],
     platform = {
         "linux-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -7968,6 +8078,14 @@ cargo.rust_library(
             ],
         ),
         "linux-x86_64": dict(
+            deps = [
+                ":libc-0.2.149",
+                ":mio-0.8.9",
+                ":signal-hook-0.3.17",
+                ":signal-hook-mio-0.2.3",
+            ],
+        ),
+        "macos-arm64": dict(
             deps = [
                 ":libc-0.2.149",
                 ":mio-0.8.9",
@@ -9377,6 +9495,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":libc-0.2.149"],
         ),
+        "macos-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
     },
     visibility = [],
 )
@@ -9399,6 +9520,9 @@ cargo.rust_library(
             deps = [":libc-0.2.149"],
         ),
         "linux-x86_64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -9948,6 +10072,9 @@ cargo.rust_library(
             deps = [":libc-0.2.149"],
         ),
         "linux-x86_64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -11204,6 +11331,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":libc-0.2.149"],
         ),
+        "macos-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
     },
     visibility = [],
     deps = [":cfg-if-1.0.0"],
@@ -11264,6 +11394,9 @@ cargo.rust_library(
             deps = [":libc-0.2.149"],
         ),
         "linux-x86_64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -12473,6 +12606,11 @@ cargo.rust_library(
         "vendor/iana-time-zone-0.1.58/LICENSE-APACHE",
         "vendor/iana-time-zone-0.1.58/LICENSE-MIT",
     ],
+    platform = {
+        "macos-arm64": dict(
+            deps = [":core-foundation-sys-0.8.4"],
+        ),
+    },
     visibility = [],
 )
 
@@ -13049,6 +13187,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":rustix-0.38.21"],
         ),
+        "macos-arm64": dict(
+            deps = [":rustix-0.38.21"],
+        ),
     },
     visibility = [],
 )
@@ -13231,6 +13372,9 @@ cargo.rust_library(
             deps = [":libc-0.2.149"],
         ),
         "linux-x86_64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -13596,6 +13740,9 @@ cargo.rust_library(
     ],
     platform = {
         "linux-arm64": dict(
+            deps = [":cpufeatures-0.2.11"],
+        ),
+        "macos-arm64": dict(
             deps = [":cpufeatures-0.2.11"],
         ),
     },
@@ -14195,6 +14342,9 @@ cargo.rust_library(
             deps = [":cfg-if-1.0.0"],
         ),
         "linux-x86_64": dict(
+            deps = [":cfg-if-1.0.0"],
+        ),
+        "macos-arm64": dict(
             deps = [":cfg-if-1.0.0"],
         ),
     },
@@ -15139,6 +15289,63 @@ cargo.rust_library(
     deps = [":hashbrown-0.13.2"],
 )
 
+cargo.rust_library(
+    name = "mach2-0.4.1",
+    srcs = [
+        "vendor/mach2-0.4.1/src/boolean.rs",
+        "vendor/mach2-0.4.1/src/bootstrap.rs",
+        "vendor/mach2-0.4.1/src/clock.rs",
+        "vendor/mach2-0.4.1/src/clock_priv.rs",
+        "vendor/mach2-0.4.1/src/clock_reply.rs",
+        "vendor/mach2-0.4.1/src/clock_types.rs",
+        "vendor/mach2-0.4.1/src/dyld_kernel.rs",
+        "vendor/mach2-0.4.1/src/exc.rs",
+        "vendor/mach2-0.4.1/src/exception_types.rs",
+        "vendor/mach2-0.4.1/src/kern_return.rs",
+        "vendor/mach2-0.4.1/src/lib.rs",
+        "vendor/mach2-0.4.1/src/mach_init.rs",
+        "vendor/mach2-0.4.1/src/mach_port.rs",
+        "vendor/mach2-0.4.1/src/mach_time.rs",
+        "vendor/mach2-0.4.1/src/mach_types.rs",
+        "vendor/mach2-0.4.1/src/memory_object_types.rs",
+        "vendor/mach2-0.4.1/src/message.rs",
+        "vendor/mach2-0.4.1/src/port.rs",
+        "vendor/mach2-0.4.1/src/structs.rs",
+        "vendor/mach2-0.4.1/src/task.rs",
+        "vendor/mach2-0.4.1/src/task_info.rs",
+        "vendor/mach2-0.4.1/src/thread_act.rs",
+        "vendor/mach2-0.4.1/src/thread_policy.rs",
+        "vendor/mach2-0.4.1/src/thread_status.rs",
+        "vendor/mach2-0.4.1/src/traps.rs",
+        "vendor/mach2-0.4.1/src/vm.rs",
+        "vendor/mach2-0.4.1/src/vm_attributes.rs",
+        "vendor/mach2-0.4.1/src/vm_behavior.rs",
+        "vendor/mach2-0.4.1/src/vm_inherit.rs",
+        "vendor/mach2-0.4.1/src/vm_page_size.rs",
+        "vendor/mach2-0.4.1/src/vm_prot.rs",
+        "vendor/mach2-0.4.1/src/vm_purgable.rs",
+        "vendor/mach2-0.4.1/src/vm_region.rs",
+        "vendor/mach2-0.4.1/src/vm_statistics.rs",
+        "vendor/mach2-0.4.1/src/vm_sync.rs",
+        "vendor/mach2-0.4.1/src/vm_types.rs",
+    ],
+    crate = "mach2",
+    crate_root = "vendor/mach2-0.4.1/src/lib.rs",
+    edition = "2015",
+    features = ["default"],
+    licenses = [
+        "vendor/mach2-0.4.1/LICENSE-APACHE",
+        "vendor/mach2-0.4.1/LICENSE-BSD",
+        "vendor/mach2-0.4.1/LICENSE-MIT",
+    ],
+    platform = {
+        "macos-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+    },
+    visibility = [],
+)
+
 alias(
     name = "match_opt",
     actual = ":match_opt-0.1.2",
@@ -15461,10 +15668,56 @@ cargo.rust_library(
         "vendor/mio-0.8.9/src/event/mod.rs",
         "vendor/mio-0.8.9/src/event/source.rs",
         "vendor/mio-0.8.9/src/interest.rs",
+        "vendor/mio-0.8.9/src/io_source.rs",
         "vendor/mio-0.8.9/src/lib.rs",
         "vendor/mio-0.8.9/src/macros.rs",
+        "vendor/mio-0.8.9/src/net/mod.rs",
+        "vendor/mio-0.8.9/src/net/tcp/listener.rs",
+        "vendor/mio-0.8.9/src/net/tcp/mod.rs",
+        "vendor/mio-0.8.9/src/net/tcp/stream.rs",
+        "vendor/mio-0.8.9/src/net/udp.rs",
+        "vendor/mio-0.8.9/src/net/uds/datagram.rs",
+        "vendor/mio-0.8.9/src/net/uds/listener.rs",
+        "vendor/mio-0.8.9/src/net/uds/mod.rs",
+        "vendor/mio-0.8.9/src/net/uds/stream.rs",
         "vendor/mio-0.8.9/src/poll.rs",
         "vendor/mio-0.8.9/src/sys/mod.rs",
+        "vendor/mio-0.8.9/src/sys/shell/mod.rs",
+        "vendor/mio-0.8.9/src/sys/shell/selector.rs",
+        "vendor/mio-0.8.9/src/sys/shell/tcp.rs",
+        "vendor/mio-0.8.9/src/sys/shell/udp.rs",
+        "vendor/mio-0.8.9/src/sys/shell/uds.rs",
+        "vendor/mio-0.8.9/src/sys/shell/waker.rs",
+        "vendor/mio-0.8.9/src/sys/unix/mod.rs",
+        "vendor/mio-0.8.9/src/sys/unix/net.rs",
+        "vendor/mio-0.8.9/src/sys/unix/pipe.rs",
+        "vendor/mio-0.8.9/src/sys/unix/selector/epoll.rs",
+        "vendor/mio-0.8.9/src/sys/unix/selector/kqueue.rs",
+        "vendor/mio-0.8.9/src/sys/unix/selector/mod.rs",
+        "vendor/mio-0.8.9/src/sys/unix/selector/poll.rs",
+        "vendor/mio-0.8.9/src/sys/unix/sourcefd.rs",
+        "vendor/mio-0.8.9/src/sys/unix/tcp.rs",
+        "vendor/mio-0.8.9/src/sys/unix/udp.rs",
+        "vendor/mio-0.8.9/src/sys/unix/uds/datagram.rs",
+        "vendor/mio-0.8.9/src/sys/unix/uds/listener.rs",
+        "vendor/mio-0.8.9/src/sys/unix/uds/mod.rs",
+        "vendor/mio-0.8.9/src/sys/unix/uds/socketaddr.rs",
+        "vendor/mio-0.8.9/src/sys/unix/uds/stream.rs",
+        "vendor/mio-0.8.9/src/sys/unix/waker.rs",
+        "vendor/mio-0.8.9/src/sys/wasi/mod.rs",
+        "vendor/mio-0.8.9/src/sys/windows/afd.rs",
+        "vendor/mio-0.8.9/src/sys/windows/event.rs",
+        "vendor/mio-0.8.9/src/sys/windows/handle.rs",
+        "vendor/mio-0.8.9/src/sys/windows/io_status_block.rs",
+        "vendor/mio-0.8.9/src/sys/windows/iocp.rs",
+        "vendor/mio-0.8.9/src/sys/windows/mod.rs",
+        "vendor/mio-0.8.9/src/sys/windows/named_pipe.rs",
+        "vendor/mio-0.8.9/src/sys/windows/net.rs",
+        "vendor/mio-0.8.9/src/sys/windows/overlapped.rs",
+        "vendor/mio-0.8.9/src/sys/windows/selector.rs",
+        "vendor/mio-0.8.9/src/sys/windows/tcp.rs",
+        "vendor/mio-0.8.9/src/sys/windows/udp.rs",
+        "vendor/mio-0.8.9/src/sys/windows/waker.rs",
         "vendor/mio-0.8.9/src/token.rs",
         "vendor/mio-0.8.9/src/waker.rs",
     ],
@@ -15484,6 +15737,9 @@ cargo.rust_library(
             deps = [":libc-0.2.149"],
         ),
         "linux-x86_64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -15708,6 +15964,9 @@ cargo.rust_library(
             deps = [":libc-0.2.149"],
         ),
         "linux-x86_64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -16259,6 +16518,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":libc-0.2.149"],
         ),
+        "macos-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
     },
     visibility = [],
 )
@@ -16495,6 +16757,9 @@ cargo.rust_library(
             deps = [":tokio-1.34.0"],
         ),
         "linux-x86_64": dict(
+            deps = [":tokio-1.34.0"],
+        ),
+        "macos-arm64": dict(
             deps = [":tokio-1.34.0"],
         ),
     },
@@ -17276,11 +17541,15 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":libc-0.2.149"],
         ),
+        "macos-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
     },
     rustc_flags = ["@$(location :parking_lot_core-0.9.9-build-script-run[rustc_flags])"],
     visibility = [],
     deps = [
         ":cfg-if-1.0.0",
+        ":libc",
         ":smallvec-1.11.2",
     ],
 )
@@ -17292,6 +17561,7 @@ cargo.rust_binary(
     crate_root = "vendor/parking_lot_core-0.9.9/build.rs",
     edition = "2018",
     visibility = [],
+    deps = [":libc"],
 )
 
 buildscript_run(
@@ -18002,6 +18272,9 @@ cargo.rust_library(
             deps = [":cpufeatures-0.2.11"],
         ),
         "linux-x86_64": dict(
+            deps = [":cpufeatures-0.2.11"],
+        ),
+        "macos-arm64": dict(
             deps = [":cpufeatures-0.2.11"],
         ),
     },
@@ -19199,6 +19472,9 @@ cargo.rust_library(
                 ":raw-cpuid-10.7.0",
             ],
         ),
+        "macos-arm64": dict(
+            deps = [":mach2-0.4.1"],
+        ),
     },
     visibility = [],
     deps = [
@@ -19527,6 +19803,12 @@ cargo.rust_library(
                 ":rand_chacha-0.2.2",
             ],
         ),
+        "macos-arm64": dict(
+            deps = [
+                ":libc-0.2.149",
+                ":rand_chacha-0.2.2",
+            ],
+        ),
     },
     visibility = [],
     deps = [":rand_core-0.5.1"],
@@ -19590,6 +19872,9 @@ cargo.rust_library(
             deps = [":libc-0.2.149"],
         ),
         "linux-x86_64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -20253,6 +20538,28 @@ cargo.rust_library(
                 ":pin-project-lite-0.2.13",
                 ":rustls-0.21.8",
                 ":rustls-pemfile-1.0.4",
+                ":tokio-1.34.0",
+                ":tokio-rustls-0.24.1",
+                ":tokio-util-0.7.10",
+                ":webpki-roots-0.25.2",
+            ],
+        ),
+        "macos-arm64": dict(
+            deps = [
+                ":encoding_rs-0.8.33",
+                ":h2-0.3.21",
+                ":http-body-0.4.5",
+                ":hyper-0.14.27",
+                ":hyper-rustls-0.24.2",
+                ":ipnet-2.9.0",
+                ":log-0.4.20",
+                ":mime-0.3.17",
+                ":once_cell-1.18.0",
+                ":percent-encoding-2.3.0",
+                ":pin-project-lite-0.2.13",
+                ":rustls-0.21.8",
+                ":rustls-pemfile-1.0.4",
+                ":system-configuration-0.5.1",
                 ":tokio-1.34.0",
                 ":tokio-rustls-0.24.1",
                 ":tokio-util-0.7.10",
@@ -21781,6 +22088,12 @@ cargo.rust_library(
                 ":linux-raw-sys-0.4.11",
             ],
         ),
+        "macos-arm64": dict(
+            named_deps = {
+                "libc_errno": ":errno-0.3.6",
+            },
+            deps = [":libc-0.2.149"],
+        ),
     },
     rustc_flags = ["@$(location :rustix-0.38.21-build-script-run[rustc_flags])"],
     visibility = [],
@@ -22130,6 +22443,9 @@ cargo.rust_library(
         ),
         "linux-x86_64": dict(
             deps = [":openssl-probe-0.1.5"],
+        ),
+        "macos-arm64": dict(
+            deps = [":security-framework-2.9.2"],
         ),
     },
     visibility = [],
@@ -22782,6 +23098,108 @@ cxx_library(
 )
 
 cargo.rust_library(
+    name = "security-framework-2.9.2",
+    srcs = [
+        "vendor/security-framework-2.9.2/src/access_control.rs",
+        "vendor/security-framework-2.9.2/src/authorization.rs",
+        "vendor/security-framework-2.9.2/src/base.rs",
+        "vendor/security-framework-2.9.2/src/certificate.rs",
+        "vendor/security-framework-2.9.2/src/cipher_suite.rs",
+        "vendor/security-framework-2.9.2/src/dlsym.rs",
+        "vendor/security-framework-2.9.2/src/identity.rs",
+        "vendor/security-framework-2.9.2/src/import_export.rs",
+        "vendor/security-framework-2.9.2/src/item.rs",
+        "vendor/security-framework-2.9.2/src/key.rs",
+        "vendor/security-framework-2.9.2/src/lib.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/access.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/certificate.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/certificate_oids.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/code_signing.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/digest_transform.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/encrypt_transform.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/identity.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/import_export.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/item.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/key.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/keychain.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/keychain_item.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/mod.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/passwords.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/secure_transport.rs",
+        "vendor/security-framework-2.9.2/src/os/macos/transform.rs",
+        "vendor/security-framework-2.9.2/src/os/mod.rs",
+        "vendor/security-framework-2.9.2/src/passwords.rs",
+        "vendor/security-framework-2.9.2/src/passwords_options.rs",
+        "vendor/security-framework-2.9.2/src/policy.rs",
+        "vendor/security-framework-2.9.2/src/random.rs",
+        "vendor/security-framework-2.9.2/src/secure_transport.rs",
+        "vendor/security-framework-2.9.2/src/trust.rs",
+        "vendor/security-framework-2.9.2/src/trust_settings.rs",
+    ],
+    crate = "security_framework",
+    crate_root = "vendor/security-framework-2.9.2/src/lib.rs",
+    edition = "2021",
+    features = [
+        "OSX_10_9",
+        "default",
+    ],
+    licenses = [
+        "vendor/security-framework-2.9.2/LICENSE-APACHE",
+        "vendor/security-framework-2.9.2/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":bitflags-1.3.2",
+        ":core-foundation-0.9.3",
+        ":core-foundation-sys-0.8.4",
+        ":libc-0.2.149",
+        ":security-framework-sys-2.9.1",
+    ],
+)
+
+cargo.rust_library(
+    name = "security-framework-sys-2.9.1",
+    srcs = [
+        "vendor/security-framework-sys-2.9.1/src/access.rs",
+        "vendor/security-framework-sys-2.9.1/src/access_control.rs",
+        "vendor/security-framework-sys-2.9.1/src/authorization.rs",
+        "vendor/security-framework-sys-2.9.1/src/base.rs",
+        "vendor/security-framework-sys-2.9.1/src/certificate.rs",
+        "vendor/security-framework-sys-2.9.1/src/certificate_oids.rs",
+        "vendor/security-framework-sys-2.9.1/src/cipher_suite.rs",
+        "vendor/security-framework-sys-2.9.1/src/code_signing.rs",
+        "vendor/security-framework-sys-2.9.1/src/digest_transform.rs",
+        "vendor/security-framework-sys-2.9.1/src/encrypt_transform.rs",
+        "vendor/security-framework-sys-2.9.1/src/identity.rs",
+        "vendor/security-framework-sys-2.9.1/src/import_export.rs",
+        "vendor/security-framework-sys-2.9.1/src/item.rs",
+        "vendor/security-framework-sys-2.9.1/src/key.rs",
+        "vendor/security-framework-sys-2.9.1/src/keychain.rs",
+        "vendor/security-framework-sys-2.9.1/src/keychain_item.rs",
+        "vendor/security-framework-sys-2.9.1/src/lib.rs",
+        "vendor/security-framework-sys-2.9.1/src/policy.rs",
+        "vendor/security-framework-sys-2.9.1/src/random.rs",
+        "vendor/security-framework-sys-2.9.1/src/secure_transport.rs",
+        "vendor/security-framework-sys-2.9.1/src/transform.rs",
+        "vendor/security-framework-sys-2.9.1/src/trust.rs",
+        "vendor/security-framework-sys-2.9.1/src/trust_settings.rs",
+    ],
+    crate = "security_framework_sys",
+    crate_root = "vendor/security-framework-sys-2.9.1/src/lib.rs",
+    edition = "2021",
+    features = ["OSX_10_9"],
+    licenses = [
+        "vendor/security-framework-sys-2.9.1/LICENSE-APACHE",
+        "vendor/security-framework-sys-2.9.1/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":core-foundation-sys-0.8.4",
+        ":libc-0.2.149",
+    ],
+)
+
+cargo.rust_library(
     name = "semver-1.0.20",
     srcs = [
         "vendor/semver-1.0.20/src/backport.rs",
@@ -23368,6 +23786,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":cpufeatures-0.2.11"],
         ),
+        "macos-arm64": dict(
+            deps = [":cpufeatures-0.2.11"],
+        ),
     },
     visibility = [],
     deps = [
@@ -23404,6 +23825,9 @@ cargo.rust_library(
             deps = [":cpufeatures-0.2.11"],
         ),
         "linux-x86_64": dict(
+            deps = [":cpufeatures-0.2.11"],
+        ),
+        "macos-arm64": dict(
             deps = [":cpufeatures-0.2.11"],
         ),
     },
@@ -23450,6 +23874,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":cpufeatures-0.2.11"],
         ),
+        "macos-arm64": dict(
+            deps = [":cpufeatures-0.2.11"],
+        ),
     },
     visibility = [],
     deps = [
@@ -23493,6 +23920,9 @@ cargo.rust_library(
             deps = [":cpufeatures-0.2.11"],
         ),
         "linux-x86_64": dict(
+            deps = [":cpufeatures-0.2.11"],
+        ),
+        "macos-arm64": dict(
             deps = [":cpufeatures-0.2.11"],
         ),
     },
@@ -24117,6 +24547,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":libc-0.2.149"],
         ),
+        "macos-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
     },
     visibility = [],
 )
@@ -24150,6 +24583,9 @@ cargo.rust_library(
             deps = [":libc-0.2.149"],
         ),
         "linux-x86_64": dict(
+            deps = [":libc-0.2.149"],
+        ),
+        "macos-arm64": dict(
             deps = [":libc-0.2.149"],
         ),
     },
@@ -24644,6 +25080,64 @@ cargo.rust_library(
     ],
 )
 
+cargo.rust_library(
+    name = "system-configuration-0.5.1",
+    srcs = [
+        "vendor/system-configuration-0.5.1/src/dynamic_store.rs",
+        "vendor/system-configuration-0.5.1/src/lib.rs",
+        "vendor/system-configuration-0.5.1/src/network_configuration.rs",
+        "vendor/system-configuration-0.5.1/src/network_reachability.rs",
+        "vendor/system-configuration-0.5.1/src/preferences.rs",
+    ],
+    crate = "system_configuration",
+    crate_root = "vendor/system-configuration-0.5.1/src/lib.rs",
+    edition = "2021",
+    visibility = [],
+    deps = [
+        ":bitflags-1.3.2",
+        ":core-foundation-0.9.3",
+        ":system-configuration-sys-0.5.0",
+    ],
+)
+
+cargo.rust_library(
+    name = "system-configuration-sys-0.5.0",
+    srcs = [
+        "vendor/system-configuration-sys-0.5.0/src/dynamic_store.rs",
+        "vendor/system-configuration-sys-0.5.0/src/dynamic_store_copy_specific.rs",
+        "vendor/system-configuration-sys-0.5.0/src/lib.rs",
+        "vendor/system-configuration-sys-0.5.0/src/network_configuration.rs",
+        "vendor/system-configuration-sys-0.5.0/src/network_reachability.rs",
+        "vendor/system-configuration-sys-0.5.0/src/preferences.rs",
+        "vendor/system-configuration-sys-0.5.0/src/schema_definitions.rs",
+    ],
+    crate = "system_configuration_sys",
+    crate_root = "vendor/system-configuration-sys-0.5.0/src/lib.rs",
+    edition = "2021",
+    rustc_flags = ["@$(location :system-configuration-sys-0.5.0-build-script-run[rustc_flags])"],
+    visibility = [],
+    deps = [
+        ":core-foundation-sys-0.8.4",
+        ":libc-0.2.149",
+    ],
+)
+
+cargo.rust_binary(
+    name = "system-configuration-sys-0.5.0-build-script-build",
+    srcs = ["vendor/system-configuration-sys-0.5.0/build.rs"],
+    crate = "build_script_build",
+    crate_root = "vendor/system-configuration-sys-0.5.0/build.rs",
+    edition = "2021",
+    visibility = [],
+)
+
+buildscript_run(
+    name = "system-configuration-sys-0.5.0-build-script-run",
+    package_name = "system-configuration-sys",
+    buildscript_rule = ":system-configuration-sys-0.5.0-build-script-build",
+    version = "0.5.0",
+)
+
 alias(
     name = "tap",
     actual = ":tap-1.0.1",
@@ -24697,6 +25191,9 @@ cargo.rust_library(
             deps = [":rustix-0.38.21"],
         ),
         "linux-x86_64": dict(
+            deps = [":rustix-0.38.21"],
+        ),
+        "macos-arm64": dict(
             deps = [":rustix-0.38.21"],
         ),
     },
@@ -24824,6 +25321,9 @@ cargo.rust_library(
             deps = [":rustix-0.38.21"],
         ),
         "linux-x86_64": dict(
+            deps = [":rustix-0.38.21"],
+        ),
+        "macos-arm64": dict(
             deps = [":rustix-0.38.21"],
         ),
     },
@@ -25282,6 +25782,13 @@ cargo.rust_library(
             ],
         ),
         "linux-x86_64": dict(
+            deps = [
+                ":libc-0.2.149",
+                ":signal-hook-registry-1.4.1",
+                ":socket2-0.5.5",
+            ],
+        ),
+        "macos-arm64": dict(
             deps = [
                 ":libc-0.2.149",
                 ":signal-hook-registry-1.4.1",
@@ -27369,6 +27876,9 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [":libc-0.2.149"],
         ),
+        "macos-arm64": dict(
+            deps = [":libc-0.2.149"],
+        ),
     },
     visibility = [],
 )
@@ -27498,6 +28008,9 @@ cargo.rust_library(
             deps = [":home-0.5.5"],
         ),
         "linux-x86_64": dict(
+            deps = [":home-0.5.5"],
+        ),
+        "macos-arm64": dict(
             deps = [":home-0.5.5"],
         ),
     },
