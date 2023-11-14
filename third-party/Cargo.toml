@@ -232,11 +232,11 @@ opentelemetry-proto = { version = "0.3", features = ["gen-tonic", "traces"] }
 opentelemetry_api = { version = "0.20", features = ["logs", "metrics"] }
 prost = "0.11.8"
 prost-build = "0.11.8"
-ring_16_20 = { package = "ring", version = "0.16.20", features = [
+ring = { package = "ring", version = "0.16.20", features = [
     "alloc",
     "dev_urandom_fallback",
 ] }
-ring = { package = "ring", version = "0.17.0", features = [
+ring_0_17_0 = { package = "ring", version = "0.17.0", features = [
     "alloc",
     "dev_urandom_fallback",
 ] }

@@ -1,90 +1,133 @@
-# buildscript = []
+buildscript = []
 # # TODO add https://github.com/facebook/buck2/blob/main/shim/third-party/rust/fixups/ring/fixups.toml
-# [platform_fixup.'cfg(any(all(target_arch = "x86_64", target_os = "linux")))']
-# version = "=0.16.20"
-# [platform_fixup.'cfg(any(all(target_arch = "x86_64", target_os = "linux")))'.env]
-# RING_CORE_PREFIX = "ring_core_0_16_20_"
-# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript]]
-# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript.cxx_library]
-# name = "ring-c-asm-elf-x86_84"
-# srcs = [ "crypto/**/*.c", "pregenerated/*x86_64*-elf.S" ]
-# headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
-# # Exclude C AES because we've got the x86_64 one
-# exclude = [ "crypto/fipsmodule/aes/aes.c" ]
-# include_paths = ["include"]
-# compiler_flags = ["-Wno-error"]
+# [platform_fixup.'cfg(unix)']
+# # libloading prior to 0.6.4 has a buildscript building a little library.
+# version = "<0.6.4"
 
-# [platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "linux")))']
-# version = "=0.16.20"
-# [platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "linux")))'.env]
-# RING_CORE_PREFIX = "ring_core_0_16_20_"
-# [[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "linux")))'.buildscript]]
-# [platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "linux")))'.buildscript.cxx_library]
-# name = "ring-c-asm-elf-aarch64"
-# srcs = [ "crypto/**/*.c", "pregenerated/*armv8*-linux64.S", "pregenerated/*armx*-linux64.S" ]
-# headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
-# exclude = [ "crypto/cpu-intel.c" ]
-# include_paths = ["include"]
-# compiler_flags = ["-Wno-error"]
-# fixup_include_paths = ["include"]
+# [[platform_fixup.'cfg(unix)'.buildscript]]
+# [platform_fixup.'cfg(unix)'.buildscript.cxx_library]
+# name = "global-static"
+# srcs = ["src/os/unix/global_static.c"]
+# deps = ["third-party//glibc:dl"]
 
-# [platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "macos")))']
-# version = "=0.16.20"
-# [platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "macos")))'.env]
-# RING_CORE_PREFIX = "ring_core_0_16_20_"
-# [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
-# [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
-# name = "ring-c-asm-macos-arm64"
-# srcs = [ "crypto/**/*.c", "pregenerated/*armv8*-ios64.S", "pregenerated/*armx*-ios64.S" ]
-# headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
-# exclude = [ "crypto/cpu-intel.c" ]
-# include_paths = ["include"]
-# compiler_flags = ["-Wno-error"]
+# [platform_fixup.'cfg(any(unix))']
+# # Post 0.6.4 we just need to link with libdl.
+# version = ">=0.6.4"
+# extra_deps = ["third-party//glibc:dl"]
 
-cargo_env = true
-features = ["alloc", "dev_urandom_fallback"]
-# omit_features = ["once_cell", "std"]
-# extra_deps = [":libc-0.2.148", ":once_cell-1.18.0", ":spin-0.5.2"]
-extra_srcs = ["crypto/**/*.pl"]
-# env = { RING_CORE_PREFIX = "ring_core_0_17_0_" }
-# env = {
-#     "CARGO_MANIFEST_LINKS": "ring_core_0_17_0",
-#     "RING_CORE_PREFIX": "ring_core_0_17_0_",
-# },
-[env]
-# CARGO_MANIFEST_LINKS = "ring_core_0_17_0"
-# RING_CORE_PREFIX = "ring_core_0_17_0_"
-CARGO_MANIFEST_LINKS = "ring_core_0_16_20"
+# [platform_fixup.'cfg(target_family = "unix")']
+# version = "=0.16.20"
+# [platform_fixup.'cfg(target_family = "unix")'.env]
+# RING_CORE_PREFIX = "ring_core_0_16_20_"
+
+# [platform_fixup.'cfg(any(target_family = "unix"))']
+# version = "=0.17.5"
+# [platform_fixup.'cfg(any(target_family = "unix"))'.env]
+# RING_CORE_PREFIX = "ring_core_0_17_5_"
+
+[platform_fixup.'cfg(any(all(target_arch = "x86_64", target_os = "linux")))']
+version = "=0.16.20"
+[platform_fixup.'cfg(any(all(target_arch = "x86_64", target_os = "linux")))'.env]
 RING_CORE_PREFIX = "ring_core_0_16_20_"
-[[buildscript]]
-[buildscript.rustc_flags]
-# path_env = ["-O0"]
-[[buildscript]]
-[buildscript.gen_srcs]
-
-# env = { TARGET = "aarch64-apple-darwin" }
-# buildscript = []
-
-# Copied from fbsource fixup.
-# extra_srcs = ["pregenerated/libring-c3e7dd7c1a4718a3.rlib"]
-# buildscript = []
-
-# # Generate a C/C++ build rule for all the C code
-
 [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript]]
 [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript.cxx_library]
 name = "ring-c-asm-elf-x86_84"
-srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-elf.S"]
-headers = [
-    "include/**/*.h",
-    "crypto/**/*.h",
-    "third_party/**/*.h",
-    "crypto/**/*.inl",
-]
+srcs = [ "crypto/**/*.c", "pregenerated/*x86_64*-elf.S" ]
+headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
 # Exclude C AES because we've got the x86_64 one
-exclude = ["crypto/fipsmodule/aes/aes.c"]
+exclude = [ "crypto/fipsmodule/aes/aes.c" ]
 include_paths = ["include"]
-compiler_flags = [
-    "-DNDEBUG",
-    "-Wno-error",
-]
+compiler_flags = ["-Wno-error"]
+
+[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "linux")))']
+version = "=0.16.20"
+[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "linux")))'.env]
+RING_CORE_PREFIX = "ring_core_0_16_20_"
+[[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "linux")))'.buildscript]]
+[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "linux")))'.buildscript.cxx_library]
+name = "ring-c-asm-elf-aarch64"
+srcs = [ "crypto/**/*.c", "pregenerated/*armv8*-linux64.S", "pregenerated/*armx*-linux64.S" ]
+headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
+exclude = [ "crypto/cpu-intel.c" ]
+include_paths = ["include"]
+compiler_flags = ["-Wno-error"]
+fixup_include_paths = ["include"]
+
+[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "macos")))']
+version = "=0.16.20"
+[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "macos")))'.env]
+RING_CORE_PREFIX = "ring_core_0_16_20_"
+[[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
+[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
+name = "ring-c-asm-macos-arm64"
+srcs = [ "crypto/**/*.c", "pregenerated/*armv8*-ios64.S", "pregenerated/*armx*-ios64.S" ]
+headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
+exclude = [ "crypto/cpu-intel.c" ]
+include_paths = ["include"]
+compiler_flags = ["-Wno-error"]
+
+
+
+# version 17+
+[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))']
+version = "=0.17.5"
+[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.env]
+RING_CORE_PREFIX = "ring_core_0_17_5_"
+[[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
+[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
+name = "ring-c-asm-macos-arm64"
+srcs = [ "crypto/**/*.c", "pregenerated/*armv8*-ios64.S", "pregenerated/*armx*-ios64.S" ]
+headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
+exclude = [ "crypto/cpu-intel.c" ]
+include_paths = ["include"]
+compiler_flags = ["-Wno-error"]
+fixup_include_paths = ["include"]
+
+
+# cargo_env = true
+# features = ["alloc", "dev_urandom_fallback"]
+# # omit_features = ["once_cell", "std"]
+# # extra_deps = [":libc-0.2.148", ":once_cell-1.18.0", ":spin-0.5.2"]
+# extra_srcs = ["crypto/**/*.pl"]
+# # env = { RING_CORE_PREFIX = "ring_core_0_17_0_" }
+# # env = {
+# #     "CARGO_MANIFEST_LINKS": "ring_core_0_17_0",
+# #     "RING_CORE_PREFIX": "ring_core_0_17_0_",
+# # },
+# [env]
+# # CARGO_MANIFEST_LINKS = "ring_core_0_17_0"
+# # RING_CORE_PREFIX = "ring_core_0_17_0_"
+# CARGO_MANIFEST_LINKS = "ring_core_0_16_20"
+# RING_CORE_PREFIX = "ring_core_0_16_20_"
+# [[buildscript]]
+# [buildscript.rustc_flags]
+# # path_env = ["-O0"]
+# [[buildscript]]
+# [buildscript.gen_srcs]
+
+# # env = { TARGET = "aarch64-apple-darwin" }
+# # buildscript = []
+
+# # Copied from fbsource fixup.
+# # extra_srcs = ["pregenerated/libring-c3e7dd7c1a4718a3.rlib"]
+# # buildscript = []
+
+# # # Generate a C/C++ build rule for all the C code
+
+# [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript]]
+# [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript.cxx_library]
+# name = "ring-c-asm-elf-x86_84"
+# srcs = ["crypto/**/*.c", "pregenerated/*x86_64*-elf.S"]
+# headers = [
+#     "include/**/*.h",
+#     "crypto/**/*.h",
+#     "third_party/**/*.h",
+#     "crypto/**/*.inl",
+# ]
+# # Exclude C AES because we've got the x86_64 one
+# exclude = ["crypto/fipsmodule/aes/aes.c"]
+# include_paths = ["include"]
+# compiler_flags = [
+#     "-DNDEBUG",
+#     "-Wno-error",
+# ]
