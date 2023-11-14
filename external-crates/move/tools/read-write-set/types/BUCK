@@ -1,0 +1,24 @@
+
+deps = [
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//third-party:serde",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Type definition for read/write set inference for Move bytecode programs",
+    "CARGO_PKG_NAME": "move-read-write-set-types",
+    "CARGO_PKG_VERSION": "0.0.3",
+}
+
+rust_library(
+    name = "move-read-write-set-types",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

@@ -1,0 +1,73 @@
+
+rust_library(
+    name = "sui-network",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-network",
+        "CARGO_PKG_VERSION": "0.0.0",
+        "CARGO_PKG_NAME": "sui-network",
+        "OUT_DIR": "$(location :sui-network-build-script-run[out_dir])",
+        # "CARGO_MANIFEST_DIR": "",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anemo",
+        "//third-party:anemo-tower",
+        "//third-party:anyhow",
+        "//third-party:dashmap",
+        "//third-party:futures",
+        "//third-party:governor",
+        "//crates/mysten-metrics:mysten-metrics",
+        "//crates/mysten-network:mysten-network",
+        "//third-party:prometheus",
+        "//third-party:rand",
+        "//third-party:serde",
+        "//crates/sui-archival:sui-archival",
+        "//crates/sui-config:sui-config",
+        "//crates/sui-storage:sui-storage",
+        "//crates/sui-swarm-config:sui-swarm-config",
+        "//crates/sui-types:sui-types",
+        "//third-party:tap",
+        "//third-party:tokio",
+        "//third-party:tonic",
+        "//third-party:tower",
+        "//third-party:tracing",
+    ]
+)
+
+rust_binary(
+    name = "sui-network-build-script-build",
+    srcs = ["build.rs"],
+    crate = "build_script_build",
+    crate_root = "build.rs",
+    edition = "2021",
+    env = {
+        "CARGO_MANIFEST_DIR": "vendor/bindgen-0.65.1",
+        "CARGO_PKG_AUTHORS": "Jyun-Yan You <jyyou.tw@gmail.com>:Emilio Cobos Álvarez <emilio@crisal.io>:Nick Fitzgerald <fitzgen@gmail.com>:The Servo project developers",
+        "CARGO_PKG_DESCRIPTION": "Automatically generates Rust FFI bindings to C and C++ libraries.",
+        "CARGO_PKG_NAME": "sui-network",
+        "CARGO_PKG_REPOSITORY": "https://github.com/rust-lang/rust-bindgen",
+        "CARGO_PKG_VERSION": "0.0.0",
+        "CARGO_PKG_VERSION_MAJOR": "0",
+        "CARGO_PKG_VERSION_MINOR": "65",
+        "CARGO_PKG_VERSION_PATCH": "1",
+    },
+    features = ["runtime"],
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anemo-build",
+        "//third-party:tonic-build",
+    ]
+)
+
+load("@prelude//rust:cargo_buildscript.bzl", "buildscript_run")
+buildscript_run(
+    name = "sui-network-build-script-run",
+    package_name = "sui-network",
+    buildscript_rule = ":sui-network-build-script-build",
+    features = ["runtime"],
+    version = "0.0.0",
+)

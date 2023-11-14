@@ -1,0 +1,40 @@
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:bcs",
+    "//third-party:leb128",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
+    "//external-crates/move/move-bytecode-verifier:move-bytecode-verifier",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-vm/config:move-vm-config",
+    "//external-crates/move/move-vm/profiler:move-vm-profiler",
+    "//external-crates/move/move-vm/runtime:move-vm-runtime",
+    "//external-crates/move/move-vm/types:move-vm-types",
+    "//third-party:parking_lot",
+    "//third-party:serde",
+    "//crates/sui-macros:sui-macros",
+    "//sui-execution/latest/sui-move-natives:sui-move-natives",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/sui-types:sui-types",
+    "//sui-execution/latest/sui-verifier:sui-verifier",
+    "//third-party:tracing",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Adapter and accompanying CLI for local sui development",
+    "CARGO_PKG_NAME": "sui-adapter-latest",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "sui-adapter-latest",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

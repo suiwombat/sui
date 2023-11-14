@@ -1,0 +1,41 @@
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:async-trait",
+    "//third-party:codespan",
+    "//third-party:codespan-reporting",
+    "//third-party:futures",
+    "//third-party:itertools",
+    "//third-party:log",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-command-line-common:move-command-line-common",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-model:move-model",
+    "//external-crates/move/move-prover/bytecode:move-stackless-bytecode",
+    "//third-party:num",
+    "//third-party:once_cell",
+    "//third-party:pretty",
+    "//third-party:rand",
+    "//third-party:regex",
+    "//third-party:serde",
+    "//third-party:tera",
+    "//third-party:tokio",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Move prover Boogie backend",
+    "CARGO_PKG_NAME": "move-prover-boogie-backend",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "move-prover-boogie-backend",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

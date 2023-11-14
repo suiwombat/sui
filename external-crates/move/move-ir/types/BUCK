@@ -1,0 +1,27 @@
+
+deps = [
+    "//third-party:hex",
+    "//external-crates/move/move-command-line-common:move-command-line-common",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-symbol-pool:move-symbol-pool",
+    "//third-party:once_cell",
+    "//third-party:serde",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Types for Move IR",
+    "CARGO_PKG_NAME": "move-ir-types",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "move-ir-types",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

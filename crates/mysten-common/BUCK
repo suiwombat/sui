@@ -1,0 +1,19 @@
+
+rust_library(
+    name = "mysten-common",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "mysten-common",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "mysten-common",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:futures",
+        "//third-party:parking_lot",
+        "//third-party:tokio",
+    ]
+)

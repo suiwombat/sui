@@ -1,9 +1,3 @@
-# load("@prelude//toolchains:demo.bzl", "system_demo_toolchains")
-
-# All the default toolchains, suitable for a quick demo or early prototyping.
-# Most real projects should copy/paste the implementation to configure them.
-# system_demo_toolchains()
-
 load("@prelude//toolchains:genrule.bzl", "system_genrule_toolchain")
 load("@prelude//toolchains:rust.bzl", "system_rust_toolchain")
 load("@prelude//toolchains:go.bzl", "system_go_toolchain")
@@ -19,6 +13,13 @@ system_genrule_toolchain(
 system_rust_toolchain(
     name="rust",
     default_edition="2021",
+    visibility=["PUBLIC"],
+)
+
+
+system_go_toolchain(
+    name="go",
+    go_root="/usr/local/go/bin",
     visibility=["PUBLIC"],
 )
 

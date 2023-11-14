@@ -1,0 +1,39 @@
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:arbitrary",
+    "//third-party:bcs",
+    "//external-crates/move/testing-infra/enum-compat-util:enum-compat-util",
+    "//third-party:ethnum",
+    "//third-party:hex",
+    "//external-crates/move/testing-infra/move-proc-macros:move-proc-macros",
+    "//third-party:num",
+    "//third-party:once_cell",
+    "//third-party:primitive-types",
+    "//third-party:proptest",
+    "//third-party:proptest-derive",
+    "//third-party:rand",
+    "//third-party:ref-cast",
+    "//third-party:serde",
+    "//third-party:serde_bytes",
+    "//third-party:uint",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Core types for Move",
+    "CARGO_PKG_NAME": "move-core-types",
+    "CARGO_PKG_VERSION": "0.0.4",
+}
+
+rust_library(
+    name = "move-core-types",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    features = ["default", "address32"],
+    deps = deps
+)

@@ -1,0 +1,30 @@
+
+rust_library(
+    name = "sui-simulator",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-simulator",
+        "CARGO_PKG_VERSION": "0.7.0",
+        "CARGO_PKG_NAME": "sui-simulator",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anemo",
+        "//third-party:anemo-tower",
+        "//third-party:fastcrypto",
+        "//third-party:lru",
+        "//external-crates/move/tools/move-package:move-package",
+        "//narwhal/network:narwhal-network",
+        "//third-party:rand",
+        "//crates/sui-framework:sui-framework",
+        "//crates/sui-move-build:sui-move-build",
+        "//crates/sui-types:sui-types",
+        "//crates/telemetry-subscribers:telemetry-subscribers",
+        "//third-party:tempfile",
+        "//third-party:tower",
+        "//third-party:tracing",
+    ]
+)

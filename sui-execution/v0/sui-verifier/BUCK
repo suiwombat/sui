@@ -1,0 +1,43 @@
+
+deps = [
+    "//external-crates/move/move-abstract-stack:move-abstract-stack",
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/tools/move-bytecode-utils:move-bytecode-utils",
+    # "//external-crates/move-execution/v0/move-bytecode-verifier:move-bytecode-verifier",
+    "//external-crates/move/move-core/types:move-core-types",
+    "//external-crates/move/move-vm/config:move-vm-config",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/sui-types:sui-types",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Move framework for Sui platform",
+    "CARGO_PKG_NAME": "sui-verifier-v0",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "sui-verifier-v0",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps,
+    named_deps = {
+        "move-bytecode-verifier":"//external-crates/move-execution/v0/move-bytecode-verifier:move-bytecode-verifier-v0",
+    }
+)
+
+rust_library(
+    name = "sui-verifier",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

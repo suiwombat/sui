@@ -1,0 +1,27 @@
+
+deps = [
+    "//third-party:insta",
+    "//third-party:schemars",
+    "//third-party:serde",
+    "//third-party:serde_with",
+    "//crates/sui-protocol-config-macros:sui-protocol-config-macros",
+    "//third-party:tracing",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "sui-protocol-config",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "sui-protocol-config",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

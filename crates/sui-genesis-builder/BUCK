@@ -1,0 +1,36 @@
+
+rust_library(
+    name = "sui-genesis-builder",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-genesis-builder",
+        "CARGO_PKG_VERSION": "0.0.0",
+        "CARGO_PKG_NAME": "sui-genesis-builder",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anyhow",
+        "//third-party:bcs",
+        "//third-party:camino",
+        "//third-party:fastcrypto",
+        "//external-crates/move/move-binary-format:move-binary-format",
+        "//external-crates/move/move-core/types:move-core-types",
+        "//third-party:prometheus",
+        "//third-party:rand",
+        "//third-party:serde",
+        "//third-party:serde_with",
+        "//third-party:serde_yaml",
+        "//crates/shared-crypto:shared-crypto",
+        "//crates/sui-config:sui-config",
+        "//sui-execution:sui-execution",
+        "//crates/sui-framework:sui-framework",
+        "//crates/sui-framework-snapshot:sui-framework-snapshot",
+        "//crates/sui-protocol-config:sui-protocol-config",
+        "//crates/sui-types:sui-types",
+        "//third-party:tempfile",
+        "//third-party:tracing",
+    ]
+)

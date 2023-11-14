@@ -1,7 +1,7 @@
 buildscript = []
-[[platform_fixup.'cfg(target_os = "linux")'.buildscript]]
-[platform_fixup.'cfg(target_os = "linux")'.buildscript.cxx_library]
-name = "libsecp256k1-sys-linux"
+[[platform_fixup.'cfg(any(target_os = "macos", target_os = "linux"))'.buildscript]]
+[platform_fixup.'cfg(any(target_os = "macos", target_os = "linux"))'.buildscript.cxx_library]
+name = "libsecp256k1-sys-macos-linux"
 srcs = [
     "depend/secp256k1/**/*.c",
 ]

@@ -1,0 +1,54 @@
+
+deps = [
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/sui-types:sui-types",
+
+    "//external-crates/move/move-binary-format:move-binary-format",
+    "//external-crates/move/move-vm/config:move-vm-config",
+
+    "//sui-execution/latest/sui-adapter:sui-adapter-latest",
+    "//sui-execution/v0/sui-adapter:sui-adapter-v0",
+    "//sui-execution/vm-rework/sui-adapter:sui-adapter-vm-rework",
+
+    "//sui-execution/latest/sui-move-natives:sui-move-natives-latest",
+    "//sui-execution/v0/sui-move-natives:sui-move-natives-v0",
+    "//sui-execution/vm-rework/sui-move-natives:sui-move-natives-vm-rework",
+
+    "//external-crates/move-execution/v0/move-bytecode-verifier:move-bytecode-verifier-v0",
+    # "//external-crates/move-execution/vm-rework/move-bytecode-verifier:move-bytecode-verifier-vm-rework",
+    # "//external-crates/move/move-bytecode-verifier:move-bytecode-verifier-latest",
+
+    "//sui-execution/latest/sui-verifier:sui-verifier-latest",
+    "//sui-execution/v0/sui-verifier:sui-verifier-v0",
+    "//sui-execution/vm-rework/sui-verifier:sui-verifier-vm-rework",
+
+    "//external-crates/move-execution/v0/move-vm/runtime:move-vm-runtime-v0",
+    # "//external-crates/move-execution/vm-rework/move-vm/runtime:move-vm-runtime-vm-rework",
+    # "//external-crates/move/move-vm/runtime:move-vm-runtime-latest",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Multiplexer to choose between multiple versions of sui and move execution crates.",
+    "CARGO_PKG_NAME": "sui-execution",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "sui-execution",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps,
+    named_deps = {
+        "move-vm-runtime-latest":"//external-crates/move/move-vm/runtime:move-vm-runtime",
+        "move-vm-runtime-vm-rework":  "//external-crates/move-execution/vm-rework/move-vm/runtime:move-vm-runtime",
+        "move-bytecode-verifier-vm-rework": "//external-crates/move-execution/vm-rework/move-bytecode-verifier:move-bytecode-verifier",
+        # "move-vm-runtime-v0":"//external-crates/move-execution/v0/move-vm/runtime:move-vm-runtime-v0",
+        "move-bytecode-verifier-latest":"//external-crates/move/move-bytecode-verifier:move-bytecode-verifier",
+        # "sui-adapter-v0": "//sui-execution/v0/sui-adapter:sui-adapter-v0",
+    }
+)

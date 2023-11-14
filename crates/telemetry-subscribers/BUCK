@@ -1,0 +1,16 @@
+mysten_deps = []
+rust_library(
+    name="telemetry-subscribers",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:console-subscriber",
+        "//third-party:crossterm",
+        "//third-party:once_cell",
+        "//third-party:prometheus",
+        "//third-party:tracing",
+        "//third-party:tracing-appender",
+        "//third-party:tracing-subscriber",
+    ],
+    features = ["tokio-console"],
+    visibility=["PUBLIC"],
+)

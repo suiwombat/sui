@@ -1,0 +1,23 @@
+
+deps = [
+    "//third-party:serde",
+    "//third-party:thiserror",
+] 
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Ade A. <ade@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "error types for typed-store crate",
+    "CARGO_PKG_NAME": "typed-store-error",
+    "CARGO_PKG_VERSION": "0.4.0",
+}
+
+rust_library(
+    name = "typed-store-error",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"], 
+    deps = deps
+)

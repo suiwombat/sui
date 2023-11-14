@@ -1,0 +1,22 @@
+mysten_deps = []
+rust_library(
+    name="sui-tls",
+    srcs = glob(["src/**/*.rs"]),
+    deps = mysten_deps + [
+        "//third-party:anyhow",
+        "//third-party:ed25519",
+        "//third-party:pkcs8",
+        "//third-party:rcgen",
+        "//third-party:rustls",
+        "//third-party:webpki",
+        "//third-party:x509-parser",
+        "//third-party:fastcrypto",
+        "//third-party:reqwest",
+        "//third-party:axum",
+        "//third-party:axum-server",
+        "//third-party:tokio-rustls",
+        "//third-party:tower-layer",
+        "//third-party:tokio",
+    ],
+    visibility=["PUBLIC"],
+)

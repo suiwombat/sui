@@ -1,0 +1,25 @@
+
+deps = [
+    "//third-party:proc-macro2",
+    "//third-party:syn_1",
+    "//third-party:synstructure",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Parity Technologies <admin@parity.io>]",
+    "CARGO_PKG_DESCRIPTION": "Crate for memory reporting",
+    "CARGO_PKG_NAME": "mysten-util-mem-derive",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "mysten-util-mem-derive",
+    srcs = glob(["*","**/*"]),
+    crate_root = "lib.rs",
+    env = env,
+    proc_macro = True,
+    # license = "MIT OR Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

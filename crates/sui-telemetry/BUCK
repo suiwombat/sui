@@ -1,0 +1,20 @@
+
+rust_library(
+    name = "sui-telemetry",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-telemetry",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "CARGO_PKG_NAME": "sui-telemetry",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:reqwest",
+        "//third-party:serde",
+        "//crates/sui-core:sui-core",
+        "//third-party:tracing",
+    ]
+)

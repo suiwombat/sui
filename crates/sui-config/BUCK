@@ -1,0 +1,34 @@
+
+rust_library(
+    name = "sui-config",
+    srcs = glob(["src/**/*.rs"]),
+    env = {
+        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+        "CARGO_BIN_NAME": "sui-config",
+        "CARGO_PKG_VERSION": "0.0.0",
+        "CARGO_PKG_NAME": "sui-config",
+    },
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anemo",
+        "//third-party:anyhow",
+        "//third-party:bcs",
+        "//third-party:csv",
+        "//third-party:dirs",
+        "//third-party:fastcrypto",
+        "//narwhal/config:narwhal-config",
+        "//third-party:once_cell",
+        "//third-party:prometheus",
+        "//third-party:rand",
+        "//third-party:serde",
+        "//third-party:serde_with",
+        "//third-party:serde_yaml",
+        "//crates/sui-keys:sui-keys",
+        "//crates/sui-protocol-config:sui-protocol-config",
+        "//crates/sui-storage:sui-storage",
+        "//crates/sui-types:sui-types",
+        "//third-party:tracing",
+    ]
+)
