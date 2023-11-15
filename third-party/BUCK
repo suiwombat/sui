@@ -9221,6 +9221,8 @@ cargo.rust_library(
         "vendor/derive_builder_core-0.12.0/src/default_expression.rs",
         "vendor/derive_builder_core-0.12.0/src/deprecation_notes.rs",
         "vendor/derive_builder_core-0.12.0/src/doc_comment.rs",
+        "vendor/derive_builder_core-0.12.0/src/doc_tpl/builder_method.md",
+        "vendor/derive_builder_core-0.12.0/src/doc_tpl/builder_struct.md",
         "vendor/derive_builder_core-0.12.0/src/doc_tpl/mod.rs",
         "vendor/derive_builder_core-0.12.0/src/initializer.rs",
         "vendor/derive_builder_core-0.12.0/src/lib.rs",
