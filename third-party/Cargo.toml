@@ -184,7 +184,7 @@ rocksdb = { version = "0.21.0", features = [
     # "lz4",
     # "zstd",
     # "zlib",
-    # "multi-threaded-cf",
+    "multi-threaded-cf",
 ], default-features = false }
 hdrhistogram = "7.5.1"
 fdlimit = "0.2.1"

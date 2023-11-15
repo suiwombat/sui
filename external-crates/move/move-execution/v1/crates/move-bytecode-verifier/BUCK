@@ -16,7 +16,7 @@ env = {
 }
 
 rust_library(
-    name = "move-bytecode-verifier",
+    name = "move-bytecode-verifier-v1",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
