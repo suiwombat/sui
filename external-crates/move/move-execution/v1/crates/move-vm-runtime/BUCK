@@ -1,28 +1,37 @@
 
 deps = [
-    "//third-party:anyhow",
+    "//third-party:better_any",
+    "//third-party:fail",
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-core-types:move-core-types",
+    "//external-crates/move/crates/move-vm-config:move-vm-config",
     "//external-crates/move/crates/move-vm-profiler:move-vm-profiler",
     "//external-crates/move/crates/move-vm-types:move-vm-types",
     "//third-party:once_cell",
-    "//third-party:serde",
+    "//third-party:parking_lot",
+    "//third-party:sha3",
+    "//third-party:smallvec",
+    "//third-party:tracing",
 ] 
+named_deps = {
+    "move-bytecode-verifier":"//external-crates/move/move-execution/v1/crates/move-bytecode-verifier:move-bytecode-verifier-v1",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
-    "CARGO_PKG_DESCRIPTION": "Move VM Test Utils",
-    "CARGO_PKG_NAME": "move-vm-test-utils",
+    "CARGO_PKG_DESCRIPTION": "Core Move execution logic",
+    "CARGO_PKG_NAME": "move-vm-runtime-v1",
     "CARGO_PKG_VERSION": "0.1.0",
 }
 
 rust_library(
-    name = "move-vm-test-utils",
+    name = "move-vm-runtime",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
     visibility = ["PUBLIC"], 
+    named_deps = named_deps,
     deps = deps
 )

@@ -5,15 +5,15 @@ deps = [
     "//third-party:fastcrypto",
     "//third-party:fastcrypto-zkp",
     "//third-party:linked-hash-map",
-    "//external-crates/move/move-binary-format:move-binary-format",
-    "//external-crates/move/move-core/types:move-core-types",
-    "//external-crates/move/move-stdlib:move-stdlib",
-    "//external-crates/move/move-vm/runtime:move-vm-runtime",
-    "//external-crates/move/move-vm/types:move-vm-types",
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//external-crates/move/crates/move-stdlib:move-stdlib",
+    "//external-crates/move/crates/move-vm-runtime:move-vm-runtime",
+    "//external-crates/move/crates/move-vm-types:move-vm-types",
     "//third-party:smallvec",
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-types:sui-types",
-]
+] 
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
@@ -29,7 +29,7 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
+    visibility = ["PUBLIC"], 
     deps = deps
 )
 
@@ -40,6 +40,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
+    visibility = ["PUBLIC"], 
     deps = deps
 )

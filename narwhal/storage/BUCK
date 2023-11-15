@@ -1,33 +1,38 @@
 
+deps = [
+    "//third-party:fastcrypto",
+    "//third-party:futures",
+    "//third-party:lru",
+    "//crates/mysten-common:mysten-common",
+    "//third-party:parking_lot",
+    "//third-party:prometheus",
+    "//crates/sui-macros:sui-macros",
+    "//third-party:tap",
+    "//third-party:tempfile",
+    "//third-party:tokio",
+    "//third-party:tracing",
+] 
+named_deps = {
+    "config":"//narwhal/config:narwhal-config",
+    "store":"//crates/typed-store:typed-store",
+    "types":"//narwhal/types:narwhal-types",
+}
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "narwhal-storage",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
 rust_library(
-    name = "narwhal-storage",
-    srcs = glob(["src/**/*.rs"]),
-    env = {
-        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-        "CARGO_BIN_NAME": "narwhal-storage",
-        "CARGO_PKG_VERSION": "0.1.0",
-        "CARGO_PKG_NAME": "narwhal-storage",
-    },
+    name = "storage",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = [
-        "//third-party:fastcrypto",
-        "//third-party:futures",
-        "//third-party:lru",
-        "//crates/mysten-common:mysten-common",
-        "//third-party:parking_lot",
-        "//third-party:prometheus",
-        "//crates/sui-macros:sui-macros",
-        "//third-party:tap",
-        "//third-party:tempfile",
-        "//third-party:tokio",
-        "//third-party:tracing",
-        "//third-party:rocksdb",
-    ],
-    named_deps = {
-        "config":"//narwhal/config:narwhal-config",
-        "store":"//crates/typed-store:typed-store",
-        "types":"//narwhal/types:narwhal-types",
-    }
+    visibility = ["PUBLIC"], 
+    named_deps = named_deps,
+    deps = deps
 )

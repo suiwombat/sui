@@ -1,0 +1,46 @@
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:clap",
+    "//third-party:colored",
+    "//external-crates/move/crates/move-abigen:move-abigen",
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-bytecode-source-map:move-bytecode-source-map",
+    "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
+    "//external-crates/move/crates/move-command-line-common:move-command-line-common",
+    "//external-crates/move/crates/move-compiler:move-compiler",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//external-crates/move/crates/move-docgen:move-docgen",
+    "//external-crates/move/crates/move-model:move-model",
+    "//external-crates/move/crates/move-symbol-pool:move-symbol-pool",
+    "//third-party:named-lock",
+    "//third-party:once_cell",
+    "//third-party:petgraph",
+    "//third-party:regex",
+    "//third-party:serde",
+    "//third-party:serde_yaml",
+    "//third-party:sha2",
+    "//third-party:tempfile",
+    "//third-party:toml",
+    "//third-party:treeline",
+    "//third-party:walkdir",
+    "//third-party:whoami",
+] 
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Package and build system for Move code",
+    "CARGO_PKG_NAME": "move-package",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "move-package",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"], 
+    deps = deps
+)

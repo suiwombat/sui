@@ -2,43 +2,37 @@
 deps = [
     "//external-crates/move/crates/move-abstract-stack:move-abstract-stack",
     "//external-crates/move/crates/move-binary-format:move-binary-format",
-    "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
+    "//external-crates/move/crates/move-borrow-graph:move-borrow-graph",
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//external-crates/move/crates/move-vm-config:move-vm-config",
-    "//crates/sui-protocol-config:sui-protocol-config",
-    "//crates/sui-types:sui-types",
+    "//third-party:petgraph",
 ] 
-named_deps = {
-    "move-bytecode-verifier":"//external-crates/move/move-execution/v0/move-bytecode-verifier:move-bytecode-verifier-v0",
-}
 env = {
     "CARGO_MANIFEST_DIR": ".",
-    "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "Move framework for Sui platform",
-    "CARGO_PKG_NAME": "sui-verifier-v0",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Move bytecode verifier",
+    "CARGO_PKG_NAME": "move-bytecode-verifier",
     "CARGO_PKG_VERSION": "0.1.0",
 }
 
 rust_library(
-    name = "sui-verifier-v0",
+    name = "move-bytecode-verifier-latest",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
     visibility = ["PUBLIC"], 
-    named_deps = named_deps,
     deps = deps
 )
 
 rust_library(
-    name = "sui-verifier",
+    name = "move-bytecode-verifier",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
     visibility = ["PUBLIC"], 
-    named_deps = named_deps,
     deps = deps
 )

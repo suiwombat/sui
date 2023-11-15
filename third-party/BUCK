@@ -12414,6 +12414,12 @@ cargo.rust_library(
     deps = [":libm-0.2.8"],
 )
 
+alias(
+    name = "humantime",
+    actual = ":humantime-2.1.0",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
     name = "humantime-2.1.0",
     srcs = [
@@ -21684,6 +21690,7 @@ cargo.rust_binary(
         ":hex-0.4.3",
         ":http-0.2.11",
         ":http-body-0.4.5",
+        ":humantime-2.1.0",
         ":hyper-0.14.27",
         ":hyper-rustls-0.24.2",
         ":im-15.1.0",
@@ -21804,6 +21811,7 @@ cargo.rust_binary(
         ":walkdir-2.4.0",
         ":whoami-1.4.1",
         ":x509-parser-0.14.0",
+        ":zeroize-1.6.0",
         ":zstd-0.12.4",
         ":zstd-safe-6.0.6",
     ],
@@ -28728,6 +28736,12 @@ cargo.rust_library(
         "vendor/zerocopy-0.7.25/LICENSE-MIT",
     ],
     visibility = [],
+)
+
+alias(
+    name = "zeroize",
+    actual = ":zeroize-1.6.0",
+    visibility = ["PUBLIC"],
 )
 
 cargo.rust_library(
