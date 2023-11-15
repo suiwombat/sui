@@ -3,11 +3,10 @@ deps = [
     "//third-party:anyhow",
     "//third-party:arbitrary",
     "//third-party:bcs",
-    "//third-party:enum-compat-util",
+    "//external-crates/move/crates/enum-compat-util:enum-compat-util",
     "//third-party:ethnum",
     "//third-party:hex",
-    # "//external-crates/move/testing-infra/enum-compat-util:enum-compat-util",
-    "//external-crates/move/testing-infra/move-proc-macros:move-proc-macros",
+    "//external-crates/move/crates/move-proc-macros:move-proc-macros",
     "//third-party:num",
     "//third-party:once_cell",
     "//third-party:primitive-types",
@@ -35,6 +34,5 @@ rust_library(
     # license = "Apache-2.0",
     edition = "2021",
     visibility = ["PUBLIC"], 
-    features = ["default", "address32"],
     deps = deps
 )

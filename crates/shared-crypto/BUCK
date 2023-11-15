@@ -5,7 +5,7 @@ deps = [
     "//third-party:fastcrypto",
     "//third-party:serde",
     "//third-party:serde_repr",
-]
+] 
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
@@ -21,6 +21,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
+    visibility = ["PUBLIC"], 
     deps = deps
 )

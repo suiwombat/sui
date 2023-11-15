@@ -1,7 +1,7 @@
 
 deps = [
-    # "//narwhal/crypto:narwhal-crypto",
     "//third-party:fastcrypto",
+    "//third-party:fastcrypto-tbls",
     "//third-party:match_opt",
     "//crates/mysten-network:mysten-network",
     "//crates/mysten-util-mem:mysten-util-mem",
@@ -10,9 +10,9 @@ deps = [
     "//third-party:serde_json",
     "//third-party:thiserror",
     "//third-party:tracing",
-]
+] 
 named_deps = {
-    "crypto": "//narwhal/crypto:narwhal-crypto",
+    "crypto":"//narwhal/crypto:narwhal-crypto",
 }
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -29,20 +29,7 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = deps,
-    named_deps = named_deps
+    visibility = ["PUBLIC"], 
+    named_deps = named_deps,
+    deps = deps
 )
-
-
-# rust_library(
-#     name = "config",
-#     srcs = glob(["*","**/*"]),
-#     crate_root = "src/lib.rs",
-#     env = env,
-#     # license = "Apache-2.0",
-#     edition = "2021",
-#     visibility = ["PUBLIC"],
-#     deps = deps,
-#     named_deps = named_deps
-# )

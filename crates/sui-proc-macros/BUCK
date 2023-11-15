@@ -4,7 +4,7 @@ deps = [
     "//third-party:quote",
     "//crates/sui-enum-compat-util:sui-enum-compat-util",
     "//third-party:syn",
-]
+] 
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
@@ -21,6 +21,6 @@ rust_library(
     proc_macro = True,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
+    visibility = ["PUBLIC"], 
     deps = deps
 )

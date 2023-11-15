@@ -3,6 +3,7 @@ deps = [
     "//third-party:cfg-if",
     "//third-party:ed25519-consensus",
     "//third-party:fastcrypto",
+    "//third-party:fastcrypto-tbls",
     "//third-party:hashbrown",
     "//third-party:impl-trait-for-tuples",
     "//third-party:indexmap",
@@ -11,7 +12,7 @@ deps = [
     "//third-party:parking_lot",
     "//third-party:roaring",
     "//third-party:smallvec",
-]
+] 
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Parity Technologies <admin@parity.io> Andrew Schran <aschran@mystenlabs.com>]",
@@ -27,7 +28,7 @@ rust_library(
     env = env,
     # license = "MIT OR Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
+    visibility = ["PUBLIC"], 
     features = ["parking_lot", "std", "hashbrown", "smallvec", "estimate-heapsize"],
     deps = deps
 )

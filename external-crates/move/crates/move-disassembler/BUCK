@@ -6,11 +6,11 @@ deps = [
     "//third-party:colored",
     "//third-party:hex",
     "//external-crates/move/crates/move-binary-format:move-binary-format",
-    "//third-party:move-bytecode-source-map",
+    "//external-crates/move/crates/move-bytecode-source-map:move-bytecode-source-map",
     "//external-crates/move/crates/move-command-line-common:move-command-line-common",
     "//external-crates/move/crates/move-compiler:move-compiler",
     "//external-crates/move/crates/move-core-types:move-core-types",
-    "//third-party:move-coverage",
+    "//external-crates/move/crates/move-coverage:move-coverage",
     "//external-crates/move/crates/move-ir-types:move-ir-types",
 ] 
 env = {
@@ -28,6 +28,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"], 	
+    visibility = ["PUBLIC"], 
     deps = deps
 )

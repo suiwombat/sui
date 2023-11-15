@@ -2,7 +2,7 @@
 deps = [
     "//third-party:anyhow",
     "//third-party:arbitrary",
-    "//crates/enum-compat-util:enum-compat-util",
+    "//external-crates/move/crates/enum-compat-util:enum-compat-util",
     "//third-party:getrandom",
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//external-crates/move/crates/move-proc-macros:move-proc-macros",

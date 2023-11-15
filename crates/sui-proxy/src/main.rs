@@ -1,20 +1,43 @@
 // Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
+pub mod admin;
+pub mod config;
+pub mod consumer;
+pub mod handlers;
+pub mod histogram_relay;
+pub mod metrics;
+pub mod middleware;
+pub mod peers;
+pub mod prom_to_mimir;
+pub mod remote_write;
+
+use admin::{
+    app, create_server_cert_default_allow, create_server_cert_enforce_peer, make_reqwest_client,
+    server, Labels,
+};
 use anyhow::Result;
 use clap::Parser;
-use sui_proxy::config::ProxyConfig;
-use sui_proxy::{
-    admin::{
-        app, create_server_cert_default_allow, create_server_cert_enforce_peer,
-        make_reqwest_client, server, Labels,
-    },
-    config::load,
-    histogram_relay, metrics,
-};
+use config::{load, ProxyConfig};
 use sui_tls::TlsAcceptor;
 use telemetry_subscribers::TelemetryConfig;
 use tracing::info;
+
+#[macro_export]
+macro_rules! var {
+    ($key:expr) => {
+        match std::env::var($key) {
+            Ok(val) => val,
+            Err(_) => "".into(),
+        }
+    };
+    ($key:expr, $default:expr) => {
+        match std::env::var($key) {
+            Ok(val) => val.parse::<_>().unwrap(),
+            Err(_) => $default,
+        }
+    };
+}
 
 // WARNING!!!
 //

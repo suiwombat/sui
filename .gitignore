@@ -15,6 +15,7 @@
 !/third-party/**/target
 /third-party/**/Cargo.lock
 buck-out/
+!/third-party/vendor/**/build/**
 
 # Move build directory
 build

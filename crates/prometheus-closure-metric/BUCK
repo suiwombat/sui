@@ -3,7 +3,7 @@ deps = [
     "//third-party:anyhow",
     "//third-party:prometheus",
     "//third-party:protobuf",
-]
+] 
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Andrew Schran <aschran@mystenlabs.com>]",
@@ -19,6 +19,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
+    visibility = ["PUBLIC"], 
     deps = deps
 )

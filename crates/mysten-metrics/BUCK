@@ -1,6 +1,7 @@
 
 deps = [
     "//third-party:async-trait",
+    "//third-party:axum",
     "//third-party:dashmap",
     "//third-party:futures",
     "//third-party:once_cell",
@@ -12,7 +13,7 @@ deps = [
     "//third-party:tokio",
     "//third-party:tracing",
     "//third-party:uuid",
-]
+] 
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
@@ -28,6 +29,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
+    visibility = ["PUBLIC"], 
     deps = deps
 )

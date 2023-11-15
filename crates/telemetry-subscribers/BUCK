@@ -1,16 +1,41 @@
-mysten_deps = []
+
+deps = [
+    "//third-party:atomic_float",
+    "//third-party:bytes",
+    "//third-party:bytes-varint",
+    "//third-party:clap",
+    "//third-party:console-subscriber",
+    "//third-party:crossterm",
+    "//third-party:futures",
+    "//third-party:once_cell",
+    "//third-party:opentelemetry",
+    "//third-party:opentelemetry-otlp",
+    "//third-party:opentelemetry-proto",
+    "//third-party:opentelemetry_api",
+    "//third-party:prometheus",
+    "//third-party:prost",
+    "//third-party:tokio",
+    "//third-party:tonic",
+    "//third-party:tracing",
+    "//third-party:tracing-appender",
+    "//third-party:tracing-opentelemetry",
+    "//third-party:tracing-subscriber",
+] 
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Evan Chan <echan@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Library for common telemetry and observability functionality",
+    "CARGO_PKG_NAME": "telemetry-subscribers",
+    "CARGO_PKG_VERSION": "0.2.0",
+}
+
 rust_library(
-    name="telemetry-subscribers",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:console-subscriber",
-        "//third-party:crossterm",
-        "//third-party:once_cell",
-        "//third-party:prometheus",
-        "//third-party:tracing",
-        "//third-party:tracing-appender",
-        "//third-party:tracing-subscriber",
-    ],
-    features = ["tokio-console"],
-    visibility=["PUBLIC"],
+    name = "telemetry-subscribers",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"], 
+    deps = deps
 )

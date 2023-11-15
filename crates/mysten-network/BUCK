@@ -16,7 +16,7 @@ deps = [
     "//third-party:tower",
     "//third-party:tower-http",
     "//third-party:tracing",
-]
+] 
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Brandon Williams <brandon@mystenlabs.com>]",
@@ -32,6 +32,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"],
+    visibility = ["PUBLIC"], 
     deps = deps
 )

@@ -442,7 +442,7 @@ cargo.rust_library(
         ":quinn-proto-0.10.6",
         ":rand-0.8.5",
         ":rcgen-0.9.3",
-        ":ring-0.16.20-ring",
+        ":ring-0.16.20",
         ":rustls-0.21.8",
         ":rustls-webpki-0.101.7-webpki",
         ":serde-1.0.192",
@@ -1907,7 +1907,7 @@ cargo.rust_library(
         ":hex-0.4.3",
         ":http-0.2.11",
         ":hyper-0.14.27",
-        ":ring-0.16.20-ring",
+        ":ring-0.16.20",
         ":time-0.3.30",
         ":tokio-1.34.0",
         ":tower-0.4.13",
@@ -5951,11 +5951,57 @@ cargo.rust_library(
             ],
         ),
         "macos-arm64": dict(
-            deps = [":threadpool-1.8.1"],
+            deps = [
+                ":blst-0.3.11-libblst-sys-aarch64-macos",
+                ":threadpool-1.8.1",
+            ],
         ),
     },
     visibility = [],
     deps = [":zeroize-1.6.0"],
+)
+
+cxx_library(
+    name = "blst-0.3.11-libblst-sys-aarch64-macos",
+    srcs = [
+        "vendor/blst-0.3.11/blst/build/assembly.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/add_mod_256-armv8.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/add_mod_384-armv8.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/ct_inverse_mod_256-armv8.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/ct_inverse_mod_384-armv8.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/ct_is_square_mod_384-armv8.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/div3w-armv8.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/mul_mont_256-armv8.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/mul_mont_384-armv8.S",
+        "vendor/blst-0.3.11/blst/build/mach-o/sha256-armv8.S",
+        "vendor/blst-0.3.11/blst/src/server.c",
+    ],
+    headers = [
+        "vendor/blst-0.3.11/blst/src/blst_t.hpp",
+        "vendor/blst-0.3.11/blst/src/bytes.h",
+        "vendor/blst-0.3.11/blst/src/consts.h",
+        "vendor/blst-0.3.11/blst/src/ec_mult.h",
+        "vendor/blst-0.3.11/blst/src/ec_ops.h",
+        "vendor/blst-0.3.11/blst/src/errors.h",
+        "vendor/blst-0.3.11/blst/src/fields.h",
+        "vendor/blst-0.3.11/blst/src/no_asm.h",
+        "vendor/blst-0.3.11/blst/src/pentaroot-addchain.h",
+        "vendor/blst-0.3.11/blst/src/point.h",
+        "vendor/blst-0.3.11/blst/src/recip-addchain.h",
+        "vendor/blst-0.3.11/blst/src/sha256.h",
+        "vendor/blst-0.3.11/blst/src/sqrt-addchain.h",
+        "vendor/blst-0.3.11/blst/src/vect.h",
+    ],
+    compiler_flags = [
+        "-mno-avx",
+        "-fno-builtin",
+        "-Wno-unused-function",
+        "-Wno-unused-command-line-argument",
+        "-Wno-error",
+    ],
+    include_directories = ["vendor/blst-0.3.11/blst/src"],
+    preferred_linkage = "static",
+    visibility = [],
 )
 
 cxx_library(
@@ -10290,6 +10336,7 @@ cargo.rust_library(
     edition = "2021",
     features = [
         "beacon-dkg",
+        "copy_key",
         "default",
     ],
     named_deps = {
@@ -16843,7 +16890,7 @@ cargo.rust_library(
         ":quick-xml-0.30.0",
         ":rand-0.8.5",
         ":reqwest-0.11.22",
-        ":ring-0.16.20-ring",
+        ":ring-0.16.20",
         ":rustls-pemfile-1.0.4",
         ":serde-1.0.192",
         ":serde_json-1.0.108",
@@ -17061,6 +17108,17 @@ cargo.rust_library(
     crate = "opentelemetry_otlp",
     crate_root = "vendor/opentelemetry-otlp-0.13.0/src/lib.rs",
     edition = "2021",
+    env = {
+        "CARGO_MANIFEST_DIR": "vendor/opentelemetry-otlp-0.13.0",
+        "CARGO_PKG_AUTHORS": "",
+        "CARGO_PKG_DESCRIPTION": "Exporter for the OpenTelemetry Collector",
+        "CARGO_PKG_NAME": "opentelemetry-otlp",
+        "CARGO_PKG_REPOSITORY": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-otlp",
+        "CARGO_PKG_VERSION": "0.13.0",
+        "CARGO_PKG_VERSION_MAJOR": "0",
+        "CARGO_PKG_VERSION_MINOR": "13",
+        "CARGO_PKG_VERSION_PATCH": "0",
+    },
     features = [
         "default",
         "grpc-tonic",
@@ -17298,6 +17356,17 @@ cargo.rust_library(
     crate = "opentelemetry_sdk",
     crate_root = "vendor/opentelemetry_sdk-0.20.0/src/lib.rs",
     edition = "2021",
+    env = {
+        "CARGO_MANIFEST_DIR": "vendor/opentelemetry_sdk-0.20.0",
+        "CARGO_PKG_AUTHORS": "",
+        "CARGO_PKG_DESCRIPTION": "The SDK for the OpenTelemetry metrics collection and distributed tracing framework",
+        "CARGO_PKG_NAME": "opentelemetry_sdk",
+        "CARGO_PKG_REPOSITORY": "https://github.com/open-telemetry/opentelemetry-rust",
+        "CARGO_PKG_VERSION": "0.20.0",
+        "CARGO_PKG_VERSION_MAJOR": "0",
+        "CARGO_PKG_VERSION_MINOR": "20",
+        "CARGO_PKG_VERSION_PATCH": "0",
+    },
     features = [
         "async-trait",
         "crossbeam-channel",
@@ -19748,7 +19817,7 @@ cargo.rust_library(
     deps = [
         ":bytes-1.5.0",
         ":rand-0.8.5",
-        ":ring-0.16.20-ring",
+        ":ring-0.16.20",
         ":rustc-hash-1.1.0",
         ":rustls-0.21.8",
         ":slab-0.4.9",
@@ -20159,7 +20228,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":pem-1.1.1",
-        ":ring-0.16.20-ring",
+        ":ring-0.16.20",
         ":time-0.3.30",
         ":yasna-0.5.2",
     ],
@@ -20761,14 +20830,8 @@ cargo.rust_library(
     ],
 )
 
-alias(
-    name = "ring",
-    actual = ":ring-0.16.20-ring",
-    visibility = ["PUBLIC"],
-)
-
 cargo.rust_library(
-    name = "ring-0.16.20-ring",
+    name = "ring-0.16.20",
     srcs = [
         "vendor/ring-0.16.20/src/aead.rs",
         "vendor/ring-0.16.20/src/aead/aes.rs",
@@ -20867,7 +20930,7 @@ cargo.rust_library(
             deps = [
                 ":libc-0.2.149",
                 ":once_cell-1.18.0",
-                ":ring-0.16.20-ring-ring-c-asm-elf-aarch64",
+                ":ring-0.16.20-ring-c-asm-elf-aarch64",
                 ":spin-0.5.2",
             ],
         ),
@@ -20878,7 +20941,7 @@ cargo.rust_library(
             deps = [
                 ":libc-0.2.149",
                 ":once_cell-1.18.0",
-                ":ring-0.16.20-ring-ring-c-asm-elf-x86_84",
+                ":ring-0.16.20-ring-c-asm-elf-x86_84",
                 ":spin-0.5.2",
             ],
         ),
@@ -20886,6 +20949,7 @@ cargo.rust_library(
             env = {
                 "RING_CORE_PREFIX": "ring_core_0_16_20_",
             },
+            deps = [":ring-0.16.20-ring-c-asm-macos-aarch64"],
         ),
     },
     visibility = [],
@@ -20893,7 +20957,7 @@ cargo.rust_library(
 )
 
 cxx_library(
-    name = "ring-0.16.20-ring-ring-c-asm-elf-aarch64",
+    name = "ring-0.16.20-ring-c-asm-elf-aarch64",
     srcs = [
         "vendor/ring-0.16.20/crypto/constant_time_test.c",
         "vendor/ring-0.16.20/crypto/crypto.c",
@@ -20921,8 +20985,6 @@ cxx_library(
         "vendor/ring-0.16.20/pregenerated/vpaes-armv8-linux64.S",
     ],
     headers = [
-        "fixups/ring/include/ring_core_generated/prefix_symbols.h",
-        "fixups/ring/include/ring_core_generated/prefix_symbols_asm.h",
         "vendor/ring-0.16.20/crypto/curve25519/curve25519_tables.h",
         "vendor/ring-0.16.20/crypto/curve25519/internal.h",
         "vendor/ring-0.16.20/crypto/fipsmodule/bn/internal.h",
@@ -20947,16 +21009,13 @@ cxx_library(
         "vendor/ring-0.16.20/third_party/fiat/curve25519_64.h",
     ],
     compiler_flags = ["-Wno-error"],
-    include_directories = [
-        "fixups/ring/include",
-        "vendor/ring-0.16.20/include",
-    ],
+    include_directories = ["vendor/ring-0.16.20/include"],
     preferred_linkage = "static",
     visibility = [],
 )
 
 cxx_library(
-    name = "ring-0.16.20-ring-ring-c-asm-elf-x86_84",
+    name = "ring-0.16.20-ring-c-asm-elf-x86_84",
     srcs = [
         "vendor/ring-0.16.20/crypto/constant_time_test.c",
         "vendor/ring-0.16.20/crypto/cpu-intel.c",
@@ -21016,14 +21075,72 @@ cxx_library(
     visibility = [],
 )
 
+cxx_library(
+    name = "ring-0.16.20-ring-c-asm-macos-aarch64",
+    srcs = [
+        "vendor/ring-0.16.20/crypto/constant_time_test.c",
+        "vendor/ring-0.16.20/crypto/crypto.c",
+        "vendor/ring-0.16.20/crypto/curve25519/curve25519.c",
+        "vendor/ring-0.16.20/crypto/fipsmodule/aes/aes_nohw.c",
+        "vendor/ring-0.16.20/crypto/fipsmodule/bn/montgomery.c",
+        "vendor/ring-0.16.20/crypto/fipsmodule/bn/montgomery_inv.c",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/ecp_nistz.c",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/ecp_nistz256.c",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/gfp_p256.c",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/gfp_p384.c",
+        "vendor/ring-0.16.20/crypto/limbs/limbs.c",
+        "vendor/ring-0.16.20/crypto/mem.c",
+        "vendor/ring-0.16.20/crypto/poly1305/poly1305.c",
+        "vendor/ring-0.16.20/crypto/poly1305/poly1305_arm.c",
+        "vendor/ring-0.16.20/crypto/poly1305/poly1305_vec.c",
+        "vendor/ring-0.16.20/pregenerated/aesv8-armx-ios64.S",
+        "vendor/ring-0.16.20/pregenerated/armv8-mont-ios64.S",
+        "vendor/ring-0.16.20/pregenerated/chacha-armv8-ios64.S",
+        "vendor/ring-0.16.20/pregenerated/ecp_nistz256-armv8-ios64.S",
+        "vendor/ring-0.16.20/pregenerated/ghash-neon-armv8-ios64.S",
+        "vendor/ring-0.16.20/pregenerated/ghashv8-armx-ios64.S",
+        "vendor/ring-0.16.20/pregenerated/sha256-armv8-ios64.S",
+        "vendor/ring-0.16.20/pregenerated/sha512-armv8-ios64.S",
+        "vendor/ring-0.16.20/pregenerated/vpaes-armv8-ios64.S",
+    ],
+    headers = [
+        "vendor/ring-0.16.20/crypto/curve25519/curve25519_tables.h",
+        "vendor/ring-0.16.20/crypto/curve25519/internal.h",
+        "vendor/ring-0.16.20/crypto/fipsmodule/bn/internal.h",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/ecp_nistz.h",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/ecp_nistz256.h",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/ecp_nistz256_table.inl",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/ecp_nistz384.h",
+        "vendor/ring-0.16.20/crypto/fipsmodule/ec/ecp_nistz384.inl",
+        "vendor/ring-0.16.20/crypto/internal.h",
+        "vendor/ring-0.16.20/crypto/limbs/limbs.h",
+        "vendor/ring-0.16.20/crypto/limbs/limbs.inl",
+        "vendor/ring-0.16.20/crypto/poly1305/internal.h",
+        "vendor/ring-0.16.20/include/GFp/aes.h",
+        "vendor/ring-0.16.20/include/GFp/arm_arch.h",
+        "vendor/ring-0.16.20/include/GFp/base.h",
+        "vendor/ring-0.16.20/include/GFp/check.h",
+        "vendor/ring-0.16.20/include/GFp/cpu.h",
+        "vendor/ring-0.16.20/include/GFp/mem.h",
+        "vendor/ring-0.16.20/include/GFp/poly1305.h",
+        "vendor/ring-0.16.20/include/GFp/type_check.h",
+        "vendor/ring-0.16.20/third_party/fiat/curve25519_32.h",
+        "vendor/ring-0.16.20/third_party/fiat/curve25519_64.h",
+    ],
+    compiler_flags = ["-Wno-error"],
+    include_directories = ["vendor/ring-0.16.20/include"],
+    preferred_linkage = "static",
+    visibility = [],
+)
+
 alias(
-    name = "ring_0_17_0",
-    actual = ":ring-0.17.5-ring_0_17_0",
+    name = "ring",
+    actual = ":ring-0.17.5-ring",
     visibility = ["PUBLIC"],
 )
 
 cargo.rust_library(
-    name = "ring-0.17.5-ring_0_17_0",
+    name = "ring-0.17.5-ring",
     srcs = [
         "vendor/ring-0.17.5/src/aead.rs",
         "vendor/ring-0.17.5/src/aead/aes.rs",
@@ -21146,7 +21263,7 @@ cargo.rust_library(
         "linux-x86_64": dict(
             deps = [
                 ":libc-0.2.149",
-                ":ring-0.17.5-ring_0_17_0-ring-c-asm-elf-x86_84",
+                ":ring-0.17.5-ring-ring-c-asm-elf-x86_84",
                 ":spin-0.9.8",
             ],
         ),
@@ -21154,7 +21271,7 @@ cargo.rust_library(
             env = {
                 "RING_CORE_PREFIX": "ring_core_0_17_5_",
             },
-            deps = [":ring-0.17.5-ring_0_17_0-ring-c-asm-macos-arm64"],
+            deps = [":ring-0.17.5-ring-ring-c-asm-macos-aarch64"],
         ),
     },
     visibility = [],
@@ -21165,7 +21282,7 @@ cargo.rust_library(
 )
 
 cxx_library(
-    name = "ring-0.17.5-ring_0_17_0-ring-c-asm-elf-x86_84",
+    name = "ring-0.17.5-ring-ring-c-asm-elf-x86_84",
     srcs = [
         "vendor/ring-0.17.5/crypto/constant_time_test.c",
         "vendor/ring-0.17.5/crypto/cpu_intel.c",
@@ -21237,7 +21354,7 @@ cxx_library(
 )
 
 cxx_library(
-    name = "ring-0.17.5-ring_0_17_0-ring-c-asm-macos-arm64",
+    name = "ring-0.17.5-ring-ring-c-asm-macos-aarch64",
     srcs = [
         "vendor/ring-0.17.5/crypto/constant_time_test.c",
         "vendor/ring-0.17.5/crypto/cpu_intel.c",
@@ -21492,7 +21609,6 @@ cargo.rust_binary(
     crate_root = "../../../../../../dev/null",
     edition = "2021",
     named_deps = {
-        "ring_0_17_0": ":ring-0.17.5-ring_0_17_0",
         "sha3_0_9_1": ":sha3-0.9.1-sha3_0_9_1",
         "signature_2_0_0": ":signature-2.1.0-signature_2_0_0",
         "syn_1": ":syn-1.0.109-syn_1",
@@ -21624,7 +21740,7 @@ cargo.rust_binary(
         ":ref-cast-1.0.20",
         ":regex-1.10.2",
         ":reqwest-0.11.22",
-        ":ring-0.16.20-ring",
+        ":ring-0.17.5-ring",
         ":roaring-0.10.2",
         ":rocksdb-0.21.0",
         ":rustls-0.21.8",
@@ -22291,7 +22407,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":log-0.4.20",
-        ":ring-0.16.20-ring",
+        ":ring-0.16.20",
         ":sct-0.7.1",
         ":webpki-0.22.4",
     ],
@@ -22439,7 +22555,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":log-0.4.20",
-        ":ring-0.17.5-ring_0_17_0",
+        ":ring-0.17.5-ring",
         ":rustls-webpki-0.101.7-webpki",
         ":sct-0.7.1",
     ],
@@ -22553,7 +22669,7 @@ cargo.rust_library(
     licenses = ["vendor/rustls-webpki-0.101.7/LICENSE"],
     visibility = [],
     deps = [
-        ":ring-0.17.5-ring_0_17_0",
+        ":ring-0.17.5-ring",
         ":untrusted-0.9.0",
     ],
 )
@@ -22861,7 +22977,7 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [
-        ":ring-0.17.5-ring_0_17_0",
+        ":ring-0.17.5-ring",
         ":untrusted-0.9.0",
     ],
 )
@@ -25066,28 +25182,12 @@ cargo.rust_library(
     crate = "system_configuration_sys",
     crate_root = "vendor/system-configuration-sys-0.5.0/src/lib.rs",
     edition = "2021",
-    rustc_flags = ["@$(location :system-configuration-sys-0.5.0-build-script-run[rustc_flags])"],
+    rustc_flags = ["-lframework=SystemConfiguration"],
     visibility = [],
     deps = [
         ":core-foundation-sys-0.8.4",
         ":libc-0.2.149",
     ],
-)
-
-cargo.rust_binary(
-    name = "system-configuration-sys-0.5.0-build-script-build",
-    srcs = ["vendor/system-configuration-sys-0.5.0/build.rs"],
-    crate = "build_script_build",
-    crate_root = "vendor/system-configuration-sys-0.5.0/build.rs",
-    edition = "2021",
-    visibility = [],
-)
-
-buildscript_run(
-    name = "system-configuration-sys-0.5.0-build-script-run",
-    package_name = "system-configuration-sys",
-    buildscript_rule = ":system-configuration-sys-0.5.0-build-script-build",
-    version = "0.5.0",
 )
 
 alias(
@@ -27270,6 +27370,17 @@ cargo.rust_library(
     crate = "tracing_opentelemetry",
     crate_root = "vendor/tracing-opentelemetry-0.21.0/src/lib.rs",
     edition = "2018",
+    env = {
+        "CARGO_MANIFEST_DIR": "vendor/tracing-opentelemetry-0.21.0",
+        "CARGO_PKG_AUTHORS": "Julian Tescher <julian@tescher.me>:Tokio Contributors <team@tokio.rs>",
+        "CARGO_PKG_DESCRIPTION": "OpenTelemetry integration for tracing",
+        "CARGO_PKG_NAME": "tracing-opentelemetry",
+        "CARGO_PKG_REPOSITORY": "https://github.com/tokio-rs/tracing-opentelemetry",
+        "CARGO_PKG_VERSION": "0.21.0",
+        "CARGO_PKG_VERSION_MAJOR": "0",
+        "CARGO_PKG_VERSION_MINOR": "21",
+        "CARGO_PKG_VERSION_PATCH": "0",
+    },
     features = [
         "default",
         "metrics",
@@ -28342,7 +28453,7 @@ cargo.rust_library(
     licenses = ["vendor/webpki-0.22.4/LICENSE"],
     visibility = [],
     deps = [
-        ":ring-0.17.5-ring_0_17_0",
+        ":ring-0.17.5-ring",
         ":untrusted-0.9.0",
     ],
 )

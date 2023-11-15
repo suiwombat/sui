@@ -1,19 +1,5 @@
 buildscript = []
-# # TODO add https://github.com/facebook/buck2/blob/main/shim/third-party/rust/fixups/ring/fixups.toml
-# [platform_fixup.'cfg(unix)']
-# # libloading prior to 0.6.4 has a buildscript building a little library.
-# version = "<0.6.4"
-
-# [[platform_fixup.'cfg(unix)'.buildscript]]
-# [platform_fixup.'cfg(unix)'.buildscript.cxx_library]
-# name = "global-static"
-# srcs = ["src/os/unix/global_static.c"]
-# deps = ["third-party//glibc:dl"]
-
-# [platform_fixup.'cfg(any(unix))']
-# # Post 0.6.4 we just need to link with libdl.
-# version = ">=0.6.4"
-# extra_deps = ["third-party//glibc:dl"]
+# TODO add https://github.com/facebook/buck2/blob/main/shim/third-party/rust/fixups/ring/fixups.toml
 
 # [platform_fixup.'cfg(target_family = "unix")']
 # version = "=0.16.20"
@@ -51,21 +37,19 @@ headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/
 exclude = [ "crypto/cpu-intel.c" ]
 include_paths = ["include"]
 compiler_flags = ["-Wno-error"]
-fixup_include_paths = ["include"]
 
 [platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "macos")))']
 version = "=0.16.20"
 [platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "macos")))'.env]
 RING_CORE_PREFIX = "ring_core_0_16_20_"
-[[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
-[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
-name = "ring-c-asm-macos-arm64"
+[[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "macos")))'.buildscript]]
+[platform_fixup.'cfg(any(all(target_arch = "aarch64", target_os = "macos")))'.buildscript.cxx_library]
+name = "ring-c-asm-macos-aarch64"
 srcs = [ "crypto/**/*.c", "pregenerated/*armv8*-ios64.S", "pregenerated/*armx*-ios64.S" ]
 headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
 exclude = [ "crypto/cpu-intel.c" ]
 include_paths = ["include"]
 compiler_flags = ["-Wno-error"]
-
 
 
 # version 17+
@@ -75,7 +59,7 @@ version = "=0.17.5"
 RING_CORE_PREFIX = "ring_core_0_17_5_"
 [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
 [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
-name = "ring-c-asm-macos-arm64"
+name = "ring-c-asm-macos-aarch64"
 srcs = [ "crypto/**/*.c", "pregenerated/*armv8*-ios64.S", "pregenerated/*armx*-ios64.S" ]
 headers = [ "include/**/*.h", "crypto/**/*.h", "third_party/**/*.h", "crypto/**/*.inl" ]
 exclude = [ "crypto/cpu-intel.c" ]

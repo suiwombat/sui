@@ -1,22 +1,35 @@
-mysten_deps = []
+
+deps = [
+    "//third-party:anyhow",
+    "//third-party:axum",
+    "//third-party:axum-server",
+    "//third-party:ed25519",
+    "//third-party:fastcrypto",
+    "//third-party:pkcs8",
+    "//third-party:rcgen",
+    "//third-party:reqwest",
+    "//third-party:rustls",
+    "//third-party:tokio",
+    "//third-party:tokio-rustls",
+    "//third-party:tower-layer",
+    "//third-party:webpki",
+    "//third-party:x509-parser",
+] 
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Brandon Williams <brandon@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "tools for rustls-based certificate generation and verification",
+    "CARGO_PKG_NAME": "sui-tls",
+    "CARGO_PKG_VERSION": "0.0.0",
+}
+
 rust_library(
-    name="sui-tls",
-    srcs = glob(["src/**/*.rs"]),
-    deps = mysten_deps + [
-        "//third-party:anyhow",
-        "//third-party:ed25519",
-        "//third-party:pkcs8",
-        "//third-party:rcgen",
-        "//third-party:rustls",
-        "//third-party:webpki",
-        "//third-party:x509-parser",
-        "//third-party:fastcrypto",
-        "//third-party:reqwest",
-        "//third-party:axum",
-        "//third-party:axum-server",
-        "//third-party:tokio-rustls",
-        "//third-party:tower-layer",
-        "//third-party:tokio",
-    ],
-    visibility=["PUBLIC"],
+    name = "sui-tls",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"], 
+    deps = deps
 )
