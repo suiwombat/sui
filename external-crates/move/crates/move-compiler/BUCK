@@ -8,7 +8,7 @@ deps = [
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-borrow-graph:move-borrow-graph",
     "//external-crates/move/crates/move-bytecode-source-map:move-bytecode-source-map",
-    "//external-crates/move/crates/move-bytecode-verifier:move-bytecode-verifier",
+    "//external-crates/move/move-execution/v1/crates/move-bytecode-verifier:move-bytecode-verifier",
     "//external-crates/move/crates/move-command-line-common:move-command-line-common",
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//external-crates/move/crates/move-ir-to-bytecode:move-ir-to-bytecode",

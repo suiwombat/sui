@@ -1,0 +1,48 @@
+
+deps = [
+    "//third-party:anemo",
+    "//third-party:bcs",
+    "//third-party:bytes",
+    "//third-party:eyre",
+    "//third-party:futures",
+    "//third-party:http",
+    "//third-party:multiaddr",
+    "//third-party:serde",
+    "//third-party:snap",
+    "//third-party:tokio",
+    "//third-party:tokio-stream",
+    "//third-party:tonic",
+    "//third-party:tonic-health",
+    "//third-party:tower",
+    "//third-party:tower-http",
+    "//third-party:tracing",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Brandon Williams <brandon@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Mysten's network tooling",
+    "CARGO_PKG_NAME": "mysten-network",
+    "CARGO_PKG_VERSION": "0.2.0",
+}
+
+rust_library(
+    name = "mysten-network",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)
+
+rust_library(
+    name = "telemetry-subscribers",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

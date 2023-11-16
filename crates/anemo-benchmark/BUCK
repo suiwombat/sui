@@ -1,0 +1,50 @@
+
+deps = [
+    "//third-party:anemo",
+    "//third-party:clap",
+    "//crates/mysten-network:mysten-network",
+    "//third-party:rand",
+    "//crates/telemetry-subscribers:telemetry-subscribers",
+    "//third-party:tokio",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Andrew Schran <aschran@mystenlabs.com> Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "",
+    "CARGO_PKG_NAME": "anemo-benchmark",
+    "CARGO_PKG_VERSION": "0.0.0",
+}
+
+rust_library(
+    name = "anemo-benchmark",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)
+
+rust_binary(
+    name = "anemo-benchmark-build-script-build",
+    srcs = ["build.rs"],
+    crate = "build_script_build",
+    crate_root = "build.rs",
+    edition = "2021",
+    env = env,
+    features = ["runtime"],
+    visibility = ["PUBLIC"],
+    deps = [
+        "//third-party:anemo-build",
+    ]
+)
+
+load("@prelude//rust:cargo_buildscript.bzl", "buildscript_run")
+buildscript_run(
+    name = "anemo-benchmark-build-script-run",
+    package_name = "anemo-benchmark",
+    buildscript_rule = ":anemo-benchmark-build-script-build",
+    features = ["runtime"],
+    version = "0.0.0",
+)
