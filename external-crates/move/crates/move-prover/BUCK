@@ -5,7 +5,6 @@ deps = [
     "//third-party:codespan-reporting",
     "//third-party:itertools",
     "//third-party:log",
-    "//external-crates/move/crates/move-abigen:move-abigen",
     "//external-crates/move/crates/move-command-line-common:move-command-line-common",
     "//external-crates/move/crates/move-compiler:move-compiler",
     "//external-crates/move/crates/move-docgen:move-docgen",
@@ -16,8 +15,8 @@ deps = [
     "//third-party:once_cell",
     "//third-party:serde",
     "//third-party:simplelog",
-    "//third-party:toml",
-] 
+    "//third-party:toml", 
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -33,6 +32,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"], 
+    visibility = ["PUBLIC"],
     deps = deps
 )

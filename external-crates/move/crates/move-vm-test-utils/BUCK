@@ -1,4 +1,4 @@
-
+ 
 deps = [
     "//third-party:anyhow",
     "//external-crates/move/crates/move-binary-format:move-binary-format",
@@ -20,10 +20,9 @@ rust_library(
     name = "move-vm-test-utils",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env,
+    env = env, 
     # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    features = ["tiered-gas"],
-    deps = deps
+    edition = "2021",  
+    deps = deps,
+    visibility = ["PUBLIC"],
 )

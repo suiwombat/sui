@@ -1,4 +1,4 @@
-
+ 
 deps = [
     "//third-party:anyhow",
     "//third-party:axum",
@@ -9,10 +9,10 @@ deps = [
     "//third-party:rcgen",
     "//third-party:reqwest",
     "//third-party:rustls",
+    "//third-party:webpki",
     "//third-party:tokio",
     "//third-party:tokio-rustls",
     "//third-party:tower-layer",
-    "//third-party:webpki",
     "//third-party:x509-parser",
 ] 
 env = {
@@ -27,9 +27,9 @@ rust_library(
     name = "sui-tls",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env,
+    env = env, 
     # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    deps = deps
+    edition = "2021",  
+    deps = deps,
+    visibility = ["PUBLIC"],
 )

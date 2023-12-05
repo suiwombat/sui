@@ -5,23 +5,23 @@ deps = [
     "//third-party:leb128",
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
-    "//external-crates/move/crates/move-bytecode-verifier:move-bytecode-verifier",
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//external-crates/move/crates/move-vm-config:move-vm-config",
-    "//external-crates/move/crates/move-vm-profiler:move-vm-profiler",
-    "//external-crates/move/crates/move-vm-runtime:move-vm-runtime",
     "//external-crates/move/crates/move-vm-types:move-vm-types",
     "//third-party:parking_lot",
     "//third-party:serde",
     "//crates/sui-macros:sui-macros",
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-types:sui-types",
-    "//third-party:tracing",
-] 
+    "//third-party:tracing", 
 named_deps = {
-    "sui-move-natives":"//sui-execution/latest/sui-move-natives:sui-move-natives-latest",
-    "sui-verifier":"//sui-execution/latest/sui-verifier:sui-verifier-latest",
+    "move-bytecode-verifier":"//external-crates/move/crates/move-bytecode-verifier:",
+    "move-vm-profiler":"//external-crates/move/crates/move-vm-profiler:",
+    "move-vm-runtime":"//external-crates/move/crates/move-vm-runtime:",
+    "sui-move-natives-latest":"//../sui-move-natives:sui-move-natives-latest",
+    "sui-verifier-latest":"//../sui-verifier:sui-verifier-latest",
 }
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
@@ -37,7 +37,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"], 
-    named_deps = named_deps,
+    visibility = ["PUBLIC"],
     deps = deps
 )

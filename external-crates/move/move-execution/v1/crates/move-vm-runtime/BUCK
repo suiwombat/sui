@@ -11,11 +11,11 @@ deps = [
     "//third-party:parking_lot",
     "//third-party:sha3",
     "//third-party:smallvec",
-    "//third-party:tracing",
-] 
+    "//third-party:tracing", 
 named_deps = {
-    "move-bytecode-verifier":"//external-crates/move/move-execution/v1/crates/move-bytecode-verifier:move-bytecode-verifier-v1",
+    "move-bytecode-verifier-v1":"//external-crates/move/move-execution/v1/crates/move-bytecode-verifier:",
 }
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -25,13 +25,12 @@ env = {
 }
 
 rust_library(
-    name = "move-vm-runtime",
+    name = "move-vm-runtime-v1",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"], 
-    named_deps = named_deps,
+    visibility = ["PUBLIC"],
     deps = deps
 )

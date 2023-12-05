@@ -1,0 +1,30 @@
+
+deps = [
+    "//external-crates/move/crates/move-abstract-stack:move-abstract-stack",
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//external-crates/move/crates/move-vm-config:move-vm-config",
+    "//crates/sui-types:sui-types", 
+named_deps = {
+    "move-bytecode-verifier-next-vm":"//external-crates/move/move-execution/next-vm/crates/move-bytecode-verifier:",
+}
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Move framework for Sui platform",
+    "CARGO_PKG_NAME": "sui-verifier-next-vm",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+
+rust_library(
+    name = "sui-verifier-next-vm",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    # license = "Apache-2.0",
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)

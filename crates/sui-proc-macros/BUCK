@@ -1,4 +1,4 @@
-
+ 
 deps = [
     "//third-party:proc-macro2",
     "//third-party:quote",
@@ -18,9 +18,9 @@ rust_library(
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
-    proc_macro = True,
+    proc_macro = True, 
     # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    deps = deps
+    edition = "2021",  
+    deps = deps,
+    visibility = ["PUBLIC"],
 )

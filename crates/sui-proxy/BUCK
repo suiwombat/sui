@@ -1,4 +1,4 @@
-
+ 
 deps = [
     "//third-party:anyhow",
     "//third-party:axum",
@@ -39,14 +39,16 @@ env = {
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
     "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "sui-proxy",
-    "CARGO_BIN_NAME": "sui-proxy",
-    "CARGO_PKG_VERSION": "0.0.3",
+    "CARGO_PKG_VERSION": "0.0.2",
 }
 
-rust_binary(
-    name="sui-proxy",
-    srcs = glob(["src/*.rs"]),
-    env = env,
+rust_library(
+    name = "sui-proxy",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env, 
+    # license = "Apache-2.0",
+    edition = "2021",  
     deps = deps,
-    visibility = ["PUBLIC"], 
+    visibility = ["PUBLIC"],
 )

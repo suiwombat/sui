@@ -52,11 +52,11 @@ include_paths = ["include"]
 compiler_flags = ["-Wno-error"]
 
 
-# version 17+
+# version 0.17.6
 [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))']
-version = "=0.17.5"
+version = "=0.17.6"
 [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.env]
-RING_CORE_PREFIX = "ring_core_0_17_5_"
+RING_CORE_PREFIX = "ring_core_0_17_6_"
 [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
 [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
 name = "ring-c-asm-macos-aarch64"

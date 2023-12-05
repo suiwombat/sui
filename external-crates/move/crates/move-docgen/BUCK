@@ -10,8 +10,8 @@ deps = [
     "//third-party:num",
     "//third-party:once_cell",
     "//third-party:regex",
-    "//third-party:serde",
-] 
+    "//third-party:serde", 
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -27,6 +27,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"], 
+    visibility = ["PUBLIC"],
     deps = deps
 )

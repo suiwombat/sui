@@ -1,4 +1,4 @@
-
+ 
 deps = [
     "//third-party:anyhow",
     "//third-party:arbitrary",
@@ -24,9 +24,9 @@ rust_library(
     name = "move-binary-format",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env,
+    env = env, 
     # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    deps = deps
+    edition = "2021",  
+    deps = deps,
+    visibility = ["PUBLIC"],
 )

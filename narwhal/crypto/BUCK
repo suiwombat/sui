@@ -1,4 +1,4 @@
-
+ 
 deps = [
     "//third-party:bcs",
     "//third-party:fastcrypto",
@@ -18,20 +18,9 @@ rust_library(
     name = "narwhal-crypto",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env,
+    env = env, 
     # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    deps = deps
-)
-
-rust_library(
-    name = "crypto",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    deps = deps
+    edition = "2021",  
+    deps = deps,
+    visibility = ["PUBLIC"],
 )

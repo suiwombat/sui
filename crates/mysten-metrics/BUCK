@@ -1,4 +1,4 @@
-
+ 
 deps = [
     "//third-party:async-trait",
     "//third-party:axum",
@@ -26,9 +26,9 @@ rust_library(
     name = "mysten-metrics",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env,
+    env = env, 
     # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    deps = deps
+    edition = "2021",  
+    deps = deps,
+    visibility = ["PUBLIC"],
 )

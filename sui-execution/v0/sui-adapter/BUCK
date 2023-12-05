@@ -15,14 +15,14 @@ deps = [
     "//crates/sui-macros:sui-macros",
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-types:sui-types",
-    "//third-party:tracing",
-] 
+    "//third-party:tracing", 
 named_deps = {
-    "move-bytecode-verifier":"//external-crates/move/move-execution/v0/move-bytecode-verifier:move-bytecode-verifier-v0",
-    "move-vm-runtime":"//external-crates/move/move-execution/v0/move-vm/runtime:move-vm-runtime-v0",
-    "sui-move-natives":"//sui-execution/v0/sui-move-natives:sui-move-natives-v0",
-    "sui-verifier":"//sui-execution/v0/sui-verifier:sui-verifier-v0",
+    "move-bytecode-verifier-v0":"//external-crates/move/move-execution/v0/move-bytecode-verifier:",
+    "move-vm-runtime-v0":"//external-crates/move/move-execution/v0/move-vm/runtime:",
+    "sui-move-natives-v0":"//../sui-move-natives:sui-move-natives-v0",
+    "sui-verifier-v0":"//../sui-verifier:sui-verifier-v0",
 }
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
@@ -38,7 +38,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"], 
-    named_deps = named_deps,
+    visibility = ["PUBLIC"],
     deps = deps
 )

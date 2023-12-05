@@ -1,4 +1,4 @@
-
+ 
 deps = [
     "//third-party:cfg-if",
     "//third-party:ed25519-consensus",
@@ -25,10 +25,10 @@ rust_library(
     name = "mysten-util-mem",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env,
+    env = env, 
+    features = ["std","hashbrown","smallvec","estimate-heapsize"],
     # license = "MIT OR Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    features = ["parking_lot", "std", "hashbrown", "smallvec", "estimate-heapsize"],
-    deps = deps
+    edition = "2021",  
+    deps = deps,
+    visibility = ["PUBLIC"],
 )

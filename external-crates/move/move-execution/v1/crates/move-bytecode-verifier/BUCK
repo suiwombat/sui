@@ -5,8 +5,8 @@ deps = [
     "//external-crates/move/crates/move-borrow-graph:move-borrow-graph",
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//external-crates/move/crates/move-vm-config:move-vm-config",
-    "//third-party:petgraph",
-] 
+    "//third-party:petgraph", 
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -22,6 +22,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"], 
+    visibility = ["PUBLIC"],
     deps = deps
 )

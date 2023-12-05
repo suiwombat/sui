@@ -13,11 +13,11 @@ deps = [
     "//third-party:sha2",
     "//third-party:sha3",
     "//third-party:smallvec",
-    "//third-party:walkdir",
-] 
+    "//third-party:walkdir", 
 named_deps = {
-    "move-vm-runtime":"//external-crates/move/move-execution/v1/crates/move-vm-runtime:move-vm-runtime-v1",
+    "move-vm-runtime-v1":"//external-crates/move/move-execution/v1/crates/move-vm-runtime:",
 }
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -33,7 +33,6 @@ rust_library(
     env = env,
     # license = "Apache-2.0",
     edition = "2021",
-    visibility = ["PUBLIC"], 
-    named_deps = named_deps,
+    visibility = ["PUBLIC"],
     deps = deps
 )
