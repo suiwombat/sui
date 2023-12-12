@@ -1,22 +1,21 @@
- 
-deps = [
-    "//third-party:anemo",
-    "//third-party:bcs",
-    "//third-party:bytes",
-    "//third-party:eyre",
-    "//third-party:futures",
-    "//third-party:http",
-    "//third-party:multiaddr",
-    "//third-party:serde",
-    "//third-party:snap",
-    "//third-party:tokio",
-    "//third-party:tokio-stream",
-    "//third-party:tonic",
-    "//third-party:tonic-health",
-    "//third-party:tower",
-    "//third-party:tower-http",
-    "//third-party:tracing",
-] 
+  
+named_deps = {
+    "bcs":"//third-party:bcs_v0_1",
+    "bytes":"//third-party:bytes_v1",
+    "eyre":"//third-party:eyre_v0_6",
+    "futures":"//third-party:futures_v0_3",
+    "http":"//third-party:http_v0_2",
+    "multiaddr":"//third-party:multiaddr_v0_17",
+    "serde":"//third-party:serde_v1",
+    "snap":"//third-party:snap_v1",
+    "tokio-stream":"//third-party:tokio-stream_v0_1",
+    "tokio":"//third-party:tokio_v1",
+    "tonic-health":"//third-party:tonic-health_v0_10",
+    "tonic":"//third-party:tonic_v0_10",
+    "tower-http":"//third-party:tower-http_v0_3",
+    "tower":"//third-party:tower_v0_4",
+    "tracing":"//third-party:tracing_v0_1",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Brandon Williams <brandon@mystenlabs.com>]",
@@ -31,7 +30,7 @@ rust_library(
     crate_root = "src/lib.rs",
     env = env, 
     # license = "Apache-2.0",
-    edition = "2021",  
-    deps = deps,
+    edition = "2021", 
+    named_deps = named_deps, 
     visibility = ["PUBLIC"],
 )

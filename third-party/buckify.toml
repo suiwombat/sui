@@ -1,0 +1,5 @@
+[[crate]]
+name = "sui-proxy"
+
+[[crate]]
+name = "sui-node"

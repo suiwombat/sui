@@ -45,6 +45,10 @@ impl MetricsPushClient {
     pub fn client(&self) -> &reqwest::Client {
         &self.client
     }
+
+    pub fn reestablish(&self) {
+        
+    }
 }
 
 /// Starts a task to periodically push metrics to a configured endpoint if a metrics push endpoint
@@ -136,6 +140,7 @@ pub fn start_metrics_push_task(config: &sui_config::NodeConfig, registry: Regist
             interval.tick().await;
 
             if let Err(error) = push_metrics(&client, &url, &registry).await {
+                client.reestablish();
                 tracing::warn!("unable to push metrics: {error}");
             }
         }

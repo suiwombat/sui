@@ -1,9 +1,9 @@
- 
-deps = [
-    "//third-party:proc-macro2",
-    "//third-party:syn",
-    "//third-party:synstructure",
-] 
+  
+named_deps = {
+    "proc-macro2":"//third-party:proc-macro2_v1",
+    "syn":"//third-party:syn_v1",
+    "synstructure":"//third-party:synstructure_v0_12",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Parity Technologies <admin@parity.io>]",
@@ -19,7 +19,7 @@ rust_library(
     env = env,
     proc_macro = True, 
     # license = "MIT OR Apache-2.0",
-    edition = "2021",  
-    deps = deps,
+    edition = "2021", 
+    named_deps = named_deps, 
     visibility = ["PUBLIC"],
 )

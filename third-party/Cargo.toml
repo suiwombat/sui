@@ -12,128 +12,106 @@ name = "fake"
 path = "/dev/null"
 
 [dependencies]
-anemo = { package = "anemo", git = "https://github.com/mystenlabs/anemo.git", rev = "1169850e6af127397068cd86764c29b1d49dbe35", default-features = false }
-anyhow = "1.0.71"
-arbitrary = { features = ["derive"], default-features = false, version = "1" }
-async-trait = "0.1.61"
-atomic_float = "0.1"
-axum = { features = ["headers", "tokio", "http1", "http2", "json", "matched-path", "original-uri", "form", "query", "ws"], default-features = false, version = "0.6.6" }
-axum-server = { features = ["tls-rustls"], default-features = false, version = "0.5.1" }
-bcs = "0.1.4"
-bincode = "1.3.3"
-byteorder = "1.4.3"
-bytes = "1.4"
-bytes-varint = { default-features = false, version = "1" }
-cfg-if = "1"
-clap = { features = ["derive", "wrap_help"], version = "4.4" }
-codespan = { features = ["serialization"], default-features = false, version = "0.11" }
-codespan-reporting = { features = ["serialization"], default-features = false, version = "0.11" }
-colored = "2"
-console-subscriber = "0.2"
-const-str = "0.5.3"
-crossterm = "0.25"
-dashmap = "5.4"
-derivative = "2.2"
-derive_more = "0.99.17"
-difference = "2"
-dirs-next = { default-features = false, version = "2" }
-ed25519 = { features = ["pkcs8", "alloc", "zeroize"], version = "1.5" }
-ed25519-consensus = { features = ["serde"], version = "2.0.1" }
-enum_dispatch = "0.3"
-ethnum = { default-features = false, version = "1" }
-eyre = "0.6.8"
-fastcrypto = { package = "fastcrypto", git = "https://github.com/MystenLabs/fastcrypto", rev = "517ec93ad2eba1807c9508f14953814a33523edc", features = ["beacon-dkg", "copy_key"] }
-fastcrypto-tbls = { package = "fastcrypto-tbls", git = "https://github.com/MystenLabs/fastcrypto", rev = "517ec93ad2eba1807c9508f14953814a33523edc" }
-fastcrypto-zkp = { package = "fastcrypto-zkp", git = "https://github.com/MystenLabs/fastcrypto", rev = "517ec93ad2eba1807c9508f14953814a33523edc", default-features = false }
-futures = "0.3.28"
-getrandom = { features = ["std"], default-features = false, version = "0.2" }
-git-version = "0.3.5"
-hashbrown = "0.12"
-hex = "0.4.3"
-http = "0.2.8"
-http-body = "0.4.5"
-hyper = "0.14.20"
-im = "15"
-impl-trait-for-tuples = "0.2"
-indexmap = { features = ["serde"], version = "1.9.2" }
-insta = { features = ["redactions", "yaml", "json"], version = "1.21.1" }
-itertools = "0.10.5"
+anyhow_v1 = { package = "anyhow", version = "1.0.71" }
+async-trait_v0_1 = { package = "async-trait", version = "0.1.61" }
+atomic_float_v0_1 = { package = "atomic_float", version = "0.1" }
+axum-server_v0_5 = { package = "axum-server", features = ["tls-rustls"], default-features = false, version = "0.5.1" }
+axum_v0_6 = { package = "axum", features = ["form", "headers", "http1", "http2", "json", "matched-path", "original-uri", "query", "tokio", "ws"], default-features = false, version = "0.6.6" }
+bcs_v0_1 = { package = "bcs", version = "0.1.4" }
+bincode_v1 = { package = "bincode", version = "1.3.3" }
+byteorder_v1 = { package = "byteorder", version = "1.4.3" }
+bytes-varint_v1 = { package = "bytes-varint", default-features = false, version = "1" }
+bytes_v1 = { package = "bytes", version = "1.4" }
+cfg-if_v1 = { package = "cfg-if", version = "1" }
+clap_v4 = { package = "clap", features = ["derive", "wrap_help"], version = "4.4" }
+colored_v2 = { package = "colored", version = "2" }
+console-subscriber_v0_2 = { package = "console-subscriber", version = "0.2" }
+const-str_v0_5 = { package = "const-str", version = "0.5.3" }
+crossterm_v0_25 = { package = "crossterm", version = "0.25" }
+dashmap_v5 = { package = "dashmap", version = "5.4" }
+derivative_v2 = { package = "derivative", version = "2.2" }
+derive_more_v0_99 = { package = "derive_more", version = "0.99.17" }
+ed25519-consensus_v2 = { package = "ed25519-consensus", features = ["serde"], version = "2.0.1" }
+ed25519_v1 = { package = "ed25519", features = ["alloc", "pkcs8", "zeroize"], version = "1.5" }
+enum_dispatch_v0_3 = { package = "enum_dispatch", version = "0.3" }
+eyre_v0_6 = { package = "eyre", version = "0.6.8" }
+futures_v0_3 = { package = "futures", version = "0.3.28" }
+git-version_v0_3 = { package = "git-version", version = "0.3.5" }
+hashbrown_v0_12 = { package = "hashbrown", version = "0.12" }
+hex_v0_4 = { package = "hex", version = "0.4.3" }
+http-body_v0_4 = { package = "http-body", version = "0.4.5" }
+http_v0_2 = { package = "http", version = "0.2.8" }
+hyper_v0_14 = { package = "hyper", version = "0.14.20" }
+im_v15 = { package = "im", version = "15" }
+impl-trait-for-tuples_v0_2 = { package = "impl-trait-for-tuples", version = "0.2" }
+indexmap_v1 = { package = "indexmap", features = ["serde"], version = "1.9.2" }
+insta_v1 = { package = "insta", features = ["json", "redactions", "yaml"], version = "1.21.1" }
+itertools_v0_10 = { package = "itertools", version = "0.10.5" }
 libc = "0.2"
-log = { features = ["serde", "std"], default-features = false, version = "0.4" }
-match_opt = "0.1.2"
-multiaddr = "0.17"
-num = "0.4"
-num-bigint = "0.4.3"
-once_cell = "1.18"
-opentelemetry = { features = ["metrics", "rt-tokio"], version = "0.20" }
-opentelemetry-otlp = { features = ["grpc-tonic"], version = "0.13" }
-opentelemetry-proto = { features = ["gen-tonic", "traces"], version = "0.3" }
-opentelemetry_api = { features = ["logs", "metrics"], version = "0.20" }
-ouroboros = "0.17"
-parking_lot = "0.12.1"
-petgraph = "0.5.1"
-phf = { features = ["macros", "uncased"], version = "0.11" }
-pkcs8 = { features = ["std"], version = "0.9" }
-primitive-types = { features = ["impl-serde"], version = "0.10" }
-proc-macro2 = "1.0.47"
-prometheus = "0.13.3"
-proptest = "1.1"
-proptest-derive = "0.3"
-prost = "0.12.1"
-prost-build = "0.12.1"
-prost_0_11 = { package = "prost", version = "0.11" }
-protobuf = { features = ["with-bytes"], version = "2.28" }
-quote = "1.0.23"
-rand = "0.8.5"
-rcgen = "0.9.2"
-ref-cast = { default-features = false, version = "1" }
-regex = "1.7.1"
-reqwest = { features = ["blocking", "json", "rustls-tls"], version = "0.11.20" }
-roaring = "0.10.1"
-rustls = { features = ["dangerous_configuration"], version = "0.21.6" }
-rustls-pemfile = "1.0.2"
-schemars = { features = ["either"], version = "0.8.10" }
-scopeguard = "1.1"
-serde = { features = ["derive", "rc"], version = "1.0.144" }
-serde-name = "0.2.1"
-serde-reflection = "0.3.6"
-serde_bytes = "0.11"
-serde_json = { features = ["preserve_order", "arbitrary_precision"], version = "1.0.95" }
-serde_repr = "0.1"
-serde_with = { features = ["hex"], version = "2.1" }
-serde_yaml = "0.8.26"
-sha2 = { features = ["oid"], version = "0.10" }
-signature = "1.6"
-smallvec = "1.10"
-snap = "1.1"
-static_assertions = "1.1"
-strum = { features = ["derive"], version = "0.24" }
-strum_macros = "0.24.3"
-syn = { features = ["full", "derive", "extra-traits"], version = "1.0.104" }
-syn_2 = { package = "syn", features = ["extra-traits", "fold", "full", "visit", "visit-mut"], version = "2" }
-synstructure = "0.12"
-tap = "1.0.1"
-tempfile = "3.3"
-thiserror = "1.0.40"
-tokio = "1.28.1"
-tokio-rustls = "0.24"
-tokio-stream = { features = ["sync", "net"], version = "0.1.14" }
-tonic = { features = ["transport", "tls"], version = "0.10" }
-tonic-health = "0.10"
-tonic_0_9 = { package = "tonic", version = "0.9" }
-tower = { features = ["full", "util", "timeout", "load-shed", "limit"], version = "0.4.12" }
-tower-http = { features = ["cors", "full", "trace", "set-header", "propagate-header"], version = "0.3.4" }
-tower-layer = "0.3.2"
-tracing = "0.1.37"
-tracing-appender = "0.2.2"
-tracing-opentelemetry = "0.21"
-tracing-subscriber = { features = ["std", "smallvec", "fmt", "ansi", "time", "json", "registry", "env-filter"], default-features = false, version = "0.3.15" }
-uint = "0.9.4"
-uuid = { features = ["v4", "fast-rng"], version = "1.1.2" }
-variant_count = { default-features = false, version = "1" }
-walkdir = { default-features = false, version = "2" }
-webpki = { package = "rustls-webpki", features = ["alloc", "std"], version = "0.101" }
-x509-parser = "0.14"
+match_opt_v0_1 = { package = "match_opt", version = "0.1.2" }
+multiaddr_v0_17 = { package = "multiaddr", version = "0.17" }
+num-bigint_v0_4 = { package = "num-bigint", version = "0.4.3" }
+once_cell_v1 = { package = "once_cell", version = "1.18" }
+opentelemetry-otlp_v0_13 = { package = "opentelemetry-otlp", features = ["grpc-tonic"], version = "0.13" }
+opentelemetry-proto_v0_3 = { package = "opentelemetry-proto", features = ["gen-tonic", "traces"], version = "0.3" }
+opentelemetry_api_v0_20 = { package = "opentelemetry_api", features = ["logs", "metrics"], version = "0.20" }
+opentelemetry_v0_20 = { package = "opentelemetry", features = ["metrics", "rt-tokio"], version = "0.20" }
+parking_lot_v0_12 = { package = "parking_lot", version = "0.12.1" }
+petgraph_v0_5 = { package = "petgraph", version = "0.5.1" }
+pkcs8_v0_9 = { package = "pkcs8", features = ["std"], version = "0.9" }
+proc-macro2_v1 = { package = "proc-macro2", version = "1.0.47" }
+prometheus_v0_13 = { package = "prometheus", version = "0.13.3" }
+proptest-derive_v0_3 = { package = "proptest-derive", version = "0.3" }
+proptest_v1 = { package = "proptest", version = "1.1" }
+prost-build_v0_12 = { package = "prost-build", version = "0.12.1" }
+prost_v0_11 = { package = "prost", version = "0.11" }
+prost_v0_12 = { package = "prost", version = "0.12.1" }
+protobuf_v2 = { package = "protobuf", features = ["with-bytes"], version = "2.28" }
+quote_v1 = { package = "quote", version = "1.0.23" }
+rand_v0_8 = { package = "rand", version = "0.8.5" }
+rcgen_v0_9 = { package = "rcgen", version = "0.9.2" }
+regex_v1 = { package = "regex", version = "1.7.1" }
+reqwest_v0_11 = { package = "reqwest", features = ["blocking", "json", "rustls-tls"], version = "0.11.20" }
+roaring_v0_10 = { package = "roaring", version = "0.10.1" }
+rustls-pemfile_v1 = { package = "rustls-pemfile", version = "1.0.2" }
+rustls_v0_21 = { package = "rustls", features = ["dangerous_configuration"], version = "0.21.6" }
+schemars_v0_8 = { package = "schemars", features = ["either"], version = "0.8.10" }
+scopeguard_v1 = { package = "scopeguard", version = "1.1" }
+serde-name_v0_2 = { package = "serde-name", version = "0.2.1" }
+serde-reflection_v0_3 = { package = "serde-reflection", version = "0.3.6" }
+serde_json_v1 = { package = "serde_json", features = ["arbitrary_precision", "preserve_order"], version = "1.0.95" }
+serde_repr_v0_1 = { package = "serde_repr", version = "0.1" }
+serde_v1 = { package = "serde", features = ["derive", "rc"], version = "1.0.144" }
+serde_with_v2 = { package = "serde_with", features = ["hex"], version = "2.1" }
+serde_yaml_v0_8 = { package = "serde_yaml", version = "0.8.26" }
+signature_v1 = { package = "signature", version = "1.6" }
+smallvec_v1 = { package = "smallvec", version = "1.10" }
+snap_v1 = { package = "snap", version = "1.1" }
+static_assertions_v1 = { package = "static_assertions", version = "1.1" }
+strum_macros_v0_24 = { package = "strum_macros", version = "0.24.3" }
+strum_v0_24 = { package = "strum", features = ["derive"], version = "0.24" }
+syn_v1 = { package = "syn", features = ["derive", "extra-traits", "full"], version = "1.0.104" }
+syn_v2 = { package = "syn", features = ["extra-traits", "fold", "full", "visit", "visit-mut"], version = "2" }
+synstructure_v0_12 = { package = "synstructure", version = "0.12" }
+tap_v1 = { package = "tap", version = "1.0.1" }
+tempfile_v3 = { package = "tempfile", version = "3.3" }
+thiserror_v1 = { package = "thiserror", version = "1.0.40" }
+tokio-rustls_v0_24 = { package = "tokio-rustls", version = "0.24" }
+tokio-stream_v0_1 = { package = "tokio-stream", features = ["net", "sync"], version = "0.1.14" }
+tokio_v1 = { package = "tokio", features = ["full"], version = "1.28.1" }
+tonic-health_v0_10 = { package = "tonic-health", version = "0.10" }
+tonic_v0_10 = { package = "tonic", features = ["tls", "transport"], version = "0.10" }
+tonic_v0_9 = { package = "tonic", version = "0.9" }
+tower-http_v0_3 = { package = "tower-http", features = ["cors", "full", "propagate-header", "set-header", "trace"], version = "0.3.4" }
+tower-layer_v0_3 = { package = "tower-layer", version = "0.3.2" }
+tower_v0_4 = { package = "tower", features = ["full", "limit", "load-shed", "timeout", "util"], version = "0.4.12" }
+tracing-appender_v0_2 = { package = "tracing-appender", version = "0.2.2" }
+tracing-opentelemetry_v0_21 = { package = "tracing-opentelemetry", version = "0.21" }
+tracing-subscriber_v0_3 = { package = "tracing-subscriber", features = ["ansi", "env-filter", "fmt", "json", "registry", "smallvec", "std", "time"], default-features = false, version = "0.3.15" }
+tracing_v0_1 = { package = "tracing", version = "0.1.37" }
+uint_v0_9 = { package = "uint", version = "0.9.4" }
+uuid_v1 = { package = "uuid", features = ["fast-rng", "v4"], version = "1.1.2" }
+x509-parser_v0_14 = { package = "x509-parser", version = "0.14" }
 
 # Local patches - typically git references
 [patch.crates-io]

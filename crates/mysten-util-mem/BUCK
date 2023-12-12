@@ -1,18 +1,16 @@
- 
-deps = [
-    "//third-party:cfg-if",
-    "//third-party:ed25519-consensus",
-    "//third-party:fastcrypto",
-    "//third-party:fastcrypto-tbls",
-    "//third-party:hashbrown",
-    "//third-party:impl-trait-for-tuples",
-    "//third-party:indexmap",
-    "//crates/mysten-util-mem-derive:mysten-util-mem-derive",
-    "//third-party:once_cell",
-    "//third-party:parking_lot",
-    "//third-party:roaring",
-    "//third-party:smallvec",
-] 
+  
+named_deps = {
+    "cfg-if":"//third-party:cfg-if_v1",
+    "ed25519-consensus":"//third-party:ed25519-consensus_v2",
+    "hashbrown":"//third-party:hashbrown_v0_12",
+    "impl-trait-for-tuples":"//third-party:impl-trait-for-tuples_v0_2",
+    "indexmap":"//third-party:indexmap_v1",
+    "mysten-util-mem-derive":"//crates/mysten-util-mem-derive:mysten-util-mem-derive",
+    "once_cell":"//third-party:once_cell_v1",
+    "parking_lot":"//third-party:parking_lot_v0_12",
+    "roaring":"//third-party:roaring_v0_10",
+    "smallvec":"//third-party:smallvec_v1",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Parity Technologies <admin@parity.io> Andrew Schran <aschran@mystenlabs.com>]",
@@ -28,7 +26,7 @@ rust_library(
     env = env, 
     features = ["std","hashbrown","smallvec","estimate-heapsize"],
     # license = "MIT OR Apache-2.0",
-    edition = "2021",  
-    deps = deps,
+    edition = "2021", 
+    named_deps = named_deps, 
     visibility = ["PUBLIC"],
 )

@@ -2,11 +2,13 @@
 deps = [
     "//third-party:anyhow",
     "//third-party:hex",
-    "//external-crates/move/crates/move-command-line-common:move-command-line-common",
-    "//external-crates/move/crates/move-core-types:move-core-types",
-    "//external-crates/move/crates/move-ir-types:move-ir-types",
-    "//external-crates/move/crates/move-symbol-pool:move-symbol-pool",
 ] 
+named_deps = {
+    "move-command-line-common":"//external-crates/move/crates/move-command-line-common:move-command-line-common",
+    "move-core-types":"//external-crates/move/crates/move-core-types:move-core-types",
+    "move-ir-types":"//external-crates/move/crates/move-ir-types:move-ir-types",
+    "move-symbol-pool":"//external-crates/move/crates/move-symbol-pool:move-symbol-pool",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -21,7 +23,8 @@ rust_library(
     crate_root = "src/lib.rs",
     env = env, 
     # license = "Apache-2.0",
-    edition = "2021",  
+    edition = "2021", 
+    named_deps = named_deps, 
     deps = deps,
     visibility = ["PUBLIC"],
 )

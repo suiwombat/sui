@@ -1,25 +1,20 @@
- 
-deps = [
-    "//third-party:anyhow",
-    "//third-party:bcs",
-    "//third-party:clap",
-    "//third-party:codespan-reporting",
-    "//third-party:hex",
-    "//external-crates/move/crates/move-binary-format:move-binary-format",
-    "//external-crates/move/crates/move-borrow-graph:move-borrow-graph",
-    "//external-crates/move/crates/move-bytecode-source-map:move-bytecode-source-map",
-    "//external-crates/move/crates/move-bytecode-verifier:move-bytecode-verifier",
-    "//external-crates/move/crates/move-command-line-common:move-command-line-common",
-    "//external-crates/move/crates/move-core-types:move-core-types",
-    "//external-crates/move/crates/move-ir-to-bytecode:move-ir-to-bytecode",
-    "//external-crates/move/crates/move-ir-types:move-ir-types",
-    "//external-crates/move/crates/move-symbol-pool:move-symbol-pool",
-    "//third-party:once_cell",
-    "//third-party:petgraph",
-    "//third-party:regex",
-    "//third-party:serde",
-    "//third-party:tempfile",
-] 
+  
+named_deps = {
+    "anyhow":"//third-party:anyhow_v1",
+    "bcs":"//third-party:bcs_v0_1",
+    "clap":"//third-party:clap_v4",
+    "hex":"//third-party:hex_v0_4",
+    "move-binary-format":"//external-crates/move/crates/move-binary-format:move-binary-format",
+    "move-command-line-common":"//external-crates/move/crates/move-command-line-common:move-command-line-common",
+    "move-core-types":"//external-crates/move/crates/move-core-types:move-core-types",
+    "move-ir-types":"//external-crates/move/crates/move-ir-types:move-ir-types",
+    "move-symbol-pool":"//external-crates/move/crates/move-symbol-pool:move-symbol-pool",
+    "once_cell":"//third-party:once_cell_v1",
+    "petgraph":"//third-party:petgraph_v0_5",
+    "regex":"//third-party:regex_v1",
+    "serde":"//third-party:serde_v1",
+    "tempfile":"//third-party:tempfile_v3",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -34,7 +29,7 @@ rust_library(
     crate_root = "src/lib.rs",
     env = env, 
     # license = "Apache-2.0",
-    edition = "2021",  
-    deps = deps,
+    edition = "2021", 
+    named_deps = named_deps, 
     visibility = ["PUBLIC"],
 )

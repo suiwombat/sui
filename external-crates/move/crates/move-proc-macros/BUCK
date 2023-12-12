@@ -1,9 +1,11 @@
  
 deps = [
-    "//external-crates/move/crates/enum-compat-util:enum-compat-util",
     "//third-party:quote",
-    "//third-party:syn",
 ] 
+named_deps = {
+    "enum-compat-util":"//external-crates/move/crates/enum-compat-util:enum-compat-util",
+    "syn":"//third-party:syn_2",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
@@ -19,7 +21,8 @@ rust_library(
     env = env,
     proc_macro = True, 
     # license = "Apache-2.0",
-    edition = "2021",  
+    edition = "2021", 
+    named_deps = named_deps, 
     deps = deps,
     visibility = ["PUBLIC"],
 )

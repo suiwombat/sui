@@ -1,18 +1,14 @@
- 
-deps = [
-    "//third-party:fastcrypto",
-    "//third-party:fastcrypto-tbls",
-    "//third-party:match_opt",
-    "//crates/mysten-network:mysten-network",
-    "//crates/mysten-util-mem:mysten-util-mem",
-    "//third-party:rand",
-    "//third-party:serde",
-    "//third-party:serde_json",
-    "//third-party:thiserror",
-    "//third-party:tracing",
-] 
+  
 named_deps = {
+    "match_opt":"//third-party:match_opt_v0_1",
+    "mysten-network":"//crates/mysten-network:mysten-network",
+    "mysten-util-mem":"//crates/mysten-util-mem:mysten-util-mem",
     "crypto":"//narwhal/crypto:narwhal-crypto",
+    "rand":"//third-party:rand_v0_8",
+    "serde_json":"//third-party:serde_json_v1",
+    "serde":"//third-party:serde_v1",
+    "thiserror":"//third-party:thiserror_v1",
+    "tracing":"//third-party:tracing_v0_1",
 }
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -30,6 +26,5 @@ rust_library(
     # license = "Apache-2.0",
     edition = "2021", 
     named_deps = named_deps, 
-    deps = deps,
     visibility = ["PUBLIC"],
 )

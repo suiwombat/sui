@@ -1,9 +1,9 @@
- 
-deps = [
-    "//third-party:anyhow",
-    "//third-party:prometheus",
-    "//third-party:protobuf",
-] 
+  
+named_deps = {
+    "anyhow":"//third-party:anyhow_v1",
+    "prometheus":"//third-party:prometheus_v0_13",
+    "protobuf":"//third-party:protobuf_v2",
+}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Andrew Schran <aschran@mystenlabs.com>]",
@@ -18,7 +18,7 @@ rust_library(
     crate_root = "src/lib.rs",
     env = env, 
     # license = "Apache-2.0",
-    edition = "2021",  
-    deps = deps,
+    edition = "2021", 
+    named_deps = named_deps, 
     visibility = ["PUBLIC"],
 )
