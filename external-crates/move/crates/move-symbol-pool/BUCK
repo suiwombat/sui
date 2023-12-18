@@ -1,8 +1,9 @@
-  
-named_deps = {
-    "once_cell":"//third-party:once_cell_v1",
-    "serde":"//third-party:serde_v1",
-}
+
+deps = [
+    "//third-party:once_cell_1_18_0",
+    "//third-party:phf_0_11_1",
+    "//third-party:serde_1_0_190"
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -10,14 +11,12 @@ env = {
     "CARGO_PKG_NAME": "move-symbol-pool",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "move-symbol-pool",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env, 
-    # license = "Apache-2.0",
-    edition = "2021", 
-    named_deps = named_deps, 
-    visibility = ["PUBLIC"],
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

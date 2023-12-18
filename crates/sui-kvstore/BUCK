@@ -10,28 +10,22 @@ deps = [
     "//third-party:aws-config",
     "//third-party:aws-sdk-dynamodb",
     "//third-party:aws-sdk-s3",
+    "//third-party:backoff",
     "//third-party:base64-url",
     "//third-party:bcs",
     "//third-party:prometheus",
     "//third-party:serde",
     "//third-party:tokio",
-    "//third-party:tracing",
+    "//third-party:tracing"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "sui-kvstore",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "sui-kvstore",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
     env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = deps
+    deps = deps,
 )

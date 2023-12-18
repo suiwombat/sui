@@ -1,27 +1,26 @@
 
+deps = [
+    "//crates/shared-crypto:shared-crypto",
+    "//crates/sui-types:sui-types",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:bip32_0_4_0",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:rand_0_8_5",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_json_1_0_95",
+    "//third-party:signature_1_6_4",
+    "//third-party:slip10_ed25519_0_1_3",
+    "//third-party:tiny-bip39_1_0_0"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "sui-keys",
+    "CARGO_PKG_VERSION": "0.0.0",
+}
 rust_library(
     name = "sui-keys",
-    srcs = glob(["src/**/*.rs"]),
-    env = {
-        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-        "CARGO_BIN_NAME": "sui-keys",
-        "CARGO_PKG_VERSION": "0.0.0",
-        "CARGO_PKG_NAME": "sui-keys",
-    },
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = [
-        "//third-party:anyhow",
-        "//third-party:bip32",
-        "//third-party:fastcrypto",
-        "//third-party:rand",
-        "//third-party:serde",
-        "//third-party:serde_json",
-        "//crates/shared-crypto:shared-crypto",
-        "//third-party:signature",
-        "//third-party:slip10_ed25519",
-        "//crates/sui-types:sui-types",
-        "//third-party:tiny-bip39",
-    ]
+    env = env,
+    deps = deps,
+    visibility = ["PUBLIC"]
 )

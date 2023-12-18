@@ -12,6 +12,7 @@ deps = [
     "//crates/sui-network:sui-network",
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-rest-api:sui-rest-api",
+    "//crates/sui-simulator:sui-simulator",
     "//crates/sui-snapshot:sui-snapshot",
     "//crates/sui-storage:sui-storage",
     "//crates/sui-telemetry:sui-telemetry",
@@ -20,17 +21,18 @@ deps = [
     "//crates/telemetry-subscribers:telemetry-subscribers",
     "//crates/typed-store:typed-store",
     "//narwhal/network:narwhal-network",
-    "//third-party:anemo-tower",
     "//third-party:anemo",
+    "//third-party:anemo-tower",
     "//third-party:anyhow",
     "//third-party:arc-swap",
     "//third-party:axum",
     "//third-party:clap",
     "//third-party:const-str",
-    "//third-party:fastcrypto-zkp",
     "//third-party:fastcrypto",
+    "//third-party:fastcrypto-zkp",
     "//third-party:futures",
     "//third-party:git-version",
+    "//third-party:humantime",
     "//third-party:prometheus",
     "//third-party:reqwest",
     "//third-party:serde",
@@ -39,63 +41,16 @@ deps = [
     "//third-party:tokio",
     "//third-party:tower",
     "//third-party:tracing",
-    "//third-party:url",
-    "//third-party:rocksdb",
+    "//third-party:url"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "sui-node",
-    "CARGO_PKG_VERSION": "",
+    "CARGO_PKG_VERSION": "1.16.0",
 }
-
 rust_library(
-    name = "lib",
-    srcs = [
-        "src/admin.rs",
-        "src/handle.rs",
-        "src/lib.rs",
-        "src/metrics.rs",
-    ],
-    crate_root = "src/lib.rs",
-    env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = deps
-)
-
-
-rust_binary(
     name = "sui-node",
-    srcs = ["src/main.rs"],
-    env = {
-    "CARGO_MANIFEST_DIR": ".",
-    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
-    "CARGO_PKG_NAME": "sui-node",
-    "CARGO_PKG_VERSION": "1.11.0",
-    "CARGO_BIN_NAME": "sui-node",
-},
-    crate_root = "src/main.rs",
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"],
+    env = env,
     deps = deps,
-    named_deps = {
-        "sui_node": ":lib",
-    },
-    rustc_flags = [
-        # "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__librocksdb-sys-0.11.0+8.1.1-build-script-run__/OUT_DIR/librocksdb.a",
-    #     # "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__zstd-sys-2.0.8+zstd.1.5.5-build-script-run__/OUT_DIR/libzstd.a",
-    # #     # "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__lz4-sys-1.9.4-build-script-run__/OUT_DIR/liblz4.a",
-    # #     # "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__libz-sys-1.1.12-build-script-run__/OUT_DIR/lib/libz.a",
-    #     # "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__ring-0.16.20-build-script-run__/OUT_DIR/libring-core.a",
-    #     "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__secp256k1-sys-0.8.1-build-script-run__/OUT_DIR/libsecp256k1.a",
-    #     "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__blst-0.3.11-build-script-run__/OUT_DIR/libblst.a",
-    # #     # "-Clink-arg=buck-out/v2/gen/root/524f8da68ea2a374/third-party/__librocksdb-sys-0.11.0+8.1.1-build-script-run__/OUT_DIR/libsnappy.a",
-    # #     # "-Clink-arg=-std=c++17",
-    # #     # "-C", "target-feature=+crt-static",
-    ]
 )

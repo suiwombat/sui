@@ -1,20 +1,18 @@
- 
+
 deps = [
-    "//third-party:anyhow",
-    "//third-party:bcs",
-    "//third-party:clap",
-    "//third-party:colored",
-    "//third-party:petgraph",
-    "//third-party:serde",
-] 
-named_deps = {
-    "codespan":"//third-party:codespan_0_11",
-    "move-binary-format":"//external-crates/move/crates/move-binary-format:move-binary-format",
-    "move-bytecode-source-map":"//external-crates/move/crates/move-bytecode-source-map:move-bytecode-source-map",
-    "move-command-line-common":"//external-crates/move/crates/move-command-line-common:move-command-line-common",
-    "move-core-types":"//external-crates/move/crates/move-core-types:move-core-types",
-    "move-ir-types":"//external-crates/move/crates/move-ir-types:move-ir-types",
-}
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-bytecode-source-map:move-bytecode-source-map",
+    "//external-crates/move/crates/move-command-line-common:move-command-line-common",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//external-crates/move/crates/move-ir-types:move-ir-types",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:bcs_0_1_4",
+    "//third-party:clap_4_4_1",
+    "//third-party:codespan_0_11_1",
+    "//third-party:colored_2_0_4",
+    "//third-party:petgraph_0_5_1",
+    "//third-party:serde_1_0_190"
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -22,15 +20,12 @@ env = {
     "CARGO_PKG_NAME": "move-coverage",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "move-coverage",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env, 
-    # license = "Apache-2.0",
-    edition = "2021", 
-    named_deps = named_deps, 
+    env = env,
     deps = deps,
-    visibility = ["PUBLIC"],
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

@@ -1,0 +1,39 @@
+
+deps = [
+    "//crates/shared-crypto:shared-crypto",
+    "//crates/sui-config:sui-config",
+    "//crates/sui-json-rpc-types:sui-json-rpc-types",
+    "//crates/sui-json-rpc:sui-json-rpc",
+    "//crates/sui-json:sui-json",
+    "//crates/sui-keys:sui-keys",
+    "//crates/sui-transaction-builder:sui-transaction-builder",
+    "//crates/sui-types:sui-types",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//third-party:anyhow",
+    "//third-party:async-trait",
+    "//third-party:bcs",
+    "//third-party:clap",
+    "//third-party:colored",
+    "//third-party:fastcrypto",
+    "//third-party:futures",
+    "//third-party:futures-core",
+    "//third-party:jsonrpsee",
+    "//third-party:reqwest",
+    "//third-party:serde",
+    "//third-party:serde_json",
+    "//third-party:serde_with",
+    "//third-party:thiserror",
+    "//third-party:tokio",
+    "//third-party:tracing"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "sui-sdk",
+    "CARGO_PKG_VERSION": "1.16.0",
+}
+rust_library(
+    name = "sui-sdk",
+    env = env,
+    deps = deps,
+)

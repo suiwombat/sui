@@ -1,28 +1,22 @@
- 
+
 deps = [
-    "//third-party:quote",
-] 
-named_deps = {
-    "enum-compat-util":"//external-crates/move/crates/enum-compat-util:enum-compat-util",
-    "syn":"//third-party:syn_2",
-}
+    "//external-crates/move/crates/enum-compat-util:enum-compat-util",
+    "//third-party:quote_1_0_33",
+    "//third-party:syn_2_0_32"
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "move-proc-macros",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "move-proc-macros",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
-    proc_macro = True, 
-    # license = "Apache-2.0",
-    edition = "2021", 
-    named_deps = named_deps, 
     deps = deps,
-    visibility = ["PUBLIC"],
+    proc_macro = True,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

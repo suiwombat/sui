@@ -1,25 +1,22 @@
-  
-named_deps = {
-    "proc-macro2":"//third-party:proc-macro2_v1",
-    "quote":"//third-party:quote_v1",
-    "syn":"//third-party:syn_v1",
-}
+
+deps = [
+    "//third-party:proc-macro2_1_0_66",
+    "//third-party:quote_1_0_33",
+    "//third-party:syn_1_0_107"
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "sui-protocol-config-macros",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "sui-protocol-config-macros",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
-    proc_macro = True, 
-    # license = "Apache-2.0",
-    edition = "2021", 
-    named_deps = named_deps, 
-    visibility = ["PUBLIC"],
+    deps = deps,
+    proc_macro = True,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

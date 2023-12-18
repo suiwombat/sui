@@ -1,0 +1,29 @@
+
+deps = [
+    "//crates/sui-framework:sui-framework",
+    "//crates/sui-move-build:sui-move-build",
+    "//crates/sui-types:sui-types",
+    "//crates/telemetry-subscribers:telemetry-subscribers",
+    "//external-crates/move/crates/move-package:move-package",
+    "//narwhal/network:narwhal-network",
+    "//third-party:anemo",
+    "//third-party:anemo-tower",
+    "//third-party:fastcrypto",
+    "//third-party:lru",
+    "//third-party:msim",
+    "//third-party:rand",
+    "//third-party:tempfile",
+    "//third-party:tower",
+    "//third-party:tracing"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "sui-simulator",
+    "CARGO_PKG_VERSION": "0.7.0",
+}
+rust_library(
+    name = "sui-simulator",
+    env = env,
+    deps = deps,
+)

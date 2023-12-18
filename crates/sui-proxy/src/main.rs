@@ -1,16 +1,19 @@
 // Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-pub mod admin;
-pub mod config;
-pub mod consumer;
-pub mod handlers;
-pub mod histogram_relay;
-pub mod metrics;
-pub mod middleware;
-pub mod peers;
-pub mod prom_to_mimir;
-pub mod remote_write;
+// pub mod admin;
+// pub mod config;
+// pub mod consumer;
+// pub mod handlers;
+// pub mod histogram_relay;
+// pub mod metrics;
+// pub mod middleware;
+// pub mod peers;
+// pub mod prom_to_mimir;
+// pub mod remote_write;
+
+// pub mod lib;
+pub use sui_proxy::*;
 
 use admin::{
     app, create_server_cert_default_allow, create_server_cert_enforce_peer, make_reqwest_client,
@@ -68,7 +71,7 @@ static APP_USER_AGENT: &str = const_str::concat!(
 
 #[derive(Parser, Debug)]
 #[clap(rename_all = "kebab-case")]
-#[clap(name = env!("CARGO_BIN_NAME"))]
+#[clap(name = env!("CARGO_PKG_NAME"))]
 #[clap(version = VERSION)]
 struct Args {
     #[clap(

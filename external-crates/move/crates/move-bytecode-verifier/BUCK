@@ -1,14 +1,12 @@
- 
+
 deps = [
-    "//third-party:petgraph",
-] 
-named_deps = {
-    "move-abstract-stack":"//external-crates/move/crates/move-abstract-stack:move-abstract-stack",
-    "move-binary-format":"//external-crates/move/crates/move-binary-format:move-binary-format",
-    "move-borrow-graph":"//external-crates/move/crates/move-borrow-graph:move-borrow-graph",
-    "move-core-types":"//external-crates/move/crates/move-core-types:move-core-types",
-    "move-vm-config":"//external-crates/move/crates/move-vm-config:move-vm-config",
-}
+    "//external-crates/move/crates/move-abstract-stack:move-abstract-stack",
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-borrow-graph:move-borrow-graph",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//external-crates/move/crates/move-vm-config:move-vm-config",
+    "//third-party:petgraph_0_5_1"
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -16,15 +14,12 @@ env = {
     "CARGO_PKG_NAME": "move-bytecode-verifier",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "move-bytecode-verifier",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env, 
-    # license = "Apache-2.0",
-    edition = "2021", 
-    named_deps = named_deps, 
+    env = env,
     deps = deps,
-    visibility = ["PUBLIC"],
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

@@ -1,38 +1,32 @@
 
 deps = [
-    "//third-party:fastcrypto",
-    "//third-party:futures",
-    "//third-party:lru",
     "//crates/mysten-common:mysten-common",
-    "//third-party:parking_lot",
-    "//third-party:prometheus",
     "//crates/sui-macros:sui-macros",
-    "//third-party:tap",
-    "//third-party:tempfile",
-    "//third-party:tokio",
-    "//third-party:tracing",
-] 
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:futures_0_3_29",
+    "//third-party:lru_0_10_0",
+    "//third-party:parking_lot_0_12_1",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:tap_1_0_1",
+    "//third-party:tempfile_3_8_0",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tracing_0_1_37"
+]
 named_deps = {
-    "config":"//narwhal/config:narwhal-config",
-    "store":"//crates/typed-store:typed-store",
-    "types":"//narwhal/types:narwhal-types",
+    "config": "//narwhal/config:narwhal-config",
+    "store": "//crates/typed-store:typed-store",
+    "types": "//narwhal/types:narwhal-types"
 }
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "narwhal-storage",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
-    name = "storage",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
+    name = "narwhal-storage",
     env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
+    deps = deps,
     named_deps = named_deps,
-    deps = deps
+    visibility = ["PUBLIC"]
 )

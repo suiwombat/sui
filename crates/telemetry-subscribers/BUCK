@@ -1,26 +1,25 @@
-  
-named_deps = {
-    "atomic_float":"//third-party:atomic_float_v0_1",
-    "bytes-varint":"//third-party:bytes-varint_v1",
-    "bytes":"//third-party:bytes_v1",
-    "clap":"//third-party:clap_v4",
-    "console-subscriber":"//third-party:console-subscriber_v0_2",
-    "crossterm":"//third-party:crossterm_v0_25",
-    "futures":"//third-party:futures_v0_3",
-    "once_cell":"//third-party:once_cell_v1",
-    "opentelemetry-otlp":"//third-party:opentelemetry-otlp_v0_13",
-    "opentelemetry-proto":"//third-party:opentelemetry-proto_v0_3",
-    "opentelemetry_api":"//third-party:opentelemetry_api_v0_20",
-    "opentelemetry":"//third-party:opentelemetry_v0_20",
-    "prometheus":"//third-party:prometheus_v0_13",
-    "prost":"//third-party:prost_v0_11",
-    "tokio":"//third-party:tokio_v1",
-    "tonic":"//third-party:tonic_v0_9",
-    "tracing-appender":"//third-party:tracing-appender_v0_2",
-    "tracing-opentelemetry":"//third-party:tracing-opentelemetry_v0_21",
-    "tracing-subscriber":"//third-party:tracing-subscriber_v0_3",
-    "tracing":"//third-party:tracing_v0_1",
-}
+
+deps = [
+    "//third-party:atomic_float_0_1_0",
+    "//third-party:bytes-varint_1_0_3",
+    "//third-party:bytes_1_4_0",
+    "//third-party:clap_4_4_1",
+    "//third-party:crossterm_0_25_0",
+    "//third-party:futures_0_3_29",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:opentelemetry-otlp_0_13_0",
+    "//third-party:opentelemetry-proto_0_3_0",
+    "//third-party:opentelemetry_0_20_0",
+    "//third-party:opentelemetry_api_0_20_0",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:prost_0_11_9",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tonic_0_9_2",
+    "//third-party:tracing-appender_0_2_2",
+    "//third-party:tracing-opentelemetry_0_21_0",
+    "//third-party:tracing-subscriber_0_3_17",
+    "//third-party:tracing_0_1_37"
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Evan Chan <echan@mystenlabs.com>]",
@@ -28,15 +27,12 @@ env = {
     "CARGO_PKG_NAME": "telemetry-subscribers",
     "CARGO_PKG_VERSION": "0.2.0",
 }
-
 rust_library(
     name = "telemetry-subscribers",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
-    env = env, 
-    features = ["otlp"],
-    # license = "Apache-2.0",
-    edition = "2021", 
-    named_deps = named_deps, 
-    visibility = ["PUBLIC"],
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

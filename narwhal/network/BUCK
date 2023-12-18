@@ -1,58 +1,40 @@
 
 deps = [
-    "//third-party:anemo",
-    "//third-party:anemo-tower",
-    "//third-party:anyhow",
-    "//third-party:async-trait",
-    "//third-party:axum",
-    "//third-party:axum-server",
-    "//third-party:backoff",
-    "//third-party:bytes",
-    "//third-party:dashmap",
-    "//third-party:futures",
     "//crates/mysten-common:mysten-common",
     "//crates/mysten-metrics:mysten-metrics",
-    "//third-party:parking_lot",
-    "//third-party:prometheus",
-    "//third-party:quinn-proto",
-    "//third-party:rand",
     "//crates/sui-macros:sui-macros",
-    "//third-party:tokio",
-    "//third-party:tower",
-    "//third-party:tracing",
-] 
+    "//third-party:anemo-tower_0_0_0",
+    "//third-party:anemo_0_0_0",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:async-trait_0_1_73",
+    "//third-party:axum-server_0_5_1",
+    "//third-party:axum_0_6_20",
+    "//third-party:backoff_0_4_0",
+    "//third-party:bytes_1_4_0",
+    "//third-party:dashmap_5_4_0",
+    "//third-party:futures_0_3_29",
+    "//third-party:parking_lot_0_12_1",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:quinn-proto_0_10_5",
+    "//third-party:rand_0_8_5",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tower_0_4_13",
+    "//third-party:tracing_0_1_37"
+]
 named_deps = {
-    "crypto":"//narwhal/crypto:narwhal-crypto",
-    "types":"//narwhal/types:narwhal-types",
+    "crypto": "//narwhal/crypto:narwhal-crypto",
+    "types": "//narwhal/types:narwhal-types"
 }
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "narwhal-network",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "narwhal-network",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
     env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
+    deps = deps,
     named_deps = named_deps,
-    deps = deps
-)
-
-rust_library(
-    name = "network",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    named_deps = named_deps,
-    deps = deps
+    visibility = ["PUBLIC"]
 )

@@ -1,58 +1,40 @@
 
 deps = [
-    "//third-party:async-trait",
-    "//third-party:bcs",
-    "//third-party:bincode",
-    "//third-party:bytes",
-    "//third-party:fastcrypto",
-    "//third-party:futures",
-    "//third-party:mockall",
     "//crates/mysten-metrics:mysten-metrics",
-    "//third-party:prometheus",
-    "//third-party:serde",
     "//crates/sui-protocol-config:sui-protocol-config",
-    "//third-party:thiserror",
-    "//third-party:tokio",
-    "//third-party:tonic",
-    "//third-party:tracing",
-] 
+    "//third-party:async-trait_0_1_73",
+    "//third-party:bcs_0_1_4",
+    "//third-party:bincode_1_3_3",
+    "//third-party:bytes_1_4_0",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:futures_0_3_29",
+    "//third-party:mockall_0_11_4",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:serde_1_0_190",
+    "//third-party:thiserror_1_0_50",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tonic_0_10_0",
+    "//third-party:tracing_0_1_37"
+]
 named_deps = {
-    "config":"//narwhal/config:narwhal-config",
-    "crypto":"//narwhal/crypto:narwhal-crypto",
-    "network":"//narwhal/network:narwhal-network",
-    "primary":"//narwhal/primary:narwhal-primary",
-    "storage":"//narwhal/storage:narwhal-storage",
-    "store":"//crates/typed-store:typed-store",
-    "types":"//narwhal/types:narwhal-types",
+    "config": "//narwhal/config:narwhal-config",
+    "crypto": "//narwhal/crypto:narwhal-crypto",
+    "network": "//narwhal/network:narwhal-network",
+    "primary": "//narwhal/primary:narwhal-primary",
+    "storage": "//narwhal/storage:narwhal-storage",
+    "store": "//crates/typed-store:typed-store",
+    "types": "//narwhal/types:narwhal-types"
 }
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "narwhal-executor",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "narwhal-executor",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
     env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
+    deps = deps,
     named_deps = named_deps,
-    deps = deps
-)
-
-rust_library(
-    name = "executor",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    named_deps = named_deps,
-    deps = deps
+    visibility = ["PUBLIC"]
 )

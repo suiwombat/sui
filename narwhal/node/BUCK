@@ -1,69 +1,52 @@
 
 deps = [
-    "//third-party:anemo",
-    "//third-party:arc-swap",
-    "//third-party:async-trait",
-    "//third-party:axum",
-    "//third-party:bytes",
-    "//third-party:cfg-if",
-    "//third-party:clap",
-    "//third-party:eyre",
-    "//third-party:fastcrypto",
-    "//third-party:futures",
     "//crates/mysten-metrics:mysten-metrics",
     "//crates/mysten-network:mysten-network",
-    "//third-party:prometheus",
-    "//third-party:rand",
-    "//third-party:reqwest",
     "//crates/sui-keys:sui-keys",
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-types:sui-types",
     "//crates/telemetry-subscribers:telemetry-subscribers",
-    "//third-party:thiserror",
-    "//third-party:tokio",
-    "//third-party:tokio-stream",
-    "//third-party:tracing",
-    "//third-party:tracing-subscriber",
-    "//third-party:url",
-] 
+    "//third-party:anemo_0_0_0",
+    "//third-party:arc-swap_1_6_0",
+    "//third-party:async-trait_0_1_73",
+    "//third-party:axum_0_6_20",
+    "//third-party:bytes_1_4_0",
+    "//third-party:cfg-if_1_0_0",
+    "//third-party:clap_4_4_1",
+    "//third-party:eyre_0_6_8",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:futures_0_3_29",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:rand_0_8_5",
+    "//third-party:reqwest_0_11_20",
+    "//third-party:thiserror_1_0_50",
+    "//third-party:tokio-stream_0_1_14",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tracing-subscriber_0_3_17",
+    "//third-party:tracing_0_1_37",
+    "//third-party:url_2_3_1"
+]
 named_deps = {
-    "config":"//narwhal/config:narwhal-config",
-    "crypto":"//narwhal/crypto:narwhal-crypto",
-    "executor":"//narwhal/executor:narwhal-executor",
-    "network":"//narwhal/network:narwhal-network",
-    "primary":"//narwhal/primary:narwhal-primary",
-    "storage":"//narwhal/storage:narwhal-storage",
-    "types":"//narwhal/types:narwhal-types",
-    "worker":"//narwhal/worker:narwhal-worker",
+    "config": "//narwhal/config:narwhal-config",
+    "crypto": "//narwhal/crypto:narwhal-crypto",
+    "executor": "//narwhal/executor:narwhal-executor",
+    "network": "//narwhal/network:narwhal-network",
+    "primary": "//narwhal/primary:narwhal-primary",
+    "storage": "//narwhal/storage:narwhal-storage",
+    "types": "//narwhal/types:narwhal-types",
+    "worker": "//narwhal/worker:narwhal-worker"
 }
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "narwhal-node",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "narwhal-node",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
     env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
+    features = ["benchmark","trace_transaction"],
+    deps = deps,
     named_deps = named_deps,
-    deps = deps
-)
-
-rust_library(
-    name = "node",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"], 
-    named_deps = named_deps,
-    deps = deps
+    visibility = ["PUBLIC"]
 )

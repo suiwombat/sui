@@ -1,32 +1,31 @@
-  
-named_deps = {
-    "cfg-if":"//third-party:cfg-if_v1",
-    "ed25519-consensus":"//third-party:ed25519-consensus_v2",
-    "hashbrown":"//third-party:hashbrown_v0_12",
-    "impl-trait-for-tuples":"//third-party:impl-trait-for-tuples_v0_2",
-    "indexmap":"//third-party:indexmap_v1",
-    "mysten-util-mem-derive":"//crates/mysten-util-mem-derive:mysten-util-mem-derive",
-    "once_cell":"//third-party:once_cell_v1",
-    "parking_lot":"//third-party:parking_lot_v0_12",
-    "roaring":"//third-party:roaring_v0_10",
-    "smallvec":"//third-party:smallvec_v1",
-}
+deps = [
+    "//crates/mysten-util-mem-derive:mysten-util-mem-derive",
+    "//third-party:cfg-if_1_0_0",
+    "//third-party:ed25519-consensus_2_1_0",
+    "//third-party:fastcrypto-tbls_0_1_0",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:hashbrown_0_12_3",
+    "//third-party:impl-trait-for-tuples_0_2_2",
+    "//third-party:indexmap_1_9_3",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:parking_lot_0_12_1",
+    "//third-party:roaring_0_10_1",
+    "//third-party:smallvec_1_10_0",
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
-    "CARGO_PKG_AUTHORS": "[Parity Technologies <admin@parity.io> Andrew Schran <aschran@mystenlabs.com>]",
+    "CARGO_PKG_AUTHORS": "[Andrew Schran <aschran@mystenlabs.com>,Parity Technologies <admin@parity.io>]",
     "CARGO_PKG_DESCRIPTION": "Collection of memory related utilities",
     "CARGO_PKG_NAME": "mysten-util-mem",
     "CARGO_PKG_VERSION": "0.11.0",
 }
-
 rust_library(
-    name = "mysten-util-mem",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env, 
-    features = ["std","hashbrown","smallvec","estimate-heapsize"],
-    # license = "MIT OR Apache-2.0",
-    edition = "2021", 
-    named_deps = named_deps, 
-    visibility = ["PUBLIC"],
+    name="mysten-util-mem",
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    edition="2021",
+    features=["std", "hashbrown", "smallvec", "estimate-heapsize"],
+    visibility=["PUBLIC"],
 )

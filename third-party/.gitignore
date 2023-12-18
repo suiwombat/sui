@@ -1,5 +1,5 @@
 # Ignore Cargo-related stuff
-.cargo/
+.cargo
 .cargo/registry
 .cargo/git
 /registry

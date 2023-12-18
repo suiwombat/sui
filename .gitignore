@@ -1,3 +1,6 @@
+# Cargo
+.cargo/
+
 # IDE
 **/.history/
 **/.vscode/

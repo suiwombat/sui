@@ -4,25 +4,18 @@ deps = [
     "//third-party:itertools",
     "//third-party:proc-macro2",
     "//third-party:quote",
-    "//third-party:syn_1",
-    "//third-party:unescape",
+    "//third-party:syn",
+    "//third-party:unescape"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-    "CARGO_PKG_DESCRIPTION": "",
     "CARGO_PKG_NAME": "sui-open-rpc-macros",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "sui-open-rpc-macros",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
     env = env,
+    deps = deps,
     proc_macro = True,
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = deps
 )

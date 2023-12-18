@@ -1,19 +1,18 @@
 
+deps = [
+    "//third-party:futures_0_3_29",
+    "//third-party:parking_lot_0_12_1",
+    "//third-party:tokio_1_28_1"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "mysten-common",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
 rust_library(
     name = "mysten-common",
-    srcs = glob(["src/**/*.rs"]),
-    env = {
-        "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
-        "CARGO_BIN_NAME": "mysten-common",
-        "CARGO_PKG_VERSION": "0.1.0",
-        "CARGO_PKG_NAME": "mysten-common",
-    },
-    # license = "Apache-2.0",
-    edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = [
-        "//third-party:futures",
-        "//third-party:parking_lot",
-        "//third-party:tokio",
-    ]
+    env = env,
+    deps = deps,
+    visibility = ["PUBLIC"]
 )
