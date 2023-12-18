@@ -30,7 +30,7 @@ rust_library(
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
-    features = ["fuzzing"],
+    features = ["arbitrary","fuzzing","proptest","proptest-derive"],
     deps = deps,
     edition = "2021",
     visibility = ["PUBLIC"]

@@ -58,11 +58,6 @@ rust_binary(
     env=env,
     edition="2021",
     visibility=["PUBLIC"],
-    rustc_flags=[
-        #     "-lstdc++",
-        #     "-latomic",
-        # "-Clink-arg=/Users/joehrbek/gh/git/sui/buck-out/v2/gen/root/213ed1b7ab869379/third-party/__ring-0.17.7-ring-c-asm-0-17-7-macos-aarch64__/libring-0.17.7-ring-c-asm-0-17-7-macos-aarch64.pic.a"
-    ],
 )
 
 # BUILD_SCRIPT IS NEEDED

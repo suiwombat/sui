@@ -24,8 +24,8 @@ rust_library(
     srcs=glob(["*", "**/*"]),
     crate_root="src/lib.rs",
     env=env,
+    features=["estimate-heapsize", "hashbrown", "parking_lot", "smallvec", "std"],
     deps=deps,
     edition="2021",
-    features=["std", "hashbrown", "smallvec", "estimate-heapsize"],
     visibility=["PUBLIC"],
 )

@@ -32,6 +32,7 @@ rust_library(
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
+    features = ["opentelemetry","opentelemetry-otlp","opentelemetry-proto","opentelemetry_api","otlp","tracing-opentelemetry"],
     deps = deps,
     edition = "2021",
     visibility = ["PUBLIC"]
