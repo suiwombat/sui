@@ -59,5 +59,4 @@ rust_binary(
     edition="2021",
     visibility=["PUBLIC"],
 )
-
 # BUILD_SCRIPT IS NEEDED
