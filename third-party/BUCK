@@ -3467,19 +3467,7 @@ cargo.rust_library(
 
 cxx_library(
     name = "blst-0.3.11-libblst-sys-aarch64-macos",
-    srcs = [
-        "vendor/blst-0.3.11/blst/build/assembly.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/add_mod_256-armv8.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/add_mod_384-armv8.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/ct_inverse_mod_256-armv8.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/ct_inverse_mod_384-armv8.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/ct_is_square_mod_384-armv8.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/div3w-armv8.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/mul_mont_256-armv8.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/mul_mont_384-armv8.S",
-        "vendor/blst-0.3.11/blst/build/mach-o/sha256-armv8.S",
-        "vendor/blst-0.3.11/blst/src/server.c",
-    ],
+    srcs = ["vendor/blst-0.3.11/blst/src/server.c"],
     headers = [
         "vendor/blst-0.3.11/blst/src/blst_t.hpp",
         "vendor/blst-0.3.11/blst/src/bytes.h",
@@ -3510,17 +3498,7 @@ cxx_library(
 
 cxx_library(
     name = "blst-0.3.11-libblst-sys-x64_64-linux",
-    srcs = [
-        "vendor/blst-0.3.11/blst/build/assembly.S",
-        "vendor/blst-0.3.11/blst/build/elf/add_mod_256-x86_64.s",
-        "vendor/blst-0.3.11/blst/build/elf/add_mod_384-x86_64.s",
-        "vendor/blst-0.3.11/blst/build/elf/add_mod_384x384-x86_64.s",
-        "vendor/blst-0.3.11/blst/build/elf/ct_inverse_mod_256-x86_64.s",
-        "vendor/blst-0.3.11/blst/build/elf/ct_is_square_mod_384-x86_64.s",
-        "vendor/blst-0.3.11/blst/build/elf/div3w-x86_64.s",
-        "vendor/blst-0.3.11/blst/build/elf/sha256-x86_64.s",
-        "vendor/blst-0.3.11/blst/src/server.c",
-    ],
+    srcs = ["vendor/blst-0.3.11/blst/src/server.c"],
     headers = [
         "vendor/blst-0.3.11/blst/src/blst_t.hpp",
         "vendor/blst-0.3.11/blst/src/bytes.h",

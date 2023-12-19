@@ -6,17 +6,16 @@
 /git
 .package-cache
 
+# BUCK
+# allow target to be present in third-party because SOME crates use that directory for source code
+!**/target
+!vendor/**/build
+
 # Various cruft in vendored packages
-vendor/*/target
 vendor/*/Cargo.lock
 vendor/**/.buckconfig
 vendor/**/BUCK
 vendor/**/OWNERS
-vendor/**/*~
-vendor/**/*.bzl
-vendor/*/.github/**
-vendor/*/.appveyor.yml
-vendor/*/.travis.yml
 /target/**
 
 # Bad Windows names - oh for case-insensitive regex matching!
