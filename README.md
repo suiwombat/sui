@@ -64,6 +64,6 @@ This repo has experimental buck2 build targets enabled for two crates, sui-proxy
 
 * you need buck2 installed
 * you need reindeer installed
-* binary builds of both of these are available (ask joe)
+* binary builds of both of these are available (internal for mysten only)
 
 See [third-party](third-party/README.md) for more details
