@@ -5,9 +5,9 @@ deps = [
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-types:sui-types",
     "//sui-execution:sui-execution",
-    "//third-party:fastcrypto-zkp",
-    "//third-party:once_cell",
-    "//third-party:tracing"
+    "//third-party:fastcrypto-zkp_0_1_2",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:tracing_0_1_37"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -17,6 +17,10 @@ env = {
 }
 rust_library(
     name = "sui-transaction-checks",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

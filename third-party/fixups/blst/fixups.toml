@@ -1,5 +1,6 @@
 features = ["std"]
 buildscript = []
+
 # TODO all platforms
 [[platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript]]
 [platform_fixup.'cfg(all(target_arch = "x86_64", target_os = "linux"))'.buildscript.cxx_library]
@@ -19,8 +20,8 @@ srcs = [
 headers = [
     "blst/src/**/*.h",
     "blst/src/**/*.hpp",
-    # "blst/bindings/*.h",
-    # "blst/bindings/*.hpp",
+    "blst/bindings/*.h",
+    "blst/bindings/*.hpp",
 ]
 include_paths = [
     "blst/src",
@@ -43,8 +44,8 @@ srcs = [
 headers = [
     "blst/src/**/*.h",
     "blst/src/**/*.hpp",
-    # "blst/bindings/*.h",
-    # "blst/bindings/*.hpp",
+    "blst/bindings/*.h",
+    "blst/bindings/*.hpp",
 ]
 include_paths = [
     "blst/src",

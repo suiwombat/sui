@@ -1,3 +1,4 @@
+load("@prelude//rust:cargo_buildscript.bzl", "buildscript_run")
 
 deps = [
     "//crates/mysten-common:mysten-common",
@@ -5,7 +6,6 @@ deps = [
     "//crates/mysten-network:mysten-network",
     "//crates/mysten-util-mem:mysten-util-mem",
     "//crates/sui-protocol-config:sui-protocol-config",
-    "//third-party:anemo-build_0_0_0",
     "//third-party:anemo_0_0_0",
     "//third-party:anyhow_1_0_71",
     "//third-party:base64_0_21_2",
@@ -22,37 +22,72 @@ deps = [
     "//third-party:prometheus_0_13_3",
     "//third-party:proptest-derive_0_3_0",
     "//third-party:proptest_1_1_0",
-    "//third-party:prost-build_0_12_1",
     "//third-party:prost_0_12_1",
-    "//third-party:protobuf-src_1_1_0",
     "//third-party:rand_0_8_5",
     "//third-party:roaring_0_10_1",
-    "//third-party:rustversion_1_0_11",
     "//third-party:serde_1_0_190",
     "//third-party:serde_with_2_1_0",
     "//third-party:thiserror_1_0_50",
     "//third-party:tokio_1_28_1",
-    "//third-party:tonic-build_0_10_2",
     "//third-party:tonic_0_10_0",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 named_deps = {
     "config": "//narwhal/config:narwhal-config",
     "crypto": "//narwhal/crypto:narwhal-crypto",
-    "store": "//crates/typed-store:typed-store"
+    "store": "//crates/typed-store:typed-store",
 }
 env = {
-    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_MANIFEST_DIR": "",
+    "OUT_DIR": "$(location :narwhal-types-build-script-run[out_dir])",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
     "CARGO_PKG_NAME": "narwhal-types",
     "CARGO_PKG_VERSION": "0.1.0",
 }
 rust_library(
-    name = "narwhal-types",
-    env = env,
-    features = ["test"],
-    deps = deps,
-    named_deps = named_deps,
-    visibility = ["PUBLIC"]
+    name="narwhal-types",
+    srcs=glob(
+        ["*", "**/*", "$(location :narwhal-types-build-script-run[out_dir])/**/*.rs"]
+    ),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    named_deps=named_deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )
-# BUILD_SCRIPT IS NEEDED
+
+rust_binary(
+    name="narwhal-types-build-script-build",
+    srcs=["build.rs"] + glob(["proto/**/*.proto"]),
+    crate="build_script_build",
+    crate_root="build.rs",
+    edition="2021",
+    env={
+        "CARGO_PKG_NAME": "narwhal-types-build-script-build",
+        "CARGO_PKG_VERSION": "0.1.0",
+        "OUT_DIR": "",
+    },
+    features=["runtime"],
+    visibility=["PUBLIC"],
+    deps=[
+        "//third-party:protobuf-src",
+        "//third-party:anemo-build",
+        "//third-party:prost-build",
+        "//third-party:rustversion",
+        "//third-party:tonic-build",
+    ],
+)
+
+
+buildscript_run(
+    name="narwhal-types-build-script-run",
+    package_name="narwhal-types",
+    buildscript_rule=":narwhal-types-build-script-build",
+    features=["runtime"],
+    version="0.1.0",
+    env={
+        "PROTOC": "/opt/homebrew/bin/protoc",
+        "PROTO_SRCS": "$(location :narwhal-types-build-script-build[sources])",
+    },
+)

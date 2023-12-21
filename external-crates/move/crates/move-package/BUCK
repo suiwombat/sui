@@ -1,9 +1,5 @@
 
 deps = [
-    "//third-party:anyhow",
-    "//third-party:clap",
-    "//third-party:colored",
-    "//external-crates/move/crates/move-abigen:move-abigen",
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-bytecode-source-map:move-bytecode-source-map",
     "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
@@ -13,19 +9,24 @@ deps = [
     "//external-crates/move/crates/move-docgen:move-docgen",
     "//external-crates/move/crates/move-model:move-model",
     "//external-crates/move/crates/move-symbol-pool:move-symbol-pool",
-    "//third-party:named-lock",
-    "//third-party:once_cell",
-    "//third-party:petgraph",
-    "//third-party:regex",
-    "//third-party:serde",
-    "//third-party:serde_yaml",
-    "//third-party:sha2",
-    "//third-party:tempfile",
-    "//third-party:toml",
-    "//third-party:treeline",
-    "//third-party:walkdir",
-    "//third-party:whoami",
-] 
+    "//third-party:anyhow_1_0_71",
+    "//third-party:clap_4_4_1",
+    "//third-party:colored_2_0_4",
+    "//third-party:itertools_0_10_5",
+    "//third-party:named-lock_0_2_0",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:petgraph_0_5_1",
+    "//third-party:regex_1_8_4",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_yaml_0_8_26",
+    "//third-party:sha2_0_9_9",
+    "//third-party:tempfile_3_8_0",
+    "//third-party:toml_0_5_10",
+    "//third-party:toml_edit_0_14_4",
+    "//third-party:treeline_0_1_0",
+    "//third-party:walkdir_2_3_2",
+    "//third-party:whoami_1_3_0"
+]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
@@ -33,14 +34,12 @@ env = {
     "CARGO_PKG_NAME": "move-package",
     "CARGO_PKG_VERSION": "0.1.0",
 }
-
 rust_library(
     name = "move-package",
     srcs = glob(["*","**/*"]),
     crate_root = "src/lib.rs",
     env = env,
-    # license = "Apache-2.0",
+    deps = deps,
     edition = "2021",
-    visibility = ["PUBLIC"], 
-    deps = deps
+    visibility = ["PUBLIC"]
 )

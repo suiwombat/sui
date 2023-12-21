@@ -13,8 +13,11 @@ env = {
 }
 rust_library(
     name = "typed-store-derive",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
     proc_macro = True,
+    edition = "2021",
     visibility = ["PUBLIC"]
 )

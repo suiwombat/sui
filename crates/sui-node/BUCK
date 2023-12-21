@@ -12,7 +12,6 @@ deps = [
     "//crates/sui-network:sui-network",
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-rest-api:sui-rest-api",
-    "//crates/sui-simulator:sui-simulator",
     "//crates/sui-snapshot:sui-snapshot",
     "//crates/sui-storage:sui-storage",
     "//crates/sui-telemetry:sui-telemetry",
@@ -21,36 +20,70 @@ deps = [
     "//crates/telemetry-subscribers:telemetry-subscribers",
     "//crates/typed-store:typed-store",
     "//narwhal/network:narwhal-network",
-    "//third-party:anemo",
-    "//third-party:anemo-tower",
-    "//third-party:anyhow",
-    "//third-party:arc-swap",
-    "//third-party:axum",
-    "//third-party:clap",
-    "//third-party:const-str",
-    "//third-party:fastcrypto",
-    "//third-party:fastcrypto-zkp",
-    "//third-party:futures",
-    "//third-party:git-version",
-    "//third-party:humantime",
-    "//third-party:prometheus",
-    "//third-party:reqwest",
-    "//third-party:serde",
-    "//third-party:snap",
-    "//third-party:tap",
-    "//third-party:tokio",
-    "//third-party:tower",
-    "//third-party:tracing",
-    "//third-party:url"
+    "//third-party:anemo-tower_0_0_0",
+    "//third-party:anemo_0_0_0",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:arc-swap_1_6_0",
+    "//third-party:axum_0_6_20",
+    "//third-party:clap_4_4_1",
+    "//third-party:const-str_0_5_6",
+    "//third-party:fastcrypto-zkp_0_1_2",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:futures_0_3_29",
+    "//third-party:git-version_0_3_5",
+    "//third-party:humantime_2_1_0",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:reqwest_0_11_20",
+    "//third-party:serde_1_0_190",
+    "//third-party:snap_1_1_0",
+    "//third-party:tap_1_0_1",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tower_0_4_13",
+    "//third-party:tracing_0_1_37",
+    "//third-party:url_2_3_1"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
     "CARGO_PKG_NAME": "sui-node",
     "CARGO_PKG_VERSION": "1.16.0",
+    "CARGO_BIN_NAME": "sui-node",
 }
+# rust_library(
+#     name = "sui-node",
+#     srcs = glob(["*","**/*"]),
+#     crate_root = "src/lib.rs",
+#     env = env,
+#     deps = deps,
+#     edition = "2021",
+#     visibility = ["PUBLIC"]
+# )
+
 rust_library(
-    name = "sui-node",
+    name = "lib",
+    srcs = [
+        "src/admin.rs",
+        "src/handle.rs",
+        "src/lib.rs",
+        "src/metrics.rs",
+    ],
+    crate_root = "src/lib.rs",
     env = env,
+    edition = "2021",
+    visibility = ["PUBLIC"],
+    deps = deps
+)
+
+
+rust_binary(
+    name = "sui-node",
+    srcs = ["src/main.rs"],
+    env = env,
+    crate_root = "src/main.rs",
+    edition = "2021",
+    visibility = ["PUBLIC"],
     deps = deps,
+    named_deps = {
+        "sui_node": ":lib",
+    },
 )

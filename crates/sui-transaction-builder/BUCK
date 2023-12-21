@@ -6,10 +6,10 @@ deps = [
     "//crates/sui-types:sui-types",
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-core-types:move-core-types",
-    "//third-party:anyhow",
-    "//third-party:async-trait",
-    "//third-party:bcs",
-    "//third-party:futures"
+    "//third-party:anyhow_1_0_71",
+    "//third-party:async-trait_0_1_73",
+    "//third-party:bcs_0_1_4",
+    "//third-party:futures_0_3_29"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -19,6 +19,10 @@ env = {
 }
 rust_library(
     name = "sui-transaction-builder",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

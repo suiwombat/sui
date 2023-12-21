@@ -1,9 +1,9 @@
 
 deps = [
     "//crates/sui-core:sui-core",
-    "//third-party:reqwest",
-    "//third-party:serde",
-    "//third-party:tracing"
+    "//third-party:reqwest_0_11_20",
+    "//third-party:serde_1_0_190",
+    "//third-party:tracing_0_1_37"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -13,6 +13,10 @@ env = {
 }
 rust_library(
     name = "sui-telemetry",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

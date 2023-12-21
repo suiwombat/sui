@@ -1,0 +1,21 @@
+deps = [
+    "//third-party:blst-0.3.11",
+    "//third-party:rand_0_8_5",
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "blst-test",
+    "CARGO_PKG_VERSION": "0.0.2",
+}
+
+rust_binary(
+    name="blst-test",
+    srcs=["src/main.rs"],
+    deps=deps,
+    crate_root="src/main.rs",
+    env=env,
+    edition="2021",
+    visibility=["PUBLIC"],
+)
+

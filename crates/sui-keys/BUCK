@@ -20,7 +20,10 @@ env = {
 }
 rust_library(
     name = "sui-keys",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
     visibility = ["PUBLIC"]
 )

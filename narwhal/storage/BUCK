@@ -25,8 +25,11 @@ env = {
 }
 rust_library(
     name = "narwhal-storage",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
     named_deps = named_deps,
+    edition = "2021",
     visibility = ["PUBLIC"]
 )

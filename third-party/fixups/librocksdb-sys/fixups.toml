@@ -2,12 +2,19 @@
 buildscript = []
 
 # intent is to apply to all arch targets
-omit_features = ["bzip2","default","static","lz4"]
-features = ["snappy","multi-threaded-cf",]
-rustc_flags = [
-    "-lstdc++",
-    "-latomic",
-]
+# omit_features = ["bzip2","default","static","lz4"]
+# omit_features = [
+#     "bzip2-sys",
+#     "libz-sys",
+#     "lz4-sys",
+#     "multi-threaded-cf",
+#     "snappy",
+#     "zlib",
+#     "zstd",
+#     "zstd-sys",
+# ]
+# features = ["snappy", "multi-threaded-cf"]
+features = ["snappy", "lz4", "zstd", "zlib", "multi-threaded-cf"]
 cargo_env = true
 [env]
 OUT_DIR = "."
@@ -18,12 +25,12 @@ OPT_LEVEL = "0"
 # from the buildscript. it was easier to generate it via cargo and then copy
 # it into a arch specific fixup
 overlay = "aarch64/linux"
-
+rustc_flags = ["-lstdc++", "-latomic"]
 [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "linux"))'.buildscript]]
 [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "linux"))'.buildscript.cxx_library]
 name = "rocksdb-aarch64-linux"
-srcs=[
-    "build_version.cc",  # yes! it's prebuilt from crate
+srcs = [
+    "build_version.cc",                                        # yes! it's prebuilt from crate
     "rocksdb/cache/cache.cc",
     "rocksdb/cache/cache_entry_roles.cc",
     "rocksdb/cache/cache_helpers.cc",
@@ -365,7 +372,7 @@ include_paths = [
     "rocksdb",
     "rocksdb/include",
     "rocksdb/include/utilities",
-    "rocksdb/snappy", # for better or worse, we use the provided snappy
+    "rocksdb/snappy",            # for better or worse, we use the provided snappy
 ]
 preprocessor_flags = [
     "-DOS_LINUX",
@@ -389,12 +396,12 @@ compiler_flags = [
 
 [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))']
 overlay = "aarch64/macos"
-
+rustc_flags = ["-lc++"]
 [[platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript]]
 [platform_fixup.'cfg(all(target_arch = "aarch64", target_os = "macos"))'.buildscript.cxx_library]
 name = "rocksdb-aarch64-macos"
-srcs=[
-    "build_version.cc",  # yes! it's prebuilt from crate
+srcs = [
+    "build_version.cc",                                        # yes! it's prebuilt from crate
     "rocksdb/cache/cache.cc",
     "rocksdb/cache/cache_entry_roles.cc",
     "rocksdb/cache/cache_helpers.cc",
@@ -736,7 +743,7 @@ include_paths = [
     "rocksdb",
     "rocksdb/include",
     "rocksdb/include/utilities",
-    "rocksdb/snappy", # for better or worse, we use the provided snappy
+    "rocksdb/snappy",            # for better or worse, we use the provided snappy
 ]
 # not a cpp dep but rather a bindings.rs that would normally get generated
 # from the buildscript. it was easier to generate it via cargo and then copy
@@ -749,7 +756,7 @@ include_paths = [
 #     "DEP_LZ4_INCLUDE": "/home/ubuntu/rust/third-party/vendor/lz4-sys-1.9.4/liblz4/lib",
 # },
 preprocessor_flags = [
-    "-DOS_LINUX",
+    "-DOS_MACOSX",
     "-DROCKSDB_PLATFORM_POSIX",
     "-DROCKSDB_LIB_IO_POSIX",
     "-DROCKSDB_SUPPORT_THREAD_LOCAL",

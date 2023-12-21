@@ -1,26 +1,60 @@
+load("@prelude//rust:cargo_buildscript.bzl", "buildscript_run")
 
 deps = [
-    "//crates/sui-move-build:sui-move-build",
     "//crates/sui-types:sui-types",
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-core-types:move-core-types",
-    "//external-crates/move/crates/move-package:move-package",
-    "//third-party:anyhow",
-    "//third-party:bcs",
-    "//third-party:once_cell",
-    "//third-party:serde",
-    "//third-party:tracing"
+    "//third-party:bcs_0_1_4",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:serde_1_0_190",
+    "//third-party:tracing_0_1_37",
 ]
 env = {
-    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_MANIFEST_DIR": "",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
     "CARGO_PKG_DESCRIPTION": "Move framework for sui platform",
     "CARGO_PKG_NAME": "sui-framework",
     "CARGO_PKG_VERSION": "0.1.0",
+    "OUT_DIR": "$(location :sui-framework-build-script-run[out_dir])",
 }
 rust_library(
-    name = "sui-framework",
-    env = env,
-    deps = deps,
+    name="sui-framework",
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )
-# BUILD_SCRIPT IS NEEDED
+
+build_deps = [
+    "//third-party:anyhow_1_0_71",
+    "//third-party:bcs_0_1_4",
+    "//crates/sui-move-build:sui-move-build",
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-package:move-package",
+]
+
+rust_binary(
+    name="sui-framework-build-script-build",
+    srcs=glob(["build.rs", "src/lib.rs", "docs/**/*", "packages/**/*"]),
+    crate="build_script_build",
+    crate_root="build.rs",
+    edition="2021",
+    env={
+        "CARGO_MANIFEST_DIR": "",
+        "OUT_DIR": "",
+    },
+    features=["runtime"],
+    visibility=["PUBLIC"],
+    deps=build_deps,
+)
+
+
+buildscript_run(
+    name="sui-framework-build-script-run",
+    package_name="sui-framework",
+    buildscript_rule=":sui-framework-build-script-build",
+    features=["runtime"],
+    version="0.1.0",
+)

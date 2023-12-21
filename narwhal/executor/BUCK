@@ -33,8 +33,11 @@ env = {
 }
 rust_library(
     name = "narwhal-executor",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
     named_deps = named_deps,
+    edition = "2021",
     visibility = ["PUBLIC"]
 )

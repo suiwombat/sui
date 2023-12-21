@@ -6,15 +6,14 @@ deps = [
     "//crates/telemetry-subscribers:telemetry-subscribers",
     "//external-crates/move/crates/move-package:move-package",
     "//narwhal/network:narwhal-network",
-    "//third-party:anemo",
-    "//third-party:anemo-tower",
-    "//third-party:fastcrypto",
-    "//third-party:lru",
-    "//third-party:msim",
-    "//third-party:rand",
-    "//third-party:tempfile",
-    "//third-party:tower",
-    "//third-party:tracing"
+    "//third-party:anemo-tower_0_0_0",
+    "//third-party:anemo_0_0_0",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:lru_0_10_0",
+    "//third-party:rand_0_8_5",
+    "//third-party:tempfile_3_8_0",
+    "//third-party:tower_0_4_13",
+    "//third-party:tracing_0_1_37"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -24,6 +23,10 @@ env = {
 }
 rust_library(
     name = "sui-simulator",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

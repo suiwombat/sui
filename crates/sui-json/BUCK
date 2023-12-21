@@ -5,12 +5,12 @@ deps = [
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
     "//external-crates/move/crates/move-core-types:move-core-types",
-    "//third-party:anyhow",
-    "//third-party:bcs",
-    "//third-party:fastcrypto",
-    "//third-party:schemars",
-    "//third-party:serde",
-    "//third-party:serde_json"
+    "//third-party:anyhow_1_0_71",
+    "//third-party:bcs_0_1_4",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:schemars_0_8_12",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_json_1_0_95"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -20,6 +20,10 @@ env = {
 }
 rust_library(
     name = "sui-json",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

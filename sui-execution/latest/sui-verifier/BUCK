@@ -17,6 +17,10 @@ env = {
 }
 rust_library(
     name = "sui-verifier-latest",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

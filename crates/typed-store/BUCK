@@ -10,7 +10,6 @@ deps = [
     "//third-party:fdlimit_0_2_1",
     "//third-party:hdrhistogram_7_5_2",
     "//third-party:itertools_0_10_5",
-    "//third-party:msim_0_1_0",
     "//third-party:once_cell_1_18_0",
     "//third-party:ouroboros_0_17_2",
     "//third-party:prometheus_0_13_3",
@@ -31,7 +30,10 @@ env = {
 }
 rust_library(
     name = "typed-store",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
     visibility = ["PUBLIC"]
 )

@@ -5,13 +5,13 @@ deps = [
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//external-crates/move/crates/move-vm-types:move-vm-types",
-    "//third-party:bcs",
-    "//third-party:better_any",
-    "//third-party:fastcrypto",
-    "//third-party:fastcrypto-zkp",
-    "//third-party:linked-hash-map",
-    "//third-party:smallvec",
-    "//third-party:tracing"
+    "//third-party:bcs_0_1_4",
+    "//third-party:better_any_0_1_1",
+    "//third-party:fastcrypto-zkp_0_1_2",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:linked-hash-map_0_5_6",
+    "//third-party:smallvec_1_10_0",
+    "//third-party:tracing_0_1_37"
 ]
 named_deps = {
     "move-stdlib": "//external-crates/move/move-execution/v1/crates/move-stdlib:move-stdlib-v1",
@@ -26,7 +26,11 @@ env = {
 }
 rust_library(
     name = "sui-move-natives-v1",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
     named_deps = named_deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )

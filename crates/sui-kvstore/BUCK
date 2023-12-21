@@ -5,18 +5,18 @@ deps = [
     "//crates/sui-core:sui-core",
     "//crates/sui-storage:sui-storage",
     "//crates/sui-types:sui-types",
-    "//third-party:anyhow",
-    "//third-party:async-trait",
-    "//third-party:aws-config",
-    "//third-party:aws-sdk-dynamodb",
-    "//third-party:aws-sdk-s3",
-    "//third-party:backoff",
-    "//third-party:base64-url",
-    "//third-party:bcs",
-    "//third-party:prometheus",
-    "//third-party:serde",
-    "//third-party:tokio",
-    "//third-party:tracing"
+    "//third-party:anyhow_1_0_71",
+    "//third-party:async-trait_0_1_73",
+    "//third-party:aws-config_0_56_1",
+    "//third-party:aws-sdk-dynamodb_0_29_0",
+    "//third-party:aws-sdk-s3_0_29_0",
+    "//third-party:backoff_0_4_0",
+    "//third-party:base64-url_2_0_0",
+    "//third-party:bcs_0_1_4",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:serde_1_0_190",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tracing_0_1_37"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -26,6 +26,10 @@ env = {
 }
 rust_library(
     name = "sui-kvstore",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
     env = env,
     deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
 )
