@@ -5,7 +5,7 @@ deps = [
     "//third-party:difference_2_0_0",
     "//third-party:dirs-next_2_0_0",
     "//third-party:hex_0_4_3",
-    "//third-party:num-bigint_0_4_3",
+    "//third-party:num-bigint_0_4_4",
     "//third-party:once_cell_1_18_0",
     "//third-party:serde_1_0_190",
     "//third-party:sha2_0_9_9",

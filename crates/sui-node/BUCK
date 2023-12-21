@@ -1,4 +1,3 @@
-
 deps = [
     "//crates/mysten-common:mysten-common",
     "//crates/mysten-metrics:mysten-metrics",
@@ -6,6 +5,7 @@ deps = [
     "//crates/sui-archival:sui-archival",
     "//crates/sui-config:sui-config",
     "//crates/sui-core:sui-core",
+    "//crates/sui-json-rpc-api:sui-json-rpc-api",
     "//crates/sui-json-rpc:sui-json-rpc",
     "//crates/sui-kvstore:sui-kvstore",
     "//crates/sui-macros:sui-macros",
@@ -40,40 +40,42 @@ deps = [
     "//third-party:tokio_1_28_1",
     "//third-party:tower_0_4_13",
     "//third-party:tracing_0_1_37",
-    "//third-party:url_2_3_1"
+    "//third-party:url_2_3_1",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
     "CARGO_PKG_NAME": "sui-node",
-    "CARGO_PKG_VERSION": "1.16.0",
     "CARGO_BIN_NAME": "sui-node",
+    "CARGO_PKG_VERSION": "1.16.0",
 }
 
+
 rust_library(
-    name = "lib",
-    srcs = [
+    name="lib",
+    srcs=[
         "src/admin.rs",
         "src/handle.rs",
         "src/lib.rs",
         "src/metrics.rs",
     ],
-    crate_root = "src/lib.rs",
-    env = env,
-    edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = deps
+    crate_root="src/lib.rs",
+    env=env,
+    edition="2021",
+    visibility=["PUBLIC"],
+    deps=deps,
 )
 
+
 rust_binary(
-    name = "sui-node",
-    srcs = ["src/main.rs"],
-    env = env,
-    crate_root = "src/main.rs",
-    edition = "2021",
-    visibility = ["PUBLIC"],
-    deps = deps,
-    named_deps = {
+    name="sui-node",
+    srcs=["src/main.rs"],
+    env=env,
+    crate_root="src/main.rs",
+    edition="2021",
+    visibility=["PUBLIC"],
+    deps=deps,
+    named_deps={
         "sui_node": ":lib",
     },
 )

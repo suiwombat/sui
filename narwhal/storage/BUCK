@@ -2,8 +2,8 @@
 deps = [
     "//crates/mysten-common:mysten-common",
     "//crates/sui-macros:sui-macros",
-    "//third-party:fastcrypto_0_1_7",
     "//third-party:fastcrypto-tbls_0_1_0",
+    "//third-party:fastcrypto_0_1_7",
     "//third-party:futures_0_3_29",
     "//third-party:lru_0_10_0",
     "//third-party:parking_lot_0_12_1",

@@ -16,6 +16,7 @@ deps = [
     "//third-party:object_store_0_7_0",
     "//third-party:prometheus_0_13_3",
     "//third-party:serde_1_0_190",
+    "//third-party:serde_json_1_0_95",
     "//third-party:tokio-stream_0_1_14",
     "//third-party:tokio_1_28_1",
     "//third-party:tracing_0_1_37"

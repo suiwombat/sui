@@ -20,7 +20,7 @@ deps = [
     "//third-party:tokio_1_28_1",
     "//third-party:tonic_0_10_0",
     "//third-party:tower_0_4_13",
-    "//third-party:tracing_0_1_37",
+    "//third-party:tracing_0_1_37"
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

@@ -23,7 +23,7 @@ env = {
     "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
     "CARGO_PKG_DESCRIPTION": "Logic for building Sui Move Packages",
     "CARGO_PKG_NAME": "sui-move-build",
-    "CARGO_PKG_VERSION": "0.0.0",
+    "CARGO_PKG_VERSION": "1.16.0",
 }
 rust_library(
     name = "sui-move-build",

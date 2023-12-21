@@ -37,6 +37,7 @@ env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
     "CARGO_PKG_NAME": "sui-proxy",
+    "CARGO_BIN_NAME": "sui-proxy",
     "CARGO_PKG_VERSION": "0.0.2",
 }
 rust_library(

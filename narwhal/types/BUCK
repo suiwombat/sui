@@ -1,5 +1,4 @@
 load("@prelude//rust:cargo_buildscript.bzl", "buildscript_run")
-
 deps = [
     "//crates/mysten-common:mysten-common",
     "//crates/mysten-metrics:mysten-metrics",
@@ -30,12 +29,12 @@ deps = [
     "//third-party:thiserror_1_0_50",
     "//third-party:tokio_1_28_1",
     "//third-party:tonic_0_10_0",
-    "//third-party:tracing_0_1_37",
+    "//third-party:tracing_0_1_37"
 ]
 named_deps = {
     "config": "//narwhal/config:narwhal-config",
     "crypto": "//narwhal/crypto:narwhal-crypto",
-    "store": "//crates/typed-store:typed-store",
+    "store": "//crates/typed-store:typed-store"
 }
 env = {
     "CARGO_MANIFEST_DIR": "",

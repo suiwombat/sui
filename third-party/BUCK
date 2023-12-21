@@ -1004,7 +1004,7 @@ cargo.rust_library(
         ":derivative-2.2.0-derivative_2_2_0",
         ":digest-0.10.7",
         ":itertools-0.10.5-itertools_0_10_5",
-        ":num-bigint-0.4.4-num-bigint_0_4_3",
+        ":num-bigint-0.4.4-num-bigint_0_4_4",
         ":num-traits-0.2.17",
         ":paste-1.0.14-paste_1_0_11",
         ":zeroize-1.7.0-zeroize_1_6_0",
@@ -1057,7 +1057,7 @@ cargo.rust_library(
     proc_macro = True,
     visibility = [],
     deps = [
-        ":num-bigint-0.4.4-num-bigint_0_4_3",
+        ":num-bigint-0.4.4-num-bigint_0_4_4",
         ":num-traits-0.2.17",
         ":proc-macro2-1.0.70-proc-macro2_1_0_66",
         ":quote-1.0.33-quote_1_0_33",
@@ -1219,7 +1219,7 @@ cargo.rust_library(
         ":ark-serialize-derive-0.4.2",
         ":ark-std-0.4.0",
         ":digest-0.10.7",
-        ":num-bigint-0.4.4-num-bigint_0_4_3",
+        ":num-bigint-0.4.4-num-bigint_0_4_4",
     ],
 )
 
@@ -10163,7 +10163,7 @@ cargo.rust_library(
         ":asn1-rs-0.5.2",
         ":displaydoc-0.2.4",
         ":nom-7.1.3",
-        ":num-bigint-0.4.4-num-bigint_0_4_3",
+        ":num-bigint-0.4.4-num-bigint_0_4_4",
         ":num-traits-0.2.17",
         ":rusticata-macros-4.1.0",
     ],
@@ -10504,6 +10504,40 @@ cargo.rust_library(
     crate_root = "vendor/difflib-0.4.0/src/lib.rs",
     edition = "2015",
     visibility = [],
+)
+
+alias(
+    name = "diffy_0_3_0",
+    actual = ":diffy-0.3.0-diffy_0_3_0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "diffy-0.3.0-diffy_0_3_0",
+    srcs = [
+        "vendor/diffy-0.3.0/src/apply.rs",
+        "vendor/diffy-0.3.0/src/diff/cleanup.rs",
+        "vendor/diffy-0.3.0/src/diff/mod.rs",
+        "vendor/diffy-0.3.0/src/diff/myers.rs",
+        "vendor/diffy-0.3.0/src/diff/tests.rs",
+        "vendor/diffy-0.3.0/src/lib.rs",
+        "vendor/diffy-0.3.0/src/merge/mod.rs",
+        "vendor/diffy-0.3.0/src/merge/tests.rs",
+        "vendor/diffy-0.3.0/src/patch/format.rs",
+        "vendor/diffy-0.3.0/src/patch/mod.rs",
+        "vendor/diffy-0.3.0/src/patch/parse.rs",
+        "vendor/diffy-0.3.0/src/range.rs",
+        "vendor/diffy-0.3.0/src/utils.rs",
+    ],
+    crate = "diffy",
+    crate_root = "vendor/diffy-0.3.0/src/lib.rs",
+    edition = "2018",
+    licenses = [
+        "vendor/diffy-0.3.0/LICENSE-APACHE",
+        "vendor/diffy-0.3.0/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [":nu-ansi-term-0.46.0"],
 )
 
 cargo.rust_library(
@@ -11500,7 +11534,7 @@ cargo.rust_library(
         ":hkdf-0.12.4",
         ":lazy_static-1.4.0",
         ":merlin-3.0.0",
-        ":num-bigint-0.4.4-num-bigint_0_4_3",
+        ":num-bigint-0.4.4-num-bigint_0_4_4",
         ":once_cell-1.19.0-once_cell_1_18_0",
         ":p256-0.13.2",
         ":rand-0.8.5-rand_0_8_5",
@@ -11645,7 +11679,7 @@ cargo.rust_library(
         ":im-15.1.0-im_15_1_0",
         ":lazy_static-1.4.0",
         ":neptune-13.0.0",
-        ":num-bigint-0.4.4-num-bigint_0_4_3",
+        ":num-bigint-0.4.4-num-bigint_0_4_4",
         ":once_cell-1.19.0-once_cell_1_18_0",
         ":regex-1.8.4-regex_1_8_4",
         ":reqwest-0.11.22-reqwest_0_11_20",
@@ -14122,14 +14156,8 @@ cargo.rust_library(
     visibility = [],
 )
 
-alias(
-    name = "indexmap_1_9_3",
-    actual = ":indexmap-1.9.3-indexmap_1_9_3",
-    visibility = ["PUBLIC"],
-)
-
 cargo.rust_library(
-    name = "indexmap-1.9.3-indexmap_1_9_3",
+    name = "indexmap-1.9.3",
     srcs = [
         "vendor/indexmap-1.9.3/src/arbitrary.rs",
         "vendor/indexmap-1.9.3/src/equivalent.rs",
@@ -18298,7 +18326,7 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [
-        ":num-bigint-0.4.4-num-bigint_0_4_3",
+        ":num-bigint-0.4.4-num-bigint_0_4_4",
         ":num-complex-0.4.4",
         ":num-integer-0.1.45",
         ":num-iter-0.1.43",
@@ -18413,13 +18441,13 @@ buildscript_run(
 )
 
 alias(
-    name = "num-bigint_0_4_3",
-    actual = ":num-bigint-0.4.4-num-bigint_0_4_3",
+    name = "num-bigint_0_4_4",
+    actual = ":num-bigint-0.4.4-num-bigint_0_4_4",
     visibility = ["PUBLIC"],
 )
 
 cargo.rust_library(
-    name = "num-bigint-0.4.4-num-bigint_0_4_3",
+    name = "num-bigint-0.4.4-num-bigint_0_4_4",
     srcs = [
         "vendor/num-bigint-0.4.4/src/bigint.rs",
         "vendor/num-bigint-0.4.4/src/bigint/addition.rs",
@@ -18650,7 +18678,7 @@ cargo.rust_library(
     rustc_flags = ["@$(location :num-rational-0.4.1-build-script-run[rustc_flags])"],
     visibility = [],
     deps = [
-        ":num-bigint-0.4.4-num-bigint_0_4_3",
+        ":num-bigint-0.4.4-num-bigint_0_4_4",
         ":num-integer-0.1.45",
         ":num-traits-0.2.17",
     ],
@@ -19690,7 +19718,7 @@ cargo.rust_library(
     deps = [
         ":futures-channel-0.3.29",
         ":futures-util-0.3.29",
-        ":indexmap-1.9.3-indexmap_1_9_3",
+        ":indexmap-1.9.3",
         ":once_cell-1.19.0-once_cell_1_18_0",
         ":pin-project-lite-0.2.13",
         ":thiserror-1.0.50-thiserror_1_0_50",
@@ -20724,7 +20752,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":fixedbitset-0.2.0",
-        ":indexmap-1.9.3-indexmap_1_9_3",
+        ":indexmap-1.9.3",
     ],
 )
 
@@ -24427,6 +24455,7 @@ cargo.rust_binary(
         "derive_more_0_99_17": ":derive_more-0.99.17-derive_more_0_99_17",
         "derive_syn_parse_0_1_5": ":derive-syn-parse-0.1.5-derive-syn-parse_0_1_5",
         "difference_2_0_0": ":difference-2.0.0-difference_2_0_0",
+        "diffy_0_3_0": ":diffy-0.3.0-diffy_0_3_0",
         "dirs_4_0_0": ":dirs-4.0.0-dirs_4_0_0",
         "dirs_next_2_0_0": ":dirs-next-2.0.0-dirs-next_2_0_0",
         "ed25519_1_5_3": ":ed25519-1.5.3-ed25519_1_5_3",
@@ -24453,7 +24482,6 @@ cargo.rust_binary(
         "hyper_rustls_0_24_0": ":hyper-rustls-0.24.2-hyper-rustls_0_24_0",
         "im_15_1_0": ":im-15.1.0-im_15_1_0",
         "impl_trait_for_tuples_0_2_2": ":impl-trait-for-tuples-0.2.2-impl-trait-for-tuples_0_2_2",
-        "indexmap_1_9_3": ":indexmap-1.9.3-indexmap_1_9_3",
         "indexmap_2_1_0": ":indexmap-2.1.0-indexmap_2_1_0",
         "indicatif_0_17_2": ":indicatif-0.17.7-indicatif_0_17_2",
         "insta_1_26_0": ":insta-1.34.0-insta_1_26_0",
@@ -24473,7 +24501,7 @@ cargo.rust_binary(
         "named_lock_0_2_0": ":named-lock-0.2.0-named-lock_0_2_0",
         "nonempty_0_9_0": ":nonempty-0.9.0-nonempty_0_9_0",
         "num_0_4_1": ":num-0.4.1-num_0_4_1",
-        "num_bigint_0_4_3": ":num-bigint-0.4.4-num-bigint_0_4_3",
+        "num_bigint_0_4_4": ":num-bigint-0.4.4-num-bigint_0_4_4",
         "num_cpus_1_15_0": ":num_cpus-1.16.0-num_cpus_1_15_0",
         "num_enum_0_6_1": ":num_enum-0.6.1-num_enum_0_6_1",
         "object_store_0_7_0": ":object_store-0.7.1-object_store_0_7_0",
@@ -26822,7 +26850,7 @@ cargo.rust_library(
     ],
     named_deps = {
         "chrono_0_4": ":chrono-0.4.31-chrono_0_4_31",
-        "indexmap_1": ":indexmap-1.9.3-indexmap_1_9_3",
+        "indexmap_1": ":indexmap-1.9.3",
         "time_0_3": ":time-0.3.30",
     },
     visibility = [],
@@ -26891,7 +26919,7 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [
-        ":indexmap-1.9.3-indexmap_1_9_3",
+        ":indexmap-1.9.3",
         ":ryu-1.0.16",
         ":serde-1.0.193-serde_1_0_190",
         ":yaml-rust-0.4.5",
@@ -29907,7 +29935,7 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [
-        ":indexmap-1.9.3-indexmap_1_9_3",
+        ":indexmap-1.9.3",
         ":serde-1.0.193-serde_1_0_190",
     ],
 )
@@ -29984,7 +30012,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":combine-4.6.6",
-        ":indexmap-1.9.3-indexmap_1_9_3",
+        ":indexmap-1.9.3",
         ":itertools-0.10.5-itertools_0_10_5",
         ":serde-1.0.193-serde_1_0_190",
     ],
@@ -30430,7 +30458,7 @@ cargo.rust_library(
         ":futures-core-0.3.29",
         ":futures-util-0.3.29",
         ":hdrhistogram-7.5.4-hdrhistogram_7_5_2",
-        ":indexmap-1.9.3-indexmap_1_9_3",
+        ":indexmap-1.9.3",
         ":pin-project-1.1.3",
         ":pin-project-lite-0.2.13",
         ":rand-0.8.5-rand_0_8_5",

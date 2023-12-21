@@ -36,11 +36,11 @@ deps = [
     "//third-party:reqwest_0_11_20",
     "//third-party:rocksdb_0_21_0",
     "//third-party:serde_1_0_190",
+    "//third-party:serde_json_1_0_95",
     "//third-party:tap_1_0_1",
     "//third-party:tempfile_3_8_0",
     "//third-party:tokio_1_28_1",
     "//third-party:tracing_0_1_37",
-    "//third-party:serde_json_1_0_95",
     "//third-party:url_2_3_1",
     "//third-party:zstd_0_12_3"
 ]
