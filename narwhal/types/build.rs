@@ -9,17 +9,28 @@ use std::{
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
 fn main() -> Result<()> {
+    // PROTOC may be provided as an env var to point to a system protoc binary
+    // if not provided, protobuf_src will be used
     #[cfg(not(target_env = "msvc"))]
-    std::env::set_var("PROTOC", protobuf_src::protoc());
-
+    if env::var("PROTOC").is_err() {
+        std::env::set_var("PROTOC", protobuf_src::protoc());
+    }
     let out_dir = if env::var("DUMP_GENERATED_GRPC").is_ok() {
         PathBuf::from("")
     } else {
         PathBuf::from(env::var("OUT_DIR")?)
     };
 
-    let proto_files = &["proto/narwhal.proto"];
-    let dirs = &["proto"];
+    // PROTO_SRCS may be provided to point to an alternate narwhal.proto file
+    // otherwise a relative location to this script will be used
+    let proto_srcs = if let Ok(proto_srcs) = env::var("PROTO_SRCS") {
+        PathBuf::from(&proto_srcs)
+    } else {
+        PathBuf::from("")
+    };
+
+    let proto_files = &[proto_srcs.join("proto/narwhal.proto")];
+    let dirs = &[proto_srcs.join("proto")];
 
     // Use `Bytes` instead of `Vec<u8>` for bytes fields
     let mut config = prost_build::Config::new();

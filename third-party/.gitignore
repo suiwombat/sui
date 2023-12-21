@@ -1,3 +1,6 @@
+# MacOS
+.DS_Store
+
 # Ignore Cargo-related stuff
 .cargo
 .cargo/registry

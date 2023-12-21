@@ -1,0 +1,43 @@
+
+deps = [
+    "//crates/shared-crypto:shared-crypto",
+    "//crates/sui-config:sui-config",
+    "//crates/sui-framework:sui-framework",
+    "//crates/sui-genesis-builder:sui-genesis-builder",
+    "//crates/sui-keys:sui-keys",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/sui-storage:sui-storage",
+    "//crates/sui-swarm-config:sui-swarm-config",
+    "//crates/sui-transaction-checks:sui-transaction-checks",
+    "//crates/sui-types:sui-types",
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//narwhal/config:narwhal-config",
+    "//sui-execution:sui-execution",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:async-trait_0_1_73",
+    "//third-party:bcs_0_1_4",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:futures_0_3_29",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:rand_0_8_5",
+    "//third-party:serde_1_0_190",
+    "//third-party:tracing_0_1_37"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "simulacrum",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+rust_library(
+    name = "simulacrum",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

@@ -1,0 +1,23 @@
+
+deps = [
+    "//third-party:bcs_0_1_4",
+    "//third-party:eyre_0_6_8",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_repr_0_1_10"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "shared-crypto",
+    "CARGO_PKG_VERSION": "0.0.0",
+}
+rust_library(
+    name = "shared-crypto",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

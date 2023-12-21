@@ -1,0 +1,37 @@
+
+deps = [
+    "//external-crates/move/crates/enum-compat-util:enum-compat-util",
+    "//external-crates/move/crates/move-proc-macros:move-proc-macros",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:arbitrary_1_3_0",
+    "//third-party:bcs_0_1_4",
+    "//third-party:ethnum_1_3_2",
+    "//third-party:hex_0_4_3",
+    "//third-party:num_0_4_1",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:primitive-types_0_10_1",
+    "//third-party:proptest-derive_0_3_0",
+    "//third-party:proptest_1_1_0",
+    "//third-party:rand_0_8_5",
+    "//third-party:ref-cast_1_0_14",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_bytes_0_11_9",
+    "//third-party:uint_0_9_5"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Core types for Move",
+    "CARGO_PKG_NAME": "move-core-types",
+    "CARGO_PKG_VERSION": "0.0.4",
+}
+rust_library(
+    name = "move-core-types",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    features = ["arbitrary","fuzzing","proptest","proptest-derive"],
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

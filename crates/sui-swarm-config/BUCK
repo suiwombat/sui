@@ -1,0 +1,35 @@
+
+deps = [
+    "//crates/shared-crypto:shared-crypto",
+    "//crates/sui-config:sui-config",
+    "//crates/sui-genesis-builder:sui-genesis-builder",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/sui-types:sui-types",
+    "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
+    "//narwhal/config:narwhal-config",
+    "//third-party:anemo_0_0_0",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:rand_0_8_5",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_with_2_1_0",
+    "//third-party:serde_yaml_0_8_26",
+    "//third-party:tempfile_3_8_0",
+    "//third-party:tracing_0_1_37"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "sui-swarm-config",
+    "CARGO_PKG_VERSION": "0.0.0",
+}
+rust_library(
+    name = "sui-swarm-config",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

@@ -1,0 +1,31 @@
+
+deps = [
+    "//crates/prometheus-closure-metric:prometheus-closure-metric",
+    "//third-party:async-trait_0_1_73",
+    "//third-party:axum_0_6_20",
+    "//third-party:dashmap_5_4_0",
+    "//third-party:futures_0_3_29",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:parking_lot_0_12_1",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:scopeguard_1_1_0",
+    "//third-party:tap_1_0_1",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tracing_0_1_37",
+    "//third-party:uuid_1_2_2"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "mysten-metrics",
+    "CARGO_PKG_VERSION": "0.7.0",
+}
+rust_library(
+    name = "mysten-metrics",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

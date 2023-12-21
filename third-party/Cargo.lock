@@ -2620,7 +2620,7 @@ dependencies = [
 [[package]]
 name = "fastcrypto"
 version = "0.1.7"
-source = "git+https://github.com/MystenLabs/fastcrypto?rev=643831ec3b67bdd2b5f998c0bec1b7c91823351f#643831ec3b67bdd2b5f998c0bec1b7c91823351f"
+source = "git+https://github.com/MystenLabs/fastcrypto?rev=9579a60fbffe15c0f65626ae55998bf8ef42e193#9579a60fbffe15c0f65626ae55998bf8ef42e193"
 dependencies = [
  "aes",
  "aes-gcm",
@@ -2651,6 +2651,7 @@ dependencies = [
  "hkdf",
  "lazy_static",
  "merlin",
+ "num-bigint 0.4.4",
  "once_cell",
  "p256",
  "rand 0.8.5",
@@ -2676,7 +2677,7 @@ dependencies = [
 [[package]]
 name = "fastcrypto-derive"
 version = "0.1.3"
-source = "git+https://github.com/MystenLabs/fastcrypto?rev=643831ec3b67bdd2b5f998c0bec1b7c91823351f#643831ec3b67bdd2b5f998c0bec1b7c91823351f"
+source = "git+https://github.com/MystenLabs/fastcrypto?rev=9579a60fbffe15c0f65626ae55998bf8ef42e193#9579a60fbffe15c0f65626ae55998bf8ef42e193"
 dependencies = [
  "convert_case 0.6.0",
  "proc-macro2 1.0.70",
@@ -2687,7 +2688,7 @@ dependencies = [
 [[package]]
 name = "fastcrypto-tbls"
 version = "0.1.0"
-source = "git+https://github.com/MystenLabs/fastcrypto?rev=643831ec3b67bdd2b5f998c0bec1b7c91823351f#643831ec3b67bdd2b5f998c0bec1b7c91823351f"
+source = "git+https://github.com/MystenLabs/fastcrypto?rev=9579a60fbffe15c0f65626ae55998bf8ef42e193#9579a60fbffe15c0f65626ae55998bf8ef42e193"
 dependencies = [
  "bcs",
  "bincode",
@@ -2708,7 +2709,7 @@ dependencies = [
 [[package]]
 name = "fastcrypto-zkp"
 version = "0.1.2"
-source = "git+https://github.com/MystenLabs/fastcrypto?rev=643831ec3b67bdd2b5f998c0bec1b7c91823351f#643831ec3b67bdd2b5f998c0bec1b7c91823351f"
+source = "git+https://github.com/MystenLabs/fastcrypto?rev=9579a60fbffe15c0f65626ae55998bf8ef42e193#9579a60fbffe15c0f65626ae55998bf8ef42e193"
 dependencies = [
  "ark-bls12-381",
  "ark-bn254",
@@ -3524,6 +3525,7 @@ checksum = "d530e1a18b1cb4c484e6e34556a0d948706958449fca0cab753d649f2bce3d1f"
 dependencies = [
  "equivalent",
  "hashbrown 0.14.3",
+ "serde",
 ]
 
 [[package]]
@@ -4270,6 +4272,12 @@ dependencies = [
  "memchr",
  "minimal-lexical",
 ]
+
+[[package]]
+name = "nonempty"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "995defdca0a589acfdd1bd2e8e3b896b4d4f7675a31fd14c32611440c7f608e6"
 
 [[package]]
 name = "nonzero_ext"
@@ -5913,6 +5921,7 @@ dependencies = [
  "im",
  "impl-trait-for-tuples",
  "indexmap 1.9.3",
+ "indexmap 2.1.0",
  "indicatif",
  "insta",
  "integer-encoding",
@@ -5930,6 +5939,7 @@ dependencies = [
  "multiaddr",
  "mysticeti-core",
  "named-lock",
+ "nonempty",
  "num",
  "num-bigint 0.4.4",
  "num_cpus",

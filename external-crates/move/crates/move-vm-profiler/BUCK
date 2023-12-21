@@ -1,0 +1,22 @@
+
+deps = [
+    "//external-crates/move/crates/move-vm-config:move-vm-config",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_json_1_0_95"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "move-vm-profiler",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+rust_library(
+    name = "move-vm-profiler",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

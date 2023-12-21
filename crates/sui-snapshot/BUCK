@@ -1,0 +1,37 @@
+
+deps = [
+    "//crates/sui-core:sui-core",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/sui-storage:sui-storage",
+    "//crates/sui-types:sui-types",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:bcs_0_1_4",
+    "//third-party:byteorder_1_4_3",
+    "//third-party:bytes_1_4_0",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:futures_0_3_29",
+    "//third-party:indicatif_0_17_2",
+    "//third-party:integer-encoding_3_0_4",
+    "//third-party:num_enum_0_6_1",
+    "//third-party:object_store_0_7_0",
+    "//third-party:prometheus_0_13_3",
+    "//third-party:serde_1_0_190",
+    "//third-party:tokio-stream_0_1_14",
+    "//third-party:tokio_1_28_1",
+    "//third-party:tracing_0_1_37"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "sui-snapshot",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+rust_library(
+    name = "sui-snapshot",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

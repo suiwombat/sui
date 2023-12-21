@@ -56,3 +56,14 @@ Use the following links to learn more about Sui and the Sui ecosystem:
  * Join the Sui community on [Sui Discord](https://discord.gg/sui).
  * Find out more about the Sui ecosystem on the [Sui Resources](https://sui.io/resources/) page.
  * Review information about Sui governance, [decentralization](https://suifoundation.org/decentralization), and [Developer Grants Program](https://sui.io/grants-hub) on the [Sui Foundation](https://suifoundation.org/) site.
+
+
+## Buck2
+
+This repo has experimental buck2 build targets enabled for two crates, sui-proxy and sui-node.  x86_64 and aarch64/amd64 are supported as are linux and macos.
+
+* you need buck2 installed
+* you need reindeer installed
+* binary builds of both of these are available (ask joe)
+
+See [third-party](third-party/README.md) for more details

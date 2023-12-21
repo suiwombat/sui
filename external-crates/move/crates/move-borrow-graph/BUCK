@@ -1,0 +1,15 @@
+
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_NAME": "move-borrow-graph",
+    "CARGO_PKG_VERSION": "0.0.1",
+}
+rust_library(
+    name = "move-borrow-graph",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

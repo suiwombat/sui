@@ -1,0 +1,35 @@
+
+deps = [
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//external-crates/move/crates/move-vm-config:move-vm-config",
+    "//external-crates/move/crates/move-vm-profiler:move-vm-profiler",
+    "//external-crates/move/crates/move-vm-types:move-vm-types",
+    "//third-party:better_any_0_1_1",
+    "//third-party:fail_0_4_0",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:parking_lot_0_11_2",
+    "//third-party:sha3_0_9_1",
+    "//third-party:smallvec_1_10_0",
+    "//third-party:tracing_0_1_37"
+]
+named_deps = {
+    "move-bytecode-verifier": "//external-crates/move/move-execution/v1/crates/move-bytecode-verifier:move-bytecode-verifier-v1"
+}
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Core Move execution logic",
+    "CARGO_PKG_NAME": "move-vm-runtime-v1",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+rust_library(
+    name = "move-vm-runtime-v1",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    named_deps = named_deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

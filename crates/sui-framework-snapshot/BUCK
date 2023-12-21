@@ -1,0 +1,27 @@
+
+deps = [
+    "//crates/sui-framework:sui-framework",
+    "//crates/sui-protocol-config:sui-protocol-config",
+    "//crates/sui-types:sui-types",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:bcs_0_1_4",
+    "//third-party:git-version_0_3_5",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_json_1_0_95"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <eng@mystenlabs.com>]",
+    "CARGO_PKG_DESCRIPTION": "Tool to create a bytecode snapshot of the current sui-framework",
+    "CARGO_PKG_NAME": "sui-framework-snapshot",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+rust_library(
+    name = "sui-framework-snapshot",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

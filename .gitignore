@@ -6,6 +6,12 @@
 # OSX
 .DS_Store
 
+# Cargo
+.cargo/
+
+# BUCK
+buck-out/
+
 # Rust build directory
 **/target
 .pre-commit*

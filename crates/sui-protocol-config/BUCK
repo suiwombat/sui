@@ -1,0 +1,25 @@
+
+deps = [
+    "//crates/sui-protocol-config-macros:sui-protocol-config-macros",
+    "//third-party:clap_4_4_1",
+    "//third-party:insta_1_26_0",
+    "//third-party:schemars_0_8_12",
+    "//third-party:serde_1_0_190",
+    "//third-party:serde_with_2_1_0",
+    "//third-party:tracing_0_1_37"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "sui-protocol-config",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+rust_library(
+    name = "sui-protocol-config",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

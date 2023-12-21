@@ -1,0 +1,22 @@
+
+deps = [
+    "//crates/sui-proc-macros:sui-proc-macros",
+    "//third-party:futures_0_3_29",
+    "//third-party:once_cell_1_18_0",
+    "//third-party:tracing_0_1_37"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "sui-macros",
+    "CARGO_PKG_VERSION": "0.7.0",
+}
+rust_library(
+    name = "sui-macros",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

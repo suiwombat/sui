@@ -19,12 +19,14 @@ use fastcrypto::traits::AllowedRng;
 use itertools::Itertools;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
-use tracing::{debug, info, warn};
+use tracing::{debug, error, info, warn};
 
 use tap::prelude::*;
 
 /// Generics below use `G: GroupElement' for the group of the VSS public key, and `EG: GroupElement'
 /// for the group of the ECIES public key.
+
+// TODO: Add a description of the protocol.
 
 /// Party in the DKG protocol.
 #[derive(Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -47,7 +49,6 @@ pub struct Party<G: GroupElement, EG: GroupElement> {
 pub struct Message<G: GroupElement, EG: GroupElement> {
     pub sender: PartyId,
     /// The commitment of the secret polynomial created by the sender.
-    // TODO: [security] add a proof of possession/knowledge?
     pub vss_pk: PublicPoly<G>,
     /// The encrypted shares created by the sender. Sorted according to the receivers.
     pub encrypted_shares: MultiRecipientEncryption<EG>,
@@ -99,7 +100,7 @@ impl<G: GroupElement, EG: GroupElement> From<&[ProcessedMessage<G, EG>]>
 
 /// Processed messages that were not excluded.
 pub struct VerifiedProcessedMessages<G: GroupElement, EG: GroupElement>(
-    pub Vec<ProcessedMessage<G, EG>>,
+    Vec<ProcessedMessage<G, EG>>,
 );
 
 impl<G: GroupElement, EG: GroupElement> VerifiedProcessedMessages<G, EG> {
@@ -112,6 +113,18 @@ impl<G: GroupElement, EG: GroupElement> VerifiedProcessedMessages<G, EG> {
             .collect::<Vec<_>>();
         Self(filtered)
     }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
+
+    pub fn data(&self) -> &[ProcessedMessage<G, EG>] {
+        &self.0
+    }
 }
 
 /// [Output] is the final output of the DKG protocol in case it runs
@@ -122,7 +135,7 @@ impl<G: GroupElement, EG: GroupElement> VerifiedProcessedMessages<G, EG> {
 pub struct Output<G: GroupElement, EG: GroupElement> {
     pub nodes: Nodes<EG>,
     pub vss_pk: Poly<G>,
-    pub shares: Option<Vec<Share<G::ScalarType>>>, // None if some shares are missing.
+    pub shares: Option<Vec<Share<G::ScalarType>>>, // None if some shares are missing or weight is zero.
 }
 
 /// A dealer in the DKG ceremony.
@@ -146,13 +159,12 @@ where
     ) -> FastCryptoResult<Self> {
         // Check that my ecies pk is in the nodes.
         let enc_pk = ecies::PublicKey::<EG>::from_private_key(&enc_sk);
-        let my_id = nodes
+        let my_node = nodes
             .iter()
             .find(|n| n.pk == enc_pk)
-            .ok_or(FastCryptoError::InvalidInput)?
-            .id;
+            .ok_or(FastCryptoError::InvalidInput)?;
         // Check that the threshold makes sense.
-        if t >= nodes.n() || t == 0 {
+        if t >= nodes.total_weight() || t == 0 {
             return Err(FastCryptoError::InvalidInput);
         }
         // TODO: [comm opt] Instead of generating the polynomial at random, use PRF generated values
@@ -161,19 +173,21 @@ where
 
         // TODO: remove once the protocol is stable since it's a non negligible computation.
         let vss_pk = vss_sk.commit::<G>();
+
         info!(
-            "DKG: Creating party {}, nodes hash {:?}, t {}, n {}, ro {:?}, enc pk {:?}, vss pk c0 {:?}",
-            my_id,
+            "DKG: Creating party {} with weight {}, nodes hash {:?}, t {}, n {}, ro {:?}, enc pk {:?}, vss pk c0 {:?}",
+            my_node.id,
+            my_node.weight,
             nodes.hash(),
             t,
-            nodes.n(),
+            nodes.total_weight(),
             random_oracle,
             enc_pk,
             vss_pk.c0(),
         );
 
         Ok(Self {
-            id: my_id,
+            id: my_node.id,
             nodes,
             t,
             random_oracle,
@@ -182,6 +196,7 @@ where
         })
     }
 
+    /// The threshold needed to reconstruct the full key/signature.
     pub fn t(&self) -> u32 {
         self.t
     }
@@ -206,6 +221,7 @@ where
                     .iter()
                     .map(|share_id| self.vss_sk.eval(*share_id).value)
                     .collect::<Vec<_>>();
+                // Works even with empty shares_ids (will result in [0]).
                 let buff = bcs::to_bytes(&shares).expect("serialize of shares should never fail");
                 (node.pk.clone(), buff)
             })
@@ -304,7 +320,7 @@ where
         let encrypted_shares = &message
             .encrypted_shares
             .get_encryption(self.id as usize)
-            .expect("checked above that there are enough encryptions");
+            .expect("checked in sanity_check_message that there are enough encryptions");
         let decrypted_shares = Self::decrypt_and_get_share(&self.enc_sk, encrypted_shares).ok();
 
         if decrypted_shares.is_none()
@@ -420,12 +436,19 @@ where
             complaints: Vec::new(),
         };
         for m in &filtered_messages.0 {
-            if m.complaint.is_some() {
+            if let Some(complaint) = &m.complaint {
                 debug!("DKG: Including a complaint on party {}", m.message.sender);
-                let complaint = m.complaint.clone().expect("checked above");
-                conf.complaints.push(complaint);
+                conf.complaints.push(complaint.clone());
             }
         }
+
+        if filtered_messages.0.iter().all(|m| m.complaint.is_some()) {
+            error!("DKG: All processed messages resulted in complaints, this should never happen");
+            return Err(FastCryptoError::GeneralError(
+                "All processed messages resulted in complaints".to_string(),
+            ));
+        }
+
         Ok((conf, filtered_messages))
     }
 
@@ -492,27 +515,28 @@ where
                 let accuser_pk = id_to_pk
                     .get(&accuser)
                     .expect("checked above that accuser is valid id");
-                let related_m1 = id_to_m1.get(&accused);
                 // If the claim refers to a non existing message, it's an invalid complaint.
-                let valid_complaint = related_m1.is_some() && {
-                    let encrypted_shares = &related_m1
-                        .expect("checked above that is not None")
-                        .encrypted_shares
-                        .get_encryption(accuser as usize)
-                        .expect("checked earlier that there are enough encryptions");
-                    Self::check_complaint_proof(
-                        &complaint.proof,
-                        accuser_pk,
-                        &self.nodes.share_ids_of(accuser),
-                        &related_m1.expect("checked above that is not None").vss_pk,
-                        encrypted_shares,
-                        &self.random_oracle.extend(&format!(
-                            "recovery of id {} received from {}",
-                            accuser, accused
-                        )),
-                        rng,
-                    )
-                    .is_ok()
+                let valid_complaint = match id_to_m1.get(&accused) {
+                    Some(related_m1) => {
+                        let encrypted_shares = &related_m1
+                            .encrypted_shares
+                            .get_encryption(accuser as usize)
+                            .expect("checked earlier that there are enough encryptions");
+                        Self::check_complaint_proof(
+                            &complaint.proof,
+                            accuser_pk,
+                            &self.nodes.share_ids_of(accuser),
+                            &related_m1.vss_pk,
+                            encrypted_shares,
+                            &self.random_oracle.extend(&format!(
+                                "recovery of id {} received from {}",
+                                accuser, accused
+                            )),
+                            rng,
+                        )
+                        .is_ok()
+                    }
+                    None => false,
                 };
                 match valid_complaint {
                     // Ignore accused from now on, and continue processing complaints from the
@@ -537,6 +561,15 @@ where
             messages,
             &to_exclude.into_iter().collect::<Vec<_>>(),
         );
+
+        if verified_messages.is_empty() {
+            error!(
+                "DKG: No verified messages after processing complaints, this should never happen"
+            );
+            return Err(FastCryptoError::GeneralError(
+                "No verified messages after processing complaints".to_string(),
+            ));
+        }
 
         // Log verified messages parties.
         let used_parties = verified_messages
@@ -597,11 +630,19 @@ where
 
         // If I didn't receive a valid share for one of the verified messages (i.e., my complaint
         // was not processed), then I don't have a valid share for the final key.
-        let shares = if messages.0.iter().all(|m| m.complaint.is_none()) {
-            info!("DKG: Aggregating my shares succeeded");
+        let has_invalid_share = messages.0.iter().any(|m| m.complaint.is_some());
+        let has_zero_shares = final_shares.is_empty();
+        info!(
+            "DKG: Aggregating my shares completed with has_invalid_share={}, has_zero_shares={}",
+            has_invalid_share, has_zero_shares
+        );
+        if has_invalid_share {
+            warn!("DKG: Aggregating my shares failed");
+        }
+
+        let shares = if !has_invalid_share && !has_zero_shares {
             Some(final_shares.values().cloned().collect())
         } else {
-            warn!("DKG: Aggregating my shares failed");
             None
         };
 

@@ -11500,6 +11500,7 @@ cargo.rust_library(
         ":hkdf-0.12.4",
         ":lazy_static-1.4.0",
         ":merlin-3.0.0",
+        ":num-bigint-0.4.4-num-bigint_0_4_3",
         ":once_cell-1.19.0-once_cell_1_18_0",
         ":p256-0.13.2",
         ":rand-0.8.5-rand_0_8_5",
@@ -13014,7 +13015,7 @@ cargo.rust_library(
         ":futures-sink-0.3.29",
         ":futures-util-0.3.29",
         ":http-0.2.11-http_0_2_9",
-        ":indexmap-2.1.0",
+        ":indexmap-2.1.0-indexmap_2_1_0",
         ":slab-0.4.9",
         ":tokio-1.32.0-tokio_1_28_1",
         ":tokio-util-0.7.10",
@@ -14167,8 +14168,14 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "indexmap_2_1_0",
+    actual = ":indexmap-2.1.0-indexmap_2_1_0",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
-    name = "indexmap-2.1.0",
+    name = "indexmap-2.1.0-indexmap_2_1_0",
     srcs = [
         "vendor/indexmap-2.1.0/src/arbitrary.rs",
         "vendor/indexmap-2.1.0/src/lib.rs",
@@ -14197,6 +14204,7 @@ cargo.rust_library(
     edition = "2021",
     features = [
         "default",
+        "serde",
         "std",
     ],
     licenses = [
@@ -14208,6 +14216,7 @@ cargo.rust_library(
     deps = [
         ":equivalent-1.0.1",
         ":hashbrown-0.14.3",
+        ":serde-1.0.193-serde_1_0_190",
     ],
 )
 
@@ -18198,6 +18207,25 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "nonempty_0_9_0",
+    actual = ":nonempty-0.9.0-nonempty_0_9_0",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "nonempty-0.9.0-nonempty_0_9_0",
+    srcs = [
+        "vendor/nonempty-0.9.0/src/lib.rs",
+        "vendor/nonempty-0.9.0/src/nonzero.rs",
+    ],
+    crate = "nonempty",
+    crate_root = "vendor/nonempty-0.9.0/src/lib.rs",
+    edition = "2018",
+    licenses = ["vendor/nonempty-0.9.0/LICENSE"],
+    visibility = [],
+)
+
 cargo.rust_library(
     name = "nonzero_ext-0.3.0",
     srcs = [
@@ -20756,7 +20784,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":fixedbitset-0.4.2",
-        ":indexmap-2.1.0",
+        ":indexmap-2.1.0-indexmap_2_1_0",
     ],
 )
 
@@ -24426,6 +24454,7 @@ cargo.rust_binary(
         "im_15_1_0": ":im-15.1.0-im_15_1_0",
         "impl_trait_for_tuples_0_2_2": ":impl-trait-for-tuples-0.2.2-impl-trait-for-tuples_0_2_2",
         "indexmap_1_9_3": ":indexmap-1.9.3-indexmap_1_9_3",
+        "indexmap_2_1_0": ":indexmap-2.1.0-indexmap_2_1_0",
         "indicatif_0_17_2": ":indicatif-0.17.7-indicatif_0_17_2",
         "insta_1_26_0": ":insta-1.34.0-insta_1_26_0",
         "integer_encoding_3_0_4": ":integer-encoding-3.0.4-integer-encoding_3_0_4",
@@ -24442,6 +24471,7 @@ cargo.rust_binary(
         "multiaddr_0_17_0": ":multiaddr-0.17.1-multiaddr_0_17_0",
         "mysticeti_core_0_1_0": ":mysticeti-core-0.1.0-mysticeti-core_0_1_0",
         "named_lock_0_2_0": ":named-lock-0.2.0-named-lock_0_2_0",
+        "nonempty_0_9_0": ":nonempty-0.9.0-nonempty_0_9_0",
         "num_0_4_1": ":num-0.4.1-num_0_4_1",
         "num_bigint_0_4_3": ":num-bigint-0.4.4-num-bigint_0_4_3",
         "num_cpus_1_15_0": ":num_cpus-1.16.0-num_cpus_1_15_0",
@@ -26653,7 +26683,7 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [
-        ":indexmap-2.1.0",
+        ":indexmap-2.1.0-indexmap_2_1_0",
         ":itoa-1.0.10",
         ":ryu-1.0.16",
         ":serde-1.0.193-serde_1_0_190",
@@ -26905,7 +26935,7 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [
-        ":indexmap-2.1.0",
+        ":indexmap-2.1.0-indexmap_2_1_0",
         ":itoa-1.0.10",
         ":ryu-1.0.16",
         ":serde-1.0.193-serde_1_0_190",

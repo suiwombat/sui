@@ -1,0 +1,37 @@
+
+deps = [
+    "//external-crates/move/crates/move-binary-format:move-binary-format",
+    "//external-crates/move/crates/move-command-line-common:move-command-line-common",
+    "//external-crates/move/crates/move-core-types:move-core-types",
+    "//external-crates/move/crates/move-docgen:move-docgen",
+    "//external-crates/move/crates/move-errmapgen:move-errmapgen",
+    "//external-crates/move/crates/move-prover:move-prover",
+    "//external-crates/move/crates/move-vm-types:move-vm-types",
+    "//third-party:anyhow_1_0_71",
+    "//third-party:hex_0_4_3",
+    "//third-party:log_0_4_20",
+    "//third-party:sha2_0_9_9",
+    "//third-party:sha3_0_9_1",
+    "//third-party:smallvec_1_10_0",
+    "//third-party:walkdir_2_3_2"
+]
+named_deps = {
+    "move-vm-runtime": "//external-crates/move/move-execution/next-vm/crates/move-vm-runtime:move-vm-runtime-next-vm"
+}
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Diem Association <opensource@diem.com>]",
+    "CARGO_PKG_DESCRIPTION": "Diem stdlib",
+    "CARGO_PKG_NAME": "move-stdlib-next-vm",
+    "CARGO_PKG_VERSION": "0.1.1",
+}
+rust_library(
+    name = "move-stdlib-next-vm",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    named_deps = named_deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)
