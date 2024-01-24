@@ -2,6 +2,7 @@ deps = [
     "//crates/mysten-common:mysten-common",
     "//crates/mysten-metrics:mysten-metrics",
     "//crates/mysten-network:mysten-network",
+    "//external-crates/move/crates/move-vm-profiler:move-vm-profiler",
     "//crates/sui-archival:sui-archival",
     "//crates/sui-config:sui-config",
     "//crates/sui-core:sui-core",
