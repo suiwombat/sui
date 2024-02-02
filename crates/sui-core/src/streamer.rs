@@ -49,7 +49,7 @@ where
                 .channels
                 .with_label_values(&[&channel_label])
         };
-
+        eprintln!("wat wat streamer.rs");
         let (tx, rx) = mysten_metrics::metered_channel::channel(buffer, &gauge);
         let streamer = Self {
             streamer_queue: tx,

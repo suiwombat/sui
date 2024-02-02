@@ -1,6 +1,6 @@
-
 deps = [
     "//crates/mysten-metrics:mysten-metrics",
+    "//crates/sui-config:sui-config",
     "//crates/sui-json-rpc-types:sui-json-rpc-types",
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-types:sui-types",
@@ -42,7 +42,7 @@ deps = [
     "//third-party:tokio_1_28_1",
     "//third-party:tracing_0_1_37",
     "//third-party:url_2_3_1",
-    "//third-party:zstd_0_12_3"
+    "//third-party:zstd_0_12_3",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -51,11 +51,12 @@ env = {
     "CARGO_PKG_VERSION": "0.1.0",
 }
 rust_library(
-    name = "sui-storage",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    deps = deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="sui-storage",
+    incremental_enabled=True,
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )

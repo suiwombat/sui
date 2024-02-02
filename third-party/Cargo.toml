@@ -63,9 +63,9 @@ enum_dispatch_0_3_9 = {version="0.3.9",package="enum_dispatch"}
 ethnum_1_3_2 = {version="1.3.2",package="ethnum"}
 eyre_0_6_8 = {version="0.6.8",package="eyre",features=["auto-install","track-caller"]}
 fail_0_4_0 = {version="0.4.0",package="fail"}
-fastcrypto-tbls_0_1_0 = {git="https://github.com/MystenLabs/fastcrypto",rev="9579a60fbffe15c0f65626ae55998bf8ef42e193",package="fastcrypto-tbls"}
-fastcrypto-zkp_0_1_2 = {git="https://github.com/MystenLabs/fastcrypto",rev="9579a60fbffe15c0f65626ae55998bf8ef42e193",package="fastcrypto-zkp"}
-fastcrypto_0_1_7 = {git="https://github.com/MystenLabs/fastcrypto",rev="9579a60fbffe15c0f65626ae55998bf8ef42e193",package="fastcrypto",features=["beacon-dkg","copy_key"]}
+fastcrypto-tbls_0_1_0 = {git="https://github.com/MystenLabs/fastcrypto",rev="ea66012b860d9dd152abb7f2156275698ee91126",package="fastcrypto-tbls"}
+fastcrypto-zkp_0_1_2 = {git="https://github.com/MystenLabs/fastcrypto",rev="ea66012b860d9dd152abb7f2156275698ee91126",package="fastcrypto-zkp"}
+fastcrypto_0_1_7 = {git="https://github.com/MystenLabs/fastcrypto",rev="ea66012b860d9dd152abb7f2156275698ee91126",package="fastcrypto",features=["beacon-dkg","copy_key"]}
 fdlimit_0_2_1 = {version="0.2.1",package="fdlimit"}
 futures_0_3_29 = {version="0.3.29",package="futures",features=["alloc","async-await","bilock","executor","futures-executor","std","unstable"]}
 git-version_0_3_5 = {version="0.3.5",package="git-version"}

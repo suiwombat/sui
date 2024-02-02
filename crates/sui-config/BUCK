@@ -1,23 +1,24 @@
-
 deps = [
     "//crates/sui-keys:sui-keys",
     "//crates/sui-protocol-config:sui-protocol-config",
-    "//crates/sui-storage:sui-storage",
     "//crates/sui-types:sui-types",
     "//narwhal/config:narwhal-config",
     "//third-party:anemo_0_0_0",
     "//third-party:anyhow_1_0_71",
     "//third-party:bcs_0_1_4",
+    "//third-party:clap_4_4_1",
     "//third-party:csv_1_2_1",
     "//third-party:dirs_4_0_0",
     "//third-party:fastcrypto_0_1_7",
+    "//third-party:object_store_0_7_0",
     "//third-party:once_cell_1_18_0",
     "//third-party:prometheus_0_13_3",
     "//third-party:rand_0_8_5",
+    "//third-party:reqwest_0_11_20",
     "//third-party:serde_1_0_190",
     "//third-party:serde_with_2_1_0",
     "//third-party:serde_yaml_0_8_26",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -26,11 +27,12 @@ env = {
     "CARGO_PKG_VERSION": "0.0.0",
 }
 rust_library(
-    name = "sui-config",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    deps = deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="sui-config",
+    incremental_enabled=True,
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )

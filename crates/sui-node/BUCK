@@ -54,6 +54,7 @@ env = {
 
 rust_library(
     name="lib",
+    incremental_enabled=True,
     srcs=[
         "src/admin.rs",
         "src/handle.rs",

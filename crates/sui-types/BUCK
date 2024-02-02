@@ -1,4 +1,3 @@
-
 deps = [
     "//crates/mysten-metrics:mysten-metrics",
     "//crates/mysten-network:mysten-network",
@@ -27,23 +26,24 @@ deps = [
     "//third-party:derive_more_0_99_17",
     "//third-party:enum_dispatch_0_3_9",
     "//third-party:eyre_0_6_8",
-    "//third-party:fastcrypto-zkp_0_1_2",
     "//third-party:fastcrypto_0_1_7",
+    "//third-party:fastcrypto-tbls_0_1_0",
+    "//third-party:fastcrypto-zkp_0_1_2",
     "//third-party:im_15_1_0",
     "//third-party:indexmap_2_1_0",
     "//third-party:itertools_0_10_5",
     "//third-party:nonempty_0_9_0",
     "//third-party:once_cell_1_18_0",
     "//third-party:prometheus_0_13_3",
-    "//third-party:proptest-derive_0_3_0",
     "//third-party:proptest_1_1_0",
+    "//third-party:proptest-derive_0_3_0",
     "//third-party:rand_0_8_5",
     "//third-party:roaring_0_10_1",
     "//third-party:schemars_0_8_12",
-    "//third-party:serde-name_0_2_1",
     "//third-party:serde_1_0_190",
     "//third-party:serde_json_1_0_95",
     "//third-party:serde_with_2_1_0",
+    "//third-party:serde-name_0_2_1",
     "//third-party:signature_1_6_4",
     "//third-party:static_assertions_1_1_0",
     "//third-party:strum_0_24_1",
@@ -51,7 +51,7 @@ deps = [
     "//third-party:tap_1_0_1",
     "//third-party:thiserror_1_0_50",
     "//third-party:tonic_0_10_0",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -60,12 +60,13 @@ env = {
     "CARGO_PKG_VERSION": "0.1.0",
 }
 rust_library(
-    name = "sui-types",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    features = ["fuzzing","test-utils"],
-    deps = deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="sui-types",
+    incremental_enabled=True,
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    features=["fuzzing", "test-utils"],
+    deps=deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )

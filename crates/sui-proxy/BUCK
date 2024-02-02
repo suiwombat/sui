@@ -42,6 +42,7 @@ env = {
 }
 rust_library(
     name="lib",
+    incremental_enabled=True,
     srcs=glob(["*", "**/*"]),
     crate_root="src/lib.rs",
     env=env,
