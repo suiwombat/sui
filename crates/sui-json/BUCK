@@ -1,4 +1,3 @@
-
 deps = [
     "//crates/sui-framework:sui-framework",
     "//crates/sui-types:sui-types",
@@ -10,7 +9,7 @@ deps = [
     "//third-party:fastcrypto_0_1_7",
     "//third-party:schemars_0_8_12",
     "//third-party:serde_1_0_190",
-    "//third-party:serde_json_1_0_95"
+    "//third-party:serde_json_1_0_95",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -19,11 +18,12 @@ env = {
     "CARGO_PKG_VERSION": "0.0.0",
 }
 rust_library(
-    name = "sui-json",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    deps = deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="sui-json",
+    incremental_enabled=True,
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )

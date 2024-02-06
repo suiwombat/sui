@@ -5915,6 +5915,7 @@ dependencies = [
  "fastcrypto-zkp",
  "fdlimit",
  "futures",
+ "futures-core",
  "git-version",
  "governor",
  "hashbrown 0.12.3",
