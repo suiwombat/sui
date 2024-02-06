@@ -62,3 +62,11 @@ rust_binary(
     visibility=["PUBLIC"],
 )
 # BUILD_SCRIPT IS NEEDED
+load("//mysten:oci_image.bzl", "oci_image")
+oci_image(
+    name="test",
+    # builder="joeman",
+    layers=[
+        "sui-proxy:7",
+    ],
+)

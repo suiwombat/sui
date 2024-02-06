@@ -3,6 +3,7 @@ load("@prelude//toolchains:rust.bzl", "system_rust_toolchain")
 load("@prelude//toolchains:go.bzl", "system_go_toolchain")
 load("@prelude//toolchains:cxx.bzl", "system_cxx_toolchain")
 load("@prelude//toolchains:python.bzl", "system_python_bootstrap_toolchain")
+load("//prelude-mysten/toolchains:oci.bzl", "system_oci_toolchain")
 
 
 system_genrule_toolchain(
@@ -15,7 +16,6 @@ system_rust_toolchain(
     default_edition="2021",
     visibility=["PUBLIC"],
 )
-
 
 system_go_toolchain(
     name="go",
@@ -36,5 +36,11 @@ system_cxx_toolchain(
 
 system_python_bootstrap_toolchain(
     name="python_bootstrap",
+    visibility=["PUBLIC"],
+)
+
+system_oci_toolchain(
+    name="oci",
+    builder="/opt/homebrew/bin/podman",
     visibility=["PUBLIC"],
 )
