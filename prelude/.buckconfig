@@ -23,3 +23,7 @@ config = ovr_config
 [buildfile]
 [not_buildfile] # @oss-enable
 name = TARGETS
+
+[build]
+# Apparently necessary when passing `--target-platforms XXXXX` or when using `configured_alias(platform = ...)`.
+execution_platforms = prelude//platforms:default

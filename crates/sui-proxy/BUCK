@@ -62,11 +62,23 @@ rust_binary(
     visibility=["PUBLIC"],
 )
 # BUILD_SCRIPT IS NEEDED
-load("//mysten:oci_image.bzl", "oci_image")
-oci_image(
-    name="test",
-    # builder="joeman",
+load("@prelude-mysten//podman/podman_image.bzl", "podman_image")
+load("@prelude-mysten//mypkg/mypkg.bzl", "get_mypkg")
+
+get_mypkg(
+    name="mypkg-sui-proxy",
+    build="sui-proxy:7",
+)
+
+get_mypkg(
+    name="mypkg-hello",
+    build="hello:9",
+)
+
+podman_image(
+    name="podman",
     layers=[
-        "sui-proxy:7",
+        ":mypkg-sui-proxy",
+        ":mypkg-hello",
     ],
 )

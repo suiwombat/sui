@@ -2,8 +2,13 @@ load("@prelude//toolchains:genrule.bzl", "system_genrule_toolchain")
 load("@prelude//toolchains:rust.bzl", "system_rust_toolchain")
 load("@prelude//toolchains:go.bzl", "system_go_toolchain")
 load("@prelude//toolchains:cxx.bzl", "system_cxx_toolchain")
-load("@prelude//toolchains:python.bzl", "system_python_bootstrap_toolchain")
-load("//prelude-mysten/toolchains:oci.bzl", "system_oci_toolchain")
+load(
+    "@prelude//toolchains:python.bzl",
+    "system_python_bootstrap_toolchain",
+    "system_python_toolchain",
+)
+load("@prelude-mysten//toolchains:podman.bzl", "system_podman_toolchain")
+load("@prelude-mysten//toolchains:mypkg.bzl", "system_mypkg_toolchain")
 
 
 system_genrule_toolchain(
@@ -39,8 +44,23 @@ system_python_bootstrap_toolchain(
     visibility=["PUBLIC"],
 )
 
-system_oci_toolchain(
-    name="oci",
+system_python_toolchain(
+    name="python",
+    visibility=["PUBLIC"],
+)
+
+system_podman_toolchain(
+    name="podman",
+    # TODO something else than this...
+    # this is symlinked from a local go install
     builder="/opt/homebrew/bin/podman",
+    visibility=["PUBLIC"],
+)
+
+system_mypkg_toolchain(
+    name="mypkg",
+    # TODO something else than this...
+    # this is symlinked from a local go install
+    bin="/usr/local/bin/mypkg",
     visibility=["PUBLIC"],
 )
