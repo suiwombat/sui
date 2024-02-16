@@ -57,7 +57,7 @@ def get_mypkg(name: str, build: str, arch: [None, str] = None, os: [None, str] =
         version=mypkg_version,
         arch=arch,
         os=os,
-        bin="{}_{}_{}_{}".format(mypkg_name, mypkg_version, os, arch),
+        bin="{}_{}_{}".format(mypkg_name, os, arch).lower(),
     )
 
 

@@ -8,6 +8,7 @@ load(
     "system_python_toolchain",
 )
 load("@prelude-mysten//toolchains:podman.bzl", "system_podman_toolchain")
+load("@prelude-mysten//toolchains:buildah.bzl", "system_buildah_toolchain")
 load("@prelude-mysten//toolchains:mypkg.bzl", "system_mypkg_toolchain")
 
 
@@ -62,5 +63,12 @@ system_mypkg_toolchain(
     # TODO something else than this...
     # this is symlinked from a local go install
     bin="/usr/local/bin/mypkg",
+    visibility=["PUBLIC"],
+)
+
+system_buildah_toolchain(
+    name="buildah",
+    # TODO same as above for this
+    bin="/usr/bin/buildah",
     visibility=["PUBLIC"],
 )

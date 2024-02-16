@@ -62,23 +62,24 @@ rust_binary(
     visibility=["PUBLIC"],
 )
 # BUILD_SCRIPT IS NEEDED
-load("@prelude-mysten//podman/podman_image.bzl", "podman_image")
+load("@prelude-mysten//buildah/buildah_image.bzl", "buildah_image")
 load("@prelude-mysten//mypkg/mypkg.bzl", "get_mypkg")
 
 get_mypkg(
-    name="mypkg-sui-proxy",
-    build="sui-proxy:7",
-)
-
-get_mypkg(
-    name="mypkg-hello",
+    name="sui-proxy-prod",
     build="hello:9",
 )
 
-podman_image(
-    name="podman",
+export_file(
+    name="dockerfile",
+    src="Dockerfile",
+)
+
+buildah_image(
+    name="ubuntu-sui-proxy",
+    # dockerfile=":dockerfile",
+    dockerfile="Dockerfile",
     layers=[
-        ":mypkg-sui-proxy",
-        ":mypkg-hello",
+        ":sui-proxy-prod",
     ],
 )
