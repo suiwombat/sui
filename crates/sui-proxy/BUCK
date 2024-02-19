@@ -67,17 +67,11 @@ load("@prelude-mysten//mypkg/mypkg.bzl", "get_mypkg")
 
 get_mypkg(
     name="sui-proxy-prod",
-    build="hello:9",
-)
-
-export_file(
-    name="dockerfile",
-    src="Dockerfile",
+    build="sui-proxy:10",
 )
 
 buildah_image(
     name="ubuntu-sui-proxy",
-    # dockerfile=":dockerfile",
     dockerfile="Dockerfile",
     layers=[
         ":sui-proxy-prod",
