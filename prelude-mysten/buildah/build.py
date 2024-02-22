@@ -71,6 +71,7 @@ def main(args: argparse.Namespace) -> None:
         f"localhost/{args.name}:{build_id}",
         "--logfile",
         "build_logfile.log",
+        "--pull",
     ]
 
     # buildah wants docker args as build-args.  re-map this from buck

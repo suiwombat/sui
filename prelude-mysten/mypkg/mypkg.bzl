@@ -6,7 +6,7 @@ load("//toolchains/mypkg.bzl", "MyPkgToolchainInfo")
 def _host_arch() -> str:
     arch = host_info().arch
     if arch.is_x86_64:
-        return "x86_64"
+        return "amd64"
     elif host_info().arch.is_aarch64:
         return "arm64"
     else:
@@ -16,40 +16,94 @@ def _host_arch() -> str:
 def _host_os() -> str:
     os = host_info().os
     if os.is_linux:
-        return "Linux"
+        return "linux"
     elif os.is_macos:
-        return "Darwin"
+        return "macos"
     elif os.is_windows:
-        return "Windows"
+        return "windows"
     else:
         fail("Unsupported host os.")
 
 
+def _project_output(out: Artifact, path: str) -> Artifact:
+    if path == ".":
+        return out
+    elif path.endswith("/"):
+        return out.project(path[:-1], hide_prefix=True)
+    else:
+        return out.project(path, hide_prefix=True)
+
+
 def _get_mypkg_impl(ctx: AnalysisContext):
+
+    meta_helper = ctx.actions.declare_output("meta.json")
+    materialized_meta = ctx.actions.declare_output("materialized_meta.json")
     dst = ctx.actions.declare_output(ctx.attrs.bin)
     mypkg = ctx.attrs._mypkg_toolchain[MyPkgToolchainInfo].bin
     ctx.actions.run(
         [mypkg, cmd_args("fetch", ctx.attrs.build, "-o", dst.as_output())],
+        env={"META_HELPER": meta_helper.as_output()},
+        local_only=True,
         category="mypkg_fetch",
     )
 
+    def validate_meta_json(ctx, artifacts, outputs):
+        def os_enum_to_string(v):
+            if v == 1:
+                return "macos"
+            if v == 2:
+                return "linux"
+            if v == 3:
+                return "windows"
+            fail("unknown os type: {}".format(v))
+
+        def arch_enum_to_string(v):
+            if v == 1:
+                return "amd64"
+            if v == 2:
+                return "arm64"
+            fail("unknown arch type: {}".format(v))
+
+        meta_info = artifacts[meta_helper].read_json()
+        requested_arch_type = ctx.attrs.arch
+        requested_os_type = ctx.attrs.os
+        provided_os_type = os_enum_to_string(meta_info["os_type"])
+        provided_arch_type = arch_enum_to_string(meta_info["arch_type"])
+        if requested_arch_type != provided_arch_type:
+            fail(
+                "mismatched arch from mypkg: {}, wanted {}".format(
+                    provided_arch_type, requested_arch_type
+                )
+            )
+
+        if requested_os_type != provided_os_type:
+            fail(
+                "mismatched os from mypkg: {}, wanted {}".format(
+                    provided_os_type, requested_os_type
+                )
+            )
+        # we don't use this output, it's to satify the buck build process. annoying.
+        ctx.actions.write_json(outputs[materialized_meta], meta_info)
+
+    ctx.actions.dynamic_output(
+        dynamic=[meta_helper],
+        inputs=[],
+        outputs=[materialized_meta],
+        f=validate_meta_json,
+    )
+
     return [
-        DefaultInfo(default_output=dst),
+        DefaultInfo(default_outputs=[dst, materialized_meta]),
         MypkgInfo(
             build=ctx.attrs.build,
             version=ctx.attrs.version,
-            arch=ctx.attrs.arch,
-            os=ctx.attrs.os,
+            arch="ctx.attrs.arch",
+            os="ctx.attrs.os",
         ),
     ]
 
 
 def get_mypkg(name: str, build: str, arch: [None, str] = None, os: [None, str] = None):
-    if arch == None:
-        arch = _host_arch()
-    if os == None:
-        os = _host_os()
-
     (mypkg_name, mypkg_version) = build.split(":")
     mypkg_artifact(
         name=name,
@@ -57,7 +111,7 @@ def get_mypkg(name: str, build: str, arch: [None, str] = None, os: [None, str] =
         version=mypkg_version,
         arch=arch,
         os=os,
-        bin="{}_{}_{}".format(mypkg_name, os, arch).lower(),
+        bin=mypkg_name,
     )
 
 
@@ -66,8 +120,8 @@ mypkg_artifact = rule(
     attrs={
         "build": attrs.string(),
         "version": attrs.string(),
-        "arch": attrs.string(default="aarch64"),
-        "os": attrs.string(default="macos"),
+        "arch": attrs.string(default="amd64"),
+        "os": attrs.string(default="linux"),
         "bin": attrs.string(),
         "_mypkg_toolchain": attrs.toolchain_dep(
             default="toolchains//:mypkg", providers=[MyPkgToolchainInfo]

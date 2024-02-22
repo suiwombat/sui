@@ -7,9 +7,15 @@ def _buildah_image_impl(
     ctx: AnalysisContext,
 ):
     docker_root = ctx.actions.declare_output("docker_root", dir=True)
-    deps = {
-        "Dockerfile": ctx.attrs.dockerfile,
-    }
+    deps = {}
+
+    if ctx.attrs.srcs:
+        for src in ctx.attrs.srcs:
+            deps[src.short_path] = src
+
+    if ctx.attrs.mapped_sources:
+        deps.update(ctx.attrs.mapped_sources)
+
     for layer in ctx.attrs.layers:
         for dep in layer[DefaultInfo].default_outputs:
             deps[dep.short_path] = dep
@@ -55,7 +61,10 @@ buildah_image = rule(
     impl=_buildah_image_impl,
     attrs={
         "layers": attrs.list(attrs.dep()),
-        "dockerfile": attrs.source(),
+        "srcs": attrs.option(attrs.list(attrs.source())),
+        "mapped_sources": attrs.option(
+            attrs.dict(key=attrs.string(), value=attrs.source())
+        ),
         "_python_toolchain": attrs.toolchain_dep(
             default="toolchains//:python", providers=[PythonToolchainInfo]
         ),

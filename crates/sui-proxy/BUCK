@@ -60,6 +60,7 @@ rust_binary(
     env=env,
     edition="2021",
     visibility=["PUBLIC"],
+    rustc_flags=["-C", "target-feature=+crt-static"],
 )
 # BUILD_SCRIPT IS NEEDED
 load("@prelude-mysten//buildah/buildah_image.bzl", "buildah_image")
@@ -67,13 +68,14 @@ load("@prelude-mysten//mypkg/mypkg.bzl", "get_mypkg")
 
 get_mypkg(
     name="sui-proxy-prod",
-    build="sui-proxy:10",
+    build="sui-proxy:prod",
 )
 
 buildah_image(
     name="ubuntu-sui-proxy",
-    dockerfile="Dockerfile",
-    layers=[
-        ":sui-proxy-prod",
-    ],
+    srcs=["Dockerfile"],
+    mapped_sources={
+        "sui-proxy.yaml": "src/data/config.yaml",
+    },
+    layers=[":sui-proxy-prod"],
 )

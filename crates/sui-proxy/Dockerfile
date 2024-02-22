@@ -1,11 +1,11 @@
-FROM debian:bullseye-slim AS runtime
-# Use jemalloc as memory allocator
-# RUN apt-get update && apt-get install -y libjemalloc-dev ca-certificates
-# ENV LD_PRELOAD /usr/lib/x86_64-linux-gnu/libjemalloc.so
+# FROM gcr.io/distroless/base-debian12
+FROM --platform=linux/amd64 debian:bullseye-slim
+# Use jemalloc as memory allocator 
+RUN apt-get update && apt-get install -y libjemalloc-dev ca-certificates
+ENV LD_PRELOAD /usr/lib/x86_64-linux-gnu/libjemalloc.so
 # Both bench and release profiles copy from release dir
-COPY hello_linux_x86_64 /opt/sui/bin/sui-proxy
-# Support legacy usages of /usr/local/bin/sui-node
-RUN ln -s /opt/sui/bin/sui-proxy /usr/local/bin
+COPY sui-proxy /opt/sui/bin/sui-proxy
+COPY sui-proxy.yaml /opt/sui/config/sui-proxy.yaml
 
 ARG BUILD_DATE
 ARG GIT_REVISION

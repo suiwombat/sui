@@ -132,7 +132,7 @@ rand_0_8_5 = {version="0.8.5",package="rand",features=["alloc","getrandom","libc
 rcgen_0_9_3 = {version="0.9.3",package="rcgen",features=["pem"]}
 ref-cast_1_0_14 = {version="1.0.14",package="ref-cast"}
 regex_1_8_4 = {version="1.8.4",package="regex",features=["aho-corasick","memchr","perf","perf-cache","perf-dfa","perf-inline","perf-literal","std","unicode","unicode-age","unicode-bool","unicode-case","unicode-gencat","unicode-perl","unicode-script","unicode-segment"]}
-reqwest_0_11_20 = {version="0.11.20",package="reqwest",features=["__rustls","__tls","blocking","hyper-rustls","json","rustls","rustls-pemfile","rustls-tls","rustls-tls-webpki-roots","serde_json","stream","tokio-rustls","tokio-util","wasm-streams","webpki-roots"]}
+reqwest_0_11_20 = {version="0.11.20",package="reqwest",default_features = false, features=["blocking","json","rustls-tls"]}
 roaring_0_10_1 = {version="0.10.1",package="roaring"}
 rocksdb_0_21_0 = {version="0.21.0",package="rocksdb",features=["lz4","multi-threaded-cf","snappy","zlib","zstd"]}
 rustls-pemfile_1_0_2 = {version="1.0.2",package="rustls-pemfile"}
@@ -181,7 +181,15 @@ tower-layer_0_3_2 = {version="0.3.2",package="tower-layer"}
 tower_0_4_13 = {version="0.4.13",package="tower",features=["__common","balance","buffer","discover","filter","full","futures-core","futures-util","hdrhistogram","hedge","indexmap","limit","load","load-shed","log","make","pin-project","pin-project-lite","rand","ready-cache","reconnect","retry","slab","spawn-ready","steer","timeout","tokio","tokio-util","tracing","util"]}
 tracing-appender_0_2_2 = {version="0.2.2",package="tracing-appender"}
 tracing-opentelemetry_0_21_0 = {version="0.21.0",package="tracing-opentelemetry",features=["metrics","smallvec","tracing-log"]}
-tracing-subscriber_0_3_17 = {version="0.3.17",package="tracing-subscriber",features=["alloc","ansi","env-filter","fmt","json","matchers","nu-ansi-term","once_cell","regex","registry","serde","serde_json","sharded-slab","smallvec","std","thread_local","time","tracing","tracing-log","tracing-serde"]}
+tracing-subscriber_0_3_17 = {version="0.3.17", package="tracing-subscriber",default-features = false,features=[
+      "std",
+  "smallvec",
+  "fmt",
+  "ansi",
+  "time",
+  "json",
+  "registry",
+  "env-filter",]}
 tracing_0_1_37 = {version="0.1.37",package="tracing",features=["attributes","log","std","tracing-attributes"]}
 treeline_0_1_0 = {version="0.1.0",package="treeline"}
 uint_0_9_5 = {version="0.9.5",package="uint",features=["std"]}
