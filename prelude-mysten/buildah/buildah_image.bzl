@@ -1,5 +1,6 @@
 load("@prelude//python:toolchain.bzl", "PythonToolchainInfo")
 load("//toolchains/buildah.bzl", "BuildahToolchainInfo")
+load("//toolchains/gcloud.bzl", "GcloudToolchainInfo")
 load("//mypkg:mypkg.bzl", "MypkgInfo")
 
 
@@ -40,7 +41,7 @@ def _buildah_image_impl(
         builder_script,
         "--buildah",
         buildah,
-        "--name",
+        "--image_name",
         ctx.attrs.name,
         "--docker_root",
         docker_root,
@@ -51,6 +52,12 @@ def _buildah_image_impl(
         "--out",
         build_script_output.as_output(),
     )
+    if ctx.attrs.registry:
+        # we only support gcloud atm
+        gcloud = ctx.attrs._gcloud_toolchain[GcloudToolchainInfo].bin
+        cmd.add("--gcloud", gcloud)
+        cmd.add("--registry", ctx.attrs.registry)
+
     ctx.actions.run(cmd, category="buildah_image_and_export", env=env)
     return [
         DefaultInfo(default_outputs=[build_script_output]),
@@ -60,16 +67,20 @@ def _buildah_image_impl(
 buildah_image = rule(
     impl=_buildah_image_impl,
     attrs={
+        "srcs": attrs.option(attrs.list(attrs.source()), default=None),
         "layers": attrs.list(attrs.dep()),
-        "srcs": attrs.option(attrs.list(attrs.source())),
+        "registry": attrs.option(attrs.string(), default=None),
         "mapped_sources": attrs.option(
-            attrs.dict(key=attrs.string(), value=attrs.source())
+            attrs.dict(key=attrs.string(), value=attrs.source()), default=None
         ),
         "_python_toolchain": attrs.toolchain_dep(
             default="toolchains//:python", providers=[PythonToolchainInfo]
         ),
         "_buildah_toolchain": attrs.toolchain_dep(
             default="toolchains//:buildah", providers=[BuildahToolchainInfo]
+        ),
+        "_gcloud_toolchain": attrs.toolchain_dep(
+            default="toolchains//:gcloud", providers=[GcloudToolchainInfo]
         ),
     },
 )

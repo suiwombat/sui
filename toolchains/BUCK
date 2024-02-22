@@ -10,6 +10,7 @@ load(
 load("@prelude-mysten//toolchains:podman.bzl", "system_podman_toolchain")
 load("@prelude-mysten//toolchains:buildah.bzl", "system_buildah_toolchain")
 load("@prelude-mysten//toolchains:mypkg.bzl", "system_mypkg_toolchain")
+load("@prelude-mysten//toolchains:gcloud.bzl", "system_gcloud_toolchain")
 
 
 system_genrule_toolchain(
@@ -52,23 +53,24 @@ system_python_toolchain(
 
 system_podman_toolchain(
     name="podman",
-    # TODO something else than this...
-    # this is symlinked from a local go install
-    builder="/opt/homebrew/bin/podman",
-    visibility=["PUBLIC"],
-)
-
-system_mypkg_toolchain(
-    name="mypkg",
-    # TODO something else than this...
-    # this is symlinked from a local go install
-    bin="/usr/local/bin/mypkg",
+    bin="/opt/homebrew/bin/podman",
     visibility=["PUBLIC"],
 )
 
 system_buildah_toolchain(
     name="buildah",
-    # TODO same as above for this
     bin="/usr/bin/buildah",
+    visibility=["PUBLIC"],
+)
+
+system_mypkg_toolchain(
+    name="mypkg",
+    bin="/usr/local/bin/mypkg",
+    visibility=["PUBLIC"],
+)
+
+system_gcloud_toolchain(
+    name="gcloud",
+    bin="/usr/bin/gcloud",
     visibility=["PUBLIC"],
 )

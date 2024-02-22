@@ -3,37 +3,6 @@ load("//toolchains/podman.bzl", "PodmanToolchainInfo")
 load("//toolchains/mypkg.bzl", "MyPkgToolchainInfo")
 
 
-def _host_arch() -> str:
-    arch = host_info().arch
-    if arch.is_x86_64:
-        return "amd64"
-    elif host_info().arch.is_aarch64:
-        return "arm64"
-    else:
-        fail("Unsupported host architecture.")
-
-
-def _host_os() -> str:
-    os = host_info().os
-    if os.is_linux:
-        return "linux"
-    elif os.is_macos:
-        return "macos"
-    elif os.is_windows:
-        return "windows"
-    else:
-        fail("Unsupported host os.")
-
-
-def _project_output(out: Artifact, path: str) -> Artifact:
-    if path == ".":
-        return out
-    elif path.endswith("/"):
-        return out.project(path[:-1], hide_prefix=True)
-    else:
-        return out.project(path, hide_prefix=True)
-
-
 def _get_mypkg_impl(ctx: AnalysisContext):
 
     meta_helper = ctx.actions.declare_output("meta.json")
@@ -65,6 +34,7 @@ def _get_mypkg_impl(ctx: AnalysisContext):
             fail("unknown arch type: {}".format(v))
 
         meta_info = artifacts[meta_helper].read_json()
+        pprint(meta_info)
         requested_arch_type = ctx.attrs.arch
         requested_os_type = ctx.attrs.os
         provided_os_type = os_enum_to_string(meta_info["os_type"])
@@ -97,8 +67,8 @@ def _get_mypkg_impl(ctx: AnalysisContext):
         MypkgInfo(
             build=ctx.attrs.build,
             version=ctx.attrs.version,
-            arch="ctx.attrs.arch",
-            os="ctx.attrs.os",
+            arch=ctx.attrs.arch,
+            os=ctx.attrs.os,
         ),
     ]
 
