@@ -23,6 +23,8 @@ deps = [
     "//third-party:reqwest_0_11_20",
     "//third-party:rustls-pemfile_1_0_2",
     "//third-party:rustls_0_21_6",
+    "//third-party:ipnetwork_0_20_0",
+    "//third-party:hex_0_4_3",
     "//third-party:serde_1_0_190",
     "//third-party:serde_json_1_0_95",
     "//third-party:serde_with_2_1_0",

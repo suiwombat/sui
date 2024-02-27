@@ -1,4 +1,5 @@
 deps = [
+    "//consensus/config:consensus-config",
     "//crates/mysten-metrics:mysten-metrics",
     "//crates/mysten-network:mysten-network",
     "//crates/shared-crypto:shared-crypto",
@@ -49,7 +50,7 @@ deps = [
     "//third-party:strum_0_24_1",
     "//third-party:strum_macros_0_24_3",
     "//third-party:tap_1_0_1",
-    # ,
+    "//third-party:thiserror_1_0_56",
     "//third-party:tonic_0_10_0",
     "//third-party:tracing_0_1_37",
 ]

@@ -1,3 +1,12 @@
 cargo_env = true
-[[buildscript]]
-[buildscript.rustc_flags]
+[[platform_fixup.'cfg(target_arch="x86_64")'.buildscript]]
+[platform_fixup.'cfg(target_arch="x86_64")'.buildscript.cxx_library]
+name = "psm_x86_64"
+srcs = ["psm/src/*.s"]
+headers = ["psm/src/*.h"]
+
+[[platform_fixup.'cfg(target_arch="aarch64")'.buildscript]]
+[platform_fixup.'cfg(target_arch="aarch64")'.buildscript.cxx_library]
+name = "psm_aarch64"
+srcs = ["psm/src/*.s"]
+headers = ["psm/src/*.h"]

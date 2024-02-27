@@ -18944,47 +18944,34 @@ cargo.rust_library(
         "vendor/psm-0.1.21/LICENSE-APACHE",
         "vendor/psm-0.1.21/LICENSE-MIT",
     ],
-    rustc_flags = ["@$(location :psm-0.1.21-build-script-run[rustc_flags])"],
-    visibility = [],
-)
-
-cargo.rust_binary(
-    name = "psm-0.1.21-build-script-build",
-    srcs = [
-        "vendor/psm-0.1.21/build.rs",
-        "vendor/psm-0.1.21/examples/info.rs",
-        "vendor/psm-0.1.21/examples/on_stack_fibo.rs",
-        "vendor/psm-0.1.21/examples/on_stack_fibo_alloc_each_frame.rs",
-        "vendor/psm-0.1.21/examples/panics.rs",
-        "vendor/psm-0.1.21/examples/replace_stack_1.rs",
-        "vendor/psm-0.1.21/examples/thread.rs",
-        "vendor/psm-0.1.21/src/lib.rs",
-        "vendor/psm-0.1.21/tests/stack_direction.rs",
-        "vendor/psm-0.1.21/tests/stack_direction_2.rs",
-    ],
-    crate = "build_script_build",
-    crate_root = "vendor/psm-0.1.21/build.rs",
-    edition = "2015",
-    env = {
-        "CARGO_MANIFEST_DIR": "vendor/psm-0.1.21",
-        "CARGO_PKG_AUTHORS": "Simonas Kazlauskas <psm@kazlauskas.me>",
-        "CARGO_PKG_DESCRIPTION": "Portable Stack Manipulation: stack manipulation and introspection routines",
-        "CARGO_PKG_NAME": "psm",
-        "CARGO_PKG_REPOSITORY": "https://github.com/rust-lang/stacker/",
-        "CARGO_PKG_VERSION": "0.1.21",
-        "CARGO_PKG_VERSION_MAJOR": "0",
-        "CARGO_PKG_VERSION_MINOR": "1",
-        "CARGO_PKG_VERSION_PATCH": "21",
+    platform = {
+        "linux-arm64": dict(
+            deps = [":psm-0.1.21-psm_aarch64"],
+        ),
+        "linux-x86_64": dict(
+            deps = [":psm-0.1.21-psm_x86_64"],
+        ),
+        "macos-arm64": dict(
+            deps = [":psm-0.1.21-psm_aarch64"],
+        ),
     },
     visibility = [],
-    deps = [":cc-1.0.83"],
 )
 
-buildscript_run(
-    name = "psm-0.1.21-build-script-run",
-    package_name = "psm",
-    buildscript_rule = ":psm-0.1.21-build-script-build",
-    version = "0.1.21",
+cxx_library(
+    name = "psm-0.1.21-psm_aarch64",
+    srcs = [],
+    headers = [],
+    preferred_linkage = "static",
+    visibility = [],
+)
+
+cxx_library(
+    name = "psm-0.1.21-psm_x86_64",
+    srcs = [],
+    headers = [],
+    preferred_linkage = "static",
+    visibility = [],
 )
 
 cargo.rust_library(
