@@ -1,4 +1,3 @@
-
 deps = [
     "//third-party:anemo_0_0_0",
     "//third-party:bcs_0_1_4",
@@ -7,6 +6,7 @@ deps = [
     "//third-party:futures_0_3_29",
     "//third-party:http_0_2_9",
     "//third-party:multiaddr_0_17_0",
+    "//third-party:pin-project-lite_0_2_13",
     "//third-party:serde_1_0_190",
     "//third-party:snap_1_1_0",
     "//third-party:tokio-stream_0_1_14",
@@ -15,7 +15,7 @@ deps = [
     "//third-party:tonic_0_10_0",
     "//third-party:tower-http_0_3_5",
     "//third-party:tower_0_4_13",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

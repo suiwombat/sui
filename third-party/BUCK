@@ -415,7 +415,7 @@ cargo.rust_library(
         ":hex-0.4.3-hex_0_4_3",
         ":http-0.2.11-http_0_2_9",
         ":matchit-0.5.0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":pkcs8-0.9.0-pkcs8_0_9_0",
         ":quinn-0.10.2",
         ":quinn-proto-0.10.6-quinn-proto_0_10_5",
@@ -508,7 +508,7 @@ cargo.rust_library(
         ":futures-0.3.30-futures_0_3_29",
         ":governor-0.6.0-governor_0_6_0",
         ":nonzero_ext-0.3.0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tower-0.4.13-tower_0_4_13",
         ":tracing-0.1.40-tracing_0_1_37",
@@ -1614,7 +1614,7 @@ cargo.rust_library(
         ":flate2-1.0.28",
         ":futures-core-0.3.30-futures-core_0_3_30",
         ":memchr-2.7.1",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-1.35.1-tokio_1_28_1",
     ],
 )
@@ -1658,7 +1658,7 @@ cargo.rust_library(
     deps = [
         ":async-stream-impl-0.3.5",
         ":futures-core-0.3.30-futures-core_0_3_30",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
     ],
 )
 
@@ -1961,7 +1961,7 @@ cargo.rust_library(
         ":http-body-0.4.6-http-body_0_4_5",
         ":lazy_static-1.4.0",
         ":percent-encoding-2.3.1-percent-encoding_2_2_0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tracing-0.1.40-tracing_0_1_37",
     ],
 )
@@ -4213,7 +4213,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":futures-util-0.3.30",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tokio-stream-0.1.14-tokio-stream_0_1_14",
     ],
@@ -4244,7 +4244,7 @@ cargo.rust_library(
         ":http-0.2.11-http_0_2_9",
         ":http-body-0.4.6-http-body_0_4_5",
         ":md-5-0.10.6",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":sha1-0.10.6",
         ":sha2-0.10.8",
         ":tracing-0.1.40-tracing_0_1_37",
@@ -4294,7 +4294,7 @@ cargo.rust_library(
         ":hyper-0.14.28-hyper_0_14_26",
         ":hyper-rustls-0.24.2-hyper-rustls_0_24_0",
         ":lazy_static-1.4.0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":rustls-0.21.10-rustls_0_21_6",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tower-0.4.13-tower_0_4_13",
@@ -4380,7 +4380,7 @@ cargo.rust_library(
         ":hyper-0.14.28-hyper_0_14_26",
         ":once_cell-1.19.0-once_cell_1_18_0",
         ":percent-encoding-2.3.1-percent-encoding_2_2_0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":pin-utils-0.1.0",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tokio-util-0.7.10",
@@ -4407,7 +4407,7 @@ cargo.rust_library(
         ":bytes-1.5.0-bytes_1_4_0",
         ":http-0.2.11-http_0_2_9",
         ":http-body-0.4.6-http-body_0_4_5",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tower-0.4.13-tower_0_4_13",
         ":tracing-0.1.40-tracing_0_1_37",
     ],
@@ -4497,7 +4497,7 @@ cargo.rust_library(
         ":http-0.2.11-http_0_2_9",
         ":http-body-0.4.6-http-body_0_4_5",
         ":once_cell-1.19.0-once_cell_1_18_0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":pin-utils-0.1.0",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tracing-0.1.40-tracing_0_1_37",
@@ -4794,7 +4794,7 @@ cargo.rust_library(
         ":memchr-2.7.1",
         ":mime-0.3.17",
         ":percent-encoding-2.3.1-percent-encoding_2_2_0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":serde-1.0.196-serde_1_0_190",
         ":serde_json-1.0.113-serde_json_1_0_95",
         ":serde_path_to_error-0.1.15",
@@ -4890,7 +4890,7 @@ cargo.rust_library(
         ":http-0.2.11-http_0_2_9",
         ":http-body-0.4.6-http-body_0_4_5",
         ":hyper-0.14.28-hyper_0_14_26",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":rustls-0.21.10-rustls_0_21_6",
         ":rustls-pemfile-1.0.4-rustls-pemfile_1_0_2",
         ":tokio-1.35.1-tokio_1_28_1",
@@ -4940,7 +4940,7 @@ cargo.rust_library(
         ":futures-core-0.3.30-futures-core_0_3_30",
         ":getrandom-0.2.12",
         ":instant-0.1.12",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":rand-0.8.5-rand_0_8_5",
     ],
 )
@@ -12535,7 +12535,7 @@ cargo.rust_library(
         ":futures-sink-0.3.30",
         ":futures-task-0.3.30",
         ":memchr-2.7.1",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":pin-utils-0.1.0",
         ":slab-0.4.9",
     ],
@@ -13576,7 +13576,7 @@ cargo.rust_library(
     deps = [
         ":bytes-1.5.0-bytes_1_4_0",
         ":http-0.2.11-http_0_2_9",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
     ],
 )
 
@@ -13792,7 +13792,7 @@ cargo.rust_library(
         ":httparse-1.8.0",
         ":httpdate-1.0.3",
         ":itoa-1.0.10",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":socket2-0.5.5",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tower-service-0.3.2",
@@ -13911,7 +13911,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":hyper-0.14.28-hyper_0_14_26",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tokio-io-timeout-1.2.0",
     ],
@@ -19433,7 +19433,7 @@ cargo.rust_library(
         ":futures-util-0.3.30",
         ":indexmap-1.9.3",
         ":once_cell-1.19.0-once_cell_1_18_0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":thiserror-1.0.56-thiserror_1_0_50",
         ":urlencoding-2.1.3",
     ],
@@ -20668,8 +20668,14 @@ cargo.rust_library(
     ],
 )
 
+alias(
+    name = "pin-project-lite_0_2_13",
+    actual = ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
+    visibility = ["PUBLIC"],
+)
+
 cargo.rust_library(
-    name = "pin-project-lite-0.2.13",
+    name = "pin-project-lite-0.2.13-pin-project-lite_0_2_13",
     srcs = ["vendor/pin-project-lite-0.2.13/src/lib.rs"],
     crate = "pin_project_lite",
     crate_root = "vendor/pin-project-lite-0.2.13/src/lib.rs",
@@ -22058,6 +22064,70 @@ buildscript_run(
 )
 
 cargo.rust_library(
+    name = "psm-0.1.21",
+    srcs = ["vendor/psm-0.1.21/src/lib.rs"],
+    crate = "psm",
+    crate_root = "vendor/psm-0.1.21/src/lib.rs",
+    edition = "2015",
+    env = {
+        "CARGO_MANIFEST_DIR": "vendor/psm-0.1.21",
+        "CARGO_PKG_AUTHORS": "Simonas Kazlauskas <psm@kazlauskas.me>",
+        "CARGO_PKG_DESCRIPTION": "Portable Stack Manipulation: stack manipulation and introspection routines",
+        "CARGO_PKG_NAME": "psm",
+        "CARGO_PKG_REPOSITORY": "https://github.com/rust-lang/stacker/",
+        "CARGO_PKG_VERSION": "0.1.21",
+        "CARGO_PKG_VERSION_MAJOR": "0",
+        "CARGO_PKG_VERSION_MINOR": "1",
+        "CARGO_PKG_VERSION_PATCH": "21",
+    },
+    licenses = [
+        "vendor/psm-0.1.21/LICENSE-APACHE",
+        "vendor/psm-0.1.21/LICENSE-MIT",
+    ],
+    rustc_flags = ["@$(location :psm-0.1.21-build-script-run[rustc_flags])"],
+    visibility = [],
+)
+
+cargo.rust_binary(
+    name = "psm-0.1.21-build-script-build",
+    srcs = [
+        "vendor/psm-0.1.21/build.rs",
+        "vendor/psm-0.1.21/examples/info.rs",
+        "vendor/psm-0.1.21/examples/on_stack_fibo.rs",
+        "vendor/psm-0.1.21/examples/on_stack_fibo_alloc_each_frame.rs",
+        "vendor/psm-0.1.21/examples/panics.rs",
+        "vendor/psm-0.1.21/examples/replace_stack_1.rs",
+        "vendor/psm-0.1.21/examples/thread.rs",
+        "vendor/psm-0.1.21/src/lib.rs",
+        "vendor/psm-0.1.21/tests/stack_direction.rs",
+        "vendor/psm-0.1.21/tests/stack_direction_2.rs",
+    ],
+    crate = "build_script_build",
+    crate_root = "vendor/psm-0.1.21/build.rs",
+    edition = "2015",
+    env = {
+        "CARGO_MANIFEST_DIR": "vendor/psm-0.1.21",
+        "CARGO_PKG_AUTHORS": "Simonas Kazlauskas <psm@kazlauskas.me>",
+        "CARGO_PKG_DESCRIPTION": "Portable Stack Manipulation: stack manipulation and introspection routines",
+        "CARGO_PKG_NAME": "psm",
+        "CARGO_PKG_REPOSITORY": "https://github.com/rust-lang/stacker/",
+        "CARGO_PKG_VERSION": "0.1.21",
+        "CARGO_PKG_VERSION_MAJOR": "0",
+        "CARGO_PKG_VERSION_MINOR": "1",
+        "CARGO_PKG_VERSION_PATCH": "21",
+    },
+    visibility = [],
+    deps = [":cc-1.0.83"],
+)
+
+buildscript_run(
+    name = "psm-0.1.21-build-script-run",
+    package_name = "psm",
+    buildscript_rule = ":psm-0.1.21-build-script-build",
+    version = "0.1.21",
+)
+
+cargo.rust_library(
     name = "quanta-0.11.1",
     srcs = [
         "vendor/quanta-0.11.1/src/clocks/counter.rs",
@@ -22210,7 +22280,7 @@ cargo.rust_library(
     deps = [
         ":bytes-1.5.0-bytes_1_4_0",
         ":futures-io-0.3.30",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":rustc-hash-1.1.0",
         ":rustls-0.21.10-rustls_0_21_6",
         ":thiserror-1.0.56-thiserror_1_0_50",
@@ -23268,7 +23338,7 @@ cargo.rust_library(
                 ":mime-0.3.17",
                 ":once_cell-1.19.0-once_cell_1_18_0",
                 ":percent-encoding-2.3.1-percent-encoding_2_2_0",
-                ":pin-project-lite-0.2.13",
+                ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
                 ":rustls-0.21.10-rustls_0_21_6",
                 ":rustls-pemfile-1.0.4-rustls-pemfile_1_0_2",
                 ":tokio-1.35.1-tokio_1_28_1",
@@ -23289,7 +23359,7 @@ cargo.rust_library(
                 ":mime-0.3.17",
                 ":once_cell-1.19.0-once_cell_1_18_0",
                 ":percent-encoding-2.3.1-percent-encoding_2_2_0",
-                ":pin-project-lite-0.2.13",
+                ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
                 ":rustls-0.21.10-rustls_0_21_6",
                 ":rustls-pemfile-1.0.4-rustls-pemfile_1_0_2",
                 ":tokio-1.35.1-tokio_1_28_1",
@@ -23310,7 +23380,7 @@ cargo.rust_library(
                 ":mime-0.3.17",
                 ":once_cell-1.19.0-once_cell_1_18_0",
                 ":percent-encoding-2.3.1-percent-encoding_2_2_0",
-                ":pin-project-lite-0.2.13",
+                ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
                 ":rustls-0.21.10-rustls_0_21_6",
                 ":rustls-pemfile-1.0.4-rustls-pemfile_1_0_2",
                 ":system-configuration-0.5.1",
@@ -24360,6 +24430,7 @@ cargo.rust_binary(
         "percent_encoding_2_2_0": ":percent-encoding-2.3.1-percent-encoding_2_2_0",
         "petgraph_0_5_1": ":petgraph-0.5.1-petgraph_0_5_1",
         "phf_0_11_1": ":phf-0.11.2-phf_0_11_1",
+        "pin_project_lite_0_2_13": ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         "pkcs8_0_9_0": ":pkcs8-0.9.0-pkcs8_0_9_0",
         "pretty_0_10_0": ":pretty-0.10.0-pretty_0_10_0",
         "primitive_types_0_10_1": ":primitive-types-0.10.1-primitive-types_0_10_1",
@@ -24399,6 +24470,7 @@ cargo.rust_binary(
         "slip10_ed25519_0_1_3": ":slip10_ed25519-0.1.3-slip10_ed25519_0_1_3",
         "smallvec_1_10_0": ":smallvec-1.13.1-smallvec_1_10_0",
         "snap_1_1_0": ":snap-1.1.1-snap_1_1_0",
+        "stacker_0_1_16": ":stacker-0.1.15-stacker_0_1_16",
         "static_assertions_1_1_0": ":static_assertions-1.1.0-static_assertions_1_1_0",
         "strum_0_24_1": ":strum-0.24.1-strum_0_24_1",
         "strum_macros_0_24_3": ":strum_macros-0.24.3-strum_macros_0_24_3",
@@ -27762,6 +27834,30 @@ cargo.rust_library(
 )
 
 alias(
+    name = "stacker_0_1_16",
+    actual = ":stacker-0.1.15-stacker_0_1_16",
+    visibility = ["PUBLIC"],
+)
+
+cargo.rust_library(
+    name = "stacker-0.1.15-stacker_0_1_16",
+    srcs = ["vendor/stacker-0.1.15/src/lib.rs"],
+    crate = "stacker",
+    crate_root = "vendor/stacker-0.1.15/src/lib.rs",
+    edition = "2015",
+    licenses = [
+        "vendor/stacker-0.1.15/LICENSE-APACHE",
+        "vendor/stacker-0.1.15/LICENSE-MIT",
+    ],
+    visibility = [],
+    deps = [
+        ":cfg-if-1.0.0-cfg-if_1_0_0",
+        ":libc-0.2.153",
+        ":psm-0.1.21",
+    ],
+)
+
+alias(
     name = "static_assertions_1_1_0",
     actual = ":static_assertions-1.1.0-static_assertions_1_1_0",
     visibility = ["PUBLIC"],
@@ -29378,7 +29474,7 @@ cargo.rust_library(
         ":mio-0.8.10",
         ":num_cpus-1.16.0-num_cpus_1_15_0",
         ":parking_lot-0.12.1-parking_lot_0_12_1",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-macros-2.2.0",
     ],
 )
@@ -29395,7 +29491,7 @@ cargo.rust_library(
     ],
     visibility = [],
     deps = [
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-1.35.1-tokio_1_28_1",
     ],
 )
@@ -29588,7 +29684,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":futures-core-0.3.30-futures-core_0_3_30",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tokio-util-0.7.10",
     ],
@@ -29695,7 +29791,7 @@ cargo.rust_library(
         ":futures-core-0.3.30-futures-core_0_3_30",
         ":futures-io-0.3.30",
         ":futures-sink-0.3.30",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tracing-0.1.40-tracing_0_1_37",
     ],
@@ -30259,7 +30355,7 @@ cargo.rust_library(
         ":hdrhistogram-7.5.4-hdrhistogram_7_5_2",
         ":indexmap-1.9.3",
         ":pin-project-1.1.4",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":rand-0.8.5-rand_0_8_5",
         ":slab-0.4.9",
         ":tokio-1.35.1-tokio_1_28_1",
@@ -30430,7 +30526,7 @@ cargo.rust_library(
         ":mime-0.3.17",
         ":mime_guess-2.0.4",
         ":percent-encoding-2.3.1-percent-encoding_2_2_0",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tokio-1.35.1-tokio_1_28_1",
         ":tokio-util-0.7.10",
         ":tower-0.4.13-tower_0_4_13",
@@ -30506,7 +30602,7 @@ cargo.rust_library(
     visibility = [],
     deps = [
         ":log-0.4.20-log_0_4_20",
-        ":pin-project-lite-0.2.13",
+        ":pin-project-lite-0.2.13-pin-project-lite_0_2_13",
         ":tracing-attributes-0.1.27",
         ":tracing-core-0.1.32",
     ],
