@@ -1,13 +1,12 @@
-
 deps = [
     "//crates/sui-framework:sui-framework",
     "//crates/sui-protocol-config:sui-protocol-config",
     "//crates/sui-types:sui-types",
     "//third-party:anyhow_1_0_71",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:git-version_0_3_5",
     "//third-party:serde_1_0_190",
-    "//third-party:serde_json_1_0_95"
+    "//third-party:serde_json_1_0_95",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

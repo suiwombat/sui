@@ -1,8 +1,7 @@
-
 deps = [
     "//external-crates/move/crates/enum-compat-util:enum-compat-util",
-    "//third-party:quote_1_0_33",
-    "//third-party:syn_2_0_32"
+    "//third-party:quote_1_0_35",
+    "//third-party:syn_2_0_48",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

@@ -1,14 +1,13 @@
-
 deps = [
     "//crates/simulacrum:simulacrum",
     "//crates/sui-core:sui-core",
     "//crates/sui-types:sui-types",
     "//third-party:anyhow_1_0_71",
     "//third-party:axum_0_6_20",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:rand_0_8_5",
     "//third-party:reqwest_0_11_20",
-    "//third-party:serde_1_0_190"
+    "//third-party:serde_1_0_190",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

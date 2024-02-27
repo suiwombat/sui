@@ -1,9 +1,8 @@
-
 deps = [
     "//crates/sui-enum-compat-util:sui-enum-compat-util",
-    "//third-party:proc-macro2_1_0_66",
-    "//third-party:quote_1_0_33",
-    "//third-party:syn_2_0_32"
+    "//third-party:proc-macro2_1_0_78",
+    "//third-party:quote_1_0_35",
+    "//third-party:syn_2_0_48",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

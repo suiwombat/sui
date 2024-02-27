@@ -1,7 +1,7 @@
 deps = [
     "//third-party:anemo_0_0_0",
-    "//third-party:bcs_0_1_4",
-    "//third-party:bytes_1_4_0",
+    "//third-party:bcs_0_1_6",
+    "//third-party:bytes_1_5_0",
     "//third-party:eyre_0_6_8",
     "//third-party:futures_0_3_29",
     "//third-party:http_0_2_9",

@@ -13,28 +13,25 @@ name = "fake"
 path = "/dev/null"
 
 [dependencies]
-anemo-tower_0_0_0 = {git="https://github.com/mystenlabs/anemo.git",rev="1169850e6af127397068cd86764c29b1d49dbe35",package="anemo-tower"}
-anemo_0_0_0 = {git="https://github.com/mystenlabs/anemo.git",rev="1169850e6af127397068cd86764c29b1d49dbe35",package="anemo"}
+anemo-tower_0_0_0 = {git="https://github.com/mystenlabs/anemo.git",rev="26d415eb9aa6a2417be3c03c57d6e93c30bd1ad7",package="anemo-tower"}
+anemo_0_0_0 = {git="https://github.com/mystenlabs/anemo.git",rev="26d415eb9aa6a2417be3c03c57d6e93c30bd1ad7",package="anemo"}
 anyhow_1_0_71 = {version="1.0.71",package="anyhow",features=["backtrace","std"]}
 arbitrary_1_3_0 = {version="1.3.0",package="arbitrary",features=["derive","derive_arbitrary"]}
 arc-swap_1_6_0 = {version="1.6.0",package="arc-swap",features=["serde"]}
 async-trait_0_1_73 = {version="0.1.73",package="async-trait"}
 atomic_float_0_1_0 = {version="0.1.0",package="atomic_float",features=["atomic_f64"]}
-aws-config_0_56_1 = {version="0.56.1",package="aws-config",features=["client-hyper","credentials-sso","rt-tokio","rustls"]}
-aws-sdk-dynamodb_0_29_0 = {version="0.29.0",package="aws-sdk-dynamodb",features=["rt-tokio","rustls"]}
-aws-sdk-s3_0_29_0 = {version="0.29.0",package="aws-sdk-s3",features=["rt-tokio","rustls"]}
 axum-server_0_5_1 = {version="0.5.1",package="axum-server",features=["arc-swap","pin-project-lite","rustls","rustls-pemfile","tls-rustls","tokio-rustls"]}
 axum_0_6_20 = {version="0.6.20",package="axum",features=["form","headers","http1","http2","json","matched-path","original-uri","query","tokio","tower-log","ws"]}
 backoff_0_4_0 = {version="0.4.0",package="backoff",features=["futures","futures-core","pin-project-lite","tokio","tokio_1"]}
 base64-url_2_0_0 = {version="2.0.0",package="base64-url",features=["std"]}
 base64_0_21_2 = {version="0.21.2",package="base64",features=["alloc","std"]}
-bcs_0_1_4 = {version="0.1.4",package="bcs"}
+bcs_0_1_6 = {version="0.1.6",package="bcs"}
 better_any_0_1_1 = {version="0.1.1",package="better_any"}
 bincode_1_3_3 = {version="1.3.3",package="bincode"}
 bip32_0_4_0 = {version="0.4.0",package="bip32",features=["alloc","bip39","k256","mnemonic","once_cell","pbkdf2","secp256k1","std"]}
 byteorder_1_4_3 = {version="1.4.3",package="byteorder",features=["i128","std"]}
 bytes-varint_1_0_3 = {version="1.0.3",package="bytes-varint"}
-bytes_1_4_0 = {version="1.4.0",package="bytes",features=["serde","std"]}
+bytes_1_5_0 = {version="1.5.0",package="bytes",features=["serde","std"]}
 cached_0_43_0 = {version="0.43.0",package="cached",features=["async","async-trait","async_once","cached_proc_macro","cached_proc_macro_types","futures","lazy_static","proc_macro","tokio"]}
 camino_1_1_2 = {version="1.1.2",package="camino",features=["serde","serde1"]}
 cfg-if_1_0_0 = {version="1.0.0",package="cfg-if"}
@@ -47,7 +44,7 @@ colored_2_0_4 = {version="2.0.4",package="colored"}
 const-str_0_5_6 = {version="0.5.6",package="const-str"}
 crossterm_0_25_0 = {version="0.25.0",package="crossterm",features=["bracketed-paste"]}
 csv_1_2_1 = {version="1.2.1",package="csv"}
-dashmap_5_4_0 = {version="5.4.0",package="dashmap"}
+dashmap_5_5_3 = {version="5.5.3",package="dashmap"}
 derivative_2_2_0 = {version="2.2.0",package="derivative",features=["use_core"]}
 derive-syn-parse_0_1_5 = {version="0.1.5",package="derive-syn-parse"}
 derive_builder_0_12_0 = {version="0.12.0",package="derive_builder",features=["std"]}
@@ -68,7 +65,6 @@ fastcrypto-zkp_0_1_2 = {git="https://github.com/MystenLabs/fastcrypto",rev="ea66
 fastcrypto_0_1_7 = {git="https://github.com/MystenLabs/fastcrypto",rev="ea66012b860d9dd152abb7f2156275698ee91126",package="fastcrypto",features=["beacon-dkg","copy_key"]}
 fdlimit_0_2_1 = {version="0.2.1",package="fdlimit"}
 futures_0_3_29 = {version="0.3.29",package="futures",features=["alloc","async-await","bilock","executor","futures-executor","std","unstable"]}
-futures-core_0_3_30 = {version="0.3.30",package="futures-core"}
 git-version_0_3_5 = {version="0.3.5",package="git-version"}
 governor_0_6_0 = {version="0.6.0",package="governor",features=["dashmap","futures","futures-timer","jitter","quanta","rand","std"]}
 hashbrown_0_12_3 = {version="0.12.3",package="hashbrown",features=["ahash","inline-more","raw"]}
@@ -86,6 +82,7 @@ indicatif_0_17_2 = {version="0.17.2",package="indicatif",features=["unicode-widt
 insta_1_26_0 = {version="1.26.0",package="insta",features=["colors","console","json","pest","pest_derive","redactions","serde","yaml"]}
 integer-encoding_3_0_4 = {version="3.0.4",package="integer-encoding"}
 internment_0_5_6 = {version="0.5.6",package="internment",features=["ahash","arc","dashmap","once_cell"]}
+ipnetwork_0_20_0 = {version="0.20.0",package="ipnetwork",features=["serde"]}
 itertools_0_10_5 = {version="0.10.5",package="itertools",features=["use_alloc","use_std"]}
 json_to_table_0_6_0 = {git="https://github.com/zhiburt/tabled/",rev="e449317a1c02eb6b29e409ad6617e5d9eb7b3bd4",package="json_to_table"}
 jsonrpsee_0_16_2 = {git="https://github.com/wlmyng/jsonrpsee.git",rev="b1b300784795f6a64d0fcdf8f03081a9bc38bde8",package="jsonrpsee",features=["http-client","jsonrpsee-core","jsonrpsee-http-client","jsonrpsee-proc-macros","jsonrpsee-server","jsonrpsee-types","jsonrpsee-ws-client","macros","server","server-core","tracing","ws-client"]}
@@ -94,7 +91,9 @@ linked-hash-map_0_5_6 = {version="0.5.6",package="linked-hash-map"}
 log_0_4_20 = {version="0.4.20",package="log",features=["serde","std"]}
 lru_0_10_0 = {version="0.10.0",package="lru",features=["hashbrown"]}
 match_opt_0_1_2 = {version="0.1.2",package="match_opt"}
+mime_0_3_17 = {version="0.3.17",package="mime"}
 mockall_0_11_4 = {version="0.11.4",package="mockall"}
+moka_0_12_5 = {version="0.12.5",package="moka",features=["atomic64","sync"]}
 multiaddr_0_17_0 = {version="0.17.0",package="multiaddr",features=["url"]}
 mysticeti-core_0_1_0 = {git="https://github.com/MystenLabs/mysticeti",rev="318d61d27f47d257d99a86983d835e9e9756bc59",package="mysticeti-core"}
 named-lock_0_2_0 = {version="0.2.0",package="named-lock"}
@@ -103,24 +102,23 @@ num-bigint_0_4_4 = {version="0.4.4",package="num-bigint",features=["rand","std"]
 num_0_4_1 = {version="0.4.1",package="num",features=["num-bigint","std"]}
 num_cpus_1_15_0 = {version="1.15.0",package="num_cpus"}
 num_enum_0_6_1 = {version="0.6.1",package="num_enum",features=["std"]}
-object_store_0_7_0 = {version="0.7.0",package="object_store",features=["aws","azure","base64","cloud","gcp","hyper","quick-xml","rand","reqwest","ring","rustls-pemfile","serde","serde_json"]}
+object_store_0_7_0 = {version="0.7.0",package="object_store",features=["aws","azure","base64","cloud","gcp","http","hyper","quick-xml","rand","reqwest","ring","rustls-pemfile","serde","serde_json"]}
 once_cell_1_18_0 = {version="1.18.0",package="once_cell",features=["alloc","race","std","unstable"]}
 opentelemetry-otlp_0_13_0 = {version="0.13.0",package="opentelemetry-otlp",features=["grpc-tonic","http","prost","tokio","tonic","trace"]}
 opentelemetry-proto_0_3_0 = {version="0.3.0",package="opentelemetry-proto",features=["gen-tonic","gen-tonic-messages","prost","tonic","traces"]}
 opentelemetry_0_20_0 = {version="0.20.0",package="opentelemetry",features=["metrics","rt-tokio","trace"]}
 opentelemetry_api_0_20_0 = {version="0.20.0",package="opentelemetry_api",features=["logs","metrics","pin-project-lite","trace"]}
 ouroboros_0_17_2 = {version="0.17.2",package="ouroboros",features=["std"]}
-parking_lot_0_11_2 = {version="0.11.2",package="parking_lot"}
+parking_lot_0_11_2 = {version="0.11.2",package="parking_lot",features=["wasm-bindgen"]}
 parking_lot_0_12_1 = {version="0.12.1",package="parking_lot"}
 paste_1_0_11 = {version="1.0.11",package="paste"}
 percent-encoding_2_2_0 = {version="2.2.0",package="percent-encoding",features=["alloc"]}
 petgraph_0_5_1 = {version="0.5.1",package="petgraph",features=["graphmap","matrix_graph","stable_graph"]}
-phf_0_11_1 = {version="0.11.1",package="phf",features=["macros","phf_macros","std","uncased"]}
+phf_0_11_1 = {version="0.11.1",package="phf",features=["macros","phf_macros","std"]}
+pin-project-lite_0_2_13 = {version="0.2.13",package="pin-project-lite"}
 pkcs8_0_9_0 = {version="0.9.0",package="pkcs8",features=["alloc","pem","std"]}
-pretty_0_10_0 = {version="0.10.0",package="pretty"}
 primitive-types_0_10_1 = {version="0.10.1",package="primitive-types",features=["impl-codec","impl-serde","std"]}
-pin-project-lite_0_2_13 = {version = "0.2.13", package="pin-project-lite"}
-proc-macro2_1_0_66 = {version="1.0.66",package="proc-macro2",features=["proc-macro","span-locations"]}
+proc-macro2_1_0_78 = {version="1.0.78",package="proc-macro2",features=["proc-macro","span-locations"]}
 prometheus_0_13_3 = {version="0.13.3",package="prometheus",features=["protobuf"]}
 proptest-derive_0_3_0 = {version="0.3.0",package="proptest-derive"}
 proptest_1_1_0 = {version="1.1.0",package="proptest",features=["bit-set","break-dead-code","fork","lazy_static","quick-error","regex-syntax","rusty-fork","std","tempfile","timeout"]}
@@ -128,7 +126,7 @@ prost_0_11_9 = {version="0.11.9",package="prost",features=["prost-derive","std"]
 prost_0_12_1 = {version="0.12.1",package="prost",features=["prost-derive","std"]}
 protobuf_2_28_0 = {version="2.28.0",package="protobuf",features=["bytes","with-bytes"]}
 quinn-proto_0_10_5 = {version="0.10.5",package="quinn-proto",features=["log","ring","rustls","tls-rustls"]}
-quote_1_0_33 = {version="1.0.33",package="quote",features=["proc-macro"]}
+quote_1_0_35 = {version="1.0.35",package="quote",features=["proc-macro"]}
 rand_0_8_5 = {version="0.8.5",package="rand",features=["alloc","getrandom","libc","rand_chacha","small_rng","std","std_rng"]}
 rcgen_0_9_3 = {version="0.9.3",package="rcgen",features=["pem"]}
 ref-cast_1_0_14 = {version="1.0.14",package="ref-cast"}
@@ -156,18 +154,17 @@ simplelog_0_9_0 = {version="0.9.0",package="simplelog",features=["termcolor"]}
 slip10_ed25519_0_1_3 = {version="0.1.3",package="slip10_ed25519"}
 smallvec_1_10_0 = {version="1.10.0",package="smallvec"}
 snap_1_1_0 = {version="1.1.0",package="snap"}
-stacker_0_1_16 = {version="0.1.15", package="stacker"}
+stacker_0_1_15 = {version="0.1.15",package="stacker"}
 static_assertions_1_1_0 = {version="1.1.0",package="static_assertions"}
 strum_0_24_1 = {version="0.24.1",package="strum",features=["derive","std","strum_macros"]}
 strum_macros_0_24_3 = {version="0.24.3",package="strum_macros"}
 syn_1_0_107 = {version="1.0.107",package="syn",features=["clone-impls","derive","extra-traits","fold","full","parsing","printing","proc-macro","quote","visit","visit-mut"]}
-syn_2_0_32 = {version="2.0.32",package="syn",features=["clone-impls","derive","extra-traits","fold","full","parsing","printing","proc-macro","quote","visit","visit-mut"]}
+syn_2_0_48 = {version="2.0.48",package="syn",features=["clone-impls","derive","extra-traits","fold","full","parsing","printing","proc-macro","quote","visit","visit-mut"]}
 synstructure_0_12_6 = {version="0.12.6",package="synstructure",features=["proc-macro"]}
 tabled_0_12_2 = {version="0.12.2",package="tabled",features=["derive","macros","std","tabled_derive"]}
 tap_1_0_1 = {version="1.0.1",package="tap"}
 tempfile_3_8_0 = {version="3.8.0",package="tempfile"}
-tera_1_17_1 = {version="1.17.1",package="tera",features=["builtins","chrono","chrono-tz","humansize","percent-encoding","rand","slug","urlencode"]}
-thiserror_1_0_50 = {version="1.0.50",package="thiserror"}
+thiserror_1_0_56 = {version="1.0.56",package="thiserror"}
 tiny-bip39_1_0_0 = {version="1.0.0",package="tiny-bip39",features=["chinese-simplified","chinese-traditional","french","italian","japanese","korean","spanish"]}
 tokio-retry_0_3_0 = {version="0.3.0",package="tokio-retry"}
 tokio-rustls_0_24_0 = {version="0.24.0",package="tokio-rustls",features=["logging","tls12"]}
@@ -183,17 +180,10 @@ tower-layer_0_3_2 = {version="0.3.2",package="tower-layer"}
 tower_0_4_13 = {version="0.4.13",package="tower",features=["__common","balance","buffer","discover","filter","full","futures-core","futures-util","hdrhistogram","hedge","indexmap","limit","load","load-shed","log","make","pin-project","pin-project-lite","rand","ready-cache","reconnect","retry","slab","spawn-ready","steer","timeout","tokio","tokio-util","tracing","util"]}
 tracing-appender_0_2_2 = {version="0.2.2",package="tracing-appender"}
 tracing-opentelemetry_0_21_0 = {version="0.21.0",package="tracing-opentelemetry",features=["metrics","smallvec","tracing-log"]}
-tracing-subscriber_0_3_17 = {version="0.3.17", package="tracing-subscriber",default-features = false,features=[
-      "std",
-  "smallvec",
-  "fmt",
-  "ansi",
-  "time",
-  "json",
-  "registry",
-  "env-filter",]}
+tracing-subscriber_0_3_17 = {version="0.3.17",package="tracing-subscriber",features=["alloc","ansi","env-filter","fmt","json","matchers","nu-ansi-term","once_cell","regex","registry","serde","serde_json","sharded-slab","smallvec","std","thread_local","time","tracing","tracing-log","tracing-serde"]}
 tracing_0_1_37 = {version="0.1.37",package="tracing",features=["attributes","log","std","tracing-attributes"]}
 treeline_0_1_0 = {version="0.1.0",package="treeline"}
+twox-hash_1_6_3 = {version="1.6.3",package="twox-hash",features=["rand","std"]}
 uint_0_9_5 = {version="0.9.5",package="uint",features=["std"]}
 unescape_0_1_0 = {version="0.1.0",package="unescape"}
 url_2_3_1 = {version="2.3.1",package="url",features=["serde"]}

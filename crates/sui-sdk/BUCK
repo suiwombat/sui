@@ -10,7 +10,7 @@ deps = [
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//third-party:anyhow_1_0_71",
     "//third-party:async-trait_0_1_73",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:clap_4_4_1",
     "//third-party:colored_2_0_4",
     "//third-party:fastcrypto_0_1_7",
@@ -21,7 +21,7 @@ deps = [
     "//third-party:serde_1_0_190",
     "//third-party:serde_json_1_0_95",
     "//third-party:serde_with_2_1_0",
-    "//third-party:thiserror_1_0_50",
+    ,
     "//third-party:tokio_1_28_1",
     "//third-party:tracing_0_1_37",
 ]

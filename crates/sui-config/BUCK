@@ -5,7 +5,7 @@ deps = [
     "//narwhal/config:narwhal-config",
     "//third-party:anemo_0_0_0",
     "//third-party:anyhow_1_0_71",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:clap_4_4_1",
     "//third-party:csv_1_2_1",
     "//third-party:dirs_4_0_0",

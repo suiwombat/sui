@@ -1,11 +1,10 @@
-
 deps = [
     "//third-party:derive-syn-parse_0_1_5",
     "//third-party:itertools_0_10_5",
-    "//third-party:proc-macro2_1_0_66",
-    "//third-party:quote_1_0_33",
+    "//third-party:proc-macro2_1_0_78",
+    "//third-party:quote_1_0_35",
     "//third-party:syn_1_0_107",
-    "//third-party:unescape_0_1_0"
+    "//third-party:unescape_0_1_0",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

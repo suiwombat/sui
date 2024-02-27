@@ -1,4 +1,3 @@
-
 deps = [
     "//crates/mysten-network:mysten-network",
     "//crates/mysten-util-mem:mysten-util-mem",
@@ -8,12 +7,10 @@ deps = [
     "//third-party:rand_0_8_5",
     "//third-party:serde_1_0_190",
     "//third-party:serde_json_1_0_95",
-    "//third-party:thiserror_1_0_50",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
+    "//third-party:thiserror_1_0_56",
 ]
-named_deps = {
-    "crypto": "//narwhal/crypto:narwhal-crypto"
-}
+named_deps = {"crypto": "//narwhal/crypto:narwhal-crypto"}
 env = {
     "CARGO_MANIFEST_DIR": ".",
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
@@ -21,12 +18,12 @@ env = {
     "CARGO_PKG_VERSION": "0.1.0",
 }
 rust_library(
-    name = "narwhal-config",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    deps = deps,
-    named_deps = named_deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="narwhal-config",
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    named_deps=named_deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )

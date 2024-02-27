@@ -1,7 +1,6 @@
-
 deps = [
     "//third-party:serde_1_0_190",
-    "//third-party:thiserror_1_0_50"
+    "//third-party:thiserror_1_0_56",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

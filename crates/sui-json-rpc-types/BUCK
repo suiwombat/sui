@@ -1,4 +1,3 @@
-
 deps = [
     "//crates/mysten-metrics:mysten-metrics",
     "//crates/sui-enum-compat-util:sui-enum-compat-util",
@@ -10,7 +9,7 @@ deps = [
     "//external-crates/move/crates/move-bytecode-utils:move-bytecode-utils",
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//third-party:anyhow_1_0_71",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:colored_2_0_4",
     "//third-party:enum_dispatch_0_3_9",
     "//third-party:fastcrypto_0_1_7",
@@ -21,7 +20,7 @@ deps = [
     "//third-party:serde_json_1_0_95",
     "//third-party:serde_with_2_1_0",
     "//third-party:tabled_0_12_2",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

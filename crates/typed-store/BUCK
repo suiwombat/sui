@@ -1,9 +1,8 @@
-
 deps = [
     "//crates/sui-macros:sui-macros",
     "//crates/typed-store-error:typed-store-error",
     "//third-party:async-trait_0_1_73",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:bincode_1_3_3",
     "//third-party:collectable_0_0_2",
     "//third-party:eyre_0_6_8",
@@ -17,9 +16,9 @@ deps = [
     "//third-party:rocksdb_0_21_0",
     "//third-party:serde_1_0_190",
     "//third-party:tap_1_0_1",
-    "//third-party:thiserror_1_0_50",
+    ,
     "//third-party:tokio_1_28_1",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

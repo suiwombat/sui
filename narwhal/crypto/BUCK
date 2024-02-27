@@ -1,10 +1,9 @@
-
 deps = [
     "//crates/shared-crypto:shared-crypto",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:fastcrypto-tbls_0_1_0",
     "//third-party:fastcrypto_0_1_7",
-    "//third-party:serde_1_0_190"
+    "//third-party:serde_1_0_190",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

@@ -1,8 +1,7 @@
-
 deps = [
     "//third-party:atomic_float_0_1_0",
     "//third-party:bytes-varint_1_0_3",
-    "//third-party:bytes_1_4_0",
+    "//third-party:bytes_1_5_0",
     "//third-party:clap_4_4_1",
     "//third-party:crossterm_0_25_0",
     "//third-party:futures_0_3_29",
@@ -18,7 +17,7 @@ deps = [
     "//third-party:tracing-appender_0_2_2",
     "//third-party:tracing-opentelemetry_0_21_0",
     "//third-party:tracing-subscriber_0_3_17",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

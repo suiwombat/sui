@@ -1,0 +1,23 @@
+
+deps = [
+    "//crates/mysten-network:mysten-network",
+    "//crates/shared-crypto:shared-crypto",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:rand_0_8_5",
+    "//third-party:serde_1_0_190"
+]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "consensus-config",
+    "CARGO_PKG_VERSION": "0.1.0",
+}
+rust_library(
+    name = "consensus-config",
+    srcs = glob(["*","**/*"]),
+    crate_root = "src/lib.rs",
+    env = env,
+    deps = deps,
+    edition = "2021",
+    visibility = ["PUBLIC"]
+)

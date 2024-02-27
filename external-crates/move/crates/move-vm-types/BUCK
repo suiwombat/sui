@@ -1,11 +1,10 @@
-
 deps = [
     "//external-crates/move/crates/move-binary-format:move-binary-format",
     "//external-crates/move/crates/move-core-types:move-core-types",
     "//external-crates/move/crates/move-vm-profiler:move-vm-profiler",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:serde_1_0_190",
-    "//third-party:smallvec_1_10_0"
+    "//third-party:smallvec_1_10_0",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

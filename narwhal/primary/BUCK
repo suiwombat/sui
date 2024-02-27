@@ -1,4 +1,3 @@
-
 deps = [
     "//crates/mysten-common:mysten-common",
     "//crates/mysten-metrics:mysten-metrics",
@@ -10,8 +9,8 @@ deps = [
     "//third-party:anyhow_1_0_71",
     "//third-party:async-trait_0_1_73",
     "//third-party:backoff_0_4_0",
-    "//third-party:bcs_0_1_4",
-    "//third-party:bytes_1_4_0",
+    "//third-party:bcs_0_1_6",
+    "//third-party:bytes_1_5_0",
     "//third-party:cfg-if_1_0_0",
     "//third-party:fastcrypto-tbls_0_1_0",
     "//third-party:fastcrypto_0_1_7",
@@ -23,11 +22,11 @@ deps = [
     "//third-party:prometheus_0_13_3",
     "//third-party:rand_0_8_5",
     "//third-party:tap_1_0_1",
-    "//third-party:thiserror_1_0_50",
+    ,
     "//third-party:tokio-stream_0_1_14",
     "//third-party:tokio_1_28_1",
     "//third-party:tower_0_4_13",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 named_deps = {
     "config": "//narwhal/config:narwhal-config",

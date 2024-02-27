@@ -6,7 +6,7 @@ deps = [
     "//third-party:anyhow_1_0_71",
     "//third-party:axum-server_0_5_1",
     "//third-party:axum_0_6_20",
-    "//third-party:bytes_1_4_0",
+    "//third-party:bytes_1_5_0",
     "//third-party:clap_4_4_1",
     "//third-party:const-str_0_5_6",
     "//third-party:fastcrypto_0_1_7",

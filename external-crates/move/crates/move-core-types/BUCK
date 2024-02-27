@@ -1,10 +1,9 @@
-
 deps = [
     "//external-crates/move/crates/enum-compat-util:enum-compat-util",
     "//external-crates/move/crates/move-proc-macros:move-proc-macros",
     "//third-party:anyhow_1_0_71",
     "//third-party:arbitrary_1_3_0",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:ethnum_1_3_2",
     "//third-party:hex_0_4_3",
     "//third-party:num_0_4_1",
@@ -16,7 +15,7 @@ deps = [
     "//third-party:ref-cast_1_0_14",
     "//third-party:serde_1_0_190",
     "//third-party:serde_bytes_0_11_9",
-    "//third-party:uint_0_9_5"
+    "//third-party:uint_0_9_5",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

@@ -10,7 +10,7 @@ deps = [
     "//third-party:anemo-tower_0_0_0",
     "//third-party:anemo_0_0_0",
     "//third-party:anyhow_1_0_71",
-    "//third-party:dashmap_5_4_0",
+    "//third-party:dashmap_5_5_3",
     "//third-party:futures_0_3_29",
     "//third-party:governor_0_6_0",
     "//third-party:prometheus_0_13_3",
@@ -20,7 +20,7 @@ deps = [
     "//third-party:tokio_1_28_1",
     "//third-party:tonic_0_10_0",
     "//third-party:tower_0_4_13",
-    "//third-party:tracing_0_1_37"
+    "//third-party:tracing_0_1_37",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

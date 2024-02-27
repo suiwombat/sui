@@ -19,7 +19,7 @@ deps = [
     "//narwhal/crypto:narwhal-crypto",
     "//third-party:anemo_0_0_0",
     "//third-party:anyhow_1_0_71",
-    "//third-party:bcs_0_1_4",
+    "//third-party:bcs_0_1_6",
     "//third-party:bincode_1_3_3",
     "//third-party:byteorder_1_4_3",
     "//third-party:derivative_2_2_0",
@@ -49,7 +49,7 @@ deps = [
     "//third-party:strum_0_24_1",
     "//third-party:strum_macros_0_24_3",
     "//third-party:tap_1_0_1",
-    "//third-party:thiserror_1_0_50",
+    # ,
     "//third-party:tonic_0_10_0",
     "//third-party:tracing_0_1_37",
 ]
