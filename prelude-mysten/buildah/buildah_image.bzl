@@ -45,10 +45,6 @@ def _buildah_image_impl(
         ctx.attrs.name,
         "--docker_root",
         docker_root,
-        "--build-arg",
-        "BUILD_DATE={}".format("01-12-2024"),  # TODO
-        "--build-arg",
-        "GIT_REVISION={}".format("buildah-dirty"),  # TODO
         "--out",
         build_script_output.as_output(),
     )

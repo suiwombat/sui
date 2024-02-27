@@ -67,7 +67,7 @@ load("@prelude-mysten//buildah/buildah_image.bzl", "buildah_image")
 load("@prelude-mysten//mypkg/mypkg.bzl", "get_mypkg")
 
 get_mypkg(
-    name="sui-proxy-prod",
+    name="prod",
     build="sui-proxy:prod",
 )
 
@@ -75,8 +75,5 @@ buildah_image(
     name="sui-proxy-image",
     srcs=["Dockerfile"],
     registry="us-central1-docker.pkg.dev/cryptic-bolt-398315/sui-proxy",
-    mapped_sources={
-        "sui-proxy.yaml": "src/data/config.yaml",
-    },
-    layers=[":sui-proxy-prod"],
+    layers=[":prod"],
 )
