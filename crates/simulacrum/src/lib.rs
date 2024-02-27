@@ -11,6 +11,7 @@
 //! [`Simulacrum`]: crate::Simulacrum
 
 use std::num::NonZeroUsize;
+use std::sync::Arc;
 
 use anyhow::{anyhow, Result};
 use fastcrypto::traits::Signer;
@@ -434,7 +435,9 @@ impl<T, V: store::SimulatorStore> ReadStore for Simulacrum<T, V> {
         &self,
     ) -> sui_types::storage::error::Result<sui_types::messages_checkpoint::CheckpointSequenceNumber>
     {
-        todo!()
+        // TODO wire this up to the underlying sim store, for now this will work since we never
+        // prune the sim store
+        Ok(0)
     }
 
     fn get_checkpoint_by_digest(
@@ -472,8 +475,8 @@ impl<T, V: store::SimulatorStore> ReadStore for Simulacrum<T, V> {
     fn get_transaction(
         &self,
         tx_digest: &sui_types::digests::TransactionDigest,
-    ) -> sui_types::storage::error::Result<Option<VerifiedTransaction>> {
-        Ok(self.store().get_transaction(tx_digest))
+    ) -> sui_types::storage::error::Result<Option<Arc<VerifiedTransaction>>> {
+        Ok(self.store().get_transaction(tx_digest).map(Arc::new))
     }
 
     fn get_transaction_effects(

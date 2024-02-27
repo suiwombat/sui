@@ -38,7 +38,9 @@ pub enum FeatureGate {
     Move2024Keywords,
     BlockLabels,
     Move2024Paths,
+    MacroFuns,
     Move2024Migration,
+    SyntaxMethods,
 }
 
 #[derive(PartialEq, Eq, Clone, Copy, Debug, PartialOrd, Ord, Default)]
@@ -47,6 +49,10 @@ pub enum Flavor {
     GlobalStorage,
     Sui,
 }
+
+pub const UPGRADE_NOTE: &str =
+    "You can update the edition in the 'Move.toml', or via command line flag if invoking the \
+    compiler directly.";
 
 //**************************************************************************************************
 // Entry
@@ -83,10 +89,7 @@ pub fn create_feature_error(edition: Edition, feature: FeatureGate, loc: Loc) ->
             )
         )
     );
-    diag.add_note(
-        "You can update the edition in the 'Move.toml', \
-        or via command line flag if invoking the compiler directly.",
-    );
+    diag.add_note(UPGRADE_NOTE);
     diag
 }
 
@@ -116,6 +119,9 @@ const E2024_ALPHA_FEATURES: &[FeatureGate] = &[
     FeatureGate::Move2024Keywords,
     FeatureGate::BlockLabels,
     FeatureGate::Move2024Paths,
+    FeatureGate::MacroFuns,
+    FeatureGate::Move2024Optimizations,
+    FeatureGate::SyntaxMethods,
 ];
 
 const E2024_MIGRATION_FEATURES: &[FeatureGate] = &[FeatureGate::Move2024Migration];
@@ -208,7 +214,9 @@ impl FeatureGate {
             FeatureGate::Move2024Keywords => "Move 2024 keywords are",
             FeatureGate::BlockLabels => "Block labels are",
             FeatureGate::Move2024Paths => "Move 2024 paths are",
+            FeatureGate::MacroFuns => "'macro' functions are",
             FeatureGate::Move2024Migration => "Move 2024 migration is",
+            FeatureGate::SyntaxMethods => "'syntax' methods are",
         }
     }
 }

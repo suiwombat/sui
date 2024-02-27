@@ -1,7 +1,7 @@
 // Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-use std::{collections::BTreeMap, path::PathBuf, time::Duration};
+use std::{collections::BTreeMap, path::PathBuf, sync::Arc, time::Duration};
 
 use move_binary_format::CompiledModule;
 use move_bytecode_utils::module_cache::GetModule;
@@ -603,7 +603,7 @@ impl ReadStore for PersistedStoreInnerReadOnlyWrapper {
     fn get_lowest_available_checkpoint(
         &self,
     ) -> sui_types::storage::error::Result<CheckpointSequenceNumber> {
-        todo!()
+        Ok(0)
     }
 
     fn get_checkpoint_by_digest(
@@ -649,7 +649,7 @@ impl ReadStore for PersistedStoreInnerReadOnlyWrapper {
     fn get_transaction(
         &self,
         tx_digest: &TransactionDigest,
-    ) -> sui_types::storage::error::Result<Option<VerifiedTransaction>> {
+    ) -> sui_types::storage::error::Result<Option<Arc<VerifiedTransaction>>> {
         self.sync();
 
         Ok(self
@@ -657,7 +657,7 @@ impl ReadStore for PersistedStoreInnerReadOnlyWrapper {
             .transactions
             .get(tx_digest)
             .expect("Fatal: DB read failed")
-            .map(|transaction| transaction.into()))
+            .map(|transaction| Arc::new(transaction.into())))
     }
 
     fn get_transaction_effects(

@@ -2,14 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
-    config::DEFAULT_SERVER_DB_POOL_SIZE,
+    config::{DEFAULT_REQUEST_TIMEOUT_MS, DEFAULT_SERVER_DB_POOL_SIZE},
     error::Error,
     types::{address::Address, sui_address::SuiAddress, validator::Validator},
 };
-use std::collections::BTreeMap;
-use sui_indexer::{
-    apis::GovernanceReadApiV2, indexer_reader::IndexerReader, PgConnectionPoolConfig,
-};
+use std::{collections::BTreeMap, time::Duration};
+use sui_indexer::db::PgConnectionPoolConfig;
+use sui_indexer::{apis::GovernanceReadApi, indexer_reader::IndexerReader};
 use sui_json_rpc_types::Stake as RpcStakedSui;
 use sui_types::{
     base_types::SuiAddress as NativeSuiAddress,
@@ -30,15 +29,21 @@ impl PgManager {
 
     /// Create a new underlying reader, which is used by this type as well as other data providers.
     pub(crate) fn reader(db_url: impl Into<String>) -> Result<IndexerReader, Error> {
-        Self::reader_with_config(db_url, DEFAULT_SERVER_DB_POOL_SIZE)
+        Self::reader_with_config(
+            db_url,
+            DEFAULT_SERVER_DB_POOL_SIZE,
+            DEFAULT_REQUEST_TIMEOUT_MS,
+        )
     }
 
     pub(crate) fn reader_with_config(
         db_url: impl Into<String>,
         pool_size: u32,
+        timeout_ms: u64,
     ) -> Result<IndexerReader, Error> {
         let mut config = PgConnectionPoolConfig::default();
         config.set_pool_size(pool_size);
+        config.set_statement_timeout(Duration::from_millis(timeout_ms));
         IndexerReader::new_with_config(db_url, config)
             .map_err(|e| Error::Internal(format!("Failed to create reader: {e}")))
     }
@@ -51,7 +56,7 @@ impl PgManager {
         &self,
         address: &NativeSuiAddress,
     ) -> Result<Option<f64>, Error> {
-        let governance_api = GovernanceReadApiV2::new(self.inner.clone());
+        let governance_api = GovernanceReadApi::new(self.inner.clone());
 
         governance_api
             .get_validator_apy(address)
@@ -94,7 +99,7 @@ impl PgManager {
         &self,
         stake: NativeStakedSui,
     ) -> Result<RpcStakedSui, Error> {
-        let governance_api = GovernanceReadApiV2::new(self.inner.clone());
+        let governance_api = GovernanceReadApi::new(self.inner.clone());
 
         let mut delegated_stakes = governance_api
             .get_delegated_stakes(vec![stake])

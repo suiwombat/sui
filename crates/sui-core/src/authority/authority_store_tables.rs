@@ -159,21 +159,16 @@ impl AuthorityPerpetualTables {
         &self,
         object_id: ObjectID,
         version: SequenceNumber,
-    ) -> Option<Object> {
-        let Ok(iter) = self
+    ) -> SuiResult<Option<Object>> {
+        let iter = self
             .objects
             .safe_range_iter(ObjectKey::min_for_id(&object_id)..=ObjectKey::max_for_id(&object_id))
-            .skip_prior_to(&ObjectKey(object_id, version))
-        else {
-            return None;
-        };
-        iter.reverse().next().and_then(|db_result| match db_result {
-            Ok((key, o)) => self.object(&key, o).ok().flatten(),
-            Err(err) => {
-                warn!("Object iterator encountered RocksDB error {:?}", err);
-                None
-            }
-        })
+            .skip_prior_to(&ObjectKey(object_id, version))?;
+        match iter.reverse().next() {
+            Some(Ok((key, o))) => self.object(&key, o),
+            Some(Err(e)) => Err(e.into()),
+            None => Ok(None),
+        }
     }
 
     fn construct_object(
@@ -291,7 +286,7 @@ impl AuthorityPerpetualTables {
             .epoch())
     }
 
-    pub async fn set_epoch_start_configuration(
+    pub fn set_epoch_start_configuration(
         &self,
         epoch_start_configuration: &EpochStartConfiguration,
     ) -> SuiResult {
@@ -358,29 +353,6 @@ impl AuthorityPerpetualTables {
         Ok(objects)
     }
 
-    /// Removes executed effects and outputs for a transaction,
-    /// and tries to ensure the transaction is replayable.
-    ///
-    /// WARNING: This method is very subtle and can corrupt the database if used incorrectly.
-    /// It should only be used in one-off cases or tests after fully understanding the risk.
-    pub fn remove_executed_effects_and_outputs_subtle(
-        &self,
-        digest: &TransactionDigest,
-        objects: &[ObjectKey],
-    ) -> SuiResult {
-        let mut wb = self.objects.batch();
-        for object in objects {
-            wb.delete_batch(&self.objects, [object])?;
-            if self.has_object_lock(object)? {
-                self.remove_object_lock_batch(&mut wb, object)?;
-            }
-        }
-        wb.delete_batch(&self.executed_transactions_to_checkpoint, [digest])?;
-        wb.delete_batch(&self.executed_effects, [digest])?;
-        wb.write()?;
-        Ok(())
-    }
-
     pub fn has_object_lock(&self, object: &ObjectKey) -> SuiResult<bool> {
         Ok(self
             .owned_object_transaction_locks
@@ -391,32 +363,6 @@ impl AuthorityPerpetualTables {
             .next()
             .transpose()?
             .is_some())
-    }
-
-    /// Removes owned object locks and set the lock to the previous version of the object.
-    ///
-    /// WARNING: This method is very subtle and can corrupt the database if used incorrectly.
-    /// It should only be used in one-off cases or tests after fully understanding the risk.
-    pub fn remove_object_lock_subtle(&self, object: &ObjectKey) -> SuiResult<ObjectRef> {
-        let mut wb = self.objects.batch();
-        let object_ref = self.remove_object_lock_batch(&mut wb, object)?;
-        wb.write()?;
-        Ok(object_ref)
-    }
-
-    fn remove_object_lock_batch(
-        &self,
-        wb: &mut DBBatch,
-        object: &ObjectKey,
-    ) -> SuiResult<ObjectRef> {
-        wb.schedule_delete_range(
-            &self.owned_object_transaction_locks,
-            &(object.0, object.1, ObjectDigest::MIN),
-            &(object.0, object.1, ObjectDigest::MAX),
-        )?;
-        let object_ref = self.get_latest_object_ref_or_tombstone(object.0)?.unwrap();
-        wb.insert_batch(&self.owned_object_transaction_locks, [(object_ref, None)])?;
-        Ok(object_ref)
     }
 
     pub fn set_highest_pruned_checkpoint_without_wb(

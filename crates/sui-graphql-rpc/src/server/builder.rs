@@ -37,17 +37,20 @@ use axum::middleware::{self};
 use axum::response::IntoResponse;
 use axum::routing::{post, MethodRouter, Route};
 use axum::{headers::Header, Router};
-use http::Request;
+use http::{HeaderValue, Method, Request};
 use hyper::server::conn::AddrIncoming as HyperAddrIncoming;
 use hyper::Body;
 use hyper::Server as HyperServer;
+use mysten_network::callback::{CallbackLayer, MakeCallbackHandler, ResponseHandler};
 use std::convert::Infallible;
 use std::net::TcpStream;
 use std::{any::Any, net::SocketAddr, time::Instant};
+use sui_graphql_rpc_headers::{LIMITS_HEADER, VERSION_HEADER};
 use sui_package_resolver::{PackageStoreWithLruCache, Resolver};
 use sui_sdk::SuiClientBuilder;
 use tokio::sync::OnceCell;
 use tower::{Layer, Service};
+use tower_http::cors::{AllowOrigin, CorsLayer};
 use tracing::{info, warn};
 use uuid::Uuid;
 
@@ -148,6 +151,9 @@ impl ServerBuilder {
                     self.state.metrics.clone(),
                     check_version_middleware,
                 ))
+                .route_layer(CallbackLayer::new(MetricsMakeCallbackHandler {
+                    metrics: self.state.metrics.clone(),
+                }))
                 .layer(middleware::from_fn(set_version_middleware));
             self.router = Some(router);
         }
@@ -172,10 +178,42 @@ impl ServerBuilder {
         self
     }
 
+    fn cors() -> Result<CorsLayer, Error> {
+        let acl = match std::env::var("ACCESS_CONTROL_ALLOW_ORIGIN") {
+            Ok(value) => {
+                let allow_hosts = value
+                    .split(',')
+                    .map(HeaderValue::from_str)
+                    .collect::<Result<Vec<_>, _>>()
+                    .map_err(|_| {
+                        Error::Internal(
+                            "Cannot resolve access control origin env variable".to_string(),
+                        )
+                    })?;
+                AllowOrigin::list(allow_hosts)
+            }
+            _ => AllowOrigin::any(),
+        };
+        info!("Access control allow origin set to: {acl:?}");
+
+        let cors = CorsLayer::new()
+            // Allow `POST` when accessing the resource
+            .allow_methods([Method::POST])
+            // Allow requests from any origin
+            .allow_origin(acl)
+            .allow_headers([
+                hyper::header::CONTENT_TYPE,
+                VERSION_HEADER.clone(),
+                LIMITS_HEADER.clone(),
+            ]);
+        Ok(cors)
+    }
+
     pub fn build(self) -> Result<Server, Error> {
         let (address, schema, router) = self.build_components();
-
-        let app = router.layer(axum::extract::Extension(schema));
+        let app = router
+            .layer(axum::extract::Extension(schema))
+            .layer(Self::cors()?);
 
         Ok(Server {
             server: axum::Server::bind(
@@ -220,6 +258,10 @@ impl ServerBuilder {
         let reader = PgManager::reader_with_config(
             config.connection.db_url.clone(),
             config.connection.db_pool_size,
+            // Bound each statement in a request with the overall request timeout, to bound DB
+            // utilisation (in the worst case we will use 2x the request timeout time in DB wall
+            // time).
+            config.service.limits.request_timeout_ms,
         )
         .map_err(|e| Error::Internal(format!("Failed to create pg connection pool: {}", e)))?;
 
@@ -297,15 +339,11 @@ pub fn export_schema() -> String {
 }
 
 async fn graphql_handler(
-    State(metrics): State<Metrics>,
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
     schema: axum::Extension<SuiGraphQLSchema>,
     headers: HeaderMap,
     req: GraphQLRequest,
-) -> GraphQLResponse {
-    metrics.request_metrics.inflight_requests.inc();
-    metrics.inc_num_queries();
-    let instant = Instant::now();
+) -> (axum::http::Extensions, GraphQLResponse) {
     let mut req = req.into_inner();
     req.data.insert(Uuid::new_v4());
     if headers.contains_key(ShowUsage::name()) {
@@ -315,14 +353,65 @@ async fn graphql_handler(
     // Note: if a load balancer is used it must be configured to forward the client IP address
     req.data.insert(addr);
     let result = schema.execute(req).await;
-    let elapsed = instant.elapsed().as_millis() as u64;
-    metrics.query_latency(elapsed);
+
+    // If there are errors, insert them as an extention so that the Metrics callback handler can
+    // pull it out later.
+    let mut extensions = axum::http::Extensions::new();
     if result.is_err() {
-        metrics.inc_errors(result.errors.clone());
-    }
-    metrics.request_metrics.inflight_requests.dec();
-    result.into()
+        extensions.insert(GraphqlErrors(std::sync::Arc::new(result.errors.clone())));
+    };
+    (extensions, result.into())
 }
+
+#[derive(Clone)]
+struct MetricsMakeCallbackHandler {
+    metrics: Metrics,
+}
+
+impl MakeCallbackHandler for MetricsMakeCallbackHandler {
+    type Handler = MetricsCallbackHandler;
+
+    fn make_handler(&self, _request: &http::request::Parts) -> Self::Handler {
+        let start = Instant::now();
+        let metrics = self.metrics.clone();
+
+        metrics.request_metrics.inflight_requests.inc();
+        metrics.inc_num_queries();
+
+        MetricsCallbackHandler { metrics, start }
+    }
+}
+
+struct MetricsCallbackHandler {
+    metrics: Metrics,
+    start: Instant,
+}
+
+impl ResponseHandler for MetricsCallbackHandler {
+    fn on_response(self, response: &http::response::Parts) {
+        if let Some(errors) = response.extensions.get::<GraphqlErrors>() {
+            self.metrics.inc_errors(&errors.0);
+        }
+    }
+
+    fn on_error<E>(self, _error: &E) {
+        // Do nothing if the whole service errored
+        //
+        // in Axum this isn't possible since all services are required to have an error type of
+        // Infallible
+    }
+}
+
+impl Drop for MetricsCallbackHandler {
+    fn drop(&mut self) {
+        let elapsed = self.start.elapsed().as_millis() as u64;
+        self.metrics.query_latency(elapsed);
+        self.metrics.request_metrics.inflight_requests.dec();
+    }
+}
+
+#[derive(Debug, Clone)]
+struct GraphqlErrors(std::sync::Arc<Vec<async_graphql::ServerError>>);
 
 /// Connect via a TCPStream to the DB to check if it is alive
 async fn health_checks(State(connection): State<ConnectionConfig>) -> StatusCode {
@@ -360,7 +449,7 @@ pub mod tests {
         context_data::db_data_provider::PgManager,
         extensions::query_limits_checker::QueryLimitsChecker,
         extensions::timeout::Timeout,
-        test_infra::cluster::{serve_executor, ExecutorCluster, DEFAULT_INTERNAL_DATA_SOURCE_PORT},
+        test_infra::cluster::{serve_executor, DEFAULT_INTERNAL_DATA_SOURCE_PORT},
     };
     use async_graphql::{
         extensions::{Extension, ExtensionContext, NextExecute},
@@ -372,24 +461,27 @@ pub mod tests {
     use std::time::Duration;
     use uuid::Uuid;
 
-    async fn prep_cluster() -> (ConnectionConfig, ExecutorCluster) {
+    async fn prep_cluster() -> ConnectionConfig {
         let rng = StdRng::from_seed([12; 32]);
         let mut sim = Simulacrum::new_with_rng(rng);
 
         sim.create_checkpoint();
+        sim.create_checkpoint();
 
         let connection_config = ConnectionConfig::ci_integration_test_cfg();
-
-        (
+        let cluster = serve_executor(
             connection_config.clone(),
-            serve_executor(
-                connection_config,
-                DEFAULT_INTERNAL_DATA_SOURCE_PORT,
-                Arc::new(sim),
-                None,
-            )
-            .await,
+            DEFAULT_INTERNAL_DATA_SOURCE_PORT,
+            Arc::new(sim),
+            None,
         )
+        .await;
+
+        cluster
+            .wait_for_checkpoint_catchup(2, Duration::from_secs(10))
+            .await;
+
+        connection_config
     }
 
     fn metrics() -> Metrics {
@@ -408,7 +500,7 @@ pub mod tests {
     }
 
     pub async fn test_timeout_impl() {
-        let (connection_config, _cluster) = prep_cluster().await;
+        let connection_config = prep_cluster().await;
 
         struct TimedExecuteExt {
             pub min_req_delay: Duration,
@@ -467,9 +559,10 @@ pub mod tests {
         let timeout = Duration::from_millis(1000);
         let delay = Duration::from_millis(100);
 
-        // Should complete successfully
-        let resp = test_timeout(delay, timeout, &connection_config).await;
-        assert!(resp.is_ok());
+        test_timeout(delay, timeout, &connection_config)
+            .await
+            .into_result()
+            .expect("Should complete successfully");
 
         // Should timeout
         let errs: Vec<_> = test_timeout(timeout, timeout, &connection_config)
@@ -484,7 +577,7 @@ pub mod tests {
     }
 
     pub async fn test_query_depth_limit_impl() {
-        let (connection_config, _cluster) = prep_cluster().await;
+        let connection_config = prep_cluster().await;
 
         async fn exec_query_depth_limit(
             depth: u32,
@@ -516,16 +609,19 @@ pub mod tests {
             schema.execute(query).await
         }
 
-        // Should complete successfully
-        let resp = exec_query_depth_limit(1, "{ chainIdentifier }", &connection_config).await;
-        assert!(resp.is_ok());
-        let resp = exec_query_depth_limit(
+        exec_query_depth_limit(1, "{ chainIdentifier }", &connection_config)
+            .await
+            .into_result()
+            .expect("Should complete successfully");
+
+        exec_query_depth_limit(
             5,
             "{ chainIdentifier protocolConfig { configs { value key }} }",
             &connection_config,
         )
-        .await;
-        assert!(resp.is_ok());
+        .await
+        .into_result()
+        .expect("Should complete successfully");
 
         // Should fail
         let errs: Vec<_> = exec_query_depth_limit(0, "{ chainIdentifier }", &connection_config)
@@ -558,7 +654,7 @@ pub mod tests {
     }
 
     pub async fn test_query_node_limit_impl() {
-        let (connection_config, _cluster) = prep_cluster().await;
+        let connection_config = prep_cluster().await;
 
         async fn exec_query_node_limit(
             nodes: u32,
@@ -590,16 +686,19 @@ pub mod tests {
             schema.execute(query).await
         }
 
-        // Should complete successfully
-        let resp = exec_query_node_limit(1, "{ chainIdentifier }", &connection_config).await;
-        assert!(resp.is_ok());
-        let resp = exec_query_node_limit(
+        exec_query_node_limit(1, "{ chainIdentifier }", &connection_config)
+            .await
+            .into_result()
+            .expect("Should complete successfully");
+
+        exec_query_node_limit(
             5,
             "{ chainIdentifier protocolConfig { configs { value key }} }",
             &connection_config,
         )
-        .await;
-        assert!(resp.is_ok());
+        .await
+        .into_result()
+        .expect("Should complete successfully");
 
         // Should fail
         let err: Vec<_> = exec_query_node_limit(0, "{ chainIdentifier }", &connection_config)
@@ -697,7 +796,7 @@ pub mod tests {
     }
 
     pub async fn test_query_max_page_limit_impl() {
-        let (connection_config, _cluster) = prep_cluster().await;
+        let connection_config = prep_cluster().await;
 
         let service_config = ServiceConfig::default();
         let db_url: String = connection_config.db_url.clone();
@@ -715,11 +814,11 @@ pub mod tests {
             .context_data(metrics.clone())
             .build_schema();
 
-        // Should complete successfully
-        let resp = schema
+        schema
             .execute("{ objects(first: 1) { nodes { version } } }")
-            .await;
-        assert!(resp.is_ok());
+            .await
+            .into_result()
+            .expect("Should complete successfully");
 
         // Should fail
         let err: Vec<_> = schema
@@ -737,7 +836,7 @@ pub mod tests {
     }
 
     pub async fn test_query_complexity_metrics_impl() {
-        let (connection_config, _cluster) = prep_cluster().await;
+        let connection_config = prep_cluster().await;
 
         let binding_address: SocketAddr = "0.0.0.0:9185".parse().unwrap();
         let registry = mysten_metrics::start_prometheus_server(binding_address).default_registry();
@@ -758,23 +857,32 @@ pub mod tests {
             .context_data(metrics.clone())
             .extension(QueryLimitsChecker::default())
             .build_schema();
-        let _ = schema.execute("{ chainIdentifier }").await;
-        let metrics2 = metrics.request_metrics;
-        assert_eq!(metrics2.input_nodes.get_sample_count(), 1);
-        assert_eq!(metrics2.output_nodes.get_sample_count(), 1);
-        assert_eq!(metrics2.query_depth.get_sample_count(), 1);
-        assert_eq!(metrics2.input_nodes.get_sample_sum(), 1.);
-        assert_eq!(metrics2.output_nodes.get_sample_sum(), 1.);
-        assert_eq!(metrics2.query_depth.get_sample_sum(), 1.);
 
-        let _ = schema
+        schema
+            .execute("{ chainIdentifier }")
+            .await
+            .into_result()
+            .expect("Should complete successfully");
+
+        let req_metrics = metrics.request_metrics;
+        assert_eq!(req_metrics.input_nodes.get_sample_count(), 1);
+        assert_eq!(req_metrics.output_nodes.get_sample_count(), 1);
+        assert_eq!(req_metrics.query_depth.get_sample_count(), 1);
+        assert_eq!(req_metrics.input_nodes.get_sample_sum(), 1.);
+        assert_eq!(req_metrics.output_nodes.get_sample_sum(), 1.);
+        assert_eq!(req_metrics.query_depth.get_sample_sum(), 1.);
+
+        schema
             .execute("{ chainIdentifier protocolConfig { configs { value key }} }")
-            .await;
-        assert_eq!(metrics2.input_nodes.get_sample_count(), 2);
-        assert_eq!(metrics2.output_nodes.get_sample_count(), 2);
-        assert_eq!(metrics2.query_depth.get_sample_count(), 2);
-        assert_eq!(metrics2.input_nodes.get_sample_sum(), 2. + 4.);
-        assert_eq!(metrics2.output_nodes.get_sample_sum(), 2. + 4.);
-        assert_eq!(metrics2.query_depth.get_sample_sum(), 1. + 3.);
+            .await
+            .into_result()
+            .expect("Should complete successfully");
+
+        assert_eq!(req_metrics.input_nodes.get_sample_count(), 2);
+        assert_eq!(req_metrics.output_nodes.get_sample_count(), 2);
+        assert_eq!(req_metrics.query_depth.get_sample_count(), 2);
+        assert_eq!(req_metrics.input_nodes.get_sample_sum(), 2. + 4.);
+        assert_eq!(req_metrics.output_nodes.get_sample_sum(), 2. + 4.);
+        assert_eq!(req_metrics.query_depth.get_sample_sum(), 1. + 3.);
     }
 }

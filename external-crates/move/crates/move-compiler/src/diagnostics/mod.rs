@@ -7,7 +7,7 @@ pub mod codes;
 use crate::{
     command_line::COLOR_MODE_ENV_VAR,
     diagnostics::codes::{
-        DiagnosticCode, DiagnosticInfo, ExternalPrefix, Severity, WarningFilter,
+        Category, DiagnosticCode, DiagnosticInfo, ExternalPrefix, Severity, WarningFilter,
         WellKnownFilterName,
     },
     shared::{
@@ -30,7 +30,7 @@ use move_command_line_common::{env::read_env_var, files::FileHash};
 use move_ir_types::location::*;
 use move_symbol_pool::Symbol;
 use std::{
-    collections::{BTreeMap, HashMap, HashSet},
+    collections::{BTreeMap, BTreeSet, HashMap, HashSet},
     io::Write,
     iter::FromIterator,
     ops::Range,
@@ -91,7 +91,7 @@ enum UnprefixedWarningFilters {
     Empty,
 }
 
-#[derive(PartialEq, Eq, Clone, Debug)]
+#[derive(PartialEq, Eq, Clone, Debug, PartialOrd, Ord, Copy)]
 enum MigrationChange {
     AddMut,
     AddPublic,
@@ -283,12 +283,25 @@ impl Diagnostics {
 
     pub fn max_severity(&self) -> Option<Severity> {
         let Self(Some(inner)) = self else { return None };
+        // map would be empty at the severity, so it should never be zero
         debug_assert!(inner.severity_count.values().all(|count| *count > 0));
         inner
             .severity_count
             .iter()
             .max_by_key(|(sev, _count)| **sev)
             .map(|(sev, _count)| *sev)
+    }
+
+    pub fn count_diags_at_or_above_severity(&self, threshold: Severity) -> usize {
+        let Self(Some(inner)) = self else { return 0 };
+        // map would be empty at the severity, so it should never be zero
+        debug_assert!(inner.severity_count.values().all(|count| *count > 0));
+        inner
+            .severity_count
+            .iter()
+            .filter(|(sev, _count)| **sev >= threshold)
+            .map(|(_sev, count)| *count)
+            .sum()
     }
 
     pub fn is_empty(&self) -> bool {
@@ -500,6 +513,42 @@ macro_rules! diag {
     }};
 }
 
+pub const ICE_BUG_REPORT_MESSAGE: &str =
+    "The Move compiler has encountered an internal compiler error.\n \
+    Please report this this issue to the Mysten Labs Move language team,\n \
+    including this error and any relevant code, to the Mysten Labs issue tracker\n \
+    at : https://github.com/MystenLabs/sui/issues";
+
+#[macro_export]
+macro_rules! ice {
+    ($primary: expr $(,)?) => {{
+        $crate::diagnostics::print_stack_trace();
+        let mut diag = $crate::diag!($crate::diagnostics::codes::Bug::ICE, $primary);
+        diag.add_note($crate::diagnostics::ICE_BUG_REPORT_MESSAGE.to_string());
+        diag
+    }};
+    ($primary: expr, $($secondary: expr),+ $(,)?) => {{
+        $crate::diagnostics::print_stack_trace();
+        let mut diag =
+            $crate::diag!($crate::diagnostics::codes::Bug::ICE, $primary, $($secondary, )*);
+        diag.add_note($crate::diagnostics::ICE_BUG_REPORT_MESSAGE.to_string());
+        diag
+    }}
+}
+
+#[allow(clippy::wildcard_in_or_patterns)]
+pub fn print_stack_trace() {
+    use std::backtrace::{Backtrace, BacktraceStatus};
+    let stacktrace = Backtrace::capture();
+    match stacktrace.status() {
+        BacktraceStatus::Captured => {
+            eprintln!("stacktrace:");
+            eprintln!("{}", stacktrace);
+        }
+        BacktraceStatus::Unsupported | BacktraceStatus::Disabled | _ => (),
+    }
+}
+
 impl WarningFilters {
     pub fn new_for_source() -> Self {
         Self {
@@ -696,15 +745,16 @@ impl Migration {
     }
 
     fn add_diagnostic(&mut self, diag: Diagnostic) {
+        const CAT: u8 = Category::Migration as u8;
         const NEEDS_MUT: u8 = codes::Migration::NeedsLetMut as u8;
         const NEEDS_PUBLIC: u8 = codes::Migration::NeedsPublic as u8;
 
         let (file_id, line, col) = self.find_file_location(&diag);
         let file_change_entry = self.changes.entry(file_id).or_default();
         let line_change_entry = file_change_entry.entry(line).or_default();
-        match diag.info().code() {
-            NEEDS_MUT => line_change_entry.push((col, MigrationChange::AddMut)),
-            NEEDS_PUBLIC => line_change_entry.push((col, MigrationChange::AddPublic)),
+        match (diag.info().category(), diag.info().code()) {
+            (CAT, NEEDS_MUT) => line_change_entry.push((col, MigrationChange::AddMut)),
+            (CAT, NEEDS_PUBLIC) => line_change_entry.push((col, MigrationChange::AddPublic)),
             _ => unreachable!(),
         }
     }
@@ -722,19 +772,24 @@ impl Migration {
         self.files.source(file_id).unwrap()[line_range].to_string()
     }
 
-    fn render_line(line_text: String, changes: &[(usize, MigrationChange)]) -> String {
+    fn render_line(
+        line_text: String,
+        migration_set: BTreeMap<usize, BTreeSet<MigrationChange>>,
+    ) -> String {
         let mut line_prefix: &str = &line_text[..];
         let mut output = "".to_string();
-        for (col, change) in changes.iter().rev() {
+        for (col, changes) in migration_set.iter().rev() {
             let rest = &line_prefix[*col..];
-            match change {
-                MigrationChange::AddMut => {
-                    output = format!("mut {}{}", rest, output);
-                    line_prefix = &line_prefix[..*col];
-                }
-                MigrationChange::AddPublic => {
-                    output = format!("public {}{}", rest, output);
-                    line_prefix = &line_prefix[..*col];
+            for change in changes {
+                match change {
+                    MigrationChange::AddMut => {
+                        output = format!("mut {}{}", rest, output);
+                        line_prefix = &line_prefix[..*col];
+                    }
+                    MigrationChange::AddPublic => {
+                        output = format!("public {}{}", rest, output);
+                        line_prefix = &line_prefix[..*col];
+                    }
                 }
             }
         }
@@ -754,12 +809,12 @@ impl Migration {
         for (file_id, name) in names {
             let file_changes = changes.get_mut(&file_id).unwrap();
             output.push(format!("--- {}\n+++ {}\n", name, name));
-            for (line_number, line_changes) in file_changes.iter_mut() {
-                line_changes.sort_by_key(|(col, _)| *col);
+            for (line_number, line_changes) in file_changes.iter() {
+                let migration_set = Self::unique_changes(line_changes);
                 let line = self.get_line(file_id, *line_number - 1).to_string();
                 output.push(format!("@@ -{line_number},1 +{line_number},1 @@\n"));
                 output.push(format!("-{}", line));
-                let new_line = Self::render_line(line.to_string(), line_changes);
+                let new_line = Self::render_line(line.to_string(), migration_set);
                 output.push(format!("+{}", new_line));
             }
         }
@@ -790,9 +845,9 @@ impl Migration {
             let path = PathBuf::from(name.to_string());
             let mut output = vec![];
             for (ndx, line) in file.source().lines().enumerate() {
-                if let Some(line_changes) = file_changes.get_mut(&(ndx + 1)) {
-                    line_changes.sort_by_key(|(col, _)| *col);
-                    output.push(Self::render_line(line.to_string(), line_changes))
+                if let Some(line_changes) = file_changes.get(&(ndx + 1)) {
+                    let migration_set = Self::unique_changes(line_changes);
+                    output.push(Self::render_line(line.to_string(), migration_set))
                 } else {
                     output.push(line.to_string());
                 }
@@ -806,6 +861,18 @@ impl Migration {
             std::fs::write(path, buf)?;
         }
         Ok(())
+    }
+
+    // Processes a vector of changes for a single line, returning a BTreeMap of unique ones
+    // per-column. The map iterates in sorted order, so this also sorts them.
+    fn unique_changes(
+        change_list: &[(usize, MigrationChange)],
+    ) -> BTreeMap<usize, BTreeSet<MigrationChange>> {
+        let mut migration_set: BTreeMap<usize, BTreeSet<MigrationChange>> = BTreeMap::new();
+        for (col, change) in change_list {
+            migration_set.entry(*col).or_default().insert(*change);
+        }
+        migration_set
     }
 }
 

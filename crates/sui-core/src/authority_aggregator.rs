@@ -6,6 +6,7 @@ use crate::authority_client::{
     make_authority_clients_with_timeout_config, make_network_authority_clients_with_network_config,
     AuthorityAPI, NetworkAuthorityClient,
 };
+use crate::execution_cache::ExecutionCacheRead;
 use crate::safe_client::{SafeClient, SafeClientMetrics, SafeClientMetricsBase};
 use fastcrypto::traits::ToFromBytes;
 use futures::{future::BoxFuture, stream::FuturesUnordered, StreamExt};
@@ -55,7 +56,6 @@ use sui_types::messages_grpc::{
 use sui_types::messages_safe_client::PlainTransactionInfoResponse;
 use tokio::time::{sleep, timeout};
 
-use crate::authority::AuthorityStore;
 use crate::epoch::committee_store::CommitteeStore;
 use crate::stake_aggregator::{InsertResult, MultiStakeAggregator, StakeAggregator};
 
@@ -246,6 +246,18 @@ pub enum AggregatorProcessTransactionError {
 
     #[error("Transaction is already finalized but with different user signatures")]
     TxAlreadyFinalizedWithDifferentUserSignatures,
+
+    #[error(
+        "{} of the validators by stake are overloaded and requested the client to retry after {} seconds. Validator errors: {:?}",
+        overload_stake,
+        retry_after_secs,
+        errors
+    )]
+    SystemOverloadRetryAfter {
+        overload_stake: StakeUnit,
+        errors: GroupedErrors,
+        retry_after_secs: u64,
+    },
 }
 
 #[derive(Error, Debug)]
@@ -294,6 +306,8 @@ struct ProcessTransactionState {
     object_or_package_not_found_stake: StakeUnit,
     // Validators that are overloaded with txns pending execution.
     overloaded_stake: StakeUnit,
+    // Validators that are overloaded and request client to retry.
+    retryable_overloaded_stake: StakeUnit,
     // If there are conflicting transactions, we note them down and may attempt to retry
     conflicting_tx_digests:
         BTreeMap<TransactionDigest, (Vec<(AuthorityName, ObjectRef)>, StakeUnit)>,
@@ -623,7 +637,7 @@ impl AuthorityAggregator<NetworkAuthorityClient> {
     /// This function needs metrics parameters because registry will panic
     /// if we attempt to register already-registered metrics again.
     pub fn new_from_local_system_state(
-        store: &Arc<AuthorityStore>,
+        store: &Arc<dyn ExecutionCacheRead>,
         committee_store: &Arc<CommitteeStore>,
         safe_client_metrics_base: SafeClientMetricsBase,
         auth_agg_metrics: AuthAggMetrics,
@@ -1014,6 +1028,7 @@ where
             object_or_package_not_found_stake: 0,
             non_retryable_stake: 0,
             overloaded_stake: 0,
+            retryable_overloaded_stake: 0,
             retryable: true,
             conflicting_tx_digests: Default::default(),
             conflicting_tx_total_stake: 0,
@@ -1073,7 +1088,20 @@ where
                                     // Special case for validator overload too. Once we have >= 2f + 1
                                     // overloaded validators we consider the system overloaded so we exit
                                     // and notify the user.
+                                    // Note that currently, this overload account for
+                                    //   - per object queue overload
+                                    //   - consensus overload
                                     state.overloaded_stake += weight;
+                                }
+                                else if err.is_retryable_overload() {
+                                    // Different from above overload error, retryable overload targets authority overload (entire
+                                    // authority server is overload). In this case, the retry behavior is different from
+                                    // above that we may perform continuous retry due to that objects may have been locked
+                                    // in the validator.
+                                    //
+                                    // TODO: currently retryable overload and above overload error look redundant. We want to have a unified
+                                    // code path to handle both overload scenarios.
+                                    state.retryable_overloaded_stake += weight;
                                 }
                                 else if !retryable && !state.record_conflicting_transaction_if_any(name, weight, &err) {
                                     // We don't count conflicting transactions as non-retryable errors here
@@ -1102,8 +1130,9 @@ where
                             return ReduceOutput::Failed(state);
                         }
 
+                        // TODO: add more comments to explain each condition.
                         if state.non_retryable_stake >= validity_threshold
-                            || state.object_or_package_not_found_stake >= quorum_threshold
+                            || state.object_or_package_not_found_stake >= quorum_threshold // In normal case, object/package not found should be more than f+1
                             || state.overloaded_stake >= quorum_threshold {
                             // We have hit an exit condition, f+1 non-retryable err or 2f+1 object not found or overload,
                             // so we no longer consider the transaction state as retryable.
@@ -1210,6 +1239,20 @@ where
             }
             return AggregatorProcessTransactionError::FatalTransaction {
                 errors: group_errors(state.errors),
+            };
+        }
+
+        // When state is in a retryable state and process transaction was not successful, it indicates that
+        // we have heard from *all* validators. Check if any SystemOverloadRetryAfter error caused the txn
+        // to fail. If so, return explicit SystemOverloadRetryAfter error for continuous retry (since objects)
+        // are locked in validators. If not, retry regular RetryableTransaction error.
+        if state.tx_signatures.total_votes() + state.retryable_overloaded_stake >= quorum_threshold
+        {
+            // TODO: make use of retry_after_secs, which is currently not used.
+            return AggregatorProcessTransactionError::SystemOverloadRetryAfter {
+                overload_stake: state.retryable_overloaded_stake,
+                errors: group_errors(state.errors),
+                retry_after_secs: 0,
             };
         }
 

@@ -162,8 +162,8 @@ pub struct NodeConfig {
     #[serde(default = "default_zklogin_oauth_providers")]
     pub zklogin_oauth_providers: BTreeMap<Chain, BTreeSet<String>>,
 
-    #[serde(default = "default_overload_threshold_config")]
-    pub overload_threshold_config: OverloadThresholdConfig,
+    #[serde(default = "default_authority_overload_config")]
+    pub authority_overload_config: AuthorityOverloadConfig,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub run_with_range: Option<RunWithRange>,
@@ -686,7 +686,7 @@ pub struct TransactionKeyValueStoreWriteConfig {
 /// resolves.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "kebab-case")]
-pub struct OverloadThresholdConfig {
+pub struct AuthorityOverloadConfig {
     #[serde(default = "default_max_txn_age_in_queue")]
     pub max_txn_age_in_queue: Duration,
 
@@ -710,6 +710,21 @@ pub struct OverloadThresholdConfig {
     // transactions to shed.
     #[serde(default = "default_min_load_shedding_percentage_above_hard_limit")]
     pub min_load_shedding_percentage_above_hard_limit: u32,
+
+    // If transaction ready rate is below this rate, we consider the validator
+    // is well under used, and will not enter load shedding mode.
+    #[serde(default = "default_safe_transaction_ready_rate")]
+    pub safe_transaction_ready_rate: u32,
+
+    // When set to true, transaction signing may be rejected when the validator
+    // is overloaded.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub check_system_overload_at_signing: bool,
+
+    // When set to true, transaction execution may be rejected when the validator
+    // is overloaded.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub check_system_overload_at_execution: bool,
     // TODO: Move other thresholds here as well, including `MAX_TM_QUEUE_LENGTH`
     // and `MAX_PER_OBJECT_QUEUE_LENGTH`.
 }
@@ -738,7 +753,11 @@ fn default_min_load_shedding_percentage_above_hard_limit() -> u32 {
     50
 }
 
-impl Default for OverloadThresholdConfig {
+fn default_safe_transaction_ready_rate() -> u32 {
+    100
+}
+
+impl Default for AuthorityOverloadConfig {
     fn default() -> Self {
         Self {
             max_txn_age_in_queue: default_max_txn_age_in_queue(),
@@ -748,12 +767,15 @@ impl Default for OverloadThresholdConfig {
             max_load_shedding_percentage: default_max_load_shedding_percentage(),
             min_load_shedding_percentage_above_hard_limit:
                 default_min_load_shedding_percentage_above_hard_limit(),
+            safe_transaction_ready_rate: default_safe_transaction_ready_rate(),
+            check_system_overload_at_signing: false,
+            check_system_overload_at_execution: false,
         }
     }
 }
 
-fn default_overload_threshold_config() -> OverloadThresholdConfig {
-    OverloadThresholdConfig::default()
+fn default_authority_overload_config() -> AuthorityOverloadConfig {
+    AuthorityOverloadConfig::default()
 }
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, Eq)]

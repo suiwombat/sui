@@ -1273,6 +1273,7 @@ async fn sync_checkpoint_contents<S>(
     }
 }
 
+#[instrument(level = "debug", skip_all, fields(sequence_number = ?checkpoint.sequence_number()))]
 async fn sync_one_checkpoint_contents<S>(
     network: anemo::Network,
     store: S,
@@ -1283,6 +1284,8 @@ async fn sync_one_checkpoint_contents<S>(
 where
     S: WriteStore + Clone,
 {
+    debug!("syncing checkpoint contents");
+
     // Check if we already have produced this checkpoint locally. If so, we don't need
     // to get it from peers anymore.
     if store
@@ -1291,7 +1294,7 @@ where
         .sequence_number()
         >= checkpoint.sequence_number()
     {
-        debug!(seq = ?checkpoint.sequence_number(), "checkpoint was already created via consensus output");
+        debug!("checkpoint was already created via consensus output");
         return Ok(checkpoint);
     }
 
@@ -1309,9 +1312,11 @@ where
             .read()
             .unwrap()
             .wait_interval_when_no_peer_to_sync_content();
+        info!("retrying checkpoint sync after {:?}", duration);
         tokio::time::sleep(duration).await;
         return Err(checkpoint);
     };
+    debug!("completed checkpoint contents sync");
     Ok(checkpoint)
 }
 
@@ -1335,12 +1340,18 @@ where
                 .expect("store operation should not fail")
         })
     {
+        debug!("store already contains checkpoint contents");
         return Some(contents);
     }
 
     // Iterate through our selected peers trying each one in turn until we're able to
     // successfully get the target checkpoint
     for mut peer in peers {
+        debug!(
+            ?timeout,
+            "requesting checkpoint contents from {}",
+            peer.inner().peer_id(),
+        );
         let request = Request::new(digest).with_timeout(timeout);
         if let Some(contents) = peer
             .get_checkpoint_contents(request)
@@ -1359,6 +1370,7 @@ where
             }
         }
     }
+    debug!("no peers had checkpoint contents");
     None
 }
 

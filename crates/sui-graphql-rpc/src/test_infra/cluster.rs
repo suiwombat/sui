@@ -11,12 +11,12 @@ use std::sync::Arc;
 use std::time::Duration;
 use sui_graphql_rpc_client::simple_client::SimpleClient;
 use sui_indexer::errors::IndexerError;
-pub use sui_indexer::processors_v2::objects_snapshot_processor::SnapshotLagConfig;
-use sui_indexer::store::indexer_store_v2::IndexerStoreV2;
-use sui_indexer::store::PgIndexerStoreV2;
+pub use sui_indexer::processors::objects_snapshot_processor::SnapshotLagConfig;
+use sui_indexer::store::indexer_store::IndexerStore;
+use sui_indexer::store::PgIndexerStore;
 use sui_indexer::test_utils::force_delete_database;
-use sui_indexer::test_utils::start_test_indexer_v2;
-use sui_indexer::test_utils::start_test_indexer_v2_impl;
+use sui_indexer::test_utils::start_test_indexer;
+use sui_indexer::test_utils::start_test_indexer_impl;
 use sui_indexer::test_utils::ReaderWriterConfig;
 use sui_swarm_config::genesis_config::{AccountConfig, DEFAULT_GAS_AMOUNT};
 use sui_types::storage::ReadStore;
@@ -34,7 +34,7 @@ pub const DEFAULT_INTERNAL_DATA_SOURCE_PORT: u16 = 3000;
 
 pub struct ExecutorCluster {
     pub executor_server_handle: JoinHandle<()>,
-    pub indexer_store: PgIndexerStoreV2,
+    pub indexer_store: PgIndexerStore,
     pub indexer_join_handle: JoinHandle<Result<(), IndexerError>>,
     pub graphql_server_join_handle: JoinHandle<()>,
     pub graphql_client: SimpleClient,
@@ -44,7 +44,7 @@ pub struct ExecutorCluster {
 
 pub struct Cluster {
     pub validator_fullnode_handle: TestCluster,
-    pub indexer_store: PgIndexerStoreV2,
+    pub indexer_store: PgIndexerStore,
     pub indexer_join_handle: JoinHandle<Result<(), IndexerError>>,
     pub graphql_server_join_handle: JoinHandle<()>,
     pub graphql_client: SimpleClient,
@@ -60,10 +60,9 @@ pub async fn start_cluster(
     let val_fn = start_validator_with_fullnode(internal_data_source_rpc_port).await;
 
     // Starts indexer
-    let (pg_store, pg_handle) = start_test_indexer_v2(
+    let (pg_store, pg_handle) = start_test_indexer(
         Some(db_url),
         val_fn.rpc_url().to_string(),
-        true,
         ReaderWriterConfig::writer_mode(None),
     )
     .await;
@@ -106,13 +105,21 @@ pub async fn serve_executor(
         .unwrap();
 
     let executor_server_handle = tokio::spawn(async move {
-        sui_rest_api::start_service(executor_server_url, executor, Some("/rest".to_owned())).await;
+        let chain_id = (*executor
+            .get_checkpoint_by_sequence_number(0)
+            .unwrap()
+            .unwrap()
+            .digest())
+        .into();
+
+        sui_rest_api::RestService::new_without_version(executor, chain_id)
+            .start_service(executor_server_url, Some("/rest".to_owned()))
+            .await;
     });
 
-    let (pg_store, pg_handle) = start_test_indexer_v2_impl(
+    let (pg_store, pg_handle) = start_test_indexer_impl(
         Some(db_url),
         format!("http://{}", executor_server_url),
-        true,
         ReaderWriterConfig::writer_mode(snapshot_config.clone()),
         Some(graphql_connection_config.db_name()),
     )
@@ -198,32 +205,44 @@ async fn wait_for_graphql_server(client: &SimpleClient) {
     .expect("Timeout waiting for graphql server to start");
 }
 
-impl ExecutorCluster {
-    pub async fn wait_for_checkpoint_catchup(&self, checkpoint: u64, base_timeout: Duration) {
-        let current_checkpoint = self
-            .indexer_store
+async fn wait_for_indexer_checkpoint_catchup(
+    indexer_store: &PgIndexerStore,
+    checkpoint: u64,
+    base_timeout: Duration,
+) {
+    let current_checkpoint = indexer_store
+        .get_latest_tx_checkpoint_sequence_number()
+        .await
+        .unwrap();
+
+    let diff = checkpoint
+        .saturating_sub(current_checkpoint.unwrap_or(0))
+        .max(1);
+    let timeout = base_timeout.mul_f64(diff as f64);
+
+    tokio::time::timeout(timeout, async {
+        while indexer_store
             .get_latest_tx_checkpoint_sequence_number()
             .await
-            .unwrap();
+            .unwrap()
+            < Some(checkpoint)
+        {
+            tokio::time::sleep(Duration::from_secs(1)).await;
+        }
+    })
+    .await
+    .expect("Timeout waiting for indexer to catchup to checkpoint");
+}
 
-        let diff = checkpoint
-            .saturating_sub(current_checkpoint.unwrap_or(0))
-            .max(1);
-        let timeout = base_timeout.mul_f64(diff as f64);
+impl Cluster {
+    pub async fn wait_for_checkpoint_catchup(&self, checkpoint: u64, base_timeout: Duration) {
+        wait_for_indexer_checkpoint_catchup(&self.indexer_store, checkpoint, base_timeout).await
+    }
+}
 
-        tokio::time::timeout(timeout, async {
-            while self
-                .indexer_store
-                .get_latest_tx_checkpoint_sequence_number()
-                .await
-                .unwrap()
-                < Some(checkpoint)
-            {
-                tokio::time::sleep(Duration::from_secs(1)).await;
-            }
-        })
-        .await
-        .expect("Timeout waiting for indexer to catchup to checkpoint");
+impl ExecutorCluster {
+    pub async fn wait_for_checkpoint_catchup(&self, checkpoint: u64, base_timeout: Duration) {
+        wait_for_indexer_checkpoint_catchup(&self.indexer_store, checkpoint, base_timeout).await
     }
 
     /// The ObjectsSnapshotProcessor is a long-running task that periodically takes a snapshot of

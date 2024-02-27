@@ -19,6 +19,7 @@ use crate::{
 use cfgir::ast::LoopInfo;
 use move_core_types::{account_address::AccountAddress as MoveAddress, runtime_value::MoveValue};
 use move_ir_types::location::*;
+use move_symbol_pool::Symbol;
 use petgraph::{
     algo::{kosaraju_scc as petgraph_scc, toposort as petgraph_toposort},
     graphmap::DiGraphMap,
@@ -37,6 +38,7 @@ enum NamedBlockType {
 
 struct Context<'env> {
     env: &'env mut CompilationEnv,
+    current_package: Option<Symbol>,
     struct_declared_abilities: UniqueMap<ModuleIdent, UniqueMap<StructName, AbilitySet>>,
     label_count: usize,
     named_blocks: UniqueMap<BlockLabel, (Label, Label)>,
@@ -66,6 +68,7 @@ impl<'env> Context<'env> {
         .unwrap();
         Context {
             env,
+            current_package: None,
             struct_declared_abilities,
             label_count: 0,
             named_blocks: UniqueMap::new(),
@@ -172,11 +175,12 @@ fn module(
         functions: hfunctions,
         constants: hconstants,
     } = mdef;
-
+    context.current_package = package_name;
     context.env.add_warning_filter_scope(warning_filter.clone());
     let constants = constants(context, module_ident, hconstants);
     let functions = hfunctions.map(|name, f| function(context, module_ident, name, f));
     context.env.pop_warning_filter_scope();
+    context.current_package = None;
     (
         module_ident,
         G::ModuleDefinition {
@@ -445,7 +449,7 @@ fn constant_(
     let (start, mut blocks, block_info) = finalize_blocks(context, blocks);
     context.clear_block_state();
 
-    let binfo = block_info.iter().map(|(lbl, info)| (lbl, info));
+    let binfo = block_info.iter().map(destructure_tuple);
     let (mut cfg, infinite_loop_starts, errors) = MutForwardCFG::new(start, &mut blocks, binfo);
     assert!(infinite_loop_starts.is_empty(), "{}", ICE_MSG);
     assert!(errors.is_empty(), "{}", ICE_MSG);
@@ -474,7 +478,14 @@ fn constant_(
         "{}",
         ICE_MSG
     );
-    cfgir::optimize(&fake_signature, &locals, constant_values, &mut cfg);
+    cfgir::optimize(
+        context.env,
+        context.current_package,
+        &fake_signature,
+        &locals,
+        constant_values,
+        &mut cfg,
+    );
 
     if blocks.len() != 1 {
         context.env.add_diag(diag!(
@@ -600,7 +611,7 @@ fn function_body(
             let blocks = block(context, body);
             let (start, mut blocks, block_info) = finalize_blocks(context, blocks);
             context.clear_block_state();
-            let binfo = block_info.iter().map(|(lbl, info)| (lbl, info));
+            let binfo = block_info.iter().map(destructure_tuple);
 
             let (mut cfg, infinite_loop_starts, diags) =
                 MutForwardCFG::new(start, &mut blocks, binfo);
@@ -620,7 +631,14 @@ fn function_body(
             cfgir::refine_inference_and_verify(context.env, &function_context, &mut cfg);
             // do not optimize if there are errors, warnings are okay
             if !context.env.has_errors() {
-                cfgir::optimize(signature, &locals, &UniqueMap::new(), &mut cfg);
+                cfgir::optimize(
+                    context.env,
+                    context.current_package,
+                    signature,
+                    &locals,
+                    &UniqueMap::new(),
+                    &mut cfg,
+                );
             }
 
             let block_info = block_info
@@ -876,6 +894,11 @@ fn with_last(mut block: H::Block, sp!(loc, cmd): H::Command) -> H::Block {
 
 fn make_jump(loc: Loc, target: Label, from_user: bool) -> H::Command {
     sp(loc, H::Command_::Jump { target, from_user })
+}
+
+// Added to dodge a clippy complaint
+fn destructure_tuple<T, U>((fst, snd): &(T, U)) -> (&T, &U) {
+    (fst, snd)
 }
 
 //**************************************************************************************************
