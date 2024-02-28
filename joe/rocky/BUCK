@@ -1,0 +1,19 @@
+deps = ["//third-party:rocksdb_0_21_0"]
+env = {
+    "CARGO_MANIFEST_DIR": ".",
+    "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
+    "CARGO_PKG_NAME": "rocky",
+    "CARGO_PKG_VERSION": "0.1.0",
+    # "OUT_DIR": "$(location :consensus-core-build-script-run[out_dir])",
+}
+rust_binary(
+    name="rocky",
+    srcs=["src/main.rs"],
+    deps=deps,
+    crate_root="src/main.rs",
+    env=env,
+    edition="2021",
+    visibility=["PUBLIC"],
+    # link_style="static",
+    # rustc_flags=["-C", "target-feature=+crt-static"],
+)

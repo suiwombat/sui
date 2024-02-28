@@ -14,9 +14,9 @@ deps = [
     "//third-party:prometheus_0_13_3",
     "//third-party:rand_0_8_5",
     "//third-party:rocksdb_0_21_0",
+    "//third-party:thiserror_1_0_56",
     "//third-party:serde_1_0_190",
     "//third-party:tap_1_0_1",
-    ,
     "//third-party:tokio_1_28_1",
     "//third-party:tracing_0_1_37",
 ]
@@ -28,11 +28,11 @@ env = {
     "CARGO_PKG_VERSION": "0.4.0",
 }
 rust_library(
-    name = "typed-store",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    deps = deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="typed-store",
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )

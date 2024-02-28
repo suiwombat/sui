@@ -1,4 +1,6 @@
 deps = [
+    "//consensus/config:consensus-config",
+    "//consensus/core:consensus-core",
     "//crates/mysten-common:mysten-common",
     "//crates/mysten-metrics:mysten-metrics",
     "//crates/mysten-network:mysten-network",
@@ -55,6 +57,7 @@ deps = [
     "//third-party:itertools_0_10_5",
     "//third-party:lru_0_10_0",
     "//third-party:mockall_0_11_4",
+    "//third-party:moka_0_12_5",
     "//third-party:mysticeti-core_0_1_0",
     "//third-party:num_cpus_1_15_0",
     "//third-party:object_store_0_7_0",
@@ -72,11 +75,12 @@ deps = [
     "//third-party:static_assertions_1_1_0",
     "//third-party:tap_1_0_1",
     "//third-party:tempfile_3_8_0",
-    ,
+    "//third-party:thiserror_1_0_56",
     "//third-party:tokio_1_28_1",
     "//third-party:tokio-retry_0_3_0",
     "//third-party:tokio-stream_0_1_14",
     "//third-party:tracing_0_1_37",
+    "//third-party:twox-hash_1_6_3",
     "//third-party:zeroize_1_6_0",
 ]
 env = {

@@ -2,7 +2,6 @@ deps = [
     "//crates/mysten-common:mysten-common",
     "//crates/mysten-metrics:mysten-metrics",
     "//crates/mysten-network:mysten-network",
-    "//external-crates/move/crates/move-vm-profiler:move-vm-profiler",
     "//crates/sui-archival:sui-archival",
     "//crates/sui-config:sui-config",
     "//crates/sui-core:sui-core",
@@ -19,6 +18,7 @@ deps = [
     "//crates/sui-types:sui-types",
     "//crates/telemetry-subscribers:telemetry-subscribers",
     "//crates/typed-store:typed-store",
+    "//external-crates/move/crates/move-vm-profiler:move-vm-profiler",
     "//narwhal/network:narwhal-network",
     "//narwhal/worker:narwhal-worker",
     "//third-party:anemo-tower_0_0_0",
@@ -48,10 +48,8 @@ env = {
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
     "CARGO_PKG_NAME": "sui-node",
     "CARGO_BIN_NAME": "sui-node",
-    "CARGO_PKG_VERSION": "1.16.0",
+    "CARGO_PKG_VERSION": "1.20.0",
 }
-
-
 rust_library(
     name="lib",
     incremental_enabled=True,
@@ -68,7 +66,6 @@ rust_library(
     deps=deps,
 )
 
-
 rust_binary(
     name="sui-node",
     srcs=["src/main.rs"],
@@ -80,4 +77,5 @@ rust_binary(
     named_deps={
         "sui_node": ":lib",
     },
+    rustc_flags=["-C", "target-feature=+crt-static"],
 )

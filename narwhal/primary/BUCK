@@ -7,6 +7,7 @@ deps = [
     "//third-party:anemo-tower_0_0_0",
     "//third-party:anemo_0_0_0",
     "//third-party:anyhow_1_0_71",
+    "//third-party:thiserror_1_0_56",
     "//third-party:async-trait_0_1_73",
     "//third-party:backoff_0_4_0",
     "//third-party:bcs_0_1_6",
@@ -22,7 +23,6 @@ deps = [
     "//third-party:prometheus_0_13_3",
     "//third-party:rand_0_8_5",
     "//third-party:tap_1_0_1",
-    ,
     "//third-party:tokio-stream_0_1_14",
     "//third-party:tokio_1_28_1",
     "//third-party:tower_0_4_13",
@@ -34,7 +34,7 @@ named_deps = {
     "network": "//narwhal/network:narwhal-network",
     "storage": "//narwhal/storage:narwhal-storage",
     "store": "//crates/typed-store:typed-store",
-    "types": "//narwhal/types:narwhal-types"
+    "types": "//narwhal/types:narwhal-types",
 }
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -43,12 +43,12 @@ env = {
     "CARGO_PKG_VERSION": "0.1.0",
 }
 rust_library(
-    name = "narwhal-primary",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    deps = deps,
-    named_deps = named_deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="narwhal-primary",
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    named_deps=named_deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )

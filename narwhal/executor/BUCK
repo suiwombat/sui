@@ -10,7 +10,7 @@ deps = [
     "//third-party:mockall_0_11_4",
     "//third-party:prometheus_0_13_3",
     "//third-party:serde_1_0_190",
-    ,
+    "//third-party:thiserror_1_0_56",
     "//third-party:tokio_1_28_1",
     "//third-party:tonic_0_10_0",
     "//third-party:tracing_0_1_37",
@@ -22,7 +22,7 @@ named_deps = {
     "primary": "//narwhal/primary:narwhal-primary",
     "storage": "//narwhal/storage:narwhal-storage",
     "store": "//crates/typed-store:typed-store",
-    "types": "//narwhal/types:narwhal-types"
+    "types": "//narwhal/types:narwhal-types",
 }
 env = {
     "CARGO_MANIFEST_DIR": ".",
@@ -31,12 +31,12 @@ env = {
     "CARGO_PKG_VERSION": "0.1.0",
 }
 rust_library(
-    name = "narwhal-executor",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    deps = deps,
-    named_deps = named_deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="narwhal-executor",
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    named_deps=named_deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )

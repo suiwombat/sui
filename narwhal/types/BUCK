@@ -26,15 +26,15 @@ deps = [
     "//third-party:roaring_0_10_1",
     "//third-party:serde_1_0_190",
     "//third-party:serde_with_2_1_0",
-    ,
     "//third-party:tokio_1_28_1",
     "//third-party:tonic_0_10_0",
+    "//third-party:thiserror_1_0_56",
     "//third-party:tracing_0_1_37",
 ]
 named_deps = {
     "config": "//narwhal/config:narwhal-config",
     "crypto": "//narwhal/crypto:narwhal-crypto",
-    "store": "//crates/typed-store:typed-store"
+    "store": "//crates/typed-store:typed-store",
 }
 env = {
     "CARGO_MANIFEST_DIR": "",
@@ -86,7 +86,12 @@ buildscript_run(
     features=["runtime"],
     version="0.1.0",
     env={
-        "PROTOC": "/opt/homebrew/bin/protoc",
+        "PROTOC": select(
+            {
+                "config//os:macos": "/opt/homebrew/bin/protoc",
+                "config//os:linux": "/usr/bin/protoc",
+            }
+        ),
         "PROTO_SRCS": "$(location :narwhal-types-build-script-build[sources])",
     },
 )

@@ -1,3 +1,4 @@
+load("@prelude//rust:cargo_buildscript.bzl", "buildscript_run")
 
 deps = [
     "//consensus/config:consensus-config",
@@ -33,14 +34,38 @@ env = {
     "CARGO_PKG_AUTHORS": "[Mysten Labs <build@mystenlabs.com>]",
     "CARGO_PKG_NAME": "consensus-core",
     "CARGO_PKG_VERSION": "0.1.0",
+    "OUT_DIR": "$(location :consensus-core-build-script-run[out_dir])",
 }
+build_deps = ["//third-party:anemo-build"]
 rust_library(
-    name = "consensus-core",
-    srcs = glob(["*","**/*"]),
-    crate_root = "src/lib.rs",
-    env = env,
-    deps = deps,
-    edition = "2021",
-    visibility = ["PUBLIC"]
+    name="consensus-core",
+    srcs=glob(["*", "**/*"]),
+    crate_root="src/lib.rs",
+    env=env,
+    deps=deps,
+    edition="2021",
+    visibility=["PUBLIC"],
 )
 # BUILD_SCRIPT IS NEEDED
+rust_binary(
+    name="consensus-core-build-script-build",
+    srcs=glob(["build.rs", "src/lib.rs", "docs/**/*", "packages/**/*"]),
+    crate="build_script_build",
+    crate_root="build.rs",
+    edition="2021",
+    env={
+        "CARGO_MANIFEST_DIR": "",
+        "OUT_DIR": "",
+    },
+    features=["runtime"],
+    visibility=["PUBLIC"],
+    deps=deps + build_deps,
+)
+
+buildscript_run(
+    name="consensus-core-build-script-run",
+    package_name="consensus-core",
+    buildscript_rule=":consensus-core-build-script-build",
+    features=["runtime"],
+    version="0.1.0",
+)

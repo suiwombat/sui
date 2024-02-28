@@ -21,7 +21,6 @@ deps = [
     "//third-party:serde_1_0_190",
     "//third-party:serde_json_1_0_95",
     "//third-party:serde_with_2_1_0",
-    ,
     "//third-party:tokio_1_28_1",
     "//third-party:tracing_0_1_37",
 ]

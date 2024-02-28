@@ -302,7 +302,7 @@ async def main() -> int:
             stdin=subprocess.DEVNULL,
             stdout=None,  # Inherit
             stderr=subprocess.PIPE,
-            limit=1_000_000,
+            limit=100_000_000,
         )
         (got_error_diag, shutdown) = await handle_output(proc, args, crate_map)
 

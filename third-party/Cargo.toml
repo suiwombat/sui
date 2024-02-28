@@ -131,7 +131,7 @@ rand_0_8_5 = {version="0.8.5",package="rand",features=["alloc","getrandom","libc
 rcgen_0_9_3 = {version="0.9.3",package="rcgen",features=["pem"]}
 ref-cast_1_0_14 = {version="1.0.14",package="ref-cast"}
 regex_1_8_4 = {version="1.8.4",package="regex",features=["aho-corasick","memchr","perf","perf-cache","perf-dfa","perf-inline","perf-literal","std","unicode","unicode-age","unicode-bool","unicode-case","unicode-gencat","unicode-perl","unicode-script","unicode-segment"]}
-reqwest_0_11_20 = {version="0.11.20",package="reqwest",default_features = false, features=["blocking","json","rustls-tls"]}
+reqwest_0_11_20 = {version="0.11.20",package="reqwest",features=["__rustls","__tls","async-compression","blocking","gzip","hyper-rustls","json","mime_guess","multipart","rustls","rustls-native-certs","rustls-pemfile","rustls-tls","rustls-tls-native-roots","rustls-tls-webpki-roots","serde_json","stream","tokio-rustls","tokio-util","wasm-streams","webpki-roots"]}
 roaring_0_10_1 = {version="0.10.1",package="roaring"}
 rocksdb_0_21_0 = {version="0.21.0",package="rocksdb",features=["lz4","multi-threaded-cf","snappy","zlib","zstd"]}
 rustls-pemfile_1_0_2 = {version="1.0.2",package="rustls-pemfile"}
@@ -197,11 +197,5 @@ zeroize_1_6_0 = {version="1.6.0",package="zeroize",features=["alloc","zeroize_de
 zstd_0_12_3 = {version="0.12.3+zstd.1.5.2",package="zstd",features=["arrays","legacy","zdict_builder"]}
 # hard-coded in buckify template
 libc = "0.2"
-# joe added - todo add to buckify generation - these are build-deps
-protobuf-src = "1.1.0"
-anemo-build = { git = "https://github.com/mystenlabs/anemo.git", rev = "1169850e6af127397068cd86764c29b1d49dbe35", package = "anemo-build" }
-prost-build = "0.12.1"
-rustversion = "1.0.9"
-tonic-build = { version = "0.10", features = ["prost", "transport"] }
 # Local patches - typically git references
 [patch.crates-io]

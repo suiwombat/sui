@@ -2,6 +2,7 @@ deps = [
     "//third-party:proc-macro2_1_0_78",
     "//third-party:quote_1_0_35",
     "//third-party:syn_1_0_107",
+    "//third-party:itertools_0_10_5",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",

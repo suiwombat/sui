@@ -6,8 +6,13 @@ deps = [
     "//third-party:axum_0_6_20",
     "//third-party:bcs_0_1_6",
     "//third-party:rand_0_8_5",
+    "//third-party:thiserror_1_0_56",
     "//third-party:reqwest_0_11_20",
     "//third-party:serde_1_0_190",
+    "//third-party:tap_1_0_1",
+    "//third-party:fastcrypto_0_1_7",
+    "//third-party:mime_0_3_17",
+    "//third-party:serde_with_2_1_0",
 ]
 env = {
     "CARGO_MANIFEST_DIR": ".",
