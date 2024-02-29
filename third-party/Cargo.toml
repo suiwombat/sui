@@ -131,9 +131,15 @@ rand_0_8_5 = {version="0.8.5",package="rand",features=["alloc","getrandom","libc
 rcgen_0_9_3 = {version="0.9.3",package="rcgen",features=["pem"]}
 ref-cast_1_0_14 = {version="1.0.14",package="ref-cast"}
 regex_1_8_4 = {version="1.8.4",package="regex",features=["aho-corasick","memchr","perf","perf-cache","perf-dfa","perf-inline","perf-literal","std","unicode","unicode-age","unicode-bool","unicode-case","unicode-gencat","unicode-perl","unicode-script","unicode-segment"]}
-reqwest_0_11_20 = {version="0.11.20",package="reqwest",features=["__rustls","__tls","async-compression","blocking","gzip","hyper-rustls","json","mime_guess","multipart","rustls","rustls-native-certs","rustls-pemfile","rustls-tls","rustls-tls-native-roots","rustls-tls-webpki-roots","serde_json","stream","tokio-rustls","tokio-util","wasm-streams","webpki-roots"]}
+reqwest_0_11_20 = {version="0.11.20",package="reqwest",default_features = false, features=["blocking","json","rustls-tls"]}
 roaring_0_10_1 = {version="0.10.1",package="roaring"}
-rocksdb_0_21_0 = {version="0.21.0",package="rocksdb",features=["lz4","multi-threaded-cf","snappy","zlib","zstd"]}
+rocksdb_0_21_0 = { version = "0.21.0", features = [
+  "snappy",
+  "lz4",
+  "zstd",
+  "zlib",
+  "multi-threaded-cf",
+], default-features = false, package = "rocksdb"}
 rustls-pemfile_1_0_2 = {version="1.0.2",package="rustls-pemfile"}
 rustls-webpki_0_101_4 = {version="0.101.4",package="rustls-webpki",features=["alloc","std"]}
 rustls_0_21_6 = {version="0.21.6",package="rustls",features=["dangerous_configuration","log","logging","quic","tls12"]}
@@ -197,5 +203,10 @@ zeroize_1_6_0 = {version="1.6.0",package="zeroize",features=["alloc","zeroize_de
 zstd_0_12_3 = {version="0.12.3+zstd.1.5.2",package="zstd",features=["arrays","legacy","zdict_builder"]}
 # hard-coded in buckify template
 libc = "0.2"
+protobuf-src = "1.1.0"
+anemo-build = { git = "https://github.com/mystenlabs/anemo.git", rev = "26d415eb9aa6a2417be3c03c57d6e93c30bd1ad7", package = "anemo-build" }
+prost-build = "0.12.1"
+rustversion = "1.0.9"
+tonic-build = { version = "0.10", features = ["prost", "transport"] }
 # Local patches - typically git references
 [patch.crates-io]

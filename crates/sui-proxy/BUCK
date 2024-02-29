@@ -62,7 +62,22 @@ rust_binary(
     env=env,
     edition="2021",
     visibility=["PUBLIC"],
-    rustc_flags=["-C", "target-feature=+crt-static"],
+    # TODO https://doc.rust-lang.org/cargo/reference/profiles.html
+    # repo wide profile support. hard code for now
+    rustc_flags=[
+        "-C",
+        "target-feature=+crt-static",
+        # "-C",
+        # "opt-level=3",
+        "-C",
+        "debuginfo=1",
+        "-C",
+        "split-debuginfo=packed",
+        "-C",
+        "strip=debuginfo",
+        "-C",
+        "panic=abort",
+    ],
 )
 # BUILD_SCRIPT IS NEEDED
 load("@prelude-mysten//buildah/buildah_image.bzl", "buildah_image")

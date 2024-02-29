@@ -12714,13 +12714,10 @@ cargo.rust_library(
         "OUT_DIR": ".",
     },
     features = [
-        "bzip2",
-        "bzip2-sys",
         "default",
         "libz-sys",
         "lz4",
         "lz4-sys",
-        "multi-threaded-cf",
         "snappy",
         "static",
         "zlib",
@@ -12736,7 +12733,10 @@ cargo.rust_library(
             mapped_srcs = {
                 "fixups/librocksdb-sys/aarch64/linux/src/bindings.rs": "vendor/librocksdb-sys-0.11.0+8.1.1/src/bindings.rs",
             },
-            rustc_flags = ["-lstdc++"],
+            rustc_flags = [
+                "-lstdc++",
+                "-latomic",
+            ],
             deps = [":librocksdb-sys-0.11.0+8.1.1-rocksdb-aarch64-linux"],
         ),
         "linux-x86_64": dict(
@@ -12747,7 +12747,10 @@ cargo.rust_library(
             mapped_srcs = {
                 "fixups/librocksdb-sys/x86_64/linux/src/bindings.rs": "vendor/librocksdb-sys-0.11.0+8.1.1/src/bindings.rs",
             },
-            rustc_flags = ["-lstdc++"],
+            rustc_flags = [
+                "-lstdc++",
+                "-latomic",
+            ],
             deps = [":librocksdb-sys-0.11.0+8.1.1-rocksdb-x86_64-linux"],
         ),
         "macos-arm64": dict(
@@ -13857,6 +13860,8 @@ cxx_library(
         "-O0",
         "-Wsign-compare",
         "-Wshadow",
+        "-Wall",
+        "-Wextra",
         "-Wno-unused-parameter",
         "-Wno-unused-variable",
         "-Woverloaded-virtual",
@@ -13864,6 +13869,8 @@ cxx_library(
         "-Wno-missing-field-initializers",
         "-Wno-strict-aliasing",
         "-Wno-invalid-offsetof",
+        "-Wl,-no-undefined",
+        "-lstdc++",
         "-std=c++17",
     ],
     include_directories = [
@@ -13939,7 +13946,7 @@ cxx_library(
         "vendor/libz-sys-1.1.15/src/zlib/zlib.h",
         "vendor/libz-sys-1.1.15/src/zlib/zutil.h",
     ],
-    compiler_flags = ["-O3"],
+    compiler_flags = ["-O0"],
     include_directories = ["vendor/libz-sys-1.1.15/src/zlib"],
     preferred_linkage = "static",
     preprocessor_flags = [
@@ -21560,8 +21567,6 @@ cargo.rust_library(
     crate_root = "vendor/rocksdb-0.21.0/src/lib.rs",
     edition = "2018",
     features = [
-        "bzip2",
-        "default",
         "lz4",
         "multi-threaded-cf",
         "snappy",

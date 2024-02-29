@@ -53,7 +53,8 @@ compiler_flags = [
     "-DZSTDLIB_VISIBILITY=",
     "-DZDICTLIB_VISIBILITY=",
     "-DZSTDERRORLIB_VISIBILITY=",
-    "-DZSTD_LEGACY_SUPPORT=1"
+    "-DZSTD_LEGACY_SUPPORT=1",
+    # "-stdlib=libstdc++",
 ]
 
 

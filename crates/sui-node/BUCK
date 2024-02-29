@@ -77,5 +77,20 @@ rust_binary(
     named_deps={
         "sui_node": ":lib",
     },
-    rustc_flags=["-C", "target-feature=+crt-static"],
+    # TODO https://doc.rust-lang.org/cargo/reference/profiles.html
+    # repo wide profile support. hard code for now
+    rustc_flags=[
+        "-C",
+        "target-feature=+crt-static",
+        # "-C",
+        # "opt-level=3",
+        "-C",
+        "debuginfo=1",
+        "-C",
+        "split-debuginfo=packed",
+        "-C",
+        "strip=debuginfo",
+        "-C",
+        "panic=abort",
+    ],
 )

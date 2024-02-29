@@ -31,7 +31,7 @@ preprocessor_flags = [
     "-D_C99_SOURCE",
 
 ]
-compiler_flags = ["-O3"]
+compiler_flags = ["-O0"]
 include_paths = ["src/zlib"]
 
 [[platform_fixup.'cfg(target_os = "macos")'.buildscript]]
